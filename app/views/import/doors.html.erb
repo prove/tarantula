@@ -1,0 +1,159 @@
+<% form_tag({:controller => 'import', 
+             :action => 'doors'}, :multipart => true, :id => 'form') do -%>
+
+<div class="tarantula-form">
+  
+  <div style="font-size:18px; font-weight: bold; padding-bottom: 12px;">
+    Importing to project <span style="color:blue"><%= @project.name %></span>
+  </div>
+
+  <label for="file">Doors Export File</label><br/>
+  <%= file_field_tag "file", :size => 40 %><br/>
+
+  <table>
+    <tr>
+      <th style="padding-right: 20px;">
+        Create Tarantula Object
+      </th>
+      <th>Export File Level(s)</th>
+    </tr>
+    
+    <tr>
+      <td>
+        <%= check_box_tag "requirement_tag_enabled", '1', @data[:requirement_tag_enabled] == '1' %> 
+        Requirement tag
+      </td>
+      <td>
+        <%= select_tag "requirement_tag_level", options_for_select(@range, @data[:requirement_tag_level].to_i) %>
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        <%= check_box_tag "requirement_enabled", '1', @data[:requirement_enabled] == '1' %>
+        Requirement
+      </td>
+      <td>
+        <%= select_tag "requirement_min", options_for_select(@range, @data[:requirement_min].to_i) %> - 
+        <%= select_tag "requirement_max", options_for_select(@range, @data[:requirement_max].to_i) %>
+      </td>
+      
+    </tr>
+    
+    <tr>
+      <td>
+        <%= check_box_tag "set_enabled", '1', @data[:set_enabled] == '1' %>
+        Test set
+      </td>
+      <td>
+        <%= select_tag "set_level", options_for_select(@range, @data[:set_level].to_i) %>
+      </td>
+    </tr>
+    
+	<tr>
+      <td>
+        <%= check_box_tag "case_tag_enabled", '1', @data[:case_tag_enabled] == '1' %>
+        Test case tag
+      </td>
+      <td>
+        <%= select_tag "case_tag_level", options_for_select(@range, @data[:case_tag_level].to_i) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <%= check_box_tag "case_enabled", '1', @data[:case_enabled] == '1' %>
+        Test case
+      </td>
+      <td>
+        <%= select_tag "case_min", options_for_select(@range, @data[:case_min].to_i) %> - 
+        <%= select_tag "case_max", options_for_select(@range, @data[:case_max].to_i) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-top:10px" class="label">
+        Filter
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        Max. depth/level to import
+      </td>
+      <td>
+        <%= select_tag "max_object_level", options_for_select(@range, @data[:max_object_level].to_i) %>
+      </td>
+    </tr>
+	
+	<tr>
+      <td style="padding-top:10px" class="label">
+        Test Area
+      </td>
+    </tr>
+	
+	<tr>
+      <td style="padding-right: 20px;">
+        Add created objects to test area
+      </td>
+      <td>
+        <%= select_tag "test_area", '<option value="">(none)</option>' +
+	    options_from_collection_for_select(@test_areas, :id, :name, @data[:test_area].to_i)%>
+      </td>
+    </tr>
+	
+    <tr>
+      <td style="padding-top:10px" class="label">
+        Tagging
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        Tag with
+      </td>
+      <td>
+        <%= text_field_tag "tags", @data[:tags], :size => 10 %>
+      </td>
+    </tr>
+    
+    <tr>
+      <td style="padding-top:10px;">
+        <label for="simulate">
+	  Simulate Import
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-right: 20px;" colspan="2">
+        <%= check_box_tag "simulate", '1', @data[:simulate] == '1' %> 
+        Display only import log, do not create actual objects in Tarantula
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding-top:15px; padding-bottom: 50px;">
+        <div class="submenu-items" style="padding:0; margin:0;">
+             <span style="padding:0; margin:0" 
+                   onclick='javascript:importDoors.submitForm()'>Import
+             </span>
+
+             <!--
+             <%= submit_tag 'Import', { 
+                 :onclick => 'javascript:importDoors.submitForm()' 
+             } %>
+             -->
+
+        </div>
+      </td>
+    </tr>
+
+  </table>
+
+  <div id="log">
+  </div>
+
+</div>
+
+<% end %>
+

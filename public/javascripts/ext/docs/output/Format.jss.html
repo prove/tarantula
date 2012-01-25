@@ -1,0 +1,166 @@
+<html><head><title>Format.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Format.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.util.Format
+ * Reusable data formatting functions
+ * @singleton
+ */</i>
+Ext.util.Format = <b>function</b>(){
+    <b>var</b> trimRe = /^\s+|\s+$/g;
+    <b>return</b> {
+        <i>/**
+         * Truncate a string and add an ellipsis (<em>'...'</em>) to the end <b>if</b> it exceeds the specified length
+         * @param {String} value The string to truncate
+         * @param {Number} length The maximum length to allow before truncating
+         * @<b>return</b> {String} The converted text
+         */</i>
+        ellipsis : <b>function</b>(value, len){
+            <b>if</b>(value &amp;&amp; value.length &gt; len){
+                <b>return</b> value.substr(0, len-3)+&quot;...&quot;;
+            }
+            <b>return</b> value;
+        },
+
+        <i>/**
+         * Checks a reference and converts it to empty string <b>if</b> it is undefined
+         * @param {Mixed} value Reference to check
+         * @<b>return</b> {Mixed} Empty string <b>if</b> converted, otherwise the original value
+         */</i>
+        undef : <b>function</b>(value){
+            <b>return</b> typeof value != &quot;undefined&quot; ? value : &quot;&quot;;
+        },
+
+        <i>/**
+         * Convert certain characters (&amp;, &lt;, &gt;, and ') to their HTML character equivalents <b>for</b> literal display <b>in</b> web pages.
+         * @param {String} value The string to encode
+         * @<b>return</b> {String} The encoded text
+         */</i>
+        htmlEncode : <b>function</b>(value){
+            <b>return</b> !value ? value : String(value).replace(/&amp;/g, &quot;&amp;amp;&quot;).replace(/&gt;/g, &quot;&amp;gt;&quot;).replace(/&lt;/g, &quot;&amp;lt;&quot;).replace(/&quot;/g, &quot;&amp;quot;&quot;);
+        },
+
+        <i>/**
+         * Convert certain characters (&amp;, &lt;, &gt;, and ') from their HTML character equivalents.
+         * @param {String} value The string to decode
+         * @<b>return</b> {String} The decoded text
+         */</i>
+        htmlDecode : <b>function</b>(value){
+            <b>return</b> !value ? value : String(value).replace(/&amp;amp;/g, &quot;&amp;&quot;).replace(/&amp;gt;/g, &quot;&gt;&quot;).replace(/&amp;lt;/g, &quot;&lt;&quot;).replace(/&amp;quot;/g, <em>'&quot;'</em>);
+        },
+
+        <i>/**
+         * Trims any whitespace from either side of a string
+         * @param {String} value The text to trim
+         * @<b>return</b> {String} The trimmed text
+         */</i>
+        trim : <b>function</b>(value){
+            <b>return</b> String(value).replace(trimRe, &quot;&quot;);
+        },
+
+        <i>/**
+         * Returns a substring from within an original string
+         * @param {String} value The original text
+         * @param {Number} start The start index of the substring
+         * @param {Number} length The length of the substring
+         * @<b>return</b> {String} The substring
+         */</i>
+        substr : <b>function</b>(value, start, length){
+            <b>return</b> String(value).substr(start, length);
+        },
+
+        <i>/**
+         * Converts a string to all lower <b>case</b> letters
+         * @param {String} value The text to convert
+         * @<b>return</b> {String} The converted text
+         */</i>
+        lowercase : <b>function</b>(value){
+            <b>return</b> String(value).toLowerCase();
+        },
+
+        <i>/**
+         * Converts a string to all upper <b>case</b> letters
+         * @param {String} value The text to convert
+         * @<b>return</b> {String} The converted text
+         */</i>
+        uppercase : <b>function</b>(value){
+            <b>return</b> String(value).toUpperCase();
+        },
+
+        <i>/**
+         * Converts the first character only of a string to upper <b>case</b>
+         * @param {String} value The text to convert
+         * @<b>return</b> {String} The converted text
+         */</i>
+        capitalize : <b>function</b>(value){
+            <b>return</b> !value ? value : value.charAt(0).toUpperCase() + value.substr(1).toLowerCase();
+        },
+
+        <i>// private</i>
+        call : <b>function</b>(value, fn){
+            <b>if</b>(arguments.length &gt; 2){
+                <b>var</b> args = Array.prototype.slice.call(arguments, 2);
+                args.unshift(value);
+                <b>return</b> eval(fn).apply(window, args);
+            }<b>else</b>{
+                <b>return</b> eval(fn).call(window, value);
+            }
+        },
+
+        <i>/**
+         * Format a number as US currency
+         * @param {Number/String} value The numeric value to format
+         * @<b>return</b> {String} The formatted currency string
+         */</i>
+        usMoney : <b>function</b>(v){
+            v = (Math.round((v-0)*100))/100;
+            v = (v == Math.floor(v)) ? v + &quot;.00&quot; : ((v*10 == Math.floor(v*10)) ? v + &quot;0&quot; : v);
+            v = String(v);
+            <b>var</b> ps = v.split(<em>'.'</em>);
+            <b>var</b> whole = ps[0];
+            <b>var</b> sub = ps[1] ? <em>'.'</em>+ ps[1] : <em>'.00'</em>;
+            <b>var</b> r = /(\d+)(\d{3})/;
+            <b>while</b> (r.test(whole)) {
+                whole = whole.replace(r, <em>'$1'</em> + <em>','</em> + <em>'$2'</em>);
+            }
+            <b>return</b> &quot;$&quot; + whole + sub ;
+        },
+
+        <i>/**
+         * Parse a value into a formatted date using the specified format pattern.
+         * @param {Mixed} value The value to format
+         * @param {String} format (optional) Any valid date format string (defaults to <em>'m/d/Y'</em>)
+         * @<b>return</b> {String} The formatted date string
+         */</i>
+        date : <b>function</b>(v, format){
+            <b>if</b>(!v){
+                <b>return</b> &quot;&quot;;
+            }
+            <b>if</b>(!(v instanceof Date)){
+                v = <b>new</b> Date(Date.parse(v));
+            }
+            <b>return</b> v.dateFormat(format || &quot;m/d/Y&quot;);
+        },
+
+        <i>/**
+         * Returns a date rendering <b>function</b> that can be reused to apply a date format multiple times efficiently
+         * @param {String} format Any valid date format string
+         * @<b>return</b> {Function} The date formatting <b>function</b>
+         */</i>
+        dateRenderer : <b>function</b>(format){
+            <b>return</b> function(v){
+                <b>return</b> Ext.util.Format.date(v, format);  
+            };
+        },
+
+        <i>// private</i>
+        stripTagsRE : /&lt;\/?[^&gt;]+&gt;/gi,
+        
+        <i>/**
+         * Strips all HTML tags
+         * @param {Mixed} value The text from which to strip tags
+         * @<b>return</b> {String} The stripped text
+         */</i>
+        stripTags : <b>function</b>(v){
+            <b>return</b> !v ? v : String(v).replace(<b>this</b>.stripTagsRE, &quot;&quot;);
+        }
+    };
+}();</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

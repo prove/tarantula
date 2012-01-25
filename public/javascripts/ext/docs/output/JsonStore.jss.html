@@ -1,0 +1,25 @@
+<html><head><title>JsonStore.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>JsonStore.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.JsonStore
+ * @extends Ext.data.Store
+ * Small helper class to make creating Stores <b>for</b> JSON data easier. &lt;br/&gt;
+&lt;pre&gt;&lt;code&gt;
+<b>var</b> store = <b>new</b> Ext.data.JsonStore({
+    url: <em>'get-images.php'</em>,
+    root: <em>'images'</em>,
+    fields: [<em>'name'</em>, <em>'url'</em>, {name:<em>'size'</em>, type: <em>'float'</em>}, {name:<em>'lastmod'</em>, type:<em>'date'</em>}]
+});
+&lt;/code&gt;&lt;/pre&gt;
+ * &lt;b&gt;Note: Although they are not listed, <b>this</b> class inherits all of the config options of Store,
+ * JsonReader and HttpProxy (unless inline data is provided).&lt;/b&gt;
+ * @cfg {Array} fields An array of field definition objects, or field name strings.
+ * @constructor
+ * @param {Object} config
+ */</i>
+Ext.data.JsonStore = <b>function</b>(c){
+    Ext.data.JsonStore.superclass.constructor.call(<b>this</b>, Ext.apply(c, {
+        proxy: !c.data ? <b>new</b> Ext.data.HttpProxy({url: c.url}) : undefined,
+        reader: <b>new</b> Ext.data.JsonReader(c, c.fields)
+    }));
+};
+Ext.extend(Ext.data.JsonStore, Ext.data.Store);</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

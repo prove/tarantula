@@ -1,0 +1,48 @@
+# MySQL (default setup).  Versions 4.1 and 5.0 are recommended.
+#
+# Install the MySQL driver:
+#   gem install mysql
+# On MacOS X:
+#   gem install mysql -- --include=/usr/local/lib
+# On Windows:
+#   gem install mysql
+#       Choose the win32 build.
+#       Install MySQL and put its /bin directory on your path.
+#
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+<% get_socket = lambda{ ["/opt/local/var/run/mysql5/mysqld.sock", 
+                         "/opt/lampp/var/mysql/mysql.sock", 
+                         "/var/run/mysqld/mysqld.sock",
+			 "/var/lib/mysql/mysql.sock"].\
+                        detect{|p| File.exists?(p)} } %>
+development:
+  adapter: mysql
+  database: testia
+  username: root
+  password:
+  host: localhost
+  encoding: utf8
+  socket: <%= get_socket.call %>
+          
+
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql
+  database: testia_test
+  username: root
+  password:
+  host: localhost
+  encoding: utf8
+  socket: <%= get_socket.call %>
+
+production:
+  adapter: mysql
+  database: testia
+  username: root
+  password: 
+  host: localhost
+  encoding: utf8
+  socket: <%= get_socket.call %>

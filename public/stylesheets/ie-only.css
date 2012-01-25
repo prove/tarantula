@@ -1,0 +1,35 @@
+/*
+  Not implememented button makes extra space for some reason between
+  button table cells (propably related to text width, as "not implemented"
+  is lot longer than other texts. Shift button left.
+
+  This still leaves problem with some additional space after button,
+  but it is anyway better this way.
+
+  Currently applied to IE 6, and 7 versions.
+  IE 8 is supposedly good enough with standards, so no need for own stylesheets?
+  */
+
+table.tarantula-btn-notimplemented button {
+     margin-left: -45px;
+}
+
+table.x-testia-attachment-btn-add {
+    position: relative;
+    top: 20px;
+}
+
+#profile {
+    width: 28em;
+}
+
+.dashboard_item .report-item {
+    position: static;
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard_item .report-group {
+    width: 47% !important;
+}

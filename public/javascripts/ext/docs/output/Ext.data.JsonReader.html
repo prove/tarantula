@@ -1,0 +1,248 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.data.JsonReader</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.data.JsonReader.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.data.JsonReader</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.data</td></tr>
+            <tr><td class="label">Class:</td><td>JsonReader</td></tr>
+                        <tr><td class="label">Extends:</td><td>Ext.data.DataReader</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="JsonReader.jss.html">JsonReader.js</a></td></tr>
+        </table>
+        <div class="description">
+            Data reader class to create an Array of Ext.data.Record objects from a JSON response
+based on mappings in a provided Ext.data.Record constructor.
+<p>
+Example code:
+<pre><code>var RecordDef = Ext.data.Record.create([
+    {name: <em>'name'</em>, mapping: <em>'name'</em>},     <i>// <em>"mapping"</em> property not needed <b>if</b> it's the same as <em>"name"</em></i>
+    {name: <em>'occupation'</em>}                 <i>// This field will use <em>"occupation"</em> as the mapping.</i>
+]);
+<b>var</b> myReader = <b>new</b> Ext.data.JsonReader({
+    totalProperty: <em>"results"</em>,    <i>// The property which contains the total dataset size (optional)</i>
+    root: <em>"rows"</em>,                <i>// The property which contains an Array of row objects</i>
+    id: <em>"id"</em>                     <i>// The property within each row object that provides an ID <b>for</b> the record (optional)</i>
+}, RecordDef);</code></pre>
+<p>
+This would consume a JSON file like this:
+<pre><code>{ <em>'results'</em>: 2, <em>'rows'</em>: [
+    { <em>'id'</em>: 1, <em>'name'</em>: <em>'Bill'</em>, occupation: <em>'Gardener'</em> },
+    { <em>'id'</em>: 2, <em>'name'</em>: <em>'Ben'</em>, occupation: <em>'Horticulturalist'</em> } ]
+}</code></pre>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#jsonData">jsonData</a> : Object</td>
+        <td class="msource" rowspan="2">JsonReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">After any data loads, the raw JSON data is available for further custom processing.</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>JsonReader</b>(&nbsp;<code>Object meta</code>, <code>Object recordType</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">JsonReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new JsonReader</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#read">read</a>(&nbsp;<code>Object response</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">JsonReader</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">This method is only used by a DataProxy which has retrieved data from a remote server.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#readRecords">readRecords</a>(&nbsp;<code>Object o</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">JsonReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a data block containing Ext.data.Records from an XML document.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-id">id</a> : String</td>
+        <td class="msource" rowspan="2">JsonReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Name of the property within a row object that contains a record identifier value.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-root">root</a> : String</td>
+        <td class="msource" rowspan="2">JsonReader</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">name of the property which contains the Array of row objects.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-successProperty">successProperty</a> : String</td>
+        <td class="msource" rowspan="2">JsonReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Name of the property from which to retrieve the success attribute used by forms.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-totalProperty">totalProperty</a> : String</td>
+        <td class="msource" rowspan="2">JsonReader</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Name of the property from which to retrieve the total number of records in the dataset. This is only needed if the wh...</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="jsonData"></a>
+                <div class="mdetail">
+                <h3>jsonData</i></h3>
+                <code>public Object jsonData</code>
+                <div class="mdetail-desc">
+                    After any data loads, the raw JSON data is available for further custom processing.                </div>
+                <div class="mdetail-def">This property is defined by JsonReader.</div>
+                </div>
+                        </div>
+        
+                    <a name="JsonReader"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>JsonReader</i></h3>
+                <code>public function JsonReader(&nbsp;<code>Object meta</code>, <code>Object recordType</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new JsonReader                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>meta</code> : Object<div class="sub-desc">Metadata configuration options</div></li><li><code>recordType</code> : Object<div class="sub-desc">Either an Array of field definition objects,
+or an <a ext:cls="Ext.data.Record" href="Ext.data.Record.html">Ext.data.Record</a> object created using <a ext:cls="Ext.data.Record" ext:member="create" href="Ext.data.Record.html#create">Ext.data.Record.create</a>.</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="read"></a>
+                <div class="mdetail">
+                <h3>read</i></h3>
+                <code>public function read(&nbsp;<code>Object response</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    This method is only used by a DataProxy which has retrieved data from a remote server.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>response</code> : Object<div class="sub-desc">The XHR object which contains the JSON data in its responseText.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">data A data block which is used by an Ext.data.Store object as a cache of Ext.data.Records.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonReader.</div>
+                </div>
+                            <a name="readRecords"></a>
+                <div class="mdetail alt">
+                <h3>readRecords</i></h3>
+                <code>public function readRecords(&nbsp;<code>Object o</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Create a data block containing Ext.data.Records from an XML document.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>o</code> : Object<div class="sub-desc">An object which contains an Array of row objects in the property specified
+in the config as 'root, and optionally a property, specified in the config as 'totalProperty'
+which contains the total size of the dataset.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">data A data block which is used by an Ext.data.Store object as a cache of Ext.data.Records.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonReader.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-id"></a>
+                <div class="mdetail">
+                <h3>id</i></h3>
+                <code>id : String</code>
+                <div class="mdetail-desc">
+                    Name of the property within a row object that contains a record identifier value.                </div>
+                <div class="mdetail-def">This config option is defined by JsonReader.</div>
+                </div>
+                            <a name="config-root"></a>
+                <div class="mdetail alt">
+                <h3>root</i></h3>
+                <code>root : String</code>
+                <div class="mdetail-desc">
+                    name of the property which contains the Array of row objects.                </div>
+                <div class="mdetail-def">This config option is defined by JsonReader.</div>
+                </div>
+                            <a name="config-successProperty"></a>
+                <div class="mdetail">
+                <h3>successProperty</i></h3>
+                <code>successProperty : String</code>
+                <div class="mdetail-desc">
+                    Name of the property from which to retrieve the success attribute used by forms.                </div>
+                <div class="mdetail-def">This config option is defined by JsonReader.</div>
+                </div>
+                            <a name="config-totalProperty"></a>
+                <div class="mdetail alt">
+                <h3>totalProperty</i></h3>
+                <code>totalProperty : String</code>
+                <div class="mdetail-desc">
+                    Name of the property from which to retrieve the total number of records in the dataset. This is only needed if the whole dataset is not passed in one go, but is being paged from the remote server.                </div>
+                <div class="mdetail-def">This config option is defined by JsonReader.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

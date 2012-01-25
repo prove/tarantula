@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>index (CasesController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/cases_controller.rb, line 19</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">index</span>
+    <span class="ruby-identifier">cases</span> = []
+    <span class="ruby-identifier">ret</span> = <span class="ruby-value str">'['</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:project_id</span>] <span class="ruby-keyword kw">and</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:format</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'tree'</span>))
+      <span class="ruby-comment cmt"># Listaa aktiivisen projektin setit JSON-muodossa joka voidaan sijoittaa</span>
+      <span class="ruby-comment cmt"># Ext.js:n puukomponentin sisällöksi.</span>
+      <span class="ruby-identifier">comma</span> = <span class="ruby-value str">''</span>
+      <span class="ruby-identifier">categories</span> = <span class="ruby-constant">CaseCategory</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">'(`parent_id` IS NULL OR `parent_id` =0) AND `project_id` =?'</span>, <span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>]])
+      <span class="ruby-identifier">arr</span> = <span class="ruby-identifier">categories</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span><span class="ruby-identifier">c</span>.<span class="ruby-identifier">to_treejson</span>}
+
+      <span class="ruby-identifier">cases</span> = <span class="ruby-constant">Case</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">'(`case_category_id` IS NULL OR `case_category_id` =0) AND `project_id` =?'</span>, <span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>]])
+      <span class="ruby-identifier">arr</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cases</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span><span class="ruby-identifier">c</span>.<span class="ruby-identifier">to_treejson</span>(<span class="ruby-keyword kw">nil</span>)}
+      <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">arr</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">', '</span>)
+    <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:test_set_id</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">tset</span> = <span class="ruby-constant">TestSet</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:test_set_id</span>])
+      <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">tset</span>.<span class="ruby-identifier">cases</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span><span class="ruby-identifier">c</span>.<span class="ruby-identifier">to_treejson</span>(<span class="ruby-keyword kw">nil</span>)}.<span class="ruby-identifier">join</span>(<span class="ruby-value str">', '</span>)
+    <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:execution_id</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">te</span> = <span class="ruby-constant">Execution</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:execution_id</span>])
+      <span class="ruby-comment cmt"># Following line does same as:</span>
+      <span class="ruby-comment cmt"># comma = ''</span>
+      <span class="ruby-comment cmt"># te.test.cases.each{|c|</span>
+      <span class="ruby-comment cmt">#   ret += comma + c.to_treejson</span>
+      <span class="ruby-comment cmt">#   comma = ', '</span>
+      <span class="ruby-comment cmt"># }</span>
+      <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">te</span>.<span class="ruby-identifier">test_set</span>.<span class="ruby-identifier">cases</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span><span class="ruby-identifier">c</span>.<span class="ruby-identifier">to_treejson</span>(<span class="ruby-identifier">te</span>)}.<span class="ruby-identifier">join</span>(<span class="ruby-value str">', '</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ret</span> <span class="ruby-operator">+</span> <span class="ruby-value str">']'</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

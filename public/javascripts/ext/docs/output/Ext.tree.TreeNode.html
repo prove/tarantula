@@ -1,0 +1,2072 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.tree.TreeNode</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.tree.TreeNode.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.tree.TreeNode</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.tree</td></tr>
+            <tr><td class="label">Class:</td><td>TreeNode</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.data.Node" ext:member="" href="Ext.data.Node.html">Node</a></td></tr>
+                                    <tr><td class="label">Subclasses:</td><td><a ext:cls="Ext.tree.AsyncTreeNode" href="Ext.tree.AsyncTreeNode.html">AsyncTreeNode</a></td></tr>
+                        <tr><td class="label">Defined In:</td><td><a href="TreeNode.jss.html">TreeNode.js</a></td></tr>
+        </table>
+        <div class="description">
+                    </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#attributes">attributes</a> : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#attributes" href="Ext.data.Node.html#attributes">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The attributes supplied for the node. You can use this property to access any custom attributes you supplied.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#childNodes">childNodes</a> : Array</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#childNodes" href="Ext.data.Node.html#childNodes">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">All child nodes of this node.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disabled">disabled</a> : Boolean</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True if this node is disabled.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#firstChild">firstChild</a> : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#firstChild" href="Ext.data.Node.html#firstChild">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The first direct child node of this node, or null if this node has no child nodes.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#id">id</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#id" href="Ext.data.Node.html#id">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The node id.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#lastChild">lastChild</a> : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#lastChild" href="Ext.data.Node.html#lastChild">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The last direct child node of this node, or null if this node has no child nodes.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#nextSibling">nextSibling</a> : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#nextSibling" href="Ext.data.Node.html#nextSibling">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The node immediately following this node in the tree, or null if there is no sibling node.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#parentNode">parentNode</a> : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#parentNode" href="Ext.data.Node.html#parentNode">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The parent node for this node.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#previousSibling">previousSibling</a> : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#previousSibling" href="Ext.data.Node.html#previousSibling">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The node immediately preceding this node in the tree, or null if there is no sibling node.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#text">text</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Read-only. The text for this node. To change it use setText().</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#ui">ui</a> : TreeNodeUI</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Read-only. The UI for this node</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>TreeNode</b>(&nbsp;<code>Object/String attributes</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#appendChild">appendChild</a>(&nbsp;<code>Node/Array node</code>&nbsp;) : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#appendChild" href="Ext.data.Node.html#appendChild">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Insert node(s) as the last child node of this node.</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#bubble">bubble</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#bubble" href="Ext.data.Node.html#bubble">Node</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Bubbles up the tree from this node, calling the specified function with each node. The scope (this) of
+function call ...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#cascade">cascade</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#cascade" href="Ext.data.Node.html#cascade">Node</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Cascades down the tree from this node, calling the specified function with each node. The scope (this) of
+function ca...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#collapse">collapse</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean deep</code>]</span>, <span class="optional" title="Optional">[<code>Boolean anim</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Collapse this node.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#collapseChildNodes">collapseChildNodes</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean deep</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Collapse all child nodes</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#contains">contains</a>(&nbsp;<code>Node node</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#contains" href="Ext.data.Node.html#contains">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns true if this node is an ancestor (at any point) of the passed node.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disable">disable</a>() : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Disables this node</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#eachChild">eachChild</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#eachChild" href="Ext.data.Node.html#eachChild">Node</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Interates the child nodes of this node, calling the specified function with each node. The scope (this) of
+function c...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#enable">enable</a>() : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Enables this node</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#ensureVisible">ensureVisible</a>() : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Ensures all parent nodes are expanded</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#expand">expand</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean deep</code>]</span>, <span class="optional" title="Optional">[<code>Boolean anim</code>]</span>, <span class="optional" title="Optional">[<code>Function callback</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Expand this node.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#expandChildNodes">expandChildNodes</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean deep</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Expand all child nodes</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#findChild">findChild</a>(&nbsp;<code>String attribute</code>, <code>Mixed value</code>&nbsp;) : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#findChild" href="Ext.data.Node.html#findChild">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Finds the first child that has the attribute with the specified value.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#findChildBy">findChildBy</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#findChildBy" href="Ext.data.Node.html#findChildBy">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Finds the first child by a custom function. The child matches if the function passed
+returns true.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getDepth">getDepth</a>() : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#getDepth" href="Ext.data.Node.html#getDepth">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns depth of this node (the root node has a depth of 0)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getOwnerTree">getOwnerTree</a>() : Tree</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#getOwnerTree" href="Ext.data.Node.html#getOwnerTree">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the tree this node is in.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getPath">getPath</a>(&nbsp;<span class="optional" title="Optional">[<code>String attr</code>]</span>&nbsp;) : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#getPath" href="Ext.data.Node.html#getPath">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns the path for this node. The path can be used to expand or select this node programmatically.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getUI">getUI</a>() : TreeNodeUI</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the UI object for this node</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#indexOf">indexOf</a>(&nbsp;<code>Node node</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#indexOf" href="Ext.data.Node.html#indexOf">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the index of a child node</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertBefore">insertBefore</a>(&nbsp;<code>Node node</code>, <code>Node refNode</code>&nbsp;) : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#insertBefore" href="Ext.data.Node.html#insertBefore">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Inserts the first node before the second node in this nodes childNodes collection.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isAncestor">isAncestor</a>(&nbsp;<code>Node node</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#isAncestor" href="Ext.data.Node.html#isAncestor">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns true if the passed node is an ancestor (at any point) of this node.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isExpanded">isExpanded</a>() : Boolean</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns true if this node is expanded</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isFirst">isFirst</a>() : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#isFirst" href="Ext.data.Node.html#isFirst">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns true if this node is the first child of its parent</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isLast">isLast</a>() : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#isLast" href="Ext.data.Node.html#isLast">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns true if this node is the last child of its parent</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isLeaf">isLeaf</a>() : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#isLeaf" href="Ext.data.Node.html#isLeaf">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns true if this node is a leaf</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isSelected">isSelected</a>() : Boolean</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns true if this node is selected</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#item">item</a>(&nbsp;<code>Number index</code>&nbsp;) : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#item" href="Ext.data.Node.html#item">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the child node at the specified index.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeChild">removeChild</a>(&nbsp;<code>Node node</code>&nbsp;) : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#removeChild" href="Ext.data.Node.html#removeChild">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a child node from this node.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#replaceChild">replaceChild</a>(&nbsp;<code>Node newChild</code>, <code>Node oldChild</code>&nbsp;) : Node</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#replaceChild" href="Ext.data.Node.html#replaceChild">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Replaces one child node in this node with another.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#select">select</a>() : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Triggers selection of this node</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setText">setText</a>(&nbsp;<code>String text</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Sets the text for this node</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#sort">sort</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#sort" href="Ext.data.Node.html#sort">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Sorts this nodes children using the supplied sort function</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#toggle">toggle</a>() : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Toggles expanded/collapsed state of the node</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#unselect">unselect</a>() : void</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Triggers deselection of this node</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-append">append</a> : (&nbsp;<code>Tree tree</code>, <code>Node this</code>, <code>Node node</code>, <code>Number index</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#event-append" href="Ext.data.Node.html#event-append">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when a new child node is appended</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeappend">beforeappend</a> : (&nbsp;<code>Tree tree</code>, <code>Node this</code>, <code>Node node</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#event-beforeappend" href="Ext.data.Node.html#event-beforeappend">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires before a new child is appended, return false to cancel the append.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforechildrenrendered">beforechildrenrendered</a> : (&nbsp;<code>Node this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires right before the child nodes for this node are rendered</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeclick">beforeclick</a> : (&nbsp;<code>Node this</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires before click processing. Return false to cancel the default action.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforecollapse">beforecollapse</a> : (&nbsp;<code>Node this</code>, <code>Boolean deep</code>, <code>Boolean anim</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires before this node is collapsed, return false to cancel.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeexpand">beforeexpand</a> : (&nbsp;<code>Node this</code>, <code>Boolean deep</code>, <code>Boolean anim</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires before this node is expanded, return false to cancel.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeinsert">beforeinsert</a> : (&nbsp;<code>Tree tree</code>, <code>Node this</code>, <code>Node node</code>, <code>Node refNode</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#event-beforeinsert" href="Ext.data.Node.html#event-beforeinsert">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before a new child is inserted, return false to cancel the insert.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforemove">beforemove</a> : (&nbsp;<code>Tree tree</code>, <code>Node this</code>, <code>Node oldParent</code>, <code>Node newParent</code>, <code>Number index</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#event-beforemove" href="Ext.data.Node.html#event-beforemove">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires before this node is moved to a new location in the tree. Return false to cancel the move.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeremove">beforeremove</a> : (&nbsp;<code>Tree tree</code>, <code>Node this</code>, <code>Node node</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#event-beforeremove" href="Ext.data.Node.html#event-beforeremove">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before a child is removed, return false to cancel the remove.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-checkchange">checkchange</a> : (&nbsp;<code>Node this</code>, <code>Boolean checked</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when a node with a checkbox's checked property changes</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-click">click</a> : (&nbsp;<code>Node this</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when this node is clicked</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-collapse">collapse</a> : (&nbsp;<code>Node this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when this node is collapsed</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-contextmenu">contextmenu</a> : (&nbsp;<code>Node this</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when this node is right clicked</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-dblclick">dblclick</a> : (&nbsp;<code>Node this</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when this node is double clicked</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-disabledchange">disabledchange</a> : (&nbsp;<code>Node this</code>, <code>Boolean disabled</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when the disabled status of this node changes</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-expand">expand</a> : (&nbsp;<code>Node this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when this node is expanded</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-insert">insert</a> : (&nbsp;<code>Tree tree</code>, <code>Node this</code>, <code>Node node</code>, <code>Node refNode</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#event-insert" href="Ext.data.Node.html#event-insert">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when a new child node is inserted.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-move">move</a> : (&nbsp;<code>Tree tree</code>, <code>Node this</code>, <code>Node oldParent</code>, <code>Node newParent</code>, <code>Number index</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#event-move" href="Ext.data.Node.html#event-move">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when this node is moved to a new location in the tree</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-remove">remove</a> : (&nbsp;<code>Tree tree</code>, <code>Node this</code>, <code>Node node</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#event-remove" href="Ext.data.Node.html#event-remove">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when a child node is removed</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-textchange">textchange</a> : (&nbsp;<code>Node this</code>, <code>String text</code>, <code>String oldText</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when the text for this node is changed</td>
+    </tr>
+            </table>
+                        <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-allowDrag">allowDrag</a> : Boolean</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">false to make this node undraggable if DD is on (defaults to true)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-allowDrop">allowDrop</a> : Boolean</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">false if this node cannot be drop on</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-cls">cls</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">A css class to be added to the node</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-disabled">disabled</a> : Boolean</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">true to start the node disabled</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-expanded">expanded</a> : Boolean</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">true to start the node expanded</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-href">href</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">URL of the link used for the node (defaults to #)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hrefTarget">hrefTarget</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">target frame for the link</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-icon">icon</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">The path to an icon for the node. The preferred way to do this is to use the cls or iconCls attributes and add the ic...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-iconCls">iconCls</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">A css class to be added to the nodes icon element for applying css background images</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-id">id</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#id" href="Ext.data.Node.html#id">Node</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The id for this node. If one is not specified, one is generated.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-leaf">leaf</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Node" ext:member="#leaf" href="Ext.data.Node.html#leaf">Node</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">true if this node is a leaf and does not have children</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-qtip">qtip</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">An Ext QuickTip for the node</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-qtipCfg">qtipCfg</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">An Ext QuickTip config for the node (used instead of qtip)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-singleClickExpand">singleClickExpand</a> : Boolean</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True for single click expand on this node</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-text">text</a> : String</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The text for this node</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-uiProvider">uiProvider</a> : Function</td>
+        <td class="msource" rowspan="2">TreeNode</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">A UI <b>class</b> to use for this node (defaults to Ext.tree.TreeNodeUI)</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="attributes"></a>
+                <div class="mdetail">
+                <h3>attributes</i></h3>
+                <code>public Object attributes</code>
+                <div class="mdetail-desc">
+                    The attributes supplied for the node. You can use this property to access any custom attributes you supplied.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.data.Node" ext:member="#attributes" href="Ext.data.Node.html#attributes">Node</a>.</div>
+                </div>
+                            <a name="childNodes"></a>
+                <div class="mdetail alt">
+                <h3>childNodes</i></h3>
+                <code>public Array childNodes</code>
+                <div class="mdetail-desc">
+                    All child nodes of this node.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.data.Node" ext:member="#childNodes" href="Ext.data.Node.html#childNodes">Node</a>.</div>
+                </div>
+                            <a name="disabled"></a>
+                <div class="mdetail">
+                <h3>disabled</i></h3>
+                <code>public Boolean disabled</code>
+                <div class="mdetail-desc">
+                    True if this node is disabled.                </div>
+                <div class="mdetail-def">This property is defined by TreeNode.</div>
+                </div>
+                            <a name="firstChild"></a>
+                <div class="mdetail alt">
+                <h3>firstChild</i></h3>
+                <code>public Node firstChild</code>
+                <div class="mdetail-desc">
+                    The first direct child node of this node, or null if this node has no child nodes.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.data.Node" ext:member="#firstChild" href="Ext.data.Node.html#firstChild">Node</a>.</div>
+                </div>
+                            <a name="id"></a>
+                <div class="mdetail">
+                <h3>id</i></h3>
+                <code>public String id</code>
+                <div class="mdetail-desc">
+                    The node id.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.data.Node" ext:member="#id" href="Ext.data.Node.html#id">Node</a>.</div>
+                </div>
+                            <a name="lastChild"></a>
+                <div class="mdetail alt">
+                <h3>lastChild</i></h3>
+                <code>public Node lastChild</code>
+                <div class="mdetail-desc">
+                    The last direct child node of this node, or null if this node has no child nodes.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.data.Node" ext:member="#lastChild" href="Ext.data.Node.html#lastChild">Node</a>.</div>
+                </div>
+                            <a name="nextSibling"></a>
+                <div class="mdetail">
+                <h3>nextSibling</i></h3>
+                <code>public Node nextSibling</code>
+                <div class="mdetail-desc">
+                    The node immediately following this node in the tree, or null if there is no sibling node.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.data.Node" ext:member="#nextSibling" href="Ext.data.Node.html#nextSibling">Node</a>.</div>
+                </div>
+                            <a name="parentNode"></a>
+                <div class="mdetail alt">
+                <h3>parentNode</i></h3>
+                <code>public Node parentNode</code>
+                <div class="mdetail-desc">
+                    The parent node for this node.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.data.Node" ext:member="#parentNode" href="Ext.data.Node.html#parentNode">Node</a>.</div>
+                </div>
+                            <a name="previousSibling"></a>
+                <div class="mdetail">
+                <h3>previousSibling</i></h3>
+                <code>public Node previousSibling</code>
+                <div class="mdetail-desc">
+                    The node immediately preceding this node in the tree, or null if there is no sibling node.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.data.Node" ext:member="#previousSibling" href="Ext.data.Node.html#previousSibling">Node</a>.</div>
+                </div>
+                            <a name="text"></a>
+                <div class="mdetail alt">
+                <h3>text</i></h3>
+                <code>public String text</code>
+                <div class="mdetail-desc">
+                    Read-only. The text for this node. To change it use setText().                </div>
+                <div class="mdetail-def">This property is defined by TreeNode.</div>
+                </div>
+                            <a name="ui"></a>
+                <div class="mdetail">
+                <h3>ui</i></h3>
+                <code>public TreeNodeUI ui</code>
+                <div class="mdetail-desc">
+                    Read-only. The UI for this node                </div>
+                <div class="mdetail-def">This property is defined by TreeNode.</div>
+                </div>
+                        </div>
+        
+                    <a name="TreeNode"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>TreeNode</i></h3>
+                <code>public function TreeNode(&nbsp;<code>Object/String attributes</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>attributes</code> : Object/String<div class="sub-desc">The attributes/config for the node or just a string with the text for the node</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="addEvents"></a>
+                <div class="mdetail">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail alt">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="appendChild"></a>
+                <div class="mdetail">
+                <h3>appendChild</i></h3>
+                <code>public function appendChild(&nbsp;<code>Node/Array node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Insert node(s) as the last child node of this node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : Node/Array<div class="sub-desc">The node or Array of nodes to append</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Node</code><div class="sub-desc">The appended node if single append, or null if an array was passed</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#appendChild" href="Ext.data.Node.html#appendChild">Node</a>.</div>
+                </div>
+                            <a name="bubble"></a>
+                <div class="mdetail alt">
+                <h3>bubble</i></h3>
+                <code>public function bubble(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Bubbles up the tree from this node, calling the specified function with each node. The scope (<i>this</i>) of
+function call will be the scope provided or the current node. The arguments to the function
+will be the args provided or the current node. If the function returns false at any point,
+the bubble is stopped.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The function to call</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to current node)</div></li><li><code>args</code> : Array<div class="sub-desc">(optional) The args to call the function with (default to passing the current node)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#bubble" href="Ext.data.Node.html#bubble">Node</a>.</div>
+                </div>
+                            <a name="cascade"></a>
+                <div class="mdetail">
+                <h3>cascade</i></h3>
+                <code>public function cascade(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Cascades down the tree from this node, calling the specified function with each node. The scope (<i>this</i>) of
+function call will be the scope provided or the current node. The arguments to the function
+will be the args provided or the current node. If the function returns false at any point,
+the cascade is stopped on that branch.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The function to call</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to current node)</div></li><li><code>args</code> : Array<div class="sub-desc">(optional) The args to call the function with (default to passing the current node)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#cascade" href="Ext.data.Node.html#cascade">Node</a>.</div>
+                </div>
+                            <a name="collapse"></a>
+                <div class="mdetail alt">
+                <h3>collapse</i></h3>
+                <code>public function collapse(&nbsp;<span class="optional" title="Optional">[<code>Boolean deep</code>]</span>, <span class="optional" title="Optional">[<code>Boolean anim</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Collapse this node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>deep</code> : Boolean<div class="sub-desc">(optional) True to collapse all children as well</div></li><li><code>anim</code> : Boolean<div class="sub-desc">(optional) false to cancel the default animation</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="collapseChildNodes"></a>
+                <div class="mdetail">
+                <h3>collapseChildNodes</i></h3>
+                <code>public function collapseChildNodes(&nbsp;<span class="optional" title="Optional">[<code>Boolean deep</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Collapse all child nodes
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>deep</code> : Boolean<div class="sub-desc">(optional) true if the child nodes should also collapse their child nodes</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="contains"></a>
+                <div class="mdetail alt">
+                <h3>contains</i></h3>
+                <code>public function contains(&nbsp;<code>Node node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if this node is an ancestor (at any point) of the passed node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : Node<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#contains" href="Ext.data.Node.html#contains">Node</a>.</div>
+                </div>
+                            <a name="disable"></a>
+                <div class="mdetail">
+                <h3>disable</i></h3>
+                <code>public function disable()</code>
+                <div class="mdetail-desc">
+                    Disables this node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="eachChild"></a>
+                <div class="mdetail alt">
+                <h3>eachChild</i></h3>
+                <code>public function eachChild(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Interates the child nodes of this node, calling the specified function with each node. The scope (<i>this</i>) of
+function call will be the scope provided or the current node. The arguments to the function
+will be the args provided or the current node. If the function returns false at any point,
+the iteration stops.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The function to call</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to current node)</div></li><li><code>args</code> : Array<div class="sub-desc">(optional) The args to call the function with (default to passing the current node)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#eachChild" href="Ext.data.Node.html#eachChild">Node</a>.</div>
+                </div>
+                            <a name="enable"></a>
+                <div class="mdetail">
+                <h3>enable</i></h3>
+                <code>public function enable()</code>
+                <div class="mdetail-desc">
+                    Enables this node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="ensureVisible"></a>
+                <div class="mdetail alt">
+                <h3>ensureVisible</i></h3>
+                <code>public function ensureVisible()</code>
+                <div class="mdetail-desc">
+                    Ensures all parent nodes are expanded
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="expand"></a>
+                <div class="mdetail">
+                <h3>expand</i></h3>
+                <code>public function expand(&nbsp;<span class="optional" title="Optional">[<code>Boolean deep</code>]</span>, <span class="optional" title="Optional">[<code>Boolean anim</code>]</span>, <span class="optional" title="Optional">[<code>Function callback</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Expand this node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>deep</code> : Boolean<div class="sub-desc">(optional) True to expand all children as well</div></li><li><code>anim</code> : Boolean<div class="sub-desc">(optional) false to cancel the default animation</div></li><li><code>callback</code> : Function<div class="sub-desc">(optional) A callback to be called when
+expanding this node completes (does not wait for deep expand to complete).
+Called with 1 parameter, this node.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="expandChildNodes"></a>
+                <div class="mdetail alt">
+                <h3>expandChildNodes</i></h3>
+                <code>public function expandChildNodes(&nbsp;<span class="optional" title="Optional">[<code>Boolean deep</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Expand all child nodes
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>deep</code> : Boolean<div class="sub-desc">(optional) true if the child nodes should also expand their child nodes</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="findChild"></a>
+                <div class="mdetail">
+                <h3>findChild</i></h3>
+                <code>public function findChild(&nbsp;<code>String attribute</code>, <code>Mixed value</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Finds the first child that has the attribute with the specified value.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>attribute</code> : String<div class="sub-desc">The attribute name</div></li><li><code>value</code> : Mixed<div class="sub-desc">The value to search for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Node</code><div class="sub-desc">The found child or null if none was found</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#findChild" href="Ext.data.Node.html#findChild">Node</a>.</div>
+                </div>
+                            <a name="findChildBy"></a>
+                <div class="mdetail alt">
+                <h3>findChildBy</i></h3>
+                <code>public function findChildBy(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Finds the first child by a custom function. The child matches if the function passed
+returns true.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Node</code><div class="sub-desc">The found child or null if none was found</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#findChildBy" href="Ext.data.Node.html#findChildBy">Node</a>.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="getDepth"></a>
+                <div class="mdetail alt">
+                <h3>getDepth</i></h3>
+                <code>public function getDepth()</code>
+                <div class="mdetail-desc">
+                    Returns depth of this node (the root node has a depth of 0)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#getDepth" href="Ext.data.Node.html#getDepth">Node</a>.</div>
+                </div>
+                            <a name="getOwnerTree"></a>
+                <div class="mdetail">
+                <h3>getOwnerTree</i></h3>
+                <code>public function getOwnerTree()</code>
+                <div class="mdetail-desc">
+                    Returns the tree this node is in.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Tree</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#getOwnerTree" href="Ext.data.Node.html#getOwnerTree">Node</a>.</div>
+                </div>
+                            <a name="getPath"></a>
+                <div class="mdetail alt">
+                <h3>getPath</i></h3>
+                <code>public function getPath(&nbsp;<span class="optional" title="Optional">[<code>String attr</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the path for this node. The path can be used to expand or select this node programmatically.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>attr</code> : String<div class="sub-desc">(optional) The attr to use for the path (defaults to the node's id)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">The path</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#getPath" href="Ext.data.Node.html#getPath">Node</a>.</div>
+                </div>
+                            <a name="getUI"></a>
+                <div class="mdetail">
+                <h3>getUI</i></h3>
+                <code>public function getUI()</code>
+                <div class="mdetail-desc">
+                    Returns the UI object for this node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>TreeNodeUI</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail alt">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="indexOf"></a>
+                <div class="mdetail">
+                <h3>indexOf</i></h3>
+                <code>public function indexOf(&nbsp;<code>Node node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the index of a child node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : Node<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The index of the node or -1 if it was not found</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#indexOf" href="Ext.data.Node.html#indexOf">Node</a>.</div>
+                </div>
+                            <a name="insertBefore"></a>
+                <div class="mdetail alt">
+                <h3>insertBefore</i></h3>
+                <code>public function insertBefore(&nbsp;<code>Node node</code>, <code>Node refNode</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Inserts the first node before the second node in this nodes childNodes collection.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : Node<div class="sub-desc">The node to insert</div></li><li><code>refNode</code> : Node<div class="sub-desc">The node to insert before (if null the node is appended)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Node</code><div class="sub-desc">The inserted node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#insertBefore" href="Ext.data.Node.html#insertBefore">Node</a>.</div>
+                </div>
+                            <a name="isAncestor"></a>
+                <div class="mdetail">
+                <h3>isAncestor</i></h3>
+                <code>public function isAncestor(&nbsp;<code>Node node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if the passed node is an ancestor (at any point) of this node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : Node<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#isAncestor" href="Ext.data.Node.html#isAncestor">Node</a>.</div>
+                </div>
+                            <a name="isExpanded"></a>
+                <div class="mdetail alt">
+                <h3>isExpanded</i></h3>
+                <code>public function isExpanded()</code>
+                <div class="mdetail-desc">
+                    Returns true if this node is expanded
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="isFirst"></a>
+                <div class="mdetail">
+                <h3>isFirst</i></h3>
+                <code>public function isFirst()</code>
+                <div class="mdetail-desc">
+                    Returns true if this node is the first child of its parent
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#isFirst" href="Ext.data.Node.html#isFirst">Node</a>.</div>
+                </div>
+                            <a name="isLast"></a>
+                <div class="mdetail alt">
+                <h3>isLast</i></h3>
+                <code>public function isLast()</code>
+                <div class="mdetail-desc">
+                    Returns true if this node is the last child of its parent
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#isLast" href="Ext.data.Node.html#isLast">Node</a>.</div>
+                </div>
+                            <a name="isLeaf"></a>
+                <div class="mdetail">
+                <h3>isLeaf</i></h3>
+                <code>public function isLeaf()</code>
+                <div class="mdetail-desc">
+                    Returns true if this node is a leaf
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#isLeaf" href="Ext.data.Node.html#isLeaf">Node</a>.</div>
+                </div>
+                            <a name="isSelected"></a>
+                <div class="mdetail alt">
+                <h3>isSelected</i></h3>
+                <code>public function isSelected()</code>
+                <div class="mdetail-desc">
+                    Returns true if this node is selected
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="item"></a>
+                <div class="mdetail">
+                <h3>item</i></h3>
+                <code>public function item(&nbsp;<code>Number index</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the child node at the specified index.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>index</code> : Number<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Node</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#item" href="Ext.data.Node.html#item">Node</a>.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail alt">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="removeChild"></a>
+                <div class="mdetail alt">
+                <h3>removeChild</i></h3>
+                <code>public function removeChild(&nbsp;<code>Node node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a child node from this node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : Node<div class="sub-desc">The node to remove</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Node</code><div class="sub-desc">The removed node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#removeChild" href="Ext.data.Node.html#removeChild">Node</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="replaceChild"></a>
+                <div class="mdetail alt">
+                <h3>replaceChild</i></h3>
+                <code>public function replaceChild(&nbsp;<code>Node newChild</code>, <code>Node oldChild</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Replaces one child node in this node with another.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>newChild</code> : Node<div class="sub-desc">The replacement node</div></li><li><code>oldChild</code> : Node<div class="sub-desc">The node to replace</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Node</code><div class="sub-desc">The replaced node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#replaceChild" href="Ext.data.Node.html#replaceChild">Node</a>.</div>
+                </div>
+                            <a name="select"></a>
+                <div class="mdetail">
+                <h3>select</i></h3>
+                <code>public function select()</code>
+                <div class="mdetail-desc">
+                    Triggers selection of this node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="setText"></a>
+                <div class="mdetail alt">
+                <h3>setText</i></h3>
+                <code>public function setText(&nbsp;<code>String text</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the text for this node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>text</code> : String<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="sort"></a>
+                <div class="mdetail">
+                <h3>sort</i></h3>
+                <code>public function sort(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sorts this nodes children using the supplied sort function
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Node" ext:member="#sort" href="Ext.data.Node.html#sort">Node</a>.</div>
+                </div>
+                            <a name="toggle"></a>
+                <div class="mdetail alt">
+                <h3>toggle</i></h3>
+                <code>public function toggle()</code>
+                <div class="mdetail-desc">
+                    Toggles expanded/collapsed state of the node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                            <a name="unselect"></a>
+                <div class="mdetail alt">
+                <h3>unselect</i></h3>
+                <code>public function unselect()</code>
+                <div class="mdetail-desc">
+                    Triggers deselection of this node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeNode.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-append"></a>
+                <div class="mdetail">
+                <h3>append</i></h3>
+                <code>public event append</code>
+                <div class="mdetail-desc">
+                Fires when a new child node is appended
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>tree</code> : Tree<div class="sub-desc">The owner tree</div></li><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>node</code> : Node<div class="sub-desc">The newly appended node</div></li><li><code>index</code> : Number<div class="sub-desc">The index of the newly appended node</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Node" ext:member="#event-append" href="Ext.data.Node.html#event-append">Node</a>.</div>
+                </div>
+                            <a name="event-beforeappend"></a>
+                <div class="mdetail alt">
+                <h3>beforeappend</i></h3>
+                <code>public event beforeappend</code>
+                <div class="mdetail-desc">
+                Fires before a new child is appended, return false to cancel the append.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>tree</code> : Tree<div class="sub-desc">The owner tree</div></li><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>node</code> : Node<div class="sub-desc">The child node to be appended</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Node" ext:member="#event-beforeappend" href="Ext.data.Node.html#event-beforeappend">Node</a>.</div>
+                </div>
+                            <a name="event-beforechildrenrendered"></a>
+                <div class="mdetail">
+                <h3>beforechildrenrendered</i></h3>
+                <code>public event beforechildrenrendered</code>
+                <div class="mdetail-desc">
+                Fires right before the child nodes for this node are rendered
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-beforeclick"></a>
+                <div class="mdetail alt">
+                <h3>beforeclick</i></h3>
+                <code>public event beforeclick</code>
+                <div class="mdetail-desc">
+                Fires before click processing. Return false to cancel the default action.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-beforecollapse"></a>
+                <div class="mdetail">
+                <h3>beforecollapse</i></h3>
+                <code>public event beforecollapse</code>
+                <div class="mdetail-desc">
+                Fires before this node is collapsed, return false to cancel.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>deep</code> : Boolean<div class="sub-desc"></div></li><li><code>anim</code> : Boolean<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-beforeexpand"></a>
+                <div class="mdetail alt">
+                <h3>beforeexpand</i></h3>
+                <code>public event beforeexpand</code>
+                <div class="mdetail-desc">
+                Fires before this node is expanded, return false to cancel.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>deep</code> : Boolean<div class="sub-desc"></div></li><li><code>anim</code> : Boolean<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-beforeinsert"></a>
+                <div class="mdetail">
+                <h3>beforeinsert</i></h3>
+                <code>public event beforeinsert</code>
+                <div class="mdetail-desc">
+                Fires before a new child is inserted, return false to cancel the insert.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>tree</code> : Tree<div class="sub-desc">The owner tree</div></li><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>node</code> : Node<div class="sub-desc">The child node to be inserted</div></li><li><code>refNode</code> : Node<div class="sub-desc">The child node the node is being inserted before</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Node" ext:member="#event-beforeinsert" href="Ext.data.Node.html#event-beforeinsert">Node</a>.</div>
+                </div>
+                            <a name="event-beforemove"></a>
+                <div class="mdetail alt">
+                <h3>beforemove</i></h3>
+                <code>public event beforemove</code>
+                <div class="mdetail-desc">
+                Fires before this node is moved to a new location in the tree. Return false to cancel the move.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>tree</code> : Tree<div class="sub-desc">The owner tree</div></li><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>oldParent</code> : Node<div class="sub-desc">The parent of this node</div></li><li><code>newParent</code> : Node<div class="sub-desc">The new parent this node is moving to</div></li><li><code>index</code> : Number<div class="sub-desc">The index it is being moved to</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Node" ext:member="#event-beforemove" href="Ext.data.Node.html#event-beforemove">Node</a>.</div>
+                </div>
+                            <a name="event-beforeremove"></a>
+                <div class="mdetail">
+                <h3>beforeremove</i></h3>
+                <code>public event beforeremove</code>
+                <div class="mdetail-desc">
+                Fires before a child is removed, return false to cancel the remove.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>tree</code> : Tree<div class="sub-desc">The owner tree</div></li><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>node</code> : Node<div class="sub-desc">The child node to be removed</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Node" ext:member="#event-beforeremove" href="Ext.data.Node.html#event-beforeremove">Node</a>.</div>
+                </div>
+                            <a name="event-checkchange"></a>
+                <div class="mdetail alt">
+                <h3>checkchange</i></h3>
+                <code>public event checkchange</code>
+                <div class="mdetail-desc">
+                Fires when a node with a checkbox's checked property changes
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>checked</code> : Boolean<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-click"></a>
+                <div class="mdetail">
+                <h3>click</i></h3>
+                <code>public event click</code>
+                <div class="mdetail-desc">
+                Fires when this node is clicked
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-collapse"></a>
+                <div class="mdetail alt">
+                <h3>collapse</i></h3>
+                <code>public event collapse</code>
+                <div class="mdetail-desc">
+                Fires when this node is collapsed
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-contextmenu"></a>
+                <div class="mdetail">
+                <h3>contextmenu</i></h3>
+                <code>public event contextmenu</code>
+                <div class="mdetail-desc">
+                Fires when this node is right clicked
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-dblclick"></a>
+                <div class="mdetail alt">
+                <h3>dblclick</i></h3>
+                <code>public event dblclick</code>
+                <div class="mdetail-desc">
+                Fires when this node is double clicked
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-disabledchange"></a>
+                <div class="mdetail">
+                <h3>disabledchange</i></h3>
+                <code>public event disabledchange</code>
+                <div class="mdetail-desc">
+                Fires when the disabled status of this node changes
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>disabled</code> : Boolean<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-expand"></a>
+                <div class="mdetail alt">
+                <h3>expand</i></h3>
+                <code>public event expand</code>
+                <div class="mdetail-desc">
+                Fires when this node is expanded
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                            <a name="event-insert"></a>
+                <div class="mdetail">
+                <h3>insert</i></h3>
+                <code>public event insert</code>
+                <div class="mdetail-desc">
+                Fires when a new child node is inserted.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>tree</code> : Tree<div class="sub-desc">The owner tree</div></li><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>node</code> : Node<div class="sub-desc">The child node inserted</div></li><li><code>refNode</code> : Node<div class="sub-desc">The child node the node was inserted before</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Node" ext:member="#event-insert" href="Ext.data.Node.html#event-insert">Node</a>.</div>
+                </div>
+                            <a name="event-move"></a>
+                <div class="mdetail alt">
+                <h3>move</i></h3>
+                <code>public event move</code>
+                <div class="mdetail-desc">
+                Fires when this node is moved to a new location in the tree
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>tree</code> : Tree<div class="sub-desc">The owner tree</div></li><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>oldParent</code> : Node<div class="sub-desc">The old parent of this node</div></li><li><code>newParent</code> : Node<div class="sub-desc">The new parent of this node</div></li><li><code>index</code> : Number<div class="sub-desc">The index it was moved to</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Node" ext:member="#event-move" href="Ext.data.Node.html#event-move">Node</a>.</div>
+                </div>
+                            <a name="event-remove"></a>
+                <div class="mdetail">
+                <h3>remove</i></h3>
+                <code>public event remove</code>
+                <div class="mdetail-desc">
+                Fires when a child node is removed
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>tree</code> : Tree<div class="sub-desc">The owner tree</div></li><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>node</code> : Node<div class="sub-desc">The removed node</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Node" ext:member="#event-remove" href="Ext.data.Node.html#event-remove">Node</a>.</div>
+                </div>
+                            <a name="event-textchange"></a>
+                <div class="mdetail alt">
+                <h3>textchange</i></h3>
+                <code>public event textchange</code>
+                <div class="mdetail-desc">
+                Fires when the text for this node is changed
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Node<div class="sub-desc">This node</div></li><li><code>text</code> : String<div class="sub-desc">The new text</div></li><li><code>oldText</code> : String<div class="sub-desc">The old text</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TreeNode.</div>
+                </div>
+                        </div>
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-allowDrag"></a>
+                <div class="mdetail">
+                <h3>allowDrag</i></h3>
+                <code>allowDrag : Boolean</code>
+                <div class="mdetail-desc">
+                    false to make this node undraggable if DD is on (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-allowDrop"></a>
+                <div class="mdetail alt">
+                <h3>allowDrop</i></h3>
+                <code>allowDrop : Boolean</code>
+                <div class="mdetail-desc">
+                    false if this node cannot be drop on                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-cls"></a>
+                <div class="mdetail">
+                <h3>cls</i></h3>
+                <code>cls : String</code>
+                <div class="mdetail-desc">
+                    A css class to be added to the node                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-disabled"></a>
+                <div class="mdetail alt">
+                <h3>disabled</i></h3>
+                <code>disabled : Boolean</code>
+                <div class="mdetail-desc">
+                    true to start the node disabled                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-expanded"></a>
+                <div class="mdetail">
+                <h3>expanded</i></h3>
+                <code>expanded : Boolean</code>
+                <div class="mdetail-desc">
+                    true to start the node expanded                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-href"></a>
+                <div class="mdetail alt">
+                <h3>href</i></h3>
+                <code>href : String</code>
+                <div class="mdetail-desc">
+                    URL of the link used for the node (defaults to #)                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-hrefTarget"></a>
+                <div class="mdetail">
+                <h3>hrefTarget</i></h3>
+                <code>hrefTarget : String</code>
+                <div class="mdetail-desc">
+                    target frame for the link                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-icon"></a>
+                <div class="mdetail alt">
+                <h3>icon</i></h3>
+                <code>icon : String</code>
+                <div class="mdetail-desc">
+                    The path to an icon for the node. The preferred way to do this is to use the cls or iconCls attributes and add the icon via a CSS background image.                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-iconCls"></a>
+                <div class="mdetail">
+                <h3>iconCls</i></h3>
+                <code>iconCls : String</code>
+                <div class="mdetail-desc">
+                    A css class to be added to the nodes icon element for applying css background images                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-id"></a>
+                <div class="mdetail alt">
+                <h3>id</i></h3>
+                <code>id : String</code>
+                <div class="mdetail-desc">
+                    The id for this node. If one is not specified, one is generated.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.data.Node" ext:member="#id" href="Ext.data.Node.html#id">Node</a>.</div>
+                </div>
+                            <a name="config-leaf"></a>
+                <div class="mdetail">
+                <h3>leaf</i></h3>
+                <code>leaf : Boolean</code>
+                <div class="mdetail-desc">
+                    true if this node is a leaf and does not have children                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.data.Node" ext:member="#leaf" href="Ext.data.Node.html#leaf">Node</a>.</div>
+                </div>
+                            <a name="config-qtip"></a>
+                <div class="mdetail alt">
+                <h3>qtip</i></h3>
+                <code>qtip : String</code>
+                <div class="mdetail-desc">
+                    An Ext QuickTip for the node                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-qtipCfg"></a>
+                <div class="mdetail">
+                <h3>qtipCfg</i></h3>
+                <code>qtipCfg : String</code>
+                <div class="mdetail-desc">
+                    An Ext QuickTip config for the node (used instead of qtip)                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-singleClickExpand"></a>
+                <div class="mdetail alt">
+                <h3>singleClickExpand</i></h3>
+                <code>singleClickExpand : Boolean</code>
+                <div class="mdetail-desc">
+                    True for single click expand on this node                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-text"></a>
+                <div class="mdetail">
+                <h3>text</i></h3>
+                <code>text : String</code>
+                <div class="mdetail-desc">
+                    The text for this node                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                            <a name="config-uiProvider"></a>
+                <div class="mdetail alt">
+                <h3>uiProvider</i></h3>
+                <code>uiProvider : Function</code>
+                <div class="mdetail-desc">
+                    A UI <b>class</b> to use for this node (defaults to Ext.tree.TreeNodeUI)                </div>
+                <div class="mdetail-def">This config option is defined by TreeNode.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

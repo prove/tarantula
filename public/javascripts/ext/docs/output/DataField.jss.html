@@ -1,0 +1,94 @@
+<html><head><title>DataField.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>DataField.js</h1><pre class="highlighted"><code>Ext.data.Field = <b>function</b>(config){
+    <b>if</b>(typeof config == &quot;string&quot;){
+        config = {name: config};
+    }
+    Ext.apply(<b>this</b>, config);
+    
+    <b>if</b>(!<b>this</b>.type){
+        <b>this</b>.type = &quot;auto&quot;;
+    }
+    
+    <b>var</b> st = Ext.data.SortTypes;
+    <i>// named sortTypes are supported, here we look them up</i>
+    <b>if</b>(typeof <b>this</b>.sortType == &quot;string&quot;){
+        <b>this</b>.sortType = st[<b>this</b>.sortType];
+    }
+    
+    <i>// set <b>default</b> sortType <b>for</b> strings and dates</i>
+    <b>if</b>(!<b>this</b>.sortType){
+        <b>switch</b>(this.type){
+            <b>case</b> &quot;string&quot;:
+                <b>this</b>.sortType = st.asUCString;
+                <b>break</b>;
+            <b>case</b> &quot;date&quot;:
+                <b>this</b>.sortType = st.asDate;
+                <b>break</b>;
+            <b>default</b>:
+                <b>this</b>.sortType = st.none;
+        }
+    }
+
+    <i>// define once</i>
+    <b>var</b> stripRe = /[\$,%]/g;
+
+    <i>// prebuilt conversion <b>function</b> for <b>this</b> field, instead of</i>
+    <i>// switching every time we're reading a value</i>
+    <b>if</b>(!<b>this</b>.convert){
+        <b>var</b> cv, dateFormat = <b>this</b>.dateFormat;
+        <b>switch</b>(this.type){
+            <b>case</b> &quot;&quot;:
+            <b>case</b> &quot;auto&quot;:
+            <b>case</b> undefined:
+                cv = <b>function</b>(v){ <b>return</b> v; };
+                <b>break</b>;
+            <b>case</b> &quot;string&quot;:
+                cv = <b>function</b>(v){ <b>return</b> (v === undefined || v === null) ? <em>''</em> : String(v); };
+                <b>break</b>;
+            <b>case</b> &quot;int&quot;:
+                cv = <b>function</b>(v){
+                    <b>return</b> v !== undefined &amp;&amp; v !== null &amp;&amp; v !== <em>''</em> ?
+                           parseInt(String(v).replace(stripRe, &quot;&quot;), 10) : <em>''</em>;
+                    };
+                <b>break</b>;
+            <b>case</b> &quot;float&quot;:
+                cv = <b>function</b>(v){
+                    <b>return</b> v !== undefined &amp;&amp; v !== null &amp;&amp; v !== <em>''</em> ?
+                           parseFloat(String(v).replace(stripRe, &quot;&quot;), 10) : <em>''</em>; 
+                    };
+                <b>break</b>;
+            <b>case</b> &quot;bool&quot;:
+            <b>case</b> &quot;boolean&quot;:
+                cv = <b>function</b>(v){ <b>return</b> v === true || v === &quot;true&quot; || v == 1; };
+                <b>break</b>;
+            <b>case</b> &quot;date&quot;:
+                cv = <b>function</b>(v){
+                    <b>if</b>(!v){
+                        <b>return</b> <em>''</em>;
+                    }
+                    <b>if</b>(v instanceof Date){
+                        <b>return</b> v;
+                    }
+                    <b>if</b>(dateFormat){
+                        <b>if</b>(dateFormat == &quot;timestamp&quot;){
+                            <b>return</b> new Date(v*1000);
+                        }
+                        <b>return</b> Date.parseDate(v, dateFormat);
+                    }
+                    <b>var</b> parsed = Date.parse(v);
+                    <b>return</b> parsed ? <b>new</b> Date(parsed) : null;
+                };
+             <b>break</b>;
+            
+        }
+        <b>this</b>.convert = cv;
+    }
+};
+
+Ext.data.Field.prototype = {
+    dateFormat: null,
+    defaultValue: &quot;&quot;,
+    mapping: null,
+    sortType : null,
+    sortDir : &quot;ASC&quot;
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

@@ -1,0 +1,648 @@
+<html><head><title>Store.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Store.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.Store
+ * @extends Ext.util.Observable
+ * The Store class encapsulates a client side cache of {@link Ext.data.Record} objects which provide input data
+ * <b>for</b> widgets such as the Ext.grid.Grid, or the Ext.form.ComboBox.&lt;br&gt;
+ * &lt;p&gt;
+ * A Store object uses an implementation of {@link Ext.data.DataProxy} to access a data object unless you call loadData() directly and pass <b>in</b> your data. The Store object
+ * has no knowledge of the format of the data returned by the Proxy.&lt;br&gt;
+ * &lt;p&gt;
+ * A Store object uses its configured implementation of {@link Ext.data.DataReader} to create {@link Ext.data.Record}
+ * instances from the data object. These records are cached and made available through accessor functions.
+ * @constructor
+ * Creates a <b>new</b> Store.
+ * @param {Object} config A config object containing the objects needed <b>for</b> the Store to access data,
+ * and read the data into Records.
+ */</i>
+Ext.data.Store = <b>function</b>(config){
+    <b>this</b>.data = <b>new</b> Ext.util.MixedCollection(false);
+    <b>this</b>.data.getKey = <b>function</b>(o){
+        <b>return</b> o.id;
+    };
+    <b>this</b>.baseParams = {};
+    <i>// private</i>
+    <b>this</b>.paramNames = {
+        &quot;start&quot; : &quot;start&quot;,
+        &quot;limit&quot; : &quot;limit&quot;,
+        &quot;sort&quot; : &quot;sort&quot;,
+        &quot;dir&quot; : &quot;dir&quot;
+    };
+
+    <b>if</b>(config &amp;&amp; config.data){
+        <b>this</b>.inlineData = config.data;
+        <b>delete</b> config.data;
+    }
+
+    Ext.apply(<b>this</b>, config);
+
+    <b>if</b>(this.reader){ <i>// reader passed</i>
+        <b>if</b>(!<b>this</b>.recordType){
+            <b>this</b>.recordType = <b>this</b>.reader.recordType;
+        }
+        <b>if</b>(this.reader.onMetaChange){
+            <b>this</b>.reader.onMetaChange = <b>this</b>.onMetaChange.createDelegate(<b>this</b>);
+        }
+    }
+
+    <b>if</b>(this.recordType){
+        <b>this</b>.fields = <b>this</b>.recordType.prototype.fields;
+    }
+    <b>this</b>.modified = [];
+
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event datachanged
+         * Fires when the data cache has changed, and a widget which is using <b>this</b> Store
+         * as a Record cache should refresh its view.
+         * @param {Store} <b>this</b>
+         */</i>
+        datachanged : true,
+        <i>/**
+         * @event metachange
+         * Fires when <b>this</b> stores reader provides <b>new</b> meta data (fields). This is currently only support <b>for</b> JsonReaders.
+         * @param {Store} <b>this</b>
+         * @param {Object} meta The JSON meta data
+         */</i>
+        metachange : true,
+        <i>/**
+         * @event add
+         * Fires when Records have been added to the Store
+         * @param {Store} <b>this</b>
+         * @param {Ext.data.Record[]} records The array of Records added
+         * @param {Number} index The index at which the record(s) were added
+         */</i>
+        add : true,
+        <i>/**
+         * @event remove
+         * Fires when Records have been removed from the Store
+         * @param {Store} <b>this</b>
+         * @param {Ext.data.Record} record The Record that was removed
+         * @param {Number} index The index at which the record was removed
+         */</i>
+        remove : true,
+        <i>/**
+         * @event update
+         * Fires when Records have been updated
+         * @param {Store} <b>this</b>
+         * @param {Ext.data.Record} record The Record that was updated
+         * @param {String} operation The update operation being performed.  Value may be one of:
+         * &lt;pre&gt;&lt;code&gt;
+ Ext.data.Record.EDIT
+ Ext.data.Record.REJECT
+ Ext.data.Record.COMMIT
+         * &lt;/code&gt;&lt;/pre&gt;
+         */</i>
+        update : true,
+        <i>/**
+         * @event clear
+         * Fires when the data cache has been cleared.
+         * @param {Store} <b>this</b>
+         */</i>
+        clear : true,
+        <i>/**
+         * @event beforeload
+         * Fires before a request is made <b>for</b> a <b>new</b> data object.  If the beforeload handler returns false
+         * the load action will be canceled.
+         * @param {Store} <b>this</b>
+         * @param {Object} options The loading options that were specified (see {@link #load} <b>for</b> details)
+         */</i>
+        beforeload : true,
+        <i>/**
+         * @event load
+         * Fires after a <b>new</b> set of Records has been loaded.
+         * @param {Store} <b>this</b>
+         * @param {Ext.data.Record[]} records The Records that were loaded
+         * @param {Object} options The loading options that were specified (see {@link #load} <b>for</b> details)
+         */</i>
+        load : true,
+        <i>/**
+         * @event loadexception
+         * Fires <b>if</b> an exception occurs <b>in</b> the Proxy during loading.
+         * Called <b>with</b> the signature of the Proxy's &quot;loadexception&quot; event.
+         */</i>
+        loadexception : true
+    });
+
+    <b>if</b>(this.proxy){
+        <b>this</b>.relayEvents(<b>this</b>.proxy,  [&quot;loadexception&quot;]);
+    }
+    <b>this</b>.sortToggle = {};
+
+    Ext.data.Store.superclass.constructor.call(<b>this</b>);
+
+    <b>if</b>(this.inlineData){
+        <b>this</b>.loadData(<b>this</b>.inlineData);
+        <b>delete</b> this.inlineData;
+    }
+};
+Ext.extend(Ext.data.Store, Ext.util.Observable, {
+    <i>/**
+    * @cfg {Ext.data.DataProxy} proxy The Proxy object which provides access to a data object.
+    */</i>
+<i>// holder</i>
+<i>/***
+    * @cfg {Array} data Inline data to be loaded when the store is initialized.
+    */</i>
+<i>// holder</i>
+<i>/***
+    * @cfg {Ext.data.Reader} reader The Reader object which processes the data object and returns
+    * an Array of Ext.data.record objects which are cached keyed by their &lt;em&gt;id&lt;/em&gt; property.
+    */</i>
+<i>// holder</i>
+<i>/***
+    * @cfg {Object} baseParams An object containing properties which are to be sent as parameters
+    * on any HTTP request
+    */</i>
+<i>// holder</i>
+<i>/***
+    * @cfg {Object} sortInfo A config object <b>in</b> the format: {field: &quot;fieldName&quot;, direction: &quot;ASC|DESC&quot;}
+    */</i>
+<i>// holder</i>
+<i>/***
+    * @cfg {boolean} remoteSort True <b>if</b> sorting is to be handled by requesting the Proxy to provide a refreshed
+    * version of the data object <b>in</b> sorted order, as opposed to sorting the Record cache <b>in</b> place (defaults to false).
+    */</i>
+    remoteSort : false,
+
+    <i>/**
+    * @cfg {boolean} pruneModifiedRecords True to clear all modified record information each time the store is
+     * loaded or when a record is removed. (defaults to false).
+    */</i>
+    pruneModifiedRecords : false,
+
+    <i>// private</i>
+    lastOptions : null,
+
+    <i>/**
+     * Add Records to the Store and fires the add event.
+     * @param {Ext.data.Record[]} records An Array of Ext.data.Record objects to add to the cache.
+     */</i>
+    add : <b>function</b>(records){
+        records = [].concat(records);
+        <b>for</b>(var i = 0, len = records.length; i &lt; len; i++){
+            records[i].join(<b>this</b>);
+        }
+        <b>var</b> index = <b>this</b>.data.length;
+        <b>this</b>.data.addAll(records);
+        <b>this</b>.fireEvent(&quot;add&quot;, <b>this</b>, records, index);
+    },
+
+    <i>/**
+     * Remove a Record from the Store and fires the remove event.
+     * @param {Ext.data.Record} record Th Ext.data.Record object to remove from the cache.
+     */</i>
+    remove : <b>function</b>(record){
+        <b>var</b> index = <b>this</b>.data.indexOf(record);
+        <b>this</b>.data.removeAt(index);
+        <b>if</b>(this.pruneModifiedRecords){
+            <b>this</b>.modified.remove(record);
+        }
+        <b>this</b>.fireEvent(&quot;remove&quot;, <b>this</b>, record, index);
+    },
+
+    <i>/**
+     * Remove all Records from the Store and fires the clear event.
+     */</i>
+    removeAll : <b>function</b>(){
+        <b>this</b>.data.clear();
+        <b>if</b>(this.pruneModifiedRecords){
+            <b>this</b>.modified = [];
+        }
+        <b>this</b>.fireEvent(&quot;clear&quot;, <b>this</b>);
+    },
+
+    <i>/**
+     * Inserts Records to the Store at the given index and fires the add event.
+     * @param {Number} index The start index at which to insert the passed Records.
+     * @param {Ext.data.Record[]} records An Array of Ext.data.Record objects to add to the cache.
+     */</i>
+    insert : <b>function</b>(index, records){
+        records = [].concat(records);
+        <b>for</b>(var i = 0, len = records.length; i &lt; len; i++){
+            <b>this</b>.data.insert(index, records[i]);
+            records[i].join(<b>this</b>);
+        }
+        <b>this</b>.fireEvent(&quot;add&quot;, <b>this</b>, records, index);
+    },
+
+    <i>/**
+     * Get the index within the cache of the passed Record.
+     * @param {Ext.data.Record} record The Ext.data.Record object to to find.
+     * @<b>return</b> {Number} The index of the passed Record. Returns -1 <b>if</b> not found.
+     */</i>
+    indexOf : <b>function</b>(record){
+        <b>return</b> this.data.indexOf(record);
+    },
+
+    <i>/**
+     * Get the index within the cache of the Record <b>with</b> the passed id.
+     * @param {String} id The id of the Record to find.
+     * @<b>return</b> {Number} The index of the Record. Returns -1 <b>if</b> not found.
+     */</i>
+    indexOfId : <b>function</b>(id){
+        <b>return</b> this.data.indexOfKey(id);
+    },
+
+    <i>/**
+     * Get the Record <b>with</b> the specified id.
+     * @param {String} id The id of the Record to find.
+     * @<b>return</b> {Ext.data.Record} The Record <b>with</b> the passed id. Returns undefined <b>if</b> not found.
+     */</i>
+    getById : <b>function</b>(id){
+        <b>return</b> this.data.key(id);
+    },
+
+    <i>/**
+     * Get the Record at the specified index.
+     * @param {Number} index The index of the Record to find.
+     * @<b>return</b> {Ext.data.Record} The Record at the passed index. Returns undefined <b>if</b> not found.
+     */</i>
+    getAt : <b>function</b>(index){
+        <b>return</b> this.data.itemAt(index);
+    },
+
+    <i>/**
+     * Returns a range of Records between specified indices.
+     * @param {Number} startIndex (optional) The starting index (defaults to 0)
+     * @param {Number} endIndex (optional) The ending index (defaults to the last Record <b>in</b> the Store)
+     * @<b>return</b> {Ext.data.Record[]} An array of Records
+     */</i>
+    getRange : <b>function</b>(start, end){
+        <b>return</b> this.data.getRange(start, end);
+    },
+
+    <i>// private</i>
+    storeOptions : <b>function</b>(o){
+        o = Ext.apply({}, o);
+        <b>delete</b> o.callback;
+        <b>delete</b> o.scope;
+        <b>this</b>.lastOptions = o;
+    },
+
+    <i>/**
+     * Loads the Record cache from the configured Proxy using the configured Reader.
+     * &lt;p&gt;
+     * If using remote paging, then the first load call must specify the &lt;em&gt;start&lt;/em&gt;
+     * and &lt;em&gt;limit&lt;/em&gt; properties <b>in</b> the options.params property to establish the initial
+     * position within the dataset, and the number of Records to cache on each read from the Proxy.
+     * &lt;p&gt;
+     * &lt;strong&gt;It is important to note that <b>for</b> remote data sources, loading is asynchronous,
+     * and <b>this</b> call will <b>return</b> before the <b>new</b> data has been loaded. Perform any post-processing
+     * <b>in</b> a callback <b>function</b>, or <b>in</b> a &quot;load&quot; event handler.&lt;/strong&gt;
+     * &lt;p&gt;
+     * @param {Object} options An object containing properties which control loading options:&lt;ul&gt;
+     * &lt;li&gt;params {Object} An object containing properties to pass as HTTP parameters to a remote data source.&lt;/li&gt;
+     * &lt;li&gt;callback {Function} A <b>function</b> to be called after the Records have been loaded. The callback is
+     * passed the following arguments:&lt;ul&gt;
+     * &lt;li&gt;r : Ext.data.Record[]&lt;/li&gt;
+     * &lt;li&gt;options: Options object from the load call&lt;/li&gt;
+     * &lt;li&gt;success: Boolean success indicator&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+     * &lt;li&gt;scope {Object} Scope <b>with</b> which to call the callback (defaults to the Store object)&lt;/li&gt;
+     * &lt;li&gt;add {Boolean} indicator to append loaded records rather than replace the current cache.&lt;/li&gt;
+     * &lt;/ul&gt;
+     */</i>
+    load : <b>function</b>(options){
+        options = options || {};
+        <b>if</b>(this.fireEvent(&quot;beforeload&quot;, <b>this</b>, options) !== false){
+            <b>this</b>.storeOptions(options);
+            <b>var</b> p = Ext.apply(options.params || {}, <b>this</b>.baseParams);
+            <b>if</b>(this.sortInfo &amp;&amp; <b>this</b>.remoteSort){
+                <b>var</b> pn = <b>this</b>.paramNames;
+                p[pn[&quot;sort&quot;]] = <b>this</b>.sortInfo.field;
+                p[pn[&quot;dir&quot;]] = <b>this</b>.sortInfo.direction;
+            }
+            <b>this</b>.proxy.load(p, <b>this</b>.reader, <b>this</b>.loadRecords, <b>this</b>, options);
+        }
+    },
+
+    <i>/**
+     * Reloads the Record cache from the configured Proxy using the configured Reader and
+     * the options from the last load operation performed.
+     * @param {Object} options (optional) An object containing properties which may override the options
+     * used <b>in</b> the last load operation. See {@link #load} <b>for</b> details (defaults to null, <b>in</b> which <b>case</b>
+     * the most recently used options are reused).
+     */</i>
+    reload : <b>function</b>(options){
+        <b>this</b>.load(Ext.applyIf(options||{}, <b>this</b>.lastOptions));
+    },
+
+    <i>// private</i>
+    <i>// Called as a callback by the Reader during a load operation.</i>
+    loadRecords : <b>function</b>(o, options, success){
+        <b>if</b>(!o || success === false){
+            <b>if</b>(success !== false){
+                <b>this</b>.fireEvent(&quot;load&quot;, <b>this</b>, [], options);
+            }
+            <b>if</b>(options.callback){
+                options.callback.call(options.scope || <b>this</b>, [], options, false);
+            }
+            <b>return</b>;
+        }
+        <b>var</b> r = o.records, t = o.totalRecords || r.length;
+        <b>if</b>(!options || options.add !== true){
+            <b>if</b>(this.pruneModifiedRecords){
+                <b>this</b>.modified = [];
+            }
+            <b>for</b>(var i = 0, len = r.length; i &lt; len; i++){
+                r[i].join(<b>this</b>);
+            }
+            <b>this</b>.data.clear();
+            <b>this</b>.data.addAll(r);
+            <b>this</b>.totalLength = t;
+            <b>this</b>.applySort();
+            <b>this</b>.fireEvent(&quot;datachanged&quot;, <b>this</b>);
+        }<b>else</b>{
+            <b>this</b>.totalLength = Math.max(t, <b>this</b>.data.length+r.length);
+            <b>this</b>.add(r);
+        }
+        <b>this</b>.fireEvent(&quot;load&quot;, <b>this</b>, r, options);
+        <b>if</b>(options.callback){
+            options.callback.call(options.scope || <b>this</b>, r, options, true);
+        }
+    },
+
+    <i>/**
+     * Loads data from a passed data block. A Reader which understands the format of the data
+     * must have been configured <b>in</b> the constructor.
+     * @param {Object} data The data block from which to read the Records.  The format of the data expected
+     * is dependent on the type of Reader that is configured and should correspond to that Reader's readRecords parameter.
+     * @param {Boolean} append (Optional) True to append the <b>new</b> Records rather than replace the existing cache.
+     */</i>
+    loadData : <b>function</b>(o, append){
+        <b>var</b> r = <b>this</b>.reader.readRecords(o);
+        <b>this</b>.loadRecords(r, {add: append}, true);
+    },
+
+    <i>/**
+     * Gets the number of cached records.
+     * &lt;p&gt;
+     * &lt;em&gt;If using paging, <b>this</b> may not be the total size of the dataset. If the data object
+     * used by the Reader contains the dataset size, then the getTotalCount() <b>function</b> returns
+     * the data set size&lt;/em&gt;
+     */</i>
+    getCount : <b>function</b>(){
+        <b>return</b> this.data.length || 0;
+    },
+
+    <i>/**
+     * Gets the total number of records <b>in</b> the dataset.
+     * &lt;p&gt;
+     * &lt;em&gt;If using paging, <b>for</b> this to be accurate, the data object used by the Reader must contain
+     * the dataset size&lt;/em&gt;
+     */</i>
+    getTotalCount : <b>function</b>(){
+        <b>return</b> this.totalLength || 0;
+    },
+
+    <i>/**
+     * Returns the sort state of the Store as an object <b>with</b> two properties:
+     * &lt;pre&gt;&lt;code&gt;
+ field {String} The name of the field by which the Records are sorted
+ direction {String} The sort order, &quot;ASC&quot; or &quot;DESC&quot;
+     * &lt;/code&gt;&lt;/pre&gt;
+     */</i>
+    getSortState : <b>function</b>(){
+        <b>return</b> this.sortInfo;
+    },
+
+    <i>// private</i>
+    applySort : <b>function</b>(){
+        <b>if</b>(this.sortInfo &amp;&amp; !<b>this</b>.remoteSort){
+            <b>var</b> s = <b>this</b>.sortInfo, f = s.field;
+            <b>var</b> st = <b>this</b>.fields.get(f).sortType;
+            <b>var</b> fn = <b>function</b>(r1, r2){
+                <b>var</b> v1 = st(r1.data[f]), v2 = st(r2.data[f]);
+                <b>return</b> v1 &gt; v2 ? 1 : (v1 &lt; v2 ? -1 : 0);
+            };
+            <b>this</b>.data.sort(s.direction, fn);
+            <b>if</b>(this.snapshot &amp;&amp; <b>this</b>.snapshot != <b>this</b>.data){
+                <b>this</b>.snapshot.sort(s.direction, fn);
+            }
+        }
+    },
+
+    <i>/**
+     * Sets the <b>default</b> sort column and order to be used by the next load operation.
+     * @param {String} fieldName The name of the field to sort by.
+     * @param {String} dir (optional) The sort order, &quot;ASC&quot; or &quot;DESC&quot; (defaults to &quot;ASC&quot;)
+     */</i>
+    setDefaultSort : <b>function</b>(field, dir){
+        <b>this</b>.sortInfo = {field: field, direction: dir ? dir.toUpperCase() : &quot;ASC&quot;};
+    },
+
+    <i>/**
+     * Sort the Records.
+     * If remote sorting is used, the sort is performed on the server, and the cache is
+     * reloaded. If local sorting is used, the cache is sorted internally.
+     * @param {String} fieldName The name of the field to sort by.
+     * @param {String} dir (optional) The sort order, &quot;ASC&quot; or &quot;DESC&quot; (defaults to &quot;ASC&quot;)
+     */</i>
+    sort : <b>function</b>(fieldName, dir){
+        <b>var</b> f = <b>this</b>.fields.get(fieldName);
+        <b>if</b>(!dir){
+            <b>if</b>(this.sortInfo &amp;&amp; <b>this</b>.sortInfo.field == f.name){ <i>// toggle sort dir</i>
+                dir = (<b>this</b>.sortToggle[f.name] || &quot;ASC&quot;).toggle(&quot;ASC&quot;, &quot;DESC&quot;);
+            }<b>else</b>{
+                dir = f.sortDir;
+            }
+        }
+        <b>this</b>.sortToggle[f.name] = dir;
+        <b>this</b>.sortInfo = {field: f.name, direction: dir};
+        <b>if</b>(!<b>this</b>.remoteSort){
+            <b>this</b>.applySort();
+            <b>this</b>.fireEvent(&quot;datachanged&quot;, <b>this</b>);
+        }<b>else</b>{
+            <b>this</b>.load(<b>this</b>.lastOptions);
+        }
+    },
+
+    <i>/**
+     * Calls the specified <b>function</b> for each of the Records <b>in</b> the cache.
+     * @param {Function} fn The <b>function</b> to call. The Record is passed as the first parameter.
+     * Returning &lt;em&gt;false&lt;/em&gt; aborts and exits the iteration.
+     * @param {Object} scope (optional) The scope <b>in</b> which to call the <b>function</b> (defaults to the Record).
+     */</i>
+    each : <b>function</b>(fn, scope){
+        <b>this</b>.data.each(fn, scope);
+    },
+
+    <i>/**
+     * Get all records modified since the last load, or since the last commit.
+     * @<b>return</b> {Ext.data.Record[]} An array of Records containing outstanding modifications.
+     */</i>
+    getModifiedRecords : <b>function</b>(){
+        <b>return</b> this.modified;
+    },
+
+    <i>// private</i>
+    createFilterFn : <b>function</b>(property, value, anyMatch){
+        <b>if</b>(!value.exec){ <i>// not a regex</i>
+            value = String(value);
+            <b>if</b>(value.length == 0){
+                <b>return</b> false;
+            }
+            value = <b>new</b> RegExp((anyMatch === true ? <em>''</em> : <em>'^'</em>) + Ext.escapeRe(value), &quot;i&quot;);
+        }
+        <b>return</b> function(r){
+            <b>return</b> value.test(r.data[property]);
+        };
+    },
+
+    <i>/**
+     * Sums the value of &lt;i&gt;property&lt;/i&gt; <b>for</b> each record between start and end and returns the result.
+     * @param {String} property A field on your records
+     * @param {Number} start The record index to start at (defaults to 0)
+     * @param {Number} end The last record index to include (defaults to length - 1)
+     * @<b>return</b> {Number} The sum
+     */</i>
+    sum : <b>function</b>(property, start, end){
+        <b>var</b> rs = <b>this</b>.data.items, v = 0;
+        start = start || 0;
+        end = (end || end === 0) ? end : rs.length-1;
+
+        <b>for</b>(var i = start; i &lt;= end; i++){
+            v += (rs[i].data[property] || 0);
+        }
+        <b>return</b> v;
+    },
+
+    <i>/**
+     * Filter the records by a specified property.
+     * @param {String} field A field on your records
+     * @param {String/RegExp} value Either a string that the field
+     * should start <b>with</b> or a RegExp to test against the field
+     * @param {Boolean} anyMatch True to match any part not just the beginning
+     */</i>
+    filter : <b>function</b>(property, value, anyMatch){
+        <b>var</b> fn = <b>this</b>.createFilterFn(property, value, anyMatch);
+        <b>return</b> fn ? <b>this</b>.filterBy(fn) : <b>this</b>.clearFilter();
+    },
+
+    <i>/**
+     * Filter by a <b>function</b>. The specified <b>function</b> will be called <b>with</b> each
+     * record <b>in</b> this data source. If the <b>function</b> returns true the record is included,
+     * otherwise it is filtered.
+     * @param {Function} fn The <b>function</b> to be called, it will receive 2 args (record, id)
+     * @param {Object} scope (optional) The scope of the <b>function</b> (defaults to <b>this</b>)
+     */</i>
+    filterBy : <b>function</b>(fn, scope){
+        <b>this</b>.snapshot = <b>this</b>.snapshot || <b>this</b>.data;
+        <b>this</b>.data = <b>this</b>.queryBy(fn, scope||<b>this</b>);
+        <b>this</b>.fireEvent(&quot;datachanged&quot;, <b>this</b>);
+    },
+
+    <i>/**
+     * Query the records by a specified property.
+     * @param {String} field A field on your records
+     * @param {String/RegExp} value Either a string that the field
+     * should start <b>with</b> or a RegExp to test against the field
+     * @param {Boolean} anyMatch True to match any part not just the beginning
+     * @<b>return</b> {MixedCollection} Returns an Ext.util.MixedCollection of the matched records
+     */</i>
+    query : <b>function</b>(property, value, anyMatch){
+        <b>var</b> fn = <b>this</b>.createFilterFn(property, value, anyMatch);
+        <b>return</b> fn ? <b>this</b>.queryBy(fn) : <b>this</b>.data.clone();
+    },
+
+    <i>/**
+     * Query by a <b>function</b>. The specified <b>function</b> will be called <b>with</b> each
+     * record <b>in</b> this data source. If the <b>function</b> returns true the record is included
+     * <b>in</b> the results.
+     * @param {Function} fn The <b>function</b> to be called, it will receive 2 args (record, id)
+     * @param {Object} scope (optional) The scope of the <b>function</b> (defaults to <b>this</b>)
+      @<b>return</b> {MixedCollection} Returns an Ext.util.MixedCollection of the matched records
+     **/</i>
+    queryBy : <b>function</b>(fn, scope){
+        <b>var</b> data = <b>this</b>.snapshot || <b>this</b>.data;
+        <b>return</b> data.filterBy(fn, scope||<b>this</b>);
+    },
+
+    <i>/**
+     * Collects unique values <b>for</b> a particular dataIndex from <b>this</b> store.
+     * @param {String} dataIndex The property to collect
+     * @param {Boolean} allowNull (optional) Pass true to allow null, undefined or empty string values
+     * @param {Boolean} bypassFilter (optional) Pass true to collect from all records, even ones which are filtered
+     * @<b>return</b> {Array} An array of the unique values
+     **/</i>
+    collect : <b>function</b>(dataIndex, allowNull, bypassFilter){
+        <b>var</b> d = (bypassFilter === true &amp;&amp; <b>this</b>.snapshot) ?
+                <b>this</b>.snapshot.items : <b>this</b>.data.items;
+        <b>var</b> v, sv, r = [], l = {};
+        <b>for</b>(var i = 0, len = d.length; i &lt; len; i++){
+            v = d[i].data[dataIndex];
+            sv = String(v);
+            <b>if</b>((allowNull || !Ext.isEmpty(v)) &amp;&amp; !l[sv]){
+                l[sv] = true;
+                r[r.length] = v;
+            }
+        }
+        <b>return</b> r;
+    },
+
+    <i>/**
+     * Revert to a view of the Record cache <b>with</b> no filtering applied.
+     * @param {Boolean} suppressEvent If true the filter is cleared silently without notifying listeners
+     */</i>
+    clearFilter : <b>function</b>(suppressEvent){
+        <b>if</b>(this.snapshot &amp;&amp; <b>this</b>.snapshot != <b>this</b>.data){
+            <b>this</b>.data = <b>this</b>.snapshot;
+            <b>delete</b> this.snapshot;
+            <b>if</b>(suppressEvent !== true){
+                <b>this</b>.fireEvent(&quot;datachanged&quot;, <b>this</b>);
+            }
+        }
+    },
+
+    <i>// private</i>
+    afterEdit : <b>function</b>(record){
+        <b>if</b>(this.modified.indexOf(record) == -1){
+            <b>this</b>.modified.push(record);
+        }
+        <b>this</b>.fireEvent(&quot;update&quot;, <b>this</b>, record, Ext.data.Record.EDIT);
+    },
+
+    <i>// private</i>
+    afterReject : <b>function</b>(record){
+        <b>this</b>.modified.remove(record);
+        <b>this</b>.fireEvent(&quot;update&quot;, <b>this</b>, record, Ext.data.Record.REJECT);
+    },
+
+    <i>// private</i>
+    afterCommit : <b>function</b>(record){
+        <b>this</b>.modified.remove(record);
+        <b>this</b>.fireEvent(&quot;update&quot;, <b>this</b>, record, Ext.data.Record.COMMIT);
+    },
+
+    <i>/**
+     * Commit all Records <b>with</b> outstanding changes. To handle updates <b>for</b> changes, subscribe to the
+     * Store's &quot;update&quot; event, and perform updating when the third parameter is Ext.data.Record.COMMIT.
+     */</i>
+    commitChanges : <b>function</b>(){
+        <b>var</b> m = <b>this</b>.modified.slice(0);
+        <b>this</b>.modified = [];
+        <b>for</b>(var i = 0, len = m.length; i &lt; len; i++){
+            m[i].commit();
+        }
+    },
+
+    <i>/**
+     * Cancel outstanding changes on all changed records.
+     */</i>
+    rejectChanges : <b>function</b>(){
+        <b>var</b> m = <b>this</b>.modified.slice(0);
+        <b>this</b>.modified = [];
+        <b>for</b>(var i = 0, len = m.length; i &lt; len; i++){
+            m[i].reject();
+        }
+    },
+
+    onMetaChange : <b>function</b>(meta, rtype, o){
+        <b>this</b>.recordType = rtype;
+        <b>this</b>.fields = rtype.prototype.fields;
+        <b>delete</b> this.snapshot;
+        <b>this</b>.sortInfo = meta.sortInfo;
+        <b>this</b>.modified = [];
+        <b>this</b>.fireEvent(<em>'metachange'</em>, <b>this</b>, <b>this</b>.reader.meta);
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

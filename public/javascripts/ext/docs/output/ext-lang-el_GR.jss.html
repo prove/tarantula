@@ -1,0 +1,172 @@
+<html><head><title>ext-lang-el_GR.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-el_GR.js</h1><pre class="highlighted"><code><i>/**
+ * Greek translation
+ * By thesilentman (utf8 encoding)
+ * 06 May 2007
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;&Icirc;ú&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Iuml;Ü&Iuml;å&Iuml;Å&Iuml;Ñ&Iuml;â&Iuml;É&Icirc;&middot; &Icirc;&acute;&Icirc;&micro;&Icirc;&acute;&Icirc;&iquest;&Icirc;&frac14;&Icirc;&shy;&Icirc;&frac12;&Iuml;â&Icirc;&frac12;...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} &Icirc;ï&Iuml;Ä&Icirc;&sup1;&Icirc;&raquo;&Icirc;&micro;&Icirc;&sup3;&Icirc;&frac14;&Icirc;&shy;&Icirc;&frac12;&Icirc;&micro;&Iuml;Ç &Iuml;É&Icirc;&micro;&Icirc;&sup1;&Iuml;Å&Icirc;&shy;&Iuml;Ç&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;&Icirc;ö&Icirc;&raquo;&Icirc;&micro;&Icirc;&macr;&Iuml;É&Iuml;Ñ&Icirc;&micro; &Iuml;Ñ&Icirc;&iquest; tab&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;&Icirc;&curren;&Icirc;&iquest; &Iuml;Ä&Icirc;&micro;&Iuml;Å&Icirc;&sup1;&Icirc;&micro;&Iuml;á&Iuml;å&Icirc;&frac14;&Icirc;&micro;&Icirc;&frac12;&Icirc;&iquest; &Iuml;Ñ&Icirc;&iquest;&Iuml;Ö &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest;&Iuml;Ö &Icirc;&acute;&Icirc;&micro;&Icirc;&frac12; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&plusmn;&Iuml;Ä&Icirc;&iquest;&Icirc;&acute;&Icirc;&micro;&Icirc;&ordm;&Iuml;Ñ&Iuml;å&quot;;
+}
+
+<b>if</b>(Ext.LoadMask){
+    Ext.LoadMask.prototype.msg = &quot;&Icirc;ú&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Iuml;Ü&Iuml;å&Iuml;Å&Iuml;Ñ&Iuml;â&Iuml;É&Icirc;&middot; &Icirc;&acute;&Icirc;&micro;&Icirc;&acute;&Icirc;&iquest;&Icirc;&frac14;&Icirc;&shy;&Icirc;&frac12;&Iuml;â&Icirc;&frac12;...&quot;;
+}
+
+Date.monthNames = [
+   &quot;&Icirc;ô&Icirc;&plusmn;&Icirc;&frac12;&Icirc;&iquest;&Iuml;Ö&Icirc;&not;&Iuml;Å&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;&brvbar;&Icirc;&micro;&Icirc;&sup2;&Iuml;Å&Icirc;&iquest;&Iuml;Ö&Icirc;&not;&Iuml;Å&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;ú&Icirc;&not;&Iuml;Å&Iuml;Ñ&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;ë&Iuml;Ä&Iuml;Å&Icirc;&macr;&Icirc;&raquo;&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;ú&Icirc;&not;&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;ô&Icirc;&iquest;&Iuml;ç&Icirc;&frac12;&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;ô&Icirc;&iquest;&Iuml;ç&Icirc;&raquo;&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;ë&Iuml;ç&Icirc;&sup3;&Icirc;&iquest;&Iuml;Ö&Iuml;É&Iuml;Ñ&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;&pound;&Icirc;&micro;&Iuml;Ä&Iuml;Ñ&Icirc;&shy;&Icirc;&frac14;&Icirc;&sup2;&Iuml;Å&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;ü&Icirc;&ordm;&Iuml;Ñ&Iuml;é&Icirc;&sup2;&Iuml;Å&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;ù&Icirc;&iquest;&Icirc;&shy;&Icirc;&frac14;&Icirc;&sup2;&Iuml;Å&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;,
+   &quot;&Icirc;î&Icirc;&micro;&Icirc;&ordm;&Icirc;&shy;&Icirc;&frac14;&Icirc;&sup2;&Iuml;Å&Icirc;&sup1;&Icirc;&iquest;&Iuml;Ç&quot;
+];
+
+Date.dayNames = [
+   &quot;&Icirc;ö&Iuml;Ö&Iuml;Å&Icirc;&sup1;&Icirc;&plusmn;&Icirc;&ordm;&Icirc;&reg;&quot;,
+   &quot;&Icirc;î&Icirc;&micro;&Iuml;Ö&Iuml;Ñ&Icirc;&shy;&Iuml;Å&Icirc;&plusmn;&quot;,
+   &quot;&Icirc;&curren;&Iuml;Å&Icirc;&macr;&Iuml;Ñ&Icirc;&middot;&quot;,
+   &quot;&Icirc;&curren;&Icirc;&micro;&Iuml;Ñ&Icirc;&not;&Iuml;Å&Iuml;Ñ&Icirc;&middot;&quot;,
+   &quot;&Icirc;&nbsp;&Icirc;&shy;&Icirc;&frac14;&Iuml;Ä&Iuml;Ñ&Icirc;&middot;&quot;,
+   &quot;&Icirc;&nbsp;&Icirc;&plusmn;&Iuml;Å&Icirc;&plusmn;&Iuml;É&Icirc;&ordm;&Icirc;&micro;&Iuml;Ö&Icirc;&reg;&quot;,
+   &quot;&Icirc;&pound;&Icirc;&not;&Icirc;&sup2;&Icirc;&sup2;&Icirc;&plusmn;&Iuml;Ñ&Icirc;&iquest;&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;OK&quot;,
+      cancel : &quot;&Icirc;Ü&Icirc;&ordm;&Iuml;Ö&Iuml;Å&Icirc;&iquest;&quot;,
+      yes    : &quot;&Icirc;ù&Icirc;&plusmn;&Icirc;&sup1;&quot;,
+      no     : &quot;&Icirc;å&Iuml;á&Icirc;&sup1;&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;d/m/Y&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;&Icirc;&pound;&Icirc;&reg;&Icirc;&frac14;&Icirc;&micro;&Iuml;Å&Icirc;&plusmn;&quot;,
+      minText           : &quot;&Icirc;ó &Icirc;ó&Icirc;&frac14;&Icirc;&micro;&Iuml;Å&Icirc;&iquest;&Icirc;&frac14;&Icirc;&middot;&Icirc;&frac12;&Icirc;&macr;&Icirc;&plusmn; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Iuml;Ä&Iuml;Å&Icirc;&iquest;&Icirc;&middot;&Icirc;&sup3;&Icirc;&iquest;&Iuml;ç&Icirc;&frac14;&Icirc;&micro;&Icirc;&frac12;&Icirc;&middot; &Icirc;&plusmn;&Iuml;Ä&Iuml;å &Iuml;Ñ&Icirc;&middot;&Icirc;&frac12; &Iuml;Ä&Icirc;&plusmn;&Icirc;&raquo;&Icirc;&plusmn;&Icirc;&sup1;&Iuml;å&Iuml;Ñ&Icirc;&micro;&Iuml;Å&Icirc;&middot; &Icirc;&plusmn;&Iuml;Ä&Icirc;&iquest;&Icirc;&acute;&Icirc;&micro;&Icirc;&ordm;&Iuml;Ñ&Icirc;&reg;&quot;,
+      maxText           : &quot;&Icirc;ó &Icirc;ó&Icirc;&frac14;&Icirc;&micro;&Iuml;Å&Icirc;&iquest;&Icirc;&frac14;&Icirc;&middot;&Icirc;&frac12;&Icirc;&macr;&Icirc;&plusmn; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&frac14;&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Icirc;&sup3;&Icirc;&micro;&Icirc;&frac12;&Icirc;&shy;&Iuml;É&Iuml;Ñ&Icirc;&micro;&Iuml;Å&Icirc;&middot; &Icirc;&plusmn;&Iuml;Ä&Iuml;å &Iuml;Ñ&Icirc;&middot;&Icirc;&frac12; &Icirc;&frac12;&Icirc;&micro;&Iuml;å&Iuml;Ñ&Icirc;&micro;&Iuml;Å&Icirc;&middot; &Icirc;&plusmn;&Iuml;Ä&Icirc;&iquest;&Icirc;&acute;&Icirc;&micro;&Icirc;&ordm;&Iuml;Ñ&Icirc;&reg;&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames	: Date.monthNames,
+      dayNames		: Date.dayNames,
+      nextText          : <em>'&Icirc;ï&Iuml;Ä&Iuml;å&Icirc;&frac14;&Icirc;&micro;&Icirc;&frac12;&Icirc;&iquest;&Iuml;Ç &Icirc;ú&Icirc;&reg;&Icirc;&frac12;&Icirc;&plusmn;&Iuml;Ç (Control+&Icirc;î&Icirc;&micro;&Icirc;&frac34;&Icirc;&macr; &Icirc;í&Icirc;&shy;&Icirc;&raquo;&Icirc;&iquest;&Iuml;Ç)'</em>,
+      prevText          : <em>'&Icirc;&nbsp;&Iuml;Å&Icirc;&iquest;&Icirc;&middot;&Icirc;&sup3;&Icirc;&iquest;&Iuml;ç&Icirc;&frac14;&Icirc;&micro;&Icirc;&frac12;&Icirc;&iquest;&Iuml;Ç &Icirc;ú&Icirc;&reg;&Icirc;&frac12;&Icirc;&plusmn;&Iuml;Ç (Control + &Icirc;ë&Iuml;Å&Icirc;&sup1;&Iuml;É&Iuml;Ñ&Icirc;&micro;&Iuml;Å&Iuml;å &Icirc;í&Icirc;&shy;&Icirc;&raquo;&Icirc;&iquest;&Iuml;Ç)'</em>,
+      monthYearText     : <em>'&Icirc;ï&Iuml;Ä&Icirc;&sup1;&Icirc;&raquo;&Icirc;&iquest;&Icirc;&sup3;&Icirc;&reg; &Icirc;ú&Icirc;&middot;&Icirc;&frac12;&Iuml;å&Iuml;Ç (Control + &Icirc;ï&Iuml;Ä&Icirc;&not;&Icirc;&frac12;&Iuml;â/&Icirc;ö&Icirc;&not;&Iuml;Ñ&Iuml;â &Icirc;í&Icirc;&shy;&Icirc;&raquo;&Icirc;&iquest;&Iuml;Ç &Icirc;&sup3;&Icirc;&sup1;&Icirc;&plusmn; &Icirc;&frac14;&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Icirc;&sup2;&Icirc;&iquest;&Icirc;&raquo;&Icirc;&reg; &Icirc;&micro;&Iuml;Ñ&Iuml;é&Icirc;&frac12;)'</em>,
+      todayTip          : &quot;{0} (&Icirc;&nbsp;&Icirc;õ&Icirc;&reg;&Icirc;&ordm;&Iuml;Ñ&Iuml;Å&Icirc;&iquest; &Icirc;î&Icirc;&sup1;&Icirc;&plusmn;&Iuml;É&Iuml;Ñ&Icirc;&reg;&Icirc;&frac14;&Icirc;&plusmn;&Iuml;Ñ&Icirc;&iquest;&Iuml;Ç)&quot;,
+      format            : &quot;d/m/y&quot;
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;&Icirc;&pound;&Icirc;&micro;&Icirc;&raquo;&Icirc;&macr;&Icirc;&acute;&Icirc;&plusmn;&quot;,
+      afterPageText  : &quot;&Icirc;&plusmn;&Iuml;Ä&Iuml;å {0}&quot;,
+      firstText      : &quot;&Icirc;&nbsp;&Iuml;Å&Iuml;é&Iuml;Ñ&Icirc;&middot; &Icirc;&pound;&Icirc;&micro;&Icirc;&raquo;&Icirc;&macr;&Icirc;&acute;&Icirc;&plusmn;&quot;,
+      prevText       : &quot;&Icirc;&nbsp;&Iuml;Å&Icirc;&iquest;&Icirc;&middot;&Icirc;&sup3;&Icirc;&iquest;&Iuml;ç&Icirc;&frac14;&Icirc;&micro;&Icirc;&frac12;&Icirc;&middot; &Icirc;&pound;&Icirc;&micro;&Icirc;&raquo;&Icirc;&macr;&Icirc;&acute;&Icirc;&plusmn;&quot;,
+      nextText       : &quot;&Icirc;ï&Iuml;Ä&Iuml;å&Icirc;&frac14;&Icirc;&micro;&Icirc;&frac12;&Icirc;&middot; &Icirc;&pound;&Icirc;&micro;&Icirc;&raquo;&Icirc;&macr;&Icirc;&acute;&Icirc;&plusmn;&quot;,
+      lastText       : &quot;&Icirc;&curren;&Icirc;&micro;&Icirc;&raquo;&Icirc;&micro;&Iuml;Ö&Iuml;Ñ&Icirc;&plusmn;&Icirc;&macr;&Icirc;&plusmn; &Icirc;&pound;&Icirc;&micro;&Icirc;&raquo;&Icirc;&macr;&Icirc;&acute;&Icirc;&plusmn;&quot;,
+      refreshText    : &quot;&Icirc;ë&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&frac12;&Icirc;&shy;&Iuml;â&Iuml;É&Icirc;&middot;&quot;,
+      displayMsg     : &quot;&Icirc;ï&Icirc;&frac14;&Iuml;Ü&Icirc;&not;&Icirc;&frac12;&Icirc;&sup1;&Iuml;É&Icirc;&middot; {0} - {1} &Icirc;&plusmn;&Iuml;Ä&Iuml;å {2}&quot;,
+      emptyMsg       : <em>'&Icirc;î&Icirc;&micro;&Icirc;&frac12; &Iuml;Ö&Iuml;Ä&Icirc;&not;&Iuml;Å&Iuml;á&Icirc;&iquest;&Iuml;Ö&Icirc;&frac12; &Icirc;&acute;&Icirc;&micro;&Icirc;&acute;&Icirc;&iquest;&Icirc;&frac14;&Icirc;&shy;&Icirc;&frac12;&Icirc;&plusmn;'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;&Icirc;&curren;&Icirc;&iquest; &Icirc;&frac14;&Icirc;&sup1;&Icirc;&ordm;&Iuml;Å&Iuml;å&Iuml;Ñ&Icirc;&micro;&Iuml;Å&Icirc;&iquest; &Icirc;&plusmn;&Iuml;Ä&Icirc;&iquest;&Icirc;&acute;&Icirc;&micro;&Icirc;&ordm;&Iuml;Ñ&Iuml;å &Icirc;&frac14;&Icirc;&reg;&Icirc;&ordm;&Icirc;&iquest;&Iuml;Ç &Icirc;&sup3;&Icirc;&sup1;&Icirc;&plusmn; &Iuml;Ñ&Icirc;&iquest; &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; {0}&quot;,
+      maxLengthText : &quot;&Icirc;&curren;&Icirc;&iquest; &Icirc;&frac14;&Icirc;&micro;&Icirc;&sup3;&Icirc;&plusmn;&Icirc;&raquo;&Iuml;ç&Iuml;Ñ&Icirc;&micro;&Iuml;Å&Icirc;&iquest; &Icirc;&plusmn;&Iuml;Ä&Icirc;&iquest;&Icirc;&acute;&Icirc;&micro;&Icirc;&ordm;&Iuml;Ñ&Iuml;å &Icirc;&frac14;&Icirc;&reg;&Icirc;&ordm;&Icirc;&iquest;&Iuml;Ç &Icirc;&sup3;&Icirc;&sup1;&Icirc;&plusmn; &Iuml;Ñ&Icirc;&iquest; &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; {0}&quot;,
+      blankText     : &quot;&Icirc;&curren;&Icirc;&iquest; &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest; &Icirc;&shy;&Icirc;&sup1;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Iuml;Ö&Iuml;Ä&Icirc;&iquest;&Iuml;á&Iuml;Å&Icirc;&micro;&Iuml;â&Iuml;Ñ&Icirc;&sup1;&Icirc;&ordm;&Iuml;å&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;&Icirc;ó &Icirc;&frac14;&Icirc;&sup1;&Icirc;&ordm;&Iuml;Å&Iuml;å&Iuml;Ñ&Icirc;&micro;&Iuml;Å&Icirc;&middot; &Iuml;Ñ&Icirc;&sup1;&Icirc;&frac14;&Icirc;&reg; &Iuml;Ñ&Icirc;&iquest;&Iuml;Ö &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest;&Iuml;Ö &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; {0}&quot;,
+      maxText : &quot;&Icirc;ó &Icirc;&frac14;&Icirc;&micro;&Icirc;&sup3;&Icirc;&plusmn;&Icirc;&raquo;&Iuml;ç&Iuml;Ñ&Icirc;&micro;&Iuml;Å&Icirc;&middot; &Iuml;Ñ&Icirc;&sup1;&Icirc;&frac14;&Icirc;&reg; &Iuml;Ñ&Icirc;&iquest;&Iuml;Ö &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest;&Iuml;Ö &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; {0}&quot;,
+      nanText : &quot;{0} &Icirc;&acute;&Icirc;&micro;&Icirc;&frac12; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&plusmn;&Iuml;Ä&Icirc;&iquest;&Icirc;&acute;&Icirc;&micro;&Icirc;&ordm;&Iuml;Ñ&Iuml;å&Iuml;Ç &Icirc;&plusmn;&Iuml;Å&Icirc;&sup1;&Icirc;&cedil;&Icirc;&frac14;&Iuml;å&Iuml;Ç&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;&Icirc;ë&Icirc;&frac12;&Icirc;&micro;&Icirc;&frac12;&Icirc;&micro;&Iuml;Å&Icirc;&sup3;&Iuml;å&quot;,
+      disabledDatesText : &quot;&Icirc;ë&Icirc;&frac12;&Icirc;&micro;&Icirc;&frac12;&Icirc;&micro;&Iuml;Å&Icirc;&sup3;&Iuml;å&quot;,
+      minText           : &quot;&Icirc;ó &Icirc;&middot;&Icirc;&frac14;&Icirc;&micro;&Iuml;Å&Icirc;&iquest;&Icirc;&frac14;&Icirc;&middot;&Icirc;&frac12;&Icirc;&macr;&Icirc;&plusmn; &Icirc;&plusmn;&Iuml;Ö&Iuml;Ñ&Icirc;&iquest;&Iuml;ç &Iuml;Ñ&Icirc;&iquest;&Iuml;Ö &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest;&Iuml;Ö &Iuml;Ä&Iuml;Å&Icirc;&shy;&Iuml;Ä&Icirc;&micro;&Icirc;&sup1; &Icirc;&frac12;&Icirc;&plusmn; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&frac14;&Icirc;&micro;&Iuml;Ñ&Icirc;&not; &Iuml;Ñ&Icirc;&middot; {0}&quot;,
+      maxText           : &quot;&Icirc;ó &Icirc;&middot;&Icirc;&frac14;&Icirc;&micro;&Iuml;Å&Icirc;&iquest;&Icirc;&frac14;&Icirc;&middot;&Icirc;&frac12;&Icirc;&macr;&Icirc;&plusmn; &Icirc;&plusmn;&Iuml;Ö&Iuml;Ñ&Icirc;&iquest;&Iuml;ç &Iuml;Ñ&Icirc;&iquest;&Iuml;Ö &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest;&Iuml;Ö &Iuml;Ä&Iuml;Å&Icirc;&shy;&Iuml;Ä&Icirc;&micro;&Icirc;&sup1; &Icirc;&frac12;&Icirc;&plusmn; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Iuml;Ä&Iuml;Å&Icirc;&sup1;&Icirc;&frac12; &Iuml;Ñ&Icirc;&middot;&Iuml;Ç {0}&quot;,
+      invalidText       : &quot;{0} &Icirc;&acute;&Icirc;&micro;&Icirc;&frac12; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&shy;&Icirc;&sup3;&Icirc;&ordm;&Iuml;Ö&Iuml;Å&Icirc;&middot; &Icirc;&middot;&Icirc;&frac14;&Icirc;&micro;&Iuml;Å&Icirc;&iquest;&Icirc;&frac14;&Icirc;&middot;&Icirc;&frac12;&Icirc;&macr;&Icirc;&plusmn; - &Iuml;Ä&Iuml;Å&Icirc;&shy;&Iuml;Ä&Icirc;&micro;&Icirc;&sup1; &Icirc;&frac12;&Icirc;&plusmn; &Icirc;&micro;&Icirc;&macr;&Icirc;&frac12;&Icirc;&plusmn;&Icirc;&sup1; &Iuml;É&Iuml;Ñ&Icirc;&middot; &Icirc;&frac14;&Icirc;&iquest;&Iuml;Å&Iuml;Ü&Icirc;&reg; {1}&quot;,
+      format            : &quot;d/m/y&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;&Icirc;ú&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Iuml;Ü&Iuml;å&Iuml;Å&Iuml;Ñ&Iuml;â&Iuml;É&Icirc;&middot; &Icirc;&acute;&Icirc;&micro;&Icirc;&acute;&Icirc;&iquest;&Icirc;&frac14;&Icirc;&shy;&Icirc;&frac12;&Iuml;â&Icirc;&frac12;...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'&Icirc;&curren;&Icirc;&iquest; &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest; &Icirc;&acute;&Icirc;&shy;&Iuml;á&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&frac14;&Iuml;å&Icirc;&frac12;&Icirc;&iquest; &Icirc;&acute;&Icirc;&sup1;&Icirc;&micro;&Iuml;Ö&Icirc;&cedil;&Iuml;ç&Icirc;&frac12;&Iuml;É&Icirc;&micro;&Icirc;&sup1;&Iuml;Ç Email &Iuml;É&Icirc;&micro; &Icirc;&frac14;&Icirc;&iquest;&Iuml;Å&Iuml;Ü&Icirc;&reg; &quot;user@domain.com&quot;'</em>,
+      urlText      : <em>'&Icirc;&curren;&Icirc;&iquest; &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest; &Icirc;&acute;&Icirc;&shy;&Iuml;á&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&frac14;&Iuml;å&Icirc;&frac12;&Icirc;&iquest; URL &Iuml;É&Icirc;&micro; &Icirc;&frac14;&Icirc;&iquest;&Iuml;Å&Iuml;Ü&Icirc;&reg; &quot;http:/'</em>+<em>'/www.domain.com&quot;'</em>,
+      alphaText    : <em>'&Icirc;&curren;&Icirc;&iquest; &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest; &Icirc;&acute;&Icirc;&shy;&Iuml;á&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&frac14;&Iuml;å&Icirc;&frac12;&Icirc;&iquest; &Iuml;á&Icirc;&plusmn;&Iuml;Å&Icirc;&plusmn;&Icirc;&ordm;&Iuml;Ñ&Icirc;&reg;&Iuml;Å&Icirc;&micro;&Iuml;Ç &Icirc;&ordm;&Icirc;&plusmn;&Icirc;&sup1; _'</em>,
+      alphanumText : <em>'&Icirc;&curren;&Icirc;&iquest; &Iuml;Ä&Icirc;&micro;&Icirc;&acute;&Icirc;&macr;&Icirc;&iquest; &Icirc;&acute;&Icirc;&shy;&Iuml;á&Icirc;&micro;&Iuml;Ñ&Icirc;&plusmn;&Icirc;&sup1; &Icirc;&frac14;&Iuml;å&Icirc;&frac12;&Icirc;&iquest; &Iuml;á&Icirc;&plusmn;&Iuml;Å&Icirc;&plusmn;&Icirc;&ordm;&Iuml;Ñ&Icirc;&reg;&Iuml;Å&Icirc;&micro;&Iuml;Ç, &Icirc;&plusmn;&Iuml;Å&Icirc;&sup1;&Icirc;&cedil;&Icirc;&frac14;&Icirc;&iquest;&Iuml;ç&Iuml;Ç &Icirc;&ordm;&Icirc;&plusmn;&Icirc;&sup1; _'</em>
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;&Icirc;ë&Iuml;ç&Icirc;&frac34;&Icirc;&iquest;&Iuml;Ö&Iuml;É&Icirc;&plusmn; &Iuml;Ñ&Icirc;&plusmn;&Icirc;&frac34;&Icirc;&sup1;&Icirc;&frac12;&Iuml;å&Icirc;&frac14;&Icirc;&middot;&Iuml;É&Icirc;&middot;&quot;,
+      sortDescText : &quot;&Icirc;&brvbar;&Icirc;&cedil;&Icirc;&macr;&Icirc;&frac12;&Icirc;&iquest;&Iuml;Ö&Iuml;É&Icirc;&plusmn; &Iuml;Ñ&Icirc;&plusmn;&Icirc;&frac34;&Icirc;&sup1;&Icirc;&frac12;&Iuml;å&Icirc;&frac14;&Icirc;&middot;&Iuml;É&Icirc;&middot;&quot;,
+      lockText     : &quot;&Icirc;ö&Icirc;&raquo;&Icirc;&micro;&Icirc;&macr;&Icirc;&acute;&Iuml;â&Icirc;&frac14;&Icirc;&plusmn; &Iuml;É&Iuml;Ñ&Icirc;&reg;&Icirc;&raquo;&Icirc;&middot;&Iuml;Ç&quot;,
+      unlockText   : &quot;&Icirc;û&Icirc;&micro;&Icirc;&ordm;&Icirc;&raquo;&Icirc;&micro;&Icirc;&macr;&Icirc;&acute;&Iuml;â&Icirc;&frac14;&Icirc;&plusmn; &Iuml;É&Iuml;Ñ&Icirc;&reg;&Icirc;&raquo;&Icirc;&middot;&Iuml;Ç&quot;,
+      columnsText  : &quot;&Icirc;&pound;&Iuml;Ñ&Icirc;&reg;&Icirc;&raquo;&Icirc;&micro;&Iuml;Ç&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;&Icirc;å&Icirc;&frac12;&Icirc;&iquest;&Icirc;&frac14;&Icirc;&plusmn;&quot;,
+      valueText  : &quot;&Icirc;&nbsp;&Icirc;&micro;&Iuml;Å&Icirc;&sup1;&Icirc;&micro;&Iuml;á&Iuml;å&Icirc;&frac14;&Icirc;&micro;&Icirc;&frac12;&Icirc;&iquest;&quot;,
+      dateFormat : &quot;m/d/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;&Icirc;&curren;&Iuml;Å&Icirc;&plusmn;&Icirc;&sup2;&Icirc;&reg;&Icirc;&frac34;&Iuml;Ñ&Icirc;&micro; &Icirc;&sup3;&Icirc;&sup1;&Icirc;&plusmn; &Icirc;&plusmn;&Icirc;&raquo;&Icirc;&raquo;&Icirc;&plusmn;&Icirc;&sup3;&Icirc;&reg; &Icirc;&frac14;&Icirc;&micro;&Icirc;&sup3;&Icirc;&shy;&Icirc;&cedil;&Icirc;&iquest;&Iuml;Ö&Iuml;Ç.&quot;,
+      collapsibleSplitTip : &quot;&Icirc;&curren;&Iuml;Å&Icirc;&plusmn;&Icirc;&sup2;&Icirc;&reg;&Icirc;&frac34;&Iuml;Ñ&Icirc;&micro; &Icirc;&sup3;&Icirc;&sup1;&Icirc;&plusmn; &Icirc;&plusmn;&Icirc;&raquo;&Icirc;&raquo;&Icirc;&plusmn;&Icirc;&sup3;&Icirc;&reg; &Icirc;&frac14;&Icirc;&micro;&Icirc;&sup3;&Icirc;&shy;&Icirc;&cedil;&Icirc;&iquest;&Iuml;Ö&Iuml;Ç. &Icirc;î&Icirc;&sup1;&Iuml;Ä&Icirc;&raquo;&Iuml;å &Icirc;&ordm;&Icirc;&raquo;&Icirc;&sup1;&Icirc;&ordm; &Icirc;&sup3;&Icirc;&sup1;&Icirc;&plusmn; &Icirc;&plusmn;&Iuml;Ä&Iuml;å&Icirc;&ordm;&Iuml;Å&Iuml;Ö&Iuml;à&Icirc;&middot;.&quot;
+   });
+}
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

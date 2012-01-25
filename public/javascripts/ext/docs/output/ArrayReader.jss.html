@@ -1,0 +1,70 @@
+<html><head><title>ArrayReader.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ArrayReader.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.ArrayReader
+ * @extends Ext.data.DataReader
+ * Data reader class to create an Array of Ext.data.Record objects from an Array.
+ * Each element of that Array represents a row of data fields. The
+ * fields are pulled into a Record object using as a subscript, the &lt;em&gt;mapping&lt;/em&gt; property
+ * of the field definition <b>if</b> it exists, or the field's ordinal position <b>in</b> the definition.&lt;br&gt;
+ * &lt;p&gt;
+ * Example code:.
+ * &lt;pre&gt;&lt;code&gt;
+<b>var</b> RecordDef = Ext.data.Record.create([
+    {name: <em>'name'</em>, mapping: 1},         <i>// &quot;mapping&quot; only needed <b>if</b> an &quot;id&quot; field is present which</i>
+    {name: <em>'occupation'</em>, mapping: 2}    <i>// precludes using the ordinal position as the index.</i>
+]);
+<b>var</b> myReader = <b>new</b> Ext.data.ArrayReader({
+    id: 0                     <i>// The subscript within row Array that provides an ID <b>for</b> the Record (optional)</i>
+}, RecordDef);
+&lt;/code&gt;&lt;/pre&gt;
+ * &lt;p&gt;
+ * This would consume an Array like <b>this</b>:
+ * &lt;pre&gt;&lt;code&gt;
+[ [1, <em>'Bill'</em>, <em>'Gardener'</em>], [2, <em>'Ben'</em>, <em>'Horticulturalist'</em>] ]
+  &lt;/code&gt;&lt;/pre&gt;
+ * @cfg {String} id (optional) The subscript within row Array that provides an ID <b>for</b> the Record
+ * @constructor
+ * Create a <b>new</b> JsonReader
+ * @param {Object} meta Metadata configuration options.
+ * @param {Object} recordType Either an Array of field definition objects
+ * as specified to {@link Ext.data.Record#create},
+ * or an {@link Ext.data.Record} object
+ * created using {@link Ext.data.Record#create}.
+ */</i>
+Ext.data.ArrayReader = <b>function</b>(meta, recordType){
+    Ext.data.ArrayReader.superclass.constructor.call(<b>this</b>, meta, recordType);
+};
+
+Ext.extend(Ext.data.ArrayReader, Ext.data.JsonReader, {
+    <i>/**
+     * Create a data block containing Ext.data.Records from an XML document.
+     * @param {Object} o An Array of row objects which represents the dataset.
+     * @<b>return</b> {Object} data A data block which is used by an Ext.data.Store object as
+     * a cache of Ext.data.Records.
+     */</i>
+    readRecords : <b>function</b>(o){
+        <b>var</b> sid = <b>this</b>.meta ? <b>this</b>.meta.id : null;
+    	<b>var</b> recordType = <b>this</b>.recordType, fields = recordType.prototype.fields;
+    	<b>var</b> records = [];
+    	<b>var</b> root = o;
+	    <b>for</b>(var i = 0; i &lt; root.length; i++){
+		    <b>var</b> n = root[i];
+	        <b>var</b> values = {};
+	        <b>var</b> id = ((sid || sid === 0) &amp;&amp; n[sid] !== undefined &amp;&amp; n[sid] !== &quot;&quot; ? n[sid] : null);
+	        <b>for</b>(var j = 0, jlen = fields.length; j &lt; jlen; j++){
+                <b>var</b> f = fields.items[j];
+                <b>var</b> k = f.mapping !== undefined &amp;&amp; f.mapping !== null ? f.mapping : j;
+                <b>var</b> v = n[k] !== undefined ? n[k] : f.defaultValue;
+                v = f.convert(v);
+                values[f.name] = v;
+            }
+	        <b>var</b> record = <b>new</b> recordType(values, id);
+	        record.json = n;
+	        records[records.length] = record;
+	    }
+	    <b>return</b> {
+	        records : records,
+	        totalRecords : records.length
+	    };
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

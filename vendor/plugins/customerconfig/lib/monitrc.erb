@@ -1,0 +1,21 @@
+#################################################
+### App specific monit settings               ###
+#################################################
+
+<% @app_servers.times do |i|
+   port = @app_port + i %>
+
+check process <%= "#{@app_name}-#{port}" %> with pidfile <%= File.join(RAILS_ROOT, 'tmp', 'pids', "app_server.#{port}.pid") %>
+    start program = "/bin/bash -c 'cd <%= RAILS_ROOT %> && RAILS_ENV=production /usr/bin/rake server:start PORT=<%= port %>'" as uid <%= @tarantula_user %>
+	stop program = "/bin/bash -c 'cd <%= RAILS_ROOT %> && RAILS_ENV=production /usr/bin/rake server:stop PORT=<%= port %>'" as uid <%= @tarantula_user %>
+    if totalmem is greater than 150.0 MB for 10 cycles then restart     # eating up memory?
+    if cpu is greater than 50% for 2 cycles then alert                  # send an email to admin
+    if cpu is greater than 80% for 3 cycles then restart                # hung process?
+    if loadavg(5min) greater than 10 for 8 cycles then restart          # bad, bad, bad
+    if 3 restarts within 5 cycles then timeout                          # something is wrong, call the sys-admin
+    if failed port <%= port %> protocol http                            # check for response
+        with timeout 30 seconds
+        for 2 cycles
+        then restart
+    group <%= @app_name %>
+<% end %>

@@ -1,0 +1,159 @@
+<html><head><title>EditorGrid.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>EditorGrid.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.grid.EditorGrid
+ * @extends Ext.grid.Grid
+ * Class <b>for</b> creating and editable grid.
+ * @param {String/HTMLElement/Ext.Element} container The element into which <b>this</b> grid will be rendered - 
+ * The container MUST have some type of size defined <b>for</b> the grid to fill. The container will be 
+ * automatically set to position relative <b>if</b> it isn't already.
+ * @param {Object} dataSource The data model to bind to
+ * @param {Object} colModel The column model <b>with</b> info about <b>this</b> grid's columns
+ */</i>
+Ext.grid.EditorGrid = <b>function</b>(container, config){
+    Ext.grid.EditorGrid.superclass.constructor.call(<b>this</b>, container, config);
+    <b>this</b>.getGridEl().addClass(&quot;xedit-grid&quot;);
+
+    <b>if</b>(!<b>this</b>.selModel){
+        <b>this</b>.selModel = <b>new</b> Ext.grid.CellSelectionModel();
+    }
+
+    <b>this</b>.activeEditor = null;
+
+	<b>this</b>.addEvents({
+	    <i>/**
+	     * @event beforeedit
+	     * Fires before cell editing is triggered. The edit event object has the following properties &lt;br /&gt;
+	     * &lt;ul style=&quot;padding:5px;padding-left:16px;&quot;&gt;
+	     * &lt;li&gt;grid - This grid&lt;/li&gt;
+	     * &lt;li&gt;record - The record being edited&lt;/li&gt;
+	     * &lt;li&gt;field - The field name being edited&lt;/li&gt;
+	     * &lt;li&gt;value - The value <b>for</b> the field being edited.&lt;/li&gt;
+	     * &lt;li&gt;row - The grid row index&lt;/li&gt;
+	     * &lt;li&gt;column - The grid column index&lt;/li&gt;
+	     * &lt;li&gt;cancel - Set <b>this</b> to true to cancel the edit or <b>return</b> false from your handler.&lt;/li&gt;
+	     * &lt;/ul&gt;
+	     * @param {Object} e An edit event (see above <b>for</b> description)
+	     */</i>
+	    &quot;beforeedit&quot; : true,
+	    <i>/**
+	     * @event afteredit
+	     * Fires after a cell is edited. &lt;br /&gt;
+	     * &lt;ul style=&quot;padding:5px;padding-left:16px;&quot;&gt;
+	     * &lt;li&gt;grid - This grid&lt;/li&gt;
+	     * &lt;li&gt;record - The record being edited&lt;/li&gt;
+	     * &lt;li&gt;field - The field name being edited&lt;/li&gt;
+	     * &lt;li&gt;value - The value being set&lt;/li&gt;
+	     * &lt;li&gt;originalValue - The original value <b>for</b> the field, before the edit.&lt;/li&gt;
+	     * &lt;li&gt;row - The grid row index&lt;/li&gt;
+	     * &lt;li&gt;column - The grid column index&lt;/li&gt;
+	     * &lt;/ul&gt;
+	     * @param {Object} e An edit event (see above <b>for</b> description)
+	     */</i>
+	    &quot;afteredit&quot; : true,
+	    <i>/**
+	     * @event validateedit
+	     * Fires after a cell is edited, but before the value is set <b>in</b> the record. Return false
+	     * to cancel the change. The edit event object has the following properties &lt;br /&gt;
+	     * &lt;ul style=&quot;padding:5px;padding-left:16px;&quot;&gt;
+	     * &lt;li&gt;grid - This grid&lt;/li&gt;
+	     * &lt;li&gt;record - The record being edited&lt;/li&gt;
+	     * &lt;li&gt;field - The field name being edited&lt;/li&gt;
+	     * &lt;li&gt;value - The value being set&lt;/li&gt;
+	     * &lt;li&gt;originalValue - The original value <b>for</b> the field, before the edit.&lt;/li&gt;
+	     * &lt;li&gt;row - The grid row index&lt;/li&gt;
+	     * &lt;li&gt;column - The grid column index&lt;/li&gt;
+	     * &lt;li&gt;cancel - Set <b>this</b> to true to cancel the edit or <b>return</b> false from your handler.&lt;/li&gt;
+	     * &lt;/ul&gt;
+	     * @param {Object} e An edit event (see above <b>for</b> description)
+	     */</i>
+	    &quot;validateedit&quot; : true
+	});
+    <b>this</b>.on(&quot;bodyscroll&quot;, <b>this</b>.stopEditing,  <b>this</b>);
+    <b>this</b>.on(<b>this</b>.clicksToEdit == 1 ? &quot;cellclick&quot; : &quot;celldblclick&quot;, <b>this</b>.onCellDblClick,  <b>this</b>);
+};
+
+Ext.extend(Ext.grid.EditorGrid, Ext.grid.Grid, {
+    isEditor : true,
+    clicksToEdit: 2,
+    trackMouseOver: false, <i>// causes very odd FF errors</i>
+
+    onCellDblClick : <b>function</b>(g, row, col){
+        <b>this</b>.startEditing(row, col);
+    },
+
+    onEditComplete : <b>function</b>(ed, value, startValue){
+        <b>this</b>.editing = false;
+        <b>this</b>.activeEditor = null;
+        ed.un(&quot;specialkey&quot;, <b>this</b>.selModel.onEditorKey, <b>this</b>.selModel);
+        <b>if</b>(String(value) != String(startValue)){
+            <b>var</b> r = ed.record;
+            <b>var</b> field = <b>this</b>.colModel.getDataIndex(ed.col);
+            <b>var</b> e = {
+                grid: <b>this</b>,
+                record: r,
+                field: field,
+                originalValue: startValue,
+                value: value,
+                row: ed.row,
+                column: ed.col,
+                cancel:false
+            };
+            <b>if</b>(this.fireEvent(&quot;validateedit&quot;, e) !== false &amp;&amp; !e.cancel){
+                r.set(field, e.value);
+                <b>delete</b> e.cancel;
+                <b>this</b>.fireEvent(&quot;afteredit&quot;, e);
+            }
+        }
+        <b>this</b>.view.focusCell(ed.row, ed.col);
+    },
+
+    <i>/**
+     * Starts editing the specified <b>for</b> the specified row/column
+     * @param {Number} rowIndex
+     * @param {Number} colIndex
+     */</i>
+    startEditing : <b>function</b>(row, col){
+        <b>this</b>.stopEditing();
+        <b>if</b>(this.colModel.isCellEditable(col, row)){
+            <b>this</b>.view.ensureVisible(row, col, true);
+            <b>var</b> r = <b>this</b>.dataSource.getAt(row);
+            <b>var</b> field = <b>this</b>.colModel.getDataIndex(col);
+            <b>var</b> e = {
+                grid: <b>this</b>,
+                record: r,
+                field: field,
+                value: r.data[field],
+                row: row,
+                column: col,
+                cancel:false
+            };
+            <b>if</b>(this.fireEvent(&quot;beforeedit&quot;, e) !== false &amp;&amp; !e.cancel){
+                <b>this</b>.editing = true;
+                <b>var</b> ed = <b>this</b>.colModel.getCellEditor(col, row);
+                <b>if</b>(!ed.rendered){
+                    ed.render(ed.parentEl || document.body);
+                }
+                (<b>function</b>(){ <i>// complex but required <b>for</b> focus issues <b>in</b> safari, ie and opera</i>
+                    ed.row = row;
+                    ed.col = col;
+                    ed.record = r;
+                    ed.on(&quot;complete&quot;, <b>this</b>.onEditComplete, <b>this</b>, {single: true});
+                    ed.on(&quot;specialkey&quot;, <b>this</b>.selModel.onEditorKey, <b>this</b>.selModel);
+                    <b>this</b>.activeEditor = ed;
+                    <b>var</b> v = r.data[field];
+                    ed.startEdit(<b>this</b>.view.getCell(row, col), v);
+                }).defer(50, <b>this</b>);
+            }
+        }
+    },
+        
+    <i>/**
+     * Stops any active editing
+     */</i>
+    stopEditing : <b>function</b>(){
+        <b>if</b>(this.activeEditor){
+            <b>this</b>.activeEditor.completeEdit();
+        }
+        <b>this</b>.activeEditor = null;
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

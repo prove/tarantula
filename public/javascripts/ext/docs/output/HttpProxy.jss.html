@@ -1,0 +1,109 @@
+<html><head><title>HttpProxy.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>HttpProxy.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.HttpProxy
+ * An implementation of {@link Ext.data.DataProxy} that reads a data object from an {@link Ext.data.Connection} object
+ * configured to reference a certain URL.&lt;br&gt;&lt;br&gt;
+ * &lt;p&gt;
+ * &lt;em&gt;Note that <b>this</b> class cannot be used to retrieve data from a domain other than the domain
+ * from which the running page was served.&lt;br&gt;&lt;br&gt;
+ * &lt;p&gt;
+ * For cross-domain access to remote data, use an {@link Ext.data.ScriptTagProxy}.&lt;/em&gt;&lt;br&gt;&lt;br&gt;
+ * &lt;p&gt;
+ * Be aware that to enable the browser to parse an XML document, the server must set
+ * the Content-Type header <b>in</b> the HTTP response to &quot;text/xml&quot;.
+ * @constructor
+ * @param {Object} conn Connection config options to add to each request (e.g. {url: <em>'foo.php'</em>} or
+ * an {@link Ext.data.Connection} object.  If a Connection config is passed, the singleton {@link Ext.Ajax} object
+ * will be used to make the request.
+ */</i>
+Ext.data.HttpProxy = <b>function</b>(conn){
+    Ext.data.HttpProxy.superclass.constructor.call(<b>this</b>);
+    <i>// is conn a conn config or a real conn?</i>
+    <b>this</b>.conn = conn;
+    <b>this</b>.useAjax = !conn || !conn.events;
+};
+
+Ext.extend(Ext.data.HttpProxy, Ext.data.DataProxy, {
+    <i>/**
+     * Return the {@link Ext.data.Connection} object being used by <b>this</b> Proxy.
+     * @<b>return</b> {Connection} The Connection object. This object may be used to subscribe to events on
+     * a finer-grained basis than the DataProxy events.
+     */</i>
+    getConnection : <b>function</b>(){
+        <b>return</b> this.useAjax ? Ext.Ajax : <b>this</b>.conn;
+    },
+
+    <i>/**
+     * Load data from the configured {@link Ext.data.Connection}, read the data object into
+     * a block of Ext.data.Records using the passed {@link Ext.data.DataReader} implementation, and
+     * process that block using the passed callback.
+     * @param {Object} params An object containing properties which are to be used as HTTP parameters
+     * <b>for</b> the request to the remote server.
+     * @param {Ext.data.DataReader} reader The Reader object which converts the data
+     * object into a block of Ext.data.Records.
+     * @param {Function} callback The <b>function</b> into which to pass the block of Ext.data.Records.
+     * The <b>function</b> must be passed &lt;ul&gt;
+     * &lt;li&gt;The Record block object&lt;/li&gt;
+     * &lt;li&gt;The &quot;arg&quot; argument from the load <b>function</b>&lt;/li&gt;
+     * &lt;li&gt;A boolean success indicator&lt;/li&gt;
+     * &lt;/ul&gt;
+     * @param {Object} scope The scope <b>in</b> which to call the callback
+     * @param {Object} arg An optional argument which is passed to the callback as its second parameter.
+     */</i>
+    load : <b>function</b>(params, reader, callback, scope, arg){
+        <b>if</b>(this.fireEvent(&quot;beforeload&quot;, <b>this</b>, params) !== false){
+            <b>var</b>  o = {
+                params : params || {},
+                request: {
+                    callback : callback,
+                    scope : scope,
+                    arg : arg
+                },
+                reader: reader,
+                callback : <b>this</b>.loadResponse,
+                scope: <b>this</b>
+            };
+            <b>if</b>(this.useAjax){
+                Ext.applyIf(o, <b>this</b>.conn);
+                <b>if</b>(this.activeRequest){
+                    Ext.Ajax.abort(<b>this</b>.activeRequest);
+                }
+                <b>this</b>.activeRequest = Ext.Ajax.request(o);
+            }<b>else</b>{
+                <b>this</b>.conn.request(o);
+            }
+        }<b>else</b>{
+            callback.call(scope||<b>this</b>, null, arg, false);
+        }
+    },
+
+    <i>// private</i>
+    loadResponse : <b>function</b>(o, success, response){
+        <b>delete</b> this.activeRequest;
+        <b>if</b>(!success){
+            <b>this</b>.fireEvent(&quot;loadexception&quot;, <b>this</b>, o, response);
+            o.request.callback.call(o.request.scope, null, o.request.arg, false);
+            <b>return</b>;
+        }
+        <b>var</b> result;
+        try {
+            result = o.reader.read(response);
+        }catch(e){
+            <b>this</b>.fireEvent(&quot;loadexception&quot;, <b>this</b>, o, response, e);
+            o.request.callback.call(o.request.scope, null, o.request.arg, false);
+            <b>return</b>;
+        }
+        <b>this</b>.fireEvent(&quot;load&quot;, <b>this</b>, o, o.request.arg);
+        o.request.callback.call(o.request.scope, result, o.request.arg, true);
+    },
+
+    <i>// private</i>
+    update : <b>function</b>(dataSet){
+
+    },
+
+    <i>// private</i>
+    updateResponse : <b>function</b>(dataSet){
+
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

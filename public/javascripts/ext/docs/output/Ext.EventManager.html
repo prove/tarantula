@@ -1,0 +1,314 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.EventManager</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.EventManager.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.EventManager</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>EventManager</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="EventManager.jss.html">EventManager.js</a></td></tr>
+        </table>
+        <div class="description">
+            Registers event handlers that want to receive a normalized EventObject instead of the standard browser event and provides 
+several useful events directly.
+See <a ext:cls="Ext.EventObject" href="Ext.EventObject.html">Ext.EventObject</a> for more details on normalized event objects.<br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#ieDeferSrc">ieDeferSrc</a> : Object</td>
+        <td class="msource" rowspan="2">EventManager</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Url used for onDocumentReady with using SSL (defaults to Ext.SSL_SECURE_URL)</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String/HTMLElement element</code>, <code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">EventManager</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Appends an event handler to an element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onDocumentReady">onDocumentReady</a>(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean options</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">EventManager</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Fires when the document is ready (before onload and before images are loaded). Can be 
+accessed shorthanded Ext.onRea...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onTextResize">onTextResize</a>(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean options</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">EventManager</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when the user changes the active text size. Handler gets called with 2 params, the old size and the new size.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onWindowResize">onWindowResize</a>(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean options</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">EventManager</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Fires when the window is resized and provides resize event buffering (50 milliseconds), passes new viewport width and...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String/HTMLElement element</code>, <code>String eventName</code>, <code>Function fn</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">EventManager</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Removes an event handler</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeResizeListener">removeResizeListener</a>(&nbsp;<code>Function fn</code>, <code>Object scope</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">EventManager</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Removes the passed window resize listener.</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#wrap">wrap</a>(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean override</code>&nbsp;) : Function</td>
+        <td class="msource" rowspan="2">EventManager</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Deprecated. This is no longer needed and is deprecated. Places a simple wrapper around an event handler to override t...</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="ieDeferSrc"></a>
+                <div class="mdetail">
+                <h3>ieDeferSrc</i></h3>
+                <code>public Object ieDeferSrc</code>
+                <div class="mdetail-desc">
+                    Url used for onDocumentReady with using SSL (defaults to Ext.SSL_SECURE_URL)                </div>
+                <div class="mdetail-def">This property is defined by EventManager.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="addListener"></a>
+                <div class="mdetail">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String/HTMLElement element</code>, <code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to an element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>element</code> : String/HTMLElement<div class="sub-desc">The html element or id to assign the</div></li><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delegate {String} A simple selector to filter the target or look for a descendant of the target</li>
+<li>stopEvent {Boolean} True to stop the event. That is stop propagation, and prevent the default action.</li>
+<li>preventDefault {Boolean} True to prevent the default action</li>
+<li>stopPropagation {Boolean} True to prevent event propagation</li>
+<li>normalized {Boolean} False to pass a browser event to the handler function instead of an Ext.EventObject</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)<div style="margin: 5px 20px 20px;">
+Code:<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+    single: true,
+    delay: 100,
+    stopEvent : true,
+    forumId: 4
+});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<p>
+Code:<pre><code>el.on({
+    <em>'click'</em> : {
+        fn: <b>this</b>.onClick
+        scope: <b>this</b>,
+        delay: 100
+    },
+    <em>'mouseover'</em> : {
+        fn: <b>this</b>.onMouseOver
+        scope: <b>this</b>
+    },
+    <em>'mouseout'</em> : {
+        fn: <b>this</b>.onMouseOut
+        scope: <b>this</b>
+    }
+});</code></pre>
+<p>
+Or a shorthand syntax:<br>
+Code:<pre><code>el.on({
+    <em>'click'</em> : <b>this</b>.onClick,
+    <em>'mouseover'</em> : <b>this</b>.onMouseOver,
+    <em>'mouseout'</em> : <b>this</b>.onMouseOut
+    scope: <b>this</b>
+});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventManager.</div>
+                </div>
+                            <a name="onDocumentReady"></a>
+                <div class="mdetail alt">
+                <h3>onDocumentReady</i></h3>
+                <code>public function onDocumentReady(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean options</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires when the document is ready (before onload and before images are loaded). Can be 
+accessed shorthanded Ext.onReady().
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">An object that becomes the scope of the handler</div></li><li><code>options</code> : boolean<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventManager.</div>
+                </div>
+                            <a name="onTextResize"></a>
+                <div class="mdetail">
+                <h3>onTextResize</i></h3>
+                <code>public function onTextResize(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean options</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires when the user changes the active text size. Handler gets called with 2 params, the old size and the new size.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">An object that becomes the scope of the handler</div></li><li><code>options</code> : boolean<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventManager.</div>
+                </div>
+                            <a name="onWindowResize"></a>
+                <div class="mdetail alt">
+                <h3>onWindowResize</i></h3>
+                <code>public function onWindowResize(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean options</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires when the window is resized and provides resize event buffering (50 milliseconds), passes new viewport width and height to handlers.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">An object that becomes the scope of the handler</div></li><li><code>options</code> : boolean<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventManager.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String/HTMLElement element</code>, <code>String eventName</code>, <code>Function fn</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes an event handler
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>element</code> : String/HTMLElement<div class="sub-desc">The id or html element to remove the 
+event from</div></li><li><code>eventName</code> : String<div class="sub-desc">The type of event</div></li><li><code>fn</code> : Function<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if a listener was actually removed</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventManager.</div>
+                </div>
+                            <a name="removeResizeListener"></a>
+                <div class="mdetail alt">
+                <h3>removeResizeListener</i></h3>
+                <code>public function removeResizeListener(&nbsp;<code>Function fn</code>, <code>Object scope</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes the passed window resize listener.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">The scope of handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventManager.</div>
+                </div>
+                            <a name="wrap"></a>
+                <div class="mdetail">
+                <h3>wrap</i></h3>
+                <code>public function wrap(&nbsp;<code>Function fn</code>, <code>Object scope</code>, <code>boolean override</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated.</b> This is no longer needed and is deprecated. Places a simple wrapper around an event handler to override the browser event
+object with a Ext.EventObject
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">An object that becomes the scope of the handler</div></li><li><code>override</code> : boolean<div class="sub-desc">If true, the obj passed in becomes
+the execution scope of the listener</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Function</code><div class="sub-desc">The wrapped function</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventManager.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

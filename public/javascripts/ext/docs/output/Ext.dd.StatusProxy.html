@@ -1,0 +1,375 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.dd.StatusProxy</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.dd.StatusProxy.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.dd.StatusProxy</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.dd</td></tr>
+            <tr><td class="label">Class:</td><td>StatusProxy</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="StatusProxy.jss.html">StatusProxy.js</a></td></tr>
+        </table>
+        <div class="description">
+            A specialized drag proxy that supports a drop status icon, <a ext:cls="Ext.Layer" href="Ext.Layer.html">Ext.Layer</a> styles and auto-repair.  This is the
+default drag proxy used by all Ext.dd components.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>StatusProxy</b>(&nbsp;<code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getEl">getEl</a>() : Ext.Layer</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the underlying proxy <a ext:cls="Ext.Layer" href="Ext.Layer.html">Ext.Layer</a></td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getGhost">getGhost</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the ghost element</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hide">hide</a>(&nbsp;<code>Boolean clear</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Hides the proxy</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#repair">repair</a>(&nbsp;<code>Array xy</code>, <code>Function callback</code>, <code>Object scope</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Causes the proxy to return to its position of origin via an animation.  Should be called after an
+invalid drop operat...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#reset">reset</a>(&nbsp;<code>Boolean clearGhost</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Resets the status indicator to the default dropNotAllowed value</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setStatus">setStatus</a>(&nbsp;<code>String cssClass</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Updates the proxy's visual element to indicate the status of whether or not drop is allowed
+over the current target e...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#show">show</a>() : void</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Displays this proxy</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#stop">stop</a>() : void</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Stops the repair animation if it's currently running</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#sync">sync</a>() : void</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Force the Layer to sync its shadow and shim positions to the element</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#update">update</a>(&nbsp;<code>String html</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Updates the contents of the ghost element</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-dropAllowed">dropAllowed</a> : String</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The CSS class to apply to the status element when drop is allowed (defaults to "x-dd-drop-ok").</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-dropNotAllowed">dropNotAllowed</a> : String</td>
+        <td class="msource" rowspan="2">StatusProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The CSS class to apply to the status element when drop is not allowed (defaults to "x-dd-drop-nodrop").</td>
+    </tr>
+            </table>
+                
+                    <a name="StatusProxy"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>StatusProxy</i></h3>
+                <code>public function StatusProxy(&nbsp;<code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="getEl"></a>
+                <div class="mdetail">
+                <h3>getEl</i></h3>
+                <code>public function getEl()</code>
+                <div class="mdetail-desc">
+                    Returns the underlying proxy <a ext:cls="Ext.Layer" href="Ext.Layer.html">Ext.Layer</a>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Layer</code><div class="sub-desc">el</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="getGhost"></a>
+                <div class="mdetail alt">
+                <h3>getGhost</i></h3>
+                <code>public function getGhost()</code>
+                <div class="mdetail-desc">
+                    Returns the ghost element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">el</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="hide"></a>
+                <div class="mdetail">
+                <h3>hide</i></h3>
+                <code>public function hide(&nbsp;<code>Boolean clear</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Hides the proxy
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>clear</code> : Boolean<div class="sub-desc">True to reset the status and clear the ghost contents, false to preserve them</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="repair"></a>
+                <div class="mdetail alt">
+                <h3>repair</i></h3>
+                <code>public function repair(&nbsp;<code>Array xy</code>, <code>Function callback</code>, <code>Object scope</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Causes the proxy to return to its position of origin via an animation.  Should be called after an
+invalid drop operation by the item being dragged.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>xy</code> : Array<div class="sub-desc">The XY position of the element ([x, y])</div></li><li><code>callback</code> : Function<div class="sub-desc">The function to call after the repair is complete</div></li><li><code>scope</code> : Object<div class="sub-desc">The scope in which to execute the callback</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="reset"></a>
+                <div class="mdetail">
+                <h3>reset</i></h3>
+                <code>public function reset(&nbsp;<code>Boolean clearGhost</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Resets the status indicator to the default dropNotAllowed value
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>clearGhost</code> : Boolean<div class="sub-desc">True to also remove all content from the ghost, false to preserve it</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="setStatus"></a>
+                <div class="mdetail alt">
+                <h3>setStatus</i></h3>
+                <code>public function setStatus(&nbsp;<code>String cssClass</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Updates the proxy's visual element to indicate the status of whether or not drop is allowed
+over the current target element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>cssClass</code> : String<div class="sub-desc">The css class for the new drop status indicator image</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="show"></a>
+                <div class="mdetail">
+                <h3>show</i></h3>
+                <code>public function show()</code>
+                <div class="mdetail-desc">
+                    Displays this proxy
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="stop"></a>
+                <div class="mdetail alt">
+                <h3>stop</i></h3>
+                <code>public function stop()</code>
+                <div class="mdetail-desc">
+                    Stops the repair animation if it's currently running
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="sync"></a>
+                <div class="mdetail">
+                <h3>sync</i></h3>
+                <code>public function sync()</code>
+                <div class="mdetail-desc">
+                    Force the Layer to sync its shadow and shim positions to the element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                            <a name="update"></a>
+                <div class="mdetail alt">
+                <h3>update</i></h3>
+                <code>public function update(&nbsp;<code>String html</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Updates the contents of the ghost element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>html</code> : String<div class="sub-desc">The html that will replace the current innerHTML of the ghost element</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by StatusProxy.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-dropAllowed"></a>
+                <div class="mdetail">
+                <h3>dropAllowed</i></h3>
+                <code>dropAllowed : String</code>
+                <div class="mdetail-desc">
+                    The CSS class to apply to the status element when drop is allowed (defaults to "x-dd-drop-ok").                </div>
+                <div class="mdetail-def">This config option is defined by StatusProxy.</div>
+                </div>
+                            <a name="config-dropNotAllowed"></a>
+                <div class="mdetail alt">
+                <h3>dropNotAllowed</i></h3>
+                <code>dropNotAllowed : String</code>
+                <div class="mdetail-desc">
+                    The CSS class to apply to the status element when drop is not allowed (defaults to "x-dd-drop-nodrop").                </div>
+                <div class="mdetail-def">This config option is defined by StatusProxy.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

@@ -1,0 +1,332 @@
+<html><head><title>BorderLayout.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>BorderLayout.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.BorderLayout
+ * @extends Ext.LayoutManager
+ * This class represents a common layout manager used <b>in</b> desktop applications. For screenshots and more details,
+ * please see: &lt;br&gt;&lt;br&gt;
+ * &lt;a href=&quot;http:<i>//www.jackslocum.com/yui/2006/10/19/cross-browser-web-20-layouts-<b>with</b>-yahoo-ui/&quot;&gt;Cross Browser Layouts - Part 1&lt;/a&gt;&lt;br&gt;</i>
+ * &lt;a href=&quot;http:<i>//www.jackslocum.com/yui/2006/10/28/cross-browser-web-20-layouts-part-2-ajax-feed-viewer-20/&quot;&gt;Cross Browser Layouts - Part 2&lt;/a&gt;&lt;br&gt;&lt;br&gt;</i>
+ * Example:
+ &lt;pre&gt;&lt;code&gt;
+ <b>var</b> layout = <b>new</b> Ext.BorderLayout(document.body, {
+    north: {
+        initialSize: 25,
+        titlebar: false
+    },
+    west: {
+        split:true,
+        initialSize: 200,
+        minSize: 175,
+        maxSize: 400,
+        titlebar: true,
+        collapsible: true
+    },
+    east: {
+        split:true,
+        initialSize: 202,
+        minSize: 175,
+        maxSize: 400,
+        titlebar: true,
+        collapsible: true
+    },
+    south: {
+        split:true,
+        initialSize: 100,
+        minSize: 100,
+        maxSize: 200,
+        titlebar: true,
+        collapsible: true
+    },
+    center: {
+        titlebar: true,
+        autoScroll:true,
+        resizeTabs: true,
+        minTabWidth: 50,
+        preferredTabWidth: 150
+    }
+});
+
+<i>// shorthand</i>
+<b>var</b> CP = Ext.ContentPanel;
+
+layout.beginUpdate();
+layout.add(&quot;north&quot;, <b>new</b> CP(&quot;north&quot;, &quot;North&quot;));
+layout.add(&quot;south&quot;, <b>new</b> CP(&quot;south&quot;, {title: &quot;South&quot;, closable: true}));
+layout.add(&quot;west&quot;, <b>new</b> CP(&quot;west&quot;, {title: &quot;West&quot;}));
+layout.add(&quot;east&quot;, <b>new</b> CP(&quot;autoTabs&quot;, {title: &quot;Auto Tabs&quot;, closable: true}));
+layout.add(&quot;center&quot;, <b>new</b> CP(&quot;center1&quot;, {title: &quot;Close Me&quot;, closable: true}));
+layout.add(&quot;center&quot;, <b>new</b> CP(&quot;center2&quot;, {title: &quot;Center Panel&quot;, closable: false}));
+layout.getRegion(&quot;center&quot;).showPanel(&quot;center1&quot;);
+layout.endUpdate();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;b&gt;The container the layout is rendered into can be either the body element or any other element.
+If it is not the body element, the container needs to either be an absolute positioned element,
+or you will need to add &quot;position:relative&quot; to the css of the container.  You will also need to specify
+the container size <b>if</b> it is not the body element.&lt;/b&gt;
+
+* @constructor
+* Create a <b>new</b> BorderLayout
+* @param {String/HTMLElement/Element} container The container <b>this</b> layout is bound to
+* @param {Object} config Configuration options
+ */</i>
+Ext.BorderLayout = <b>function</b>(container, config){
+    config = config || {};
+    Ext.BorderLayout.superclass.constructor.call(<b>this</b>, container, config);
+    <b>this</b>.factory = config.factory || Ext.BorderLayout.RegionFactory;
+    <b>for</b>(var i = 0, len = <b>this</b>.factory.validRegions.length; i &lt; len; i++) {
+    	<b>var</b> target = <b>this</b>.factory.validRegions[i];
+    	<b>if</b>(config[target]){
+    	    <b>this</b>.addRegion(target, config[target]);
+    	}
+    }
+};
+
+Ext.extend(Ext.BorderLayout, Ext.LayoutManager, {
+    <i>/**
+     * Creates and adds a <b>new</b> region <b>if</b> it doesn't already exist.
+     * @param {String} target The target region key (north, south, east, west or center).
+     * @param {Object} config The regions config object
+     * @<b>return</b> {BorderLayoutRegion} The <b>new</b> region
+     */</i>
+    addRegion : <b>function</b>(target, config){
+        <b>if</b>(!<b>this</b>.regions[target]){
+            <b>var</b> r = <b>this</b>.factory.create(target, <b>this</b>, config);
+    	    <b>this</b>.bindRegion(target, r);
+        }
+        <b>return</b> this.regions[target];
+    },
+
+    <i>// private (kinda)</i>
+    bindRegion : <b>function</b>(name, r){
+        <b>this</b>.regions[name] = r;
+        r.on(&quot;visibilitychange&quot;, <b>this</b>.layout, <b>this</b>);
+        r.on(&quot;paneladded&quot;, <b>this</b>.layout, <b>this</b>);
+        r.on(&quot;panelremoved&quot;, <b>this</b>.layout, <b>this</b>);
+        r.on(&quot;invalidated&quot;, <b>this</b>.layout, <b>this</b>);
+        r.on(&quot;resized&quot;, <b>this</b>.onRegionResized, <b>this</b>);
+        r.on(&quot;collapsed&quot;, <b>this</b>.onRegionCollapsed, <b>this</b>);
+        r.on(&quot;expanded&quot;, <b>this</b>.onRegionExpanded, <b>this</b>);
+    },
+
+    <i>/**
+     * Performs a layout update.
+     */</i>
+    layout : <b>function</b>(){
+        <b>if</b>(this.updating) <b>return</b>;
+        <b>var</b> size = <b>this</b>.getViewSize();
+        <b>var</b> w = size.width, h = size.height;
+        <b>var</b> centerW = w, centerH = h, centerY = 0, centerX = 0;
+        <i>//<b>var</b> x = 0, y = 0;</i>
+
+        <b>var</b> rs = <b>this</b>.regions;
+        <b>var</b> n = rs[&quot;north&quot;], s = rs[&quot;south&quot;], west = rs[&quot;west&quot;], e = rs[&quot;east&quot;], c = rs[&quot;center&quot;];
+        <i>//<b>if</b>(this.hideOnLayout){ // not supported anymore</i>
+            <i>//c.el.setStyle(&quot;display&quot;, &quot;none&quot;);</i>
+        <i>//}</i>
+        <b>if</b>(n &amp;&amp; n.isVisible()){
+            <b>var</b> b = n.getBox();
+            <b>var</b> m = n.getMargins();
+            b.width = w - (m.left+m.right);
+            b.x = m.left;
+            b.y = m.top;
+            centerY = b.height + b.y + m.bottom;
+            centerH -= centerY;
+            n.updateBox(<b>this</b>.safeBox(b));
+        }
+        <b>if</b>(s &amp;&amp; s.isVisible()){
+            <b>var</b> b = s.getBox();
+            <b>var</b> m = s.getMargins();
+            b.width = w - (m.left+m.right);
+            b.x = m.left;
+            <b>var</b> totalHeight = (b.height + m.top + m.bottom);
+            b.y = h - totalHeight + m.top;
+            centerH -= totalHeight;
+            s.updateBox(<b>this</b>.safeBox(b));
+        }
+        <b>if</b>(west &amp;&amp; west.isVisible()){
+            <b>var</b> b = west.getBox();
+            <b>var</b> m = west.getMargins();
+            b.height = centerH - (m.top+m.bottom);
+            b.x = m.left;
+            b.y = centerY + m.top;
+            <b>var</b> totalWidth = (b.width + m.left + m.right);
+            centerX += totalWidth;
+            centerW -= totalWidth;
+            west.updateBox(<b>this</b>.safeBox(b));
+        }
+        <b>if</b>(e &amp;&amp; e.isVisible()){
+            <b>var</b> b = e.getBox();
+            <b>var</b> m = e.getMargins();
+            b.height = centerH - (m.top+m.bottom);
+            <b>var</b> totalWidth = (b.width + m.left + m.right);
+            b.x = w - totalWidth + m.left;
+            b.y = centerY + m.top;
+            centerW -= totalWidth;
+            e.updateBox(<b>this</b>.safeBox(b));
+        }
+        <b>if</b>(c){
+            <b>var</b> m = c.getMargins();
+            <b>var</b> centerBox = {
+                x: centerX + m.left,
+                y: centerY + m.top,
+                width: centerW - (m.left+m.right),
+                height: centerH - (m.top+m.bottom)
+            };
+            <i>//<b>if</b>(this.hideOnLayout){</i>
+                <i>//c.el.setStyle(&quot;display&quot;, &quot;block&quot;);</i>
+            <i>//}</i>
+            c.updateBox(<b>this</b>.safeBox(centerBox));
+        }
+        <b>this</b>.el.repaint();
+        <b>this</b>.fireEvent(&quot;layout&quot;, <b>this</b>);
+    },
+
+    safeBox : <b>function</b>(box){
+        box.width = Math.max(0, box.width);
+        box.height = Math.max(0, box.height);
+        <b>return</b> box;
+    },
+
+    <i>/**
+     * Adds a ContentPanel (or subclass) to <b>this</b> layout.
+     * @param {String} target The target region key (north, south, east, west or center).
+     * @param {Ext.ContentPanel} panel The panel to add
+     * @<b>return</b> {Ext.ContentPanel} The added panel
+     */</i>
+    add : <b>function</b>(target, panel){
+        target = target.toLowerCase();
+        <b>return</b> this.regions[target].add(panel);
+    },
+
+    <i>/**
+     * Remove a ContentPanel (or subclass) to <b>this</b> layout.
+     * @param {String} target The target region key (north, south, east, west or center).
+     * @param {Number/String/Ext.ContentPanel} panel The index, id or panel to remove
+     * @<b>return</b> {Ext.ContentPanel} The removed panel
+     */</i>
+    remove : <b>function</b>(target, panel){
+        target = target.toLowerCase();
+        <b>return</b> this.regions[target].remove(panel);
+    },
+
+    <i>/**
+     * Searches all regions <b>for</b> a panel <b>with</b> the specified id
+     * @param {String} panelId
+     * @<b>return</b> {Ext.ContentPanel} The panel or null <b>if</b> it wasn't found
+     */</i>
+    findPanel : <b>function</b>(panelId){
+        <b>var</b> rs = <b>this</b>.regions;
+        <b>for</b>(var target <b>in</b> rs){
+            <b>if</b>(typeof rs[target] != &quot;<b>function</b>&quot;){
+                <b>var</b> p = rs[target].getPanel(panelId);
+                <b>if</b>(p){
+                    <b>return</b> p;
+                }
+            }
+        }
+        <b>return</b> null;
+    },
+
+    <i>/**
+     * Searches all regions <b>for</b> a panel <b>with</b> the specified id and activates (shows) it.
+     * @param {String/ContentPanel} panelId The panels id or the panel itself
+     * @<b>return</b> {Ext.ContentPanel} The shown panel or null
+     */</i>
+    showPanel : <b>function</b>(panelId) {
+      <b>var</b> rs = <b>this</b>.regions;
+      <b>for</b>(var target <b>in</b> rs){
+         <b>var</b> r = rs[target];
+         <b>if</b>(typeof r != &quot;<b>function</b>&quot;){
+            <b>if</b>(r.hasPanel(panelId)){
+               <b>return</b> r.showPanel(panelId);
+            }
+         }
+      }
+      <b>return</b> null;
+   },
+
+   <i>/**
+     * Restores <b>this</b> layouts state using Ext.state.Manager or the state provided by the passed provider.
+     * @param {Ext.state.Provider} provider (optional) An alternate state provider
+     */</i>
+    restoreState : <b>function</b>(provider){
+        <b>if</b>(!provider){
+            provider = Ext.state.Manager;
+        }
+        <b>var</b> sm = <b>new</b> Ext.LayoutStateManager();
+        sm.init(<b>this</b>, provider);
+    },
+
+
+    batchAdd : <b>function</b>(regions){
+        <b>this</b>.beginUpdate();
+        <b>for</b>(var rname <b>in</b> regions){
+            <b>var</b> lr = <b>this</b>.regions[rname];
+            <b>if</b>(lr){
+                <b>this</b>.addTypedPanels(lr, regions[rname]);
+            }
+        }
+        <b>this</b>.endUpdate();
+    },
+
+    <i>/* @private */</i>
+    addTypedPanels : <b>function</b>(lr, ps){
+        <b>if</b>(typeof ps == <em>'string'</em>){
+            lr.add(<b>new</b> Ext.ContentPanel(ps));
+        }
+        <b>else</b> if(ps instanceof Array){
+            <b>for</b>(var i =0, len = ps.length; i &lt; len; i++){
+                <b>this</b>.addTypedPanels(lr, ps[i]);
+            }
+        }
+        <b>else</b> if(!ps.events){ <i>// raw config?</i>
+            <b>var</b> el = ps.el;
+            <b>delete</b> ps.el; <i>// prevent conflict</i>
+            lr.add(<b>new</b> Ext.ContentPanel(el || Ext.id(), ps));
+        }
+        <b>else</b> {  <i>// panel object assumed!</i>
+            lr.add(ps);
+        }
+    }
+});
+
+Ext.BorderLayout.create = <b>function</b>(config, targetEl){
+    <b>var</b> layout = <b>new</b> Ext.BorderLayout(targetEl || document.body, config);
+    layout.beginUpdate();
+    <b>var</b> regions = Ext.BorderLayout.RegionFactory.validRegions;
+    <b>for</b>(var j = 0, jlen = regions.length; j &lt; jlen; j++){
+        <b>var</b> lr = regions[j];
+        <b>if</b>(layout.regions[lr] &amp;&amp; config[lr].panels){
+            <b>var</b> r = layout.regions[lr];
+            <b>var</b> ps = config[lr].panels;
+            layout.addTypedPanels(r, ps);
+        }
+    }
+    layout.endUpdate();
+    <b>return</b> layout;
+};
+
+Ext.BorderLayout.RegionFactory = {
+    validRegions : [&quot;north&quot;,&quot;south&quot;,&quot;east&quot;,&quot;west&quot;,&quot;center&quot;],
+
+    create : <b>function</b>(target, mgr, config){
+        target = target.toLowerCase();
+        <b>if</b>(config.lightweight || config.basic){
+            <b>return</b> new Ext.BasicLayoutRegion(mgr, config, target);
+        }
+        <b>switch</b>(target){
+            <b>case</b> &quot;north&quot;:
+                <b>return</b> new Ext.NorthLayoutRegion(mgr, config);
+            <b>case</b> &quot;south&quot;:
+                <b>return</b> new Ext.SouthLayoutRegion(mgr, config);
+            <b>case</b> &quot;east&quot;:
+                <b>return</b> new Ext.EastLayoutRegion(mgr, config);
+            <b>case</b> &quot;west&quot;:
+                <b>return</b> new Ext.WestLayoutRegion(mgr, config);
+            <b>case</b> &quot;center&quot;:
+                <b>return</b> new Ext.CenterLayoutRegion(mgr, config);
+        }
+        throw <em>'Layout region &quot;'</em>+target+<em>'&quot; not supported.'</em>;
+    }
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

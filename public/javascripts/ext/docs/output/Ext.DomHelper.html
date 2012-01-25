@@ -1,0 +1,306 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.DomHelper</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.DomHelper.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.DomHelper</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>DomHelper</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="DomHelper.jss.html">DomHelper.js</a></td></tr>
+        </table>
+        <div class="description">
+            Utility class for working with DOM and/or Templates. It transparently supports using HTML fragments or DOM.
+For more information see <a href="http://www.jackslocum.com/yui/2006/10/06/domhelper-create-elements-using-dom-html-fragments-or-templates/">this blog post with examples</a>.<br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#useDom">useDom</a> : Boolean</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True to force the use of DOM instead of html fragments</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#append">append</a>(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object/String o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Creates new Dom element(s) and appends them to el</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#applyStyles">applyStyles</a>(&nbsp;<code>String/HTMLElement el</code>, <code>String/Object/Function styles</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Applies a style specification to an element</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#createTemplate">createTemplate</a>(&nbsp;<code>Object o</code>&nbsp;) : Ext.DomHelper.Template</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Creates a new Ext.DomHelper.Template from the Dom object spec</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertAfter">insertAfter</a>(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Creates new Dom element(s) and inserts them after el</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertBefore">insertBefore</a>(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object/String o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Creates new Dom element(s) and inserts them before el</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertFirst">insertFirst</a>(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object/String o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Creates new Dom element(s) and inserts them as the first child of el</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertHtml">insertHtml</a>(&nbsp;<code>String where</code>, <code>HTMLElement el</code>, <code>String html</code>&nbsp;) : HTMLElement</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Inserts an HTML fragment into the Dom</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#markup">markup</a>(&nbsp;<code>Object o</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the markup for the passed Element(s) config</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#overwrite">overwrite</a>(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object/String o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">DomHelper</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Creates new Dom element(s) and overwrites the contents of el with them</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="useDom"></a>
+                <div class="mdetail">
+                <h3>useDom</i></h3>
+                <code>public Boolean useDom</code>
+                <div class="mdetail-desc">
+                    True to force the use of DOM instead of html fragments                </div>
+                <div class="mdetail-def">This property is defined by DomHelper.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="append"></a>
+                <div class="mdetail">
+                <h3>append</i></h3>
+                <code>public function append(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object/String o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates new Dom element(s) and appends them to el
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The context element</div></li><li><code>o</code> : Object/String<div class="sub-desc">The Dom object spec (and children) or raw HTML blob</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                            <a name="applyStyles"></a>
+                <div class="mdetail alt">
+                <h3>applyStyles</i></h3>
+                <code>public function applyStyles(&nbsp;<code>String/HTMLElement el</code>, <code>String/Object/Function styles</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Applies a style specification to an element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc">The element to apply styles to</div></li><li><code>styles</code> : String/Object/Function<div class="sub-desc">A style specification string eg "width:100px", or object in the form {width:"100px"}, or
+a function which returns such a specification.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                            <a name="createTemplate"></a>
+                <div class="mdetail">
+                <h3>createTemplate</i></h3>
+                <code>public function createTemplate(&nbsp;<code>Object o</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates a new Ext.DomHelper.Template from the Dom object spec
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>o</code> : Object<div class="sub-desc">The Dom object spec (and children)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.DomHelper.Template</code><div class="sub-desc">The new template</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                            <a name="insertAfter"></a>
+                <div class="mdetail alt">
+                <h3>insertAfter</i></h3>
+                <code>public function insertAfter(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates new Dom element(s) and inserts them after el
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The context element</div></li><li><code>o</code> : Object<div class="sub-desc">The Dom object spec (and children)</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                            <a name="insertBefore"></a>
+                <div class="mdetail">
+                <h3>insertBefore</i></h3>
+                <code>public function insertBefore(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object/String o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates new Dom element(s) and inserts them before el
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The context element</div></li><li><code>o</code> : Object/String<div class="sub-desc">The Dom object spec (and children) or raw HTML blob</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                            <a name="insertFirst"></a>
+                <div class="mdetail alt">
+                <h3>insertFirst</i></h3>
+                <code>public function insertFirst(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object/String o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates new Dom element(s) and inserts them as the first child of el
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The context element</div></li><li><code>o</code> : Object/String<div class="sub-desc">The Dom object spec (and children) or raw HTML blob</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                            <a name="insertHtml"></a>
+                <div class="mdetail">
+                <h3>insertHtml</i></h3>
+                <code>public function insertHtml(&nbsp;<code>String where</code>, <code>HTMLElement el</code>, <code>String html</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Inserts an HTML fragment into the Dom
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>where</code> : String<div class="sub-desc">Where to insert the html in relation to el - beforeBegin, afterBegin, beforeEnd, afterEnd.</div></li><li><code>el</code> : HTMLElement<div class="sub-desc">The context element</div></li><li><code>html</code> : String<div class="sub-desc">The HTML fragmenet</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement</code><div class="sub-desc">The new node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                            <a name="markup"></a>
+                <div class="mdetail alt">
+                <h3>markup</i></h3>
+                <code>public function markup(&nbsp;<code>Object o</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the markup for the passed Element(s) config
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>o</code> : Object<div class="sub-desc">The Dom object spec (and children)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                            <a name="overwrite"></a>
+                <div class="mdetail">
+                <h3>overwrite</i></h3>
+                <code>public function overwrite(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object/String o</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates new Dom element(s) and overwrites the contents of el with them
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The context element</div></li><li><code>o</code> : Object/String<div class="sub-desc">The Dom object spec (and children) or raw HTML blob</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomHelper.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

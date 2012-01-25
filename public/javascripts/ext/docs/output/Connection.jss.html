@@ -1,0 +1,420 @@
+<html><head><title>Connection.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Connection.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.Connection
+ * @extends Ext.util.Observable
+ * The class encapsulates a connection to the page's originating domain, allowing requests to be made
+ * either to a configured URL, or to a URL specified at request time.&lt;br&gt;&lt;br&gt;
+ * &lt;p&gt;
+ * Requests made by <b>this</b> class are asynchronous, and will <b>return</b> immediately. No data from
+ * the server will be available to the statement immediately following the {@link #request} call.
+ * To process returned data, use a callback <b>in</b> the request options object, or an event listener.&lt;/p&gt;&lt;br&gt;
+ * &lt;p&gt;
+ * Note: If you are doing a file upload, you will not get a normal response object sent back to
+ * your callback or event handler.  Since the upload is handled via <b>in</b> IFRAME, there is no XMLHttpRequest.
+ * The response object is created using the innerHTML of the IFRAME's document as the responseText
+ * property and, <b>if</b> present, the IFRAME's XML document as the responseXML property.&lt;/p&gt;&lt;br&gt;
+ * This means that a valid XML or HTML document must be returned. If JSON data is required, it is suggested
+ * that it be placed either inside a &amp;lt;textarea&gt; <b>in</b> an HTML document and retrieved from the responseText
+ * using a regex, or inside a CDATA section <b>in</b> an XML document and retrieved from the responseXML using
+ * standard DOM methods.
+ * @constructor
+ * @param {Object} config a configuration object.
+ */</i>
+Ext.data.Connection = <b>function</b>(config){
+    Ext.apply(<b>this</b>, config);
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event beforerequest
+         * Fires before a network request is made to retrieve a data object.
+         * @param {Connection} conn This Connection object.
+         * @param {Object} options The options config object passed to the {@link #request} method.
+         */</i>
+        &quot;beforerequest&quot; : true,
+        <i>/**
+         * @event requestcomplete
+         * Fires <b>if</b> the request was successfully completed.
+         * @param {Connection} conn This Connection object.
+         * @param {Object} response The XHR object containing the response data.
+         * See {@link http:<i>//www.w3.org/TR/XMLHttpRequest/} <b>for</b> details.</i>
+         * @param {Object} options The options config object passed to the {@link #request} method.
+         */</i>
+        &quot;requestcomplete&quot; : true,
+        <i>/**
+         * @event requestexception
+         * Fires <b>if</b> an error HTTP status was returned from the server.
+         * See {@link http:<i>//www.w3.org/Protocols/rfc2616/rfc2616-sec10.html} <b>for</b> details of HTTP status codes.</i>
+         * @param {Connection} conn This Connection object.
+         * @param {Object} response The XHR object containing the response data.
+         * See {@link http:<i>//www.w3.org/TR/XMLHttpRequest/} <b>for</b> details.</i>
+         * @param {Object} options The options config object passed to the {@link #request} method.
+         */</i>
+        &quot;requestexception&quot; : true
+    });
+    Ext.data.Connection.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.data.Connection, Ext.util.Observable, {
+    <i>/**
+     * @cfg {String} url (Optional) The <b>default</b> URL to be used <b>for</b> requests to the server. (defaults to undefined)
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Object} extraParams (Optional) An object containing properties which are used as
+     * extra parameters to each request made by <b>this</b> object. (defaults to undefined)
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Object} defaultHeaders (Optional) An object containing request headers which are added
+     *  to each request made by <b>this</b> object. (defaults to undefined)
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} method (Optional) The <b>default</b> HTTP method to be used <b>for</b> requests. (defaults to undefined; <b>if</b> not set but parms are present will use POST, otherwise GET)
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Number} timeout (Optional) The timeout <b>in</b> milliseconds to be used <b>for</b> requests. (defaults to 30000)
+     */</i>
+    timeout : 30000,
+    <i>/**
+     * @cfg {Boolean} autoAbort (Optional) Whether <b>this</b> request should abort any pending requests. (defaults to false)
+     * @type Boolean
+     */</i>
+    autoAbort:false,
+
+    <i>/**
+     * @cfg {Boolean} disableCaching (Optional) True to add a unique cache-buster param to GET requests. (defaults to true)
+     * @type Boolean
+     */</i>
+    disableCaching: true,
+
+    <i>/**
+     * Sends an HTTP request to a remote server.
+     * @param {Object} options An object which may contain the following properties:&lt;ul&gt;
+     * &lt;li&gt;&lt;b&gt;url&lt;/b&gt; {String} (Optional) The URL to which to send the request. Defaults to configured URL&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;params&lt;/b&gt; {Object/String/Function} (Optional) An object containing properties which are used as parameters to the
+     * request, a url encoded string or a <b>function</b> to call to get either.&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;method&lt;/b&gt; {String} (Optional) The HTTP method to use <b>for</b> the request. Defaults to the configured method, or
+     * <b>if</b> no method was configured, &quot;GET&quot; <b>if</b> no parameters are being sent, and &quot;POST&quot; <b>if</b> parameters are being sent.&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;callback&lt;/b&gt; {Function} (Optional) The <b>function</b> to be called upon receipt of the HTTP response.
+     * The callback is called regardless of success or failure and is passed the following parameters:&lt;ul&gt;
+     * &lt;li&gt;options {Object} The parameter to the request call.&lt;/li&gt;
+     * &lt;li&gt;success {Boolean} True <b>if</b> the request succeeded.&lt;/li&gt;
+     * &lt;li&gt;response {Object} The XMLHttpRequest object containing the response data.&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;success&lt;/b&gt; {Function} (Optional) The <b>function</b> to be called upon success of the request.
+     * The callback is passed the following parameters:&lt;ul&gt;
+     * &lt;li&gt;response {Object} The XMLHttpRequest object containing the response data.&lt;/li&gt;
+     * &lt;li&gt;options {Object} The parameter to the request call.&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;failure&lt;/b&gt; {Function} (Optional) The <b>function</b> to be called upon failure of the request.
+     * The callback is passed the following parameters:&lt;ul&gt;
+     * &lt;li&gt;response {Object} The XMLHttpRequest object containing the response data.&lt;/li&gt;
+     * &lt;li&gt;options {Object} The parameter to the request call.&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;scope&lt;/b&gt; {Object} (Optional) The scope <b>in</b> which to execute the callbacks: The &quot;<b>this</b>&quot; object
+     * <b>for</b> the callback <b>function</b>. Defaults to the browser window.&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;form&lt;/b&gt; {Object/String} (Optional) A form object or id to pull parameters from.&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;isUpload&lt;/b&gt; {Boolean} (Optional) True <b>if</b> the form object is a file upload (will usually be automatically detected).&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;headers&lt;/b&gt; {Object} (Optional) Request headers to set <b>for</b> the request.&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;xmlData&lt;/b&gt; {Object} (Optional) XML document to use <b>for</b> the post. Note: This will be used instead of
+     * params <b>for</b> the post data. Any params will be appended to the URL.&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;disableCaching&lt;/b&gt; {Boolean} (Optional) True to add a unique cache-buster param to GET requests.&lt;/li&gt;
+     * &lt;/ul&gt;
+     * @<b>return</b> {Number} transactionId
+     */</i>
+    request : <b>function</b>(o){
+        <b>if</b>(this.fireEvent(&quot;beforerequest&quot;, <b>this</b>, o) !== false){
+            <b>var</b> p = o.params;
+
+            <b>if</b>(typeof p == &quot;<b>function</b>&quot;){
+                p = p.call(o.scope||window, o);
+            }
+            <b>if</b>(typeof p == &quot;object&quot;){
+                p = Ext.urlEncode(o.params);
+            }
+            <b>if</b>(this.extraParams){
+                <b>var</b> extras = Ext.urlEncode(<b>this</b>.extraParams);
+                p = p ? (p + <em>'&amp;'</em> + extras) : extras;
+            }
+
+            <b>var</b> url = o.url || <b>this</b>.url;
+            <b>if</b>(typeof url == <em>'<b>function</b>'</em>){
+                url = url.call(o.scope||window, o);
+            }
+
+            <b>if</b>(o.form){
+                <b>var</b> form = Ext.getDom(o.form);
+                url = url || form.action;
+
+                <b>var</b> enctype = form.getAttribute(&quot;enctype&quot;);
+                <b>if</b>(o.isUpload || (enctype &amp;&amp; enctype.toLowerCase() == <em>'multipart/form-data'</em>)){
+                    <b>return</b> this.doFormUpload(o, p, url);
+                }
+                <b>var</b> f = Ext.lib.Ajax.serializeForm(form);
+                p = p ? (p + <em>'&amp;'</em> + f) : f;
+            }
+
+            <b>var</b> hs = o.headers;
+            <b>if</b>(this.defaultHeaders){
+                hs = Ext.apply(hs || {}, <b>this</b>.defaultHeaders);
+                <b>if</b>(!o.headers){
+                    o.headers = hs;
+                }
+            }
+
+            <b>var</b> cb = {
+                success: <b>this</b>.handleResponse,
+                failure: <b>this</b>.handleFailure,
+                scope: <b>this</b>,
+                argument: {options: o},
+                timeout : <b>this</b>.timeout
+            };
+
+            <b>var</b> method = o.method||<b>this</b>.method||(p ? &quot;POST&quot; : &quot;GET&quot;);
+
+            <b>if</b>(method == <em>'GET'</em> &amp;&amp; (<b>this</b>.disableCaching &amp;&amp; o.disableCaching !== false) || o.disableCaching === true){
+                url += (url.indexOf(<em>'?'</em>) != -1 ? <em>'&amp;'</em> : <em>'?'</em>) + <em>'_dc='</em> + (<b>new</b> Date().getTime());
+            }
+
+            <b>if</b>(typeof o.autoAbort == <em>'boolean'</em>){ <i>// options gets top priority</i>
+                <b>if</b>(o.autoAbort){
+                    <b>this</b>.abort();
+                }
+            }<b>else</b> if(<b>this</b>.autoAbort !== false){
+                <b>this</b>.abort();
+            }
+
+            <b>if</b>((method == <em>'GET'</em> &amp;&amp; p) || o.xmlData){
+                url += (url.indexOf(<em>'?'</em>) != -1 ? <em>'&amp;'</em> : <em>'?'</em>) + p;
+                p = <em>''</em>;
+            }
+            <b>this</b>.transId = Ext.lib.Ajax.request(method, url, cb, p, o);
+            <b>return</b> this.transId;
+        }<b>else</b>{
+            Ext.callback(o.callback, o.scope, [o, null, null]);
+            <b>return</b> null;
+        }
+    },
+
+    <i>/**
+     * Determine whether <b>this</b> object has a request outstanding.
+     * @param {Number} transactionId (Optional) defaults to the last transaction
+     * @<b>return</b> {Boolean} True <b>if</b> there is an outstanding request.
+     */</i>
+    isLoading : <b>function</b>(transId){
+        <b>if</b>(transId){
+            <b>return</b> Ext.lib.Ajax.isCallInProgress(transId);
+        }<b>else</b>{
+            <b>return</b> this.transId ? true : false;
+        }
+    },
+
+    <i>/**
+     * Aborts any outstanding request.
+     * @param {Number} transactionId (Optional) defaults to the last transaction
+     */</i>
+    abort : <b>function</b>(transId){
+        <b>if</b>(transId || <b>this</b>.isLoading()){
+            Ext.lib.Ajax.abort(transId || <b>this</b>.transId);
+        }
+    },
+
+    <i>// private</i>
+    handleResponse : <b>function</b>(response){
+        <b>this</b>.transId = false;
+        <b>var</b> options = response.argument.options;
+        response.argument = options ? options.argument : null;
+        <b>this</b>.fireEvent(&quot;requestcomplete&quot;, <b>this</b>, response, options);
+        Ext.callback(options.success, options.scope, [response, options]);
+        Ext.callback(options.callback, options.scope, [options, true, response]);
+    },
+
+    <i>// private</i>
+    handleFailure : <b>function</b>(response, e){
+        <b>this</b>.transId = false;
+        <b>var</b> options = response.argument.options;
+        response.argument = options ? options.argument : null;
+        <b>this</b>.fireEvent(&quot;requestexception&quot;, <b>this</b>, response, options, e);
+        Ext.callback(options.failure, options.scope, [response, options]);
+        Ext.callback(options.callback, options.scope, [options, false, response]);
+    },
+
+    <i>// private</i>
+    doFormUpload : <b>function</b>(o, ps, url){
+        <b>var</b> id = Ext.id();
+        <b>var</b> frame = document.createElement(<em>'iframe'</em>);
+        frame.id = id;
+        frame.name = id;
+        frame.className = <em>'x-hidden'</em>;
+        <b>if</b>(Ext.isIE){
+            frame.src = Ext.SSL_SECURE_URL;
+        }
+        document.body.appendChild(frame);
+
+        <b>if</b>(Ext.isIE){
+           document.frames[id].name = id;
+        }
+
+        <b>var</b> form = Ext.getDom(o.form);
+        form.target = id;
+        form.method = <em>'POST'</em>;
+        form.enctype = form.encoding = <em>'multipart/form-data'</em>;
+        <b>if</b>(url){
+            form.action = url;
+        }
+
+        <b>var</b> hiddens, hd;
+        <b>if</b>(ps){ <i>// add dynamic params</i>
+            hiddens = [];
+            ps = Ext.urlDecode(ps, false);
+            <b>for</b>(var k <b>in</b> ps){
+                <b>if</b>(ps.hasOwnProperty(k)){
+                    hd = document.createElement(<em>'input'</em>);
+                    hd.type = <em>'hidden'</em>;
+                    hd.name = k;
+                    hd.value = ps[k];
+                    form.appendChild(hd);
+                    hiddens.push(hd);
+                }
+            }
+        }
+
+        <b>function</b> cb(){
+            <b>var</b> r = {  <i>// bogus response object</i>
+                responseText : <em>''</em>,
+                responseXML : null
+            };
+
+            r.argument = o ? o.argument : null;
+
+            try { <i>//</i>
+                <b>var</b> doc;
+                <b>if</b>(Ext.isIE){
+                    doc = frame.contentWindow.document;
+                }<b>else</b> {
+                    doc = (frame.contentDocument || window.frames[id].document);
+                }
+                <b>if</b>(doc &amp;&amp; doc.body){
+                    r.responseText = doc.body.innerHTML;
+                }
+                <b>if</b>(doc &amp;&amp; doc.XMLDocument){
+                    r.responseXML = doc.XMLDocument;
+                }<b>else</b> {
+                    r.responseXML = doc;
+                }
+            }
+            catch(e) {
+                <i>// ignore</i>
+            }
+
+            Ext.EventManager.removeListener(frame, <em>'load'</em>, cb, <b>this</b>);
+
+            <b>this</b>.fireEvent(&quot;requestcomplete&quot;, <b>this</b>, r, o);
+            Ext.callback(o.success, o.scope, [r, o]);
+            Ext.callback(o.callback, o.scope, [o, true, r]);
+
+            setTimeout(<b>function</b>(){document.body.removeChild(frame);}, 100);
+        }
+
+        Ext.EventManager.on(frame, <em>'load'</em>, cb, <b>this</b>);
+        form.submit();
+
+        <b>if</b>(hiddens){ <i>// remove dynamic params</i>
+            <b>for</b>(var i = 0, len = hiddens.length; i &lt; len; i++){
+                form.removeChild(hiddens[i]);
+            }
+        }
+    }
+});
+
+<i>/**
+ * @class Ext.Ajax
+ * @extends Ext.data.Connection
+ * Global Ajax request class.
+ *
+ * @singleton
+ */</i>
+Ext.Ajax = <b>new</b> Ext.data.Connection({
+    <i>// fix up the docs</i>
+   <i>/**
+     * @cfg {String} url @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Object} extraParams @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Object} defaultHeaders @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} method (Optional) @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Number} timeout (Optional) @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Boolean} autoAbort (Optional) @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Boolean} disableCaching (Optional) @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @property  disableCaching
+     * True to add a unique cache-buster param to GET requests. (defaults to true)
+     * @type Boolean
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @property  url
+     * The <b>default</b> URL to be used <b>for</b> requests to the server. (defaults to undefined)
+     * @type String
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @property  extraParams
+     * An object containing properties which are used as
+     * extra parameters to each request made by <b>this</b> object. (defaults to undefined)
+     * @type Object
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @property  defaultHeaders
+     * An object containing request headers which are added to each request made by <b>this</b> object. (defaults to undefined)
+     * @type Object
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @property  method
+     * The <b>default</b> HTTP method to be used <b>for</b> requests. (defaults to undefined; <b>if</b> not set but parms are present will use POST, otherwise GET)
+     * @type String
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @property  timeout
+     * The timeout <b>in</b> milliseconds to be used <b>for</b> requests. (defaults to 30000)
+     * @type Number
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @property  autoAbort
+     * Whether a <b>new</b> request should abort any pending requests. (defaults to false)
+     * @type Boolean
+     */</i>
+    autoAbort : false,
+
+    <i>/**
+     * Serialize the passed form into a url encoded string
+     * @param {String/HTMLElement} form
+     * @<b>return</b> {String}
+     */</i>
+    serializeForm : <b>function</b>(form){
+        <b>return</b> Ext.lib.Ajax.serializeForm(form);
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

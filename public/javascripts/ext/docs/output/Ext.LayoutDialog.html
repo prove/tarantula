@@ -1,0 +1,1709 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.LayoutDialog</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.LayoutDialog.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.LayoutDialog</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>LayoutDialog</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.BasicDialog" ext:member="" href="Ext.BasicDialog.html">BasicDialog</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="BasicDialog.jss.html">BasicDialog.js</a></td></tr>
+        </table>
+        <div class="description">
+            Dialog which provides adjustments for working with a layout in a Dialog.
+Add your necessary layout config options to the dialog's config.<br>
+Example usage (including a nested layout):
+<pre><code>if(!dialog){
+    dialog = <b>new</b> Ext.LayoutDialog(<em>"download-dlg"</em>, {
+        modal: true,
+        width:600,
+        height:450,
+        shadow:true,
+        minWidth:500,
+        minHeight:350,
+        autoTabs:true,
+        proxyDrag:true,
+        <i>// layout config merges <b>with</b> the dialog config</i>
+        center:{
+            tabPosition: <em>"top"</em>,
+            alwaysShowTabs: true
+        }
+    });
+    dialog.addKeyListener(27, dialog.hide, dialog);
+    dialog.setDefaultButton(dialog.addButton(<em>"Close"</em>, dialog.hide, dialog));
+    dialog.addButton(<em>"Build It!"</em>, <b>this</b>.getDownload, <b>this</b>);
+
+    <i>// we can even add nested layouts</i>
+    <b>var</b> innerLayout = <b>new</b> Ext.BorderLayout(<em>"dl-inner"</em>, {
+        east: {
+            initialSize: 200,
+            autoScroll:true,
+            split:true
+        },
+        center: {
+            autoScroll:true
+        }
+    });
+    innerLayout.beginUpdate();
+    innerLayout.add(<em>"east"</em>, <b>new</b> Ext.ContentPanel(<em>"dl-details"</em>));
+    innerLayout.add(<em>"center"</em>, <b>new</b> Ext.ContentPanel(<em>"selection-panel"</em>));
+    innerLayout.endUpdate(true);
+
+    <b>var</b> layout = dialog.getLayout();
+    layout.beginUpdate();
+    layout.add(<em>"center"</em>, <b>new</b> Ext.ContentPanel(<em>"standard-panel"</em>,
+                        {title: <em>"Download the Source"</em>, fitToFrame:true}));
+    layout.add(<em>"center"</em>, <b>new</b> Ext.NestedLayoutPanel(innerLayout,
+               {title: <em>"Build your own ext.js"</em>}));
+    layout.getRegion(<em>"center"</em>).showPanel(sp);
+    layout.endUpdate();
+}</code></pre>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#body">body</a> : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#body" href="Ext.BasicDialog.html#body">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The body element</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#buttons">buttons</a> : Array</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#buttons" href="Ext.BasicDialog.html#buttons">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Array of all the buttons that have been added to this dialog via addButton</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#footer">footer</a> : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#footer" href="Ext.BasicDialog.html#footer">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The footer element</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#header">header</a> : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#header" href="Ext.BasicDialog.html#header">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The header element</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>LayoutDialog</b>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">LayoutDialog</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addButton">addButton</a>(&nbsp;<code>String/Object config</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.Button</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#addButton" href="Ext.BasicDialog.html#addButton">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Adds a button to the footer section of the dialog.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addKeyListener">addKeyListener</a>(&nbsp;<code>Number/Array/Object key</code>, <code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#addKeyListener" href="Ext.BasicDialog.html#addKeyListener">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Adds a key listener for when this dialog is displayed.  This allows you to hook in a function that will be
+executed i...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#alignTo">alignTo</a>(&nbsp;<code>String/HTMLElement/Ext.Element element</code>, <code>String position</code>, <span class="optional" title="Optional">[<code>Array offsets</code>]</span>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#alignTo" href="Ext.BasicDialog.html#alignTo">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Aligns the dialog to the specified element</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#anchorTo">anchorTo</a>(&nbsp;<code>String/HTMLElement/Ext.Element element</code>, <code>String position</code>, <span class="optional" title="Optional">[<code>Array offsets</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number monitorScroll</code>]</span>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#anchorTo" href="Ext.BasicDialog.html#anchorTo">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Anchors an element to another element and realigns it when the window is resized.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#beginUpdate">beginUpdate</a>() : void</td>
+        <td class="msource" rowspan="2">LayoutDialog</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Deprecated. Begins an update of the layout and sets display to block and visibility to hidden. Use standard beginUpda...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#center">center</a>() : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#center" href="Ext.BasicDialog.html#center">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Centers this dialog in the viewport</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#collapse">collapse</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#collapse" href="Ext.BasicDialog.html#collapse">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Collapses the dialog to its minimized state (only the title bar is visible).
+Equivalent to the user clicking the coll...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#destroy">destroy</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean removeEl</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#destroy" href="Ext.BasicDialog.html#destroy">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Destroys this dialog and all its supporting elements (including any tabs, shim,
+shadow, proxy, mask, etc.)  Also remo...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#endUpdate">endUpdate</a>() : void</td>
+        <td class="msource" rowspan="2">LayoutDialog</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc"><b>Deprecated.</b> Ends update of the layout <strike>and resets display to none</strike>. Use standard beginUpdate/endUpdate on the layout.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#expand">expand</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#expand" href="Ext.BasicDialog.html#expand">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Expands a collapsed dialog back to its normal state.  Equivalent to the user
+clicking the expand dialog button.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#focus">focus</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#focus" href="Ext.BasicDialog.html#focus">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Focuses the dialog.  If a defaultButton is set, it will receive focus, otherwise the
+dialog itself will receive focus.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getEl">getEl</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#getEl" href="Ext.BasicDialog.html#getEl">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the element for this dialog</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getLayout">getLayout</a>() : Ext.BorderLayout</td>
+        <td class="msource" rowspan="2">LayoutDialog</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Get the BorderLayout for this dialog</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTabs">getTabs</a>() : Ext.TabPanel</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#getTabs" href="Ext.BasicDialog.html#getTabs">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Returns the TabPanel component (creates it if it doesn't exist).
+Note: If you wish to simply check for the existence ...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hide">hide</a>(&nbsp;<span class="optional" title="Optional">[<code>Function callback</code>]</span>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#hide" href="Ext.BasicDialog.html#hide">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Hides the dialog.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#initTabs">initTabs</a>() : Ext.TabPanel</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#initTabs" href="Ext.BasicDialog.html#initTabs">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Reinitializes the tabs component, clearing out old tabs and finding new ones.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isVisible">isVisible</a>() : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#isVisible" href="Ext.BasicDialog.html#isVisible">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns true if the dialog is visible</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#moveTo">moveTo</a>(&nbsp;<code>Number x</code>, <code>Number y</code>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#moveTo" href="Ext.BasicDialog.html#moveTo">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Moves the dialog's top-left corner to the specified point</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#resizeTo">resizeTo</a>(&nbsp;<code>Number width</code>, <code>Number height</code>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#resizeTo" href="Ext.BasicDialog.html#resizeTo">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Resizes the dialog.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#restoreState">restoreState</a>() : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#restoreState" href="Ext.BasicDialog.html#restoreState">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Restores the previous state of the dialog if Ext.state is configured.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setContentSize">setContentSize</a>(&nbsp;<code>Number width</code>, <code>Number height</code>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#setContentSize" href="Ext.BasicDialog.html#setContentSize">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Resizes the dialog to fit the specified content size.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setDefaultButton">setDefaultButton</a>(&nbsp;<code>Ext.BasicDialog.Button btn</code>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#setDefaultButton" href="Ext.BasicDialog.html#setDefaultButton">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Sets the default button to be focused when the dialog is displayed.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setTitle">setTitle</a>(&nbsp;<code>String text</code>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#setTitle" href="Ext.BasicDialog.html#setTitle">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Sets the dialog title text</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#show">show</a>(&nbsp;<span class="optional" title="Optional">[<code>String/HTMLElement/Ext.Element animateTarget</code>]</span>&nbsp;) : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#show" href="Ext.BasicDialog.html#show">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Shows the dialog.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#toBack">toBack</a>() : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#toBack" href="Ext.BasicDialog.html#toBack">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Sends this dialog to the back (under) of any other visible dialogs</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#toFront">toFront</a>() : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#toFront" href="Ext.BasicDialog.html#toFront">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Brings this dialog to the front of any other visible dialogs</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforehide">beforehide</a> : (&nbsp;<code>Ext.BasicDialog this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#event-beforehide" href="Ext.BasicDialog.html#event-beforehide">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before this dialog is hidden.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeshow">beforeshow</a> : (&nbsp;<code>Ext.BasicDialog this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#event-beforeshow" href="Ext.BasicDialog.html#event-beforeshow">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires before this dialog is shown.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-hide">hide</a> : (&nbsp;<code>Ext.BasicDialog this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#event-hide" href="Ext.BasicDialog.html#event-hide">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when this dialog is hidden.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-keydown">keydown</a> : (&nbsp;<code>Ext.BasicDialog this</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#event-keydown" href="Ext.BasicDialog.html#event-keydown">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when a key is pressed</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-move">move</a> : (&nbsp;<code>Ext.BasicDialog this</code>, <code>Number x</code>, <code>Number y</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#event-move" href="Ext.BasicDialog.html#event-move">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when this dialog is moved by the user.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-resize">resize</a> : (&nbsp;<code>Ext.BasicDialog this</code>, <code>Number width</code>, <code>Number height</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#event-resize" href="Ext.BasicDialog.html#event-resize">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when this dialog is resized by the user.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-show">show</a> : (&nbsp;<code>Ext.BasicDialog this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#event-show" href="Ext.BasicDialog.html#event-show">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when this dialog is shown.</td>
+    </tr>
+            </table>
+                        <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-animateTarget">animateTarget</a> : String/Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#animateTarget" href="Ext.BasicDialog.html#animateTarget">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Id or element from which the dialog should animate while opening (defaults to null with no animation)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-autoCreate">autoCreate</a> : Boolean/DomHelper</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#autoCreate" href="Ext.BasicDialog.html#autoCreate">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to auto create from scratch, or using a DomHelper Object (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-autoScroll">autoScroll</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#autoScroll" href="Ext.BasicDialog.html#autoScroll">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to allow the dialog body contents to overflow and display scrollbars (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-autoTabs">autoTabs</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#autoTabs" href="Ext.BasicDialog.html#autoTabs">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">If true, all elements with class 'x-dlg-tab' will get automatically converted to tabs (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-buttonAlign">buttonAlign</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#buttonAlign" href="Ext.BasicDialog.html#buttonAlign">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Valid values are "left," "center" and "right" (defaults to "right")</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-closable">closable</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#closable" href="Ext.BasicDialog.html#closable">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">False to remove the built-in top-right corner close button (defaults to true)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-collapsible">collapsible</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#collapsible" href="Ext.BasicDialog.html#collapsible">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">False to remove the built-in top-right corner collapse button (defaults to true)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-constraintoviewport">constraintoviewport</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#constraintoviewport" href="Ext.BasicDialog.html#constraintoviewport">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to keep the dialog constrained within the visible viewport boundaries (defaults to true)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-draggable">draggable</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#draggable" href="Ext.BasicDialog.html#draggable">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">False to disable dragging of the dialog within the viewport (defaults to true)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-fixedcenter">fixedcenter</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#fixedcenter" href="Ext.BasicDialog.html#fixedcenter">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to ensure that anytime the dialog is shown or resized it gets centered (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-height">height</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#height" href="Ext.BasicDialog.html#height">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Height of the dialog in pixels (can also be set via CSS). Determined by browser if unspecified.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minButtonWidth">minButtonWidth</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#minButtonWidth" href="Ext.BasicDialog.html#minButtonWidth">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Minimum width of all dialog buttons (defaults to 75)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minHeight">minHeight</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#minHeight" href="Ext.BasicDialog.html#minHeight">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The minimum allowable height for a resizable dialog (defaults to 80)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minWidth">minWidth</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#minWidth" href="Ext.BasicDialog.html#minWidth">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The minimum allowable width for a resizable dialog (defaults to 200)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-modal">modal</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#modal" href="Ext.BasicDialog.html#modal">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to show the dialog modally, preventing user interaction with the rest of the page (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-proxyDrag">proxyDrag</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#proxyDrag" href="Ext.BasicDialog.html#proxyDrag">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to drag a lightweight proxy element rather than the dialog itself, used when draggable = true (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-resizable">resizable</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#resizable" href="Ext.BasicDialog.html#resizable">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">False to disable manual dialog resizing (defaults to true)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-resizeHandles">resizeHandles</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#resizeHandles" href="Ext.BasicDialog.html#resizeHandles">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Which resize handles to display - see the <a ext:cls="Ext.Resizable" href="Ext.Resizable.html">Ext.Resizable</a> handles config property for valid values (defaults to 'all')</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-shadow">shadow</a> : Boolean/String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#shadow" href="Ext.BasicDialog.html#shadow">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True or "sides" for the default effect, "frame" for 4-way shadow, and "drop" for bottom-right shadow (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-shadowOffset">shadowOffset</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#shadowOffset" href="Ext.BasicDialog.html#shadowOffset">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The number of pixels to offset the shadow if displayed (defaults to 5)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-shim">shim</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#shim" href="Ext.BasicDialog.html#shim">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to create an iframe shim that prevents selects from showing through (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-syncHeightBeforeShow">syncHeightBeforeShow</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#syncHeightBeforeShow" href="Ext.BasicDialog.html#syncHeightBeforeShow">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to cause the dimensions to be recalculated before the dialog is shown (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-tabTag">tabTag</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#tabTag" href="Ext.BasicDialog.html#tabTag">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The tag name of tab elements, used when autoTabs = true (defaults to 'div')</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-title">title</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#title" href="Ext.BasicDialog.html#title">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Default text to display in the title bar (defaults to null)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-width">width</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#width" href="Ext.BasicDialog.html#width">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Width of the dialog in pixels (can also be set via CSS). Determined by browser if unspecified.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-x">x</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#x" href="Ext.BasicDialog.html#x">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The default left page coordinate of the dialog (defaults to center screen)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-y">y</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicDialog" ext:member="#y" href="Ext.BasicDialog.html#y">BasicDialog</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The default top page coordinate of the dialog (defaults to center screen)</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="body"></a>
+                <div class="mdetail">
+                <h3>body</i></h3>
+                <code>public Ext.Element body</code>
+                <div class="mdetail-desc">
+                    The body element                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.BasicDialog" ext:member="#body" href="Ext.BasicDialog.html#body">BasicDialog</a>.</div>
+                </div>
+                            <a name="buttons"></a>
+                <div class="mdetail alt">
+                <h3>buttons</i></h3>
+                <code>public Array buttons</code>
+                <div class="mdetail-desc">
+                    Array of all the buttons that have been added to this dialog via addButton                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.BasicDialog" ext:member="#buttons" href="Ext.BasicDialog.html#buttons">BasicDialog</a>.</div>
+                </div>
+                            <a name="footer"></a>
+                <div class="mdetail">
+                <h3>footer</i></h3>
+                <code>public Ext.Element footer</code>
+                <div class="mdetail-desc">
+                    The footer element                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.BasicDialog" ext:member="#footer" href="Ext.BasicDialog.html#footer">BasicDialog</a>.</div>
+                </div>
+                            <a name="header"></a>
+                <div class="mdetail alt">
+                <h3>header</i></h3>
+                <code>public Ext.Element header</code>
+                <div class="mdetail-desc">
+                    The header element                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.BasicDialog" ext:member="#header" href="Ext.BasicDialog.html#header">BasicDialog</a>.</div>
+                </div>
+                        </div>
+        
+                    <a name="LayoutDialog"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>LayoutDialog</i></h3>
+                <code>public function LayoutDialog(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The id of or container element</div></li><li><code>config</code> : Object<div class="sub-desc">configuration options</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="addButton"></a>
+                <div class="mdetail">
+                <h3>addButton</i></h3>
+                <code>public function addButton(&nbsp;<code>String/Object config</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds a button to the footer section of the dialog.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : String/Object<div class="sub-desc">A string becomes the button text, an object can either be a Button config
+object or a valid Ext.DomHelper element config</div></li><li><code>handler</code> : Function<div class="sub-desc">The function called when the button is clicked</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the handler function</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Button</code><div class="sub-desc">The new button</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#addButton" href="Ext.BasicDialog.html#addButton">BasicDialog</a>.</div>
+                </div>
+                            <a name="addEvents"></a>
+                <div class="mdetail alt">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addKeyListener"></a>
+                <div class="mdetail">
+                <h3>addKeyListener</i></h3>
+                <code>public function addKeyListener(&nbsp;<code>Number/Array/Object key</code>, <code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds a key listener for when this dialog is displayed.  This allows you to hook in a function that will be
+executed in response to a particular key being pressed while the dialog is active.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>key</code> : Number/Array/Object<div class="sub-desc">Either the numeric key code, array of key codes or an object with the following options:
+{key: (number or array), shift: (true/false), ctrl: (true/false), alt: (true/false)}</div></li><li><code>fn</code> : Function<div class="sub-desc">The function to call</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#addKeyListener" href="Ext.BasicDialog.html#addKeyListener">BasicDialog</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail alt">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="alignTo"></a>
+                <div class="mdetail">
+                <h3>alignTo</i></h3>
+                <code>public function alignTo(&nbsp;<code>String/HTMLElement/Ext.Element element</code>, <code>String position</code>, <span class="optional" title="Optional">[<code>Array offsets</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Aligns the dialog to the specified element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>element</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The element to align to.</div></li><li><code>position</code> : String<div class="sub-desc">The position to align to (see <a ext:cls="Ext.Element" ext:member="alignTo" href="Ext.Element.html#alignTo">Ext.Element.alignTo</a> for more details).</div></li><li><code>offsets</code> : Array<div class="sub-desc">(optional) Offset the positioning by [x, y]</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#alignTo" href="Ext.BasicDialog.html#alignTo">BasicDialog</a>.</div>
+                </div>
+                            <a name="anchorTo"></a>
+                <div class="mdetail alt">
+                <h3>anchorTo</i></h3>
+                <code>public function anchorTo(&nbsp;<code>String/HTMLElement/Ext.Element element</code>, <code>String position</code>, <span class="optional" title="Optional">[<code>Array offsets</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number monitorScroll</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Anchors an element to another element and realigns it when the window is resized.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>element</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The element to align to.</div></li><li><code>position</code> : String<div class="sub-desc">The position to align to (see <a ext:cls="Ext.Element" ext:member="alignTo" href="Ext.Element.html#alignTo">Ext.Element.alignTo</a> for more details)</div></li><li><code>offsets</code> : Array<div class="sub-desc">(optional) Offset the positioning by [x, y]</div></li><li><code>monitorScroll</code> : Boolean/Number<div class="sub-desc">(optional) true to monitor body scroll and reposition. If this parameter
+is a number, it is used as the buffer delay (defaults to 50ms).</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#anchorTo" href="Ext.BasicDialog.html#anchorTo">BasicDialog</a>.</div>
+                </div>
+                            <a name="beginUpdate"></a>
+                <div class="mdetail">
+                <h3>beginUpdate</i></h3>
+                <code>public function beginUpdate()</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated.</b> Begins an update of the layout <strike>and sets display to block and visibility to hidden</strike>. Use standard beginUpdate/endUpdate on the layout.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by LayoutDialog.</div>
+                </div>
+                            <a name="center"></a>
+                <div class="mdetail alt">
+                <h3>center</i></h3>
+                <code>public function center()</code>
+                <div class="mdetail-desc">
+                    Centers this dialog in the viewport
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#center" href="Ext.BasicDialog.html#center">BasicDialog</a>.</div>
+                </div>
+                            <a name="collapse"></a>
+                <div class="mdetail">
+                <h3>collapse</i></h3>
+                <code>public function collapse()</code>
+                <div class="mdetail-desc">
+                    Collapses the dialog to its minimized state (only the title bar is visible).
+Equivalent to the user clicking the collapse dialog button.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#collapse" href="Ext.BasicDialog.html#collapse">BasicDialog</a>.</div>
+                </div>
+                            <a name="destroy"></a>
+                <div class="mdetail alt">
+                <h3>destroy</i></h3>
+                <code>public function destroy(&nbsp;<span class="optional" title="Optional">[<code>Boolean removeEl</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Destroys this dialog and all its supporting elements (including any tabs, shim,
+shadow, proxy, mask, etc.)  Also removes all event listeners.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>removeEl</code> : Boolean<div class="sub-desc">(optional) true to remove the element from the DOM</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#destroy" href="Ext.BasicDialog.html#destroy">BasicDialog</a>.</div>
+                </div>
+                            <a name="endUpdate"></a>
+                <div class="mdetail">
+                <h3>endUpdate</i></h3>
+                <code>public function endUpdate()</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated.</b> Ends update of the layout <strike>and resets display to none</strike>. Use standard beginUpdate/endUpdate on the layout.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by LayoutDialog.</div>
+                </div>
+                            <a name="expand"></a>
+                <div class="mdetail alt">
+                <h3>expand</i></h3>
+                <code>public function expand()</code>
+                <div class="mdetail-desc">
+                    Expands a collapsed dialog back to its normal state.  Equivalent to the user
+clicking the expand dialog button.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#expand" href="Ext.BasicDialog.html#expand">BasicDialog</a>.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="focus"></a>
+                <div class="mdetail alt">
+                <h3>focus</i></h3>
+                <code>public function focus()</code>
+                <div class="mdetail-desc">
+                    Focuses the dialog.  If a defaultButton is set, it will receive focus, otherwise the
+dialog itself will receive focus.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#focus" href="Ext.BasicDialog.html#focus">BasicDialog</a>.</div>
+                </div>
+                            <a name="getEl"></a>
+                <div class="mdetail">
+                <h3>getEl</i></h3>
+                <code>public function getEl()</code>
+                <div class="mdetail-desc">
+                    Returns the element for this dialog
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The underlying dialog Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#getEl" href="Ext.BasicDialog.html#getEl">BasicDialog</a>.</div>
+                </div>
+                            <a name="getLayout"></a>
+                <div class="mdetail alt">
+                <h3>getLayout</i></h3>
+                <code>public function getLayout()</code>
+                <div class="mdetail-desc">
+                    Get the BorderLayout for this dialog
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BorderLayout</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by LayoutDialog.</div>
+                </div>
+                            <a name="getTabs"></a>
+                <div class="mdetail">
+                <h3>getTabs</i></h3>
+                <code>public function getTabs()</code>
+                <div class="mdetail-desc">
+                    Returns the TabPanel component (creates it if it doesn't exist).
+Note: If you wish to simply check for the existence of tabs without creating them,
+check for a null 'tabs' property.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.TabPanel</code><div class="sub-desc">The tabs component</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#getTabs" href="Ext.BasicDialog.html#getTabs">BasicDialog</a>.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail alt">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="hide"></a>
+                <div class="mdetail">
+                <h3>hide</i></h3>
+                <code>public function hide(&nbsp;<span class="optional" title="Optional">[<code>Function callback</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Hides the dialog.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>callback</code> : Function<div class="sub-desc">(optional) Function to call when the dialog is hidden</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#hide" href="Ext.BasicDialog.html#hide">BasicDialog</a>.</div>
+                </div>
+                            <a name="initTabs"></a>
+                <div class="mdetail alt">
+                <h3>initTabs</i></h3>
+                <code>public function initTabs()</code>
+                <div class="mdetail-desc">
+                    Reinitializes the tabs component, clearing out old tabs and finding new ones.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.TabPanel</code><div class="sub-desc">The tabs component</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#initTabs" href="Ext.BasicDialog.html#initTabs">BasicDialog</a>.</div>
+                </div>
+                            <a name="isVisible"></a>
+                <div class="mdetail">
+                <h3>isVisible</i></h3>
+                <code>public function isVisible()</code>
+                <div class="mdetail-desc">
+                    Returns true if the dialog is visible
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#isVisible" href="Ext.BasicDialog.html#isVisible">BasicDialog</a>.</div>
+                </div>
+                            <a name="moveTo"></a>
+                <div class="mdetail alt">
+                <h3>moveTo</i></h3>
+                <code>public function moveTo(&nbsp;<code>Number x</code>, <code>Number y</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Moves the dialog's top-left corner to the specified point
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>x</code> : Number<div class="sub-desc"></div></li><li><code>y</code> : Number<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#moveTo" href="Ext.BasicDialog.html#moveTo">BasicDialog</a>.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail alt">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="resizeTo"></a>
+                <div class="mdetail alt">
+                <h3>resizeTo</i></h3>
+                <code>public function resizeTo(&nbsp;<code>Number width</code>, <code>Number height</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Resizes the dialog.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>width</code> : Number<div class="sub-desc"></div></li><li><code>height</code> : Number<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#resizeTo" href="Ext.BasicDialog.html#resizeTo">BasicDialog</a>.</div>
+                </div>
+                            <a name="restoreState"></a>
+                <div class="mdetail">
+                <h3>restoreState</i></h3>
+                <code>public function restoreState()</code>
+                <div class="mdetail-desc">
+                    Restores the previous state of the dialog if Ext.state is configured.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#restoreState" href="Ext.BasicDialog.html#restoreState">BasicDialog</a>.</div>
+                </div>
+                            <a name="setContentSize"></a>
+                <div class="mdetail alt">
+                <h3>setContentSize</i></h3>
+                <code>public function setContentSize(&nbsp;<code>Number width</code>, <code>Number height</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Resizes the dialog to fit the specified content size.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>width</code> : Number<div class="sub-desc"></div></li><li><code>height</code> : Number<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#setContentSize" href="Ext.BasicDialog.html#setContentSize">BasicDialog</a>.</div>
+                </div>
+                            <a name="setDefaultButton"></a>
+                <div class="mdetail">
+                <h3>setDefaultButton</i></h3>
+                <code>public function setDefaultButton(&nbsp;<code>Ext.BasicDialog.Button btn</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the default button to be focused when the dialog is displayed.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>btn</code> : Ext.BasicDialog.Button<div class="sub-desc">The button object returned by <a ext:cls="Ext.BasicDialog" ext:member="addButton" href="Ext.BasicDialog.html#addButton">addButton</a></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#setDefaultButton" href="Ext.BasicDialog.html#setDefaultButton">BasicDialog</a>.</div>
+                </div>
+                            <a name="setTitle"></a>
+                <div class="mdetail alt">
+                <h3>setTitle</i></h3>
+                <code>public function setTitle(&nbsp;<code>String text</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the dialog title text
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>text</code> : String<div class="sub-desc">The title text to display</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#setTitle" href="Ext.BasicDialog.html#setTitle">BasicDialog</a>.</div>
+                </div>
+                            <a name="show"></a>
+                <div class="mdetail">
+                <h3>show</i></h3>
+                <code>public function show(&nbsp;<span class="optional" title="Optional">[<code>String/HTMLElement/Ext.Element animateTarget</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Shows the dialog.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>animateTarget</code> : String/HTMLElement/Ext.Element<div class="sub-desc">(optional) Reset the animation target</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#show" href="Ext.BasicDialog.html#show">BasicDialog</a>.</div>
+                </div>
+                            <a name="toBack"></a>
+                <div class="mdetail alt">
+                <h3>toBack</i></h3>
+                <code>public function toBack()</code>
+                <div class="mdetail-desc">
+                    Sends this dialog to the back (under) of any other visible dialogs
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#toBack" href="Ext.BasicDialog.html#toBack">BasicDialog</a>.</div>
+                </div>
+                            <a name="toFront"></a>
+                <div class="mdetail">
+                <h3>toFront</i></h3>
+                <code>public function toFront()</code>
+                <div class="mdetail-desc">
+                    Brings this dialog to the front of any other visible dialogs
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicDialog" ext:member="#toFront" href="Ext.BasicDialog.html#toFront">BasicDialog</a>.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail alt">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-beforehide"></a>
+                <div class="mdetail">
+                <h3>beforehide</i></h3>
+                <code>public event beforehide</code>
+                <div class="mdetail-desc">
+                Fires before this dialog is hidden.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.BasicDialog<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicDialog" ext:member="#event-beforehide" href="Ext.BasicDialog.html#event-beforehide">BasicDialog</a>.</div>
+                </div>
+                            <a name="event-beforeshow"></a>
+                <div class="mdetail alt">
+                <h3>beforeshow</i></h3>
+                <code>public event beforeshow</code>
+                <div class="mdetail-desc">
+                Fires before this dialog is shown.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.BasicDialog<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicDialog" ext:member="#event-beforeshow" href="Ext.BasicDialog.html#event-beforeshow">BasicDialog</a>.</div>
+                </div>
+                            <a name="event-hide"></a>
+                <div class="mdetail">
+                <h3>hide</i></h3>
+                <code>public event hide</code>
+                <div class="mdetail-desc">
+                Fires when this dialog is hidden.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.BasicDialog<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicDialog" ext:member="#event-hide" href="Ext.BasicDialog.html#event-hide">BasicDialog</a>.</div>
+                </div>
+                            <a name="event-keydown"></a>
+                <div class="mdetail alt">
+                <h3>keydown</i></h3>
+                <code>public event keydown</code>
+                <div class="mdetail-desc">
+                Fires when a key is pressed
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.BasicDialog<div class="sub-desc"></div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicDialog" ext:member="#event-keydown" href="Ext.BasicDialog.html#event-keydown">BasicDialog</a>.</div>
+                </div>
+                            <a name="event-move"></a>
+                <div class="mdetail">
+                <h3>move</i></h3>
+                <code>public event move</code>
+                <div class="mdetail-desc">
+                Fires when this dialog is moved by the user.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.BasicDialog<div class="sub-desc"></div></li><li><code>x</code> : Number<div class="sub-desc">The new page X</div></li><li><code>y</code> : Number<div class="sub-desc">The new page Y</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicDialog" ext:member="#event-move" href="Ext.BasicDialog.html#event-move">BasicDialog</a>.</div>
+                </div>
+                            <a name="event-resize"></a>
+                <div class="mdetail alt">
+                <h3>resize</i></h3>
+                <code>public event resize</code>
+                <div class="mdetail-desc">
+                Fires when this dialog is resized by the user.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.BasicDialog<div class="sub-desc"></div></li><li><code>width</code> : Number<div class="sub-desc">The new width</div></li><li><code>height</code> : Number<div class="sub-desc">The new height</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicDialog" ext:member="#event-resize" href="Ext.BasicDialog.html#event-resize">BasicDialog</a>.</div>
+                </div>
+                            <a name="event-show"></a>
+                <div class="mdetail">
+                <h3>show</i></h3>
+                <code>public event show</code>
+                <div class="mdetail-desc">
+                Fires when this dialog is shown.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.BasicDialog<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicDialog" ext:member="#event-show" href="Ext.BasicDialog.html#event-show">BasicDialog</a>.</div>
+                </div>
+                        </div>
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-animateTarget"></a>
+                <div class="mdetail">
+                <h3>animateTarget</i></h3>
+                <code>animateTarget : String/Element</code>
+                <div class="mdetail-desc">
+                    Id or element from which the dialog should animate while opening (defaults to null with no animation)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#animateTarget" href="Ext.BasicDialog.html#animateTarget">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-autoCreate"></a>
+                <div class="mdetail alt">
+                <h3>autoCreate</i></h3>
+                <code>autoCreate : Boolean/DomHelper</code>
+                <div class="mdetail-desc">
+                    True to auto create from scratch, or using a DomHelper Object (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#autoCreate" href="Ext.BasicDialog.html#autoCreate">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-autoScroll"></a>
+                <div class="mdetail">
+                <h3>autoScroll</i></h3>
+                <code>autoScroll : Boolean</code>
+                <div class="mdetail-desc">
+                    True to allow the dialog body contents to overflow and display scrollbars (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#autoScroll" href="Ext.BasicDialog.html#autoScroll">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-autoTabs"></a>
+                <div class="mdetail alt">
+                <h3>autoTabs</i></h3>
+                <code>autoTabs : Boolean</code>
+                <div class="mdetail-desc">
+                    If true, all elements with class 'x-dlg-tab' will get automatically converted to tabs (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#autoTabs" href="Ext.BasicDialog.html#autoTabs">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-buttonAlign"></a>
+                <div class="mdetail">
+                <h3>buttonAlign</i></h3>
+                <code>buttonAlign : String</code>
+                <div class="mdetail-desc">
+                    Valid values are "left," "center" and "right" (defaults to "right")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#buttonAlign" href="Ext.BasicDialog.html#buttonAlign">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-closable"></a>
+                <div class="mdetail alt">
+                <h3>closable</i></h3>
+                <code>closable : Boolean</code>
+                <div class="mdetail-desc">
+                    False to remove the built-in top-right corner close button (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#closable" href="Ext.BasicDialog.html#closable">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-collapsible"></a>
+                <div class="mdetail">
+                <h3>collapsible</i></h3>
+                <code>collapsible : Boolean</code>
+                <div class="mdetail-desc">
+                    False to remove the built-in top-right corner collapse button (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#collapsible" href="Ext.BasicDialog.html#collapsible">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-constraintoviewport"></a>
+                <div class="mdetail alt">
+                <h3>constraintoviewport</i></h3>
+                <code>constraintoviewport : Boolean</code>
+                <div class="mdetail-desc">
+                    True to keep the dialog constrained within the visible viewport boundaries (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#constraintoviewport" href="Ext.BasicDialog.html#constraintoviewport">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-draggable"></a>
+                <div class="mdetail">
+                <h3>draggable</i></h3>
+                <code>draggable : Boolean</code>
+                <div class="mdetail-desc">
+                    False to disable dragging of the dialog within the viewport (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#draggable" href="Ext.BasicDialog.html#draggable">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-fixedcenter"></a>
+                <div class="mdetail alt">
+                <h3>fixedcenter</i></h3>
+                <code>fixedcenter : Boolean</code>
+                <div class="mdetail-desc">
+                    True to ensure that anytime the dialog is shown or resized it gets centered (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#fixedcenter" href="Ext.BasicDialog.html#fixedcenter">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-height"></a>
+                <div class="mdetail">
+                <h3>height</i></h3>
+                <code>height : Number</code>
+                <div class="mdetail-desc">
+                    Height of the dialog in pixels (can also be set via CSS). Determined by browser if unspecified.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#height" href="Ext.BasicDialog.html#height">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-minButtonWidth"></a>
+                <div class="mdetail alt">
+                <h3>minButtonWidth</i></h3>
+                <code>minButtonWidth : Number</code>
+                <div class="mdetail-desc">
+                    Minimum width of all dialog buttons (defaults to 75)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#minButtonWidth" href="Ext.BasicDialog.html#minButtonWidth">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-minHeight"></a>
+                <div class="mdetail">
+                <h3>minHeight</i></h3>
+                <code>minHeight : Number</code>
+                <div class="mdetail-desc">
+                    The minimum allowable height for a resizable dialog (defaults to 80)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#minHeight" href="Ext.BasicDialog.html#minHeight">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-minWidth"></a>
+                <div class="mdetail alt">
+                <h3>minWidth</i></h3>
+                <code>minWidth : Number</code>
+                <div class="mdetail-desc">
+                    The minimum allowable width for a resizable dialog (defaults to 200)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#minWidth" href="Ext.BasicDialog.html#minWidth">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-modal"></a>
+                <div class="mdetail">
+                <h3>modal</i></h3>
+                <code>modal : Boolean</code>
+                <div class="mdetail-desc">
+                    True to show the dialog modally, preventing user interaction with the rest of the page (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#modal" href="Ext.BasicDialog.html#modal">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-proxyDrag"></a>
+                <div class="mdetail alt">
+                <h3>proxyDrag</i></h3>
+                <code>proxyDrag : Boolean</code>
+                <div class="mdetail-desc">
+                    True to drag a lightweight proxy element rather than the dialog itself, used when draggable = true (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#proxyDrag" href="Ext.BasicDialog.html#proxyDrag">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-resizable"></a>
+                <div class="mdetail">
+                <h3>resizable</i></h3>
+                <code>resizable : Boolean</code>
+                <div class="mdetail-desc">
+                    False to disable manual dialog resizing (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#resizable" href="Ext.BasicDialog.html#resizable">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-resizeHandles"></a>
+                <div class="mdetail alt">
+                <h3>resizeHandles</i></h3>
+                <code>resizeHandles : String</code>
+                <div class="mdetail-desc">
+                    Which resize handles to display - see the <a ext:cls="Ext.Resizable" href="Ext.Resizable.html">Ext.Resizable</a> handles config property for valid values (defaults to 'all')                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#resizeHandles" href="Ext.BasicDialog.html#resizeHandles">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-shadow"></a>
+                <div class="mdetail">
+                <h3>shadow</i></h3>
+                <code>shadow : Boolean/String</code>
+                <div class="mdetail-desc">
+                    True or "sides" for the default effect, "frame" for 4-way shadow, and "drop" for bottom-right shadow (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#shadow" href="Ext.BasicDialog.html#shadow">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-shadowOffset"></a>
+                <div class="mdetail alt">
+                <h3>shadowOffset</i></h3>
+                <code>shadowOffset : Number</code>
+                <div class="mdetail-desc">
+                    The number of pixels to offset the shadow if displayed (defaults to 5)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#shadowOffset" href="Ext.BasicDialog.html#shadowOffset">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-shim"></a>
+                <div class="mdetail">
+                <h3>shim</i></h3>
+                <code>shim : Boolean</code>
+                <div class="mdetail-desc">
+                    True to create an iframe shim that prevents selects from showing through (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#shim" href="Ext.BasicDialog.html#shim">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-syncHeightBeforeShow"></a>
+                <div class="mdetail alt">
+                <h3>syncHeightBeforeShow</i></h3>
+                <code>syncHeightBeforeShow : Boolean</code>
+                <div class="mdetail-desc">
+                    True to cause the dimensions to be recalculated before the dialog is shown (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#syncHeightBeforeShow" href="Ext.BasicDialog.html#syncHeightBeforeShow">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-tabTag"></a>
+                <div class="mdetail">
+                <h3>tabTag</i></h3>
+                <code>tabTag : String</code>
+                <div class="mdetail-desc">
+                    The tag name of tab elements, used when autoTabs = true (defaults to 'div')                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#tabTag" href="Ext.BasicDialog.html#tabTag">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-title"></a>
+                <div class="mdetail alt">
+                <h3>title</i></h3>
+                <code>title : String</code>
+                <div class="mdetail-desc">
+                    Default text to display in the title bar (defaults to null)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#title" href="Ext.BasicDialog.html#title">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-width"></a>
+                <div class="mdetail">
+                <h3>width</i></h3>
+                <code>width : Number</code>
+                <div class="mdetail-desc">
+                    Width of the dialog in pixels (can also be set via CSS). Determined by browser if unspecified.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#width" href="Ext.BasicDialog.html#width">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-x"></a>
+                <div class="mdetail alt">
+                <h3>x</i></h3>
+                <code>x : Number</code>
+                <div class="mdetail-desc">
+                    The default left page coordinate of the dialog (defaults to center screen)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#x" href="Ext.BasicDialog.html#x">BasicDialog</a>.</div>
+                </div>
+                            <a name="config-y"></a>
+                <div class="mdetail">
+                <h3>y</i></h3>
+                <code>y : Number</code>
+                <div class="mdetail-desc">
+                    The default top page coordinate of the dialog (defaults to center screen)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.BasicDialog" ext:member="#y" href="Ext.BasicDialog.html#y">BasicDialog</a>.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

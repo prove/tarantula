@@ -1,0 +1,744 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.Resizable</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.Resizable.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.Resizable</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>Resizable</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.util.Observable" ext:member="" href="Ext.util.Observable.html">Observable</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="Resizable.jss.html">Resizable.js</a></td></tr>
+        </table>
+        <div class="description">
+            <p>Applies drag handles to an element to make it resizable. The drag handles are inserted into the element
+and positioned absolute. Some elements, such as a textarea or image, don't support this. To overcome that, you can wrap
+the textarea in a div and set "resizeChild" to true (or to the id of the element), <b>or</b> set wrap:true in your config and
+the element will be wrapped for you automatically.</p>
+<p>Here is the list of valid resize handles:</p>
+<pre>Value   Description------  ------------------- 'n'     north 's'     south 'e'     east 'w'     west 'nw'    northwest 'sw'    southwest 'se'    southeast 'ne'    northeast 'all'   all</pre>
+<p>Here's an example showing the creation of a typical Resizable:</p>
+<pre><code>var resizer = <b>new</b> Ext.Resizable(<em>"element-id"</em>, {    handles: <em>'all'</em>,    minWidth: 200,    minHeight: 100,    maxWidth: 500,    maxHeight: 400,    pinned: true});resizer.on(<em>"resize"</em>, myHandler);</code></pre>
+<p>To hide a particular handle, set its display to none in CSS, or through script:<br>
+resizer.east.setDisplayed(false);</p>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>Resizable</b>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new resizable component</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-adjustments">adjustments</a> : Array/String</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">String "auto" or an array [width, height] with values to be added to the resize operation's new size (defaults to [0,...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-animate">animate</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True to animate the resize (not compatible with dynamic sizing, defaults to false)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-disableTrackOver">disableTrackOver</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True to disable mouse tracking. This is only applied at config time. (defaults to false)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-draggable">draggable</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Convenience to initialize drag drop (defaults to false)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-duration">duration</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Animation duration if animate = true (defaults to .35)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-dynamic">dynamic</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True to resize the element while dragging instead of using a proxy (defaults to false)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-easing">easing</a> : String</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Animation easing if animate = true (defaults to 'easingOutStrong')</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-enabled">enabled</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">False to disable resizing (defaults to true)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-handles">handles</a> : String</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">String consisting of the resize handles to display (defaults to undefined)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-height">height</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The height of the element in pixels (defaults to null)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-heightIncrement">heightIncrement</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The increment to snap the height resize in pixels (dynamic must be true, defaults to 0)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-maxHeight">maxHeight</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The maximum height for the element (defaults to 10000)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-maxWidth">maxWidth</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The maximum width for the element (defaults to 10000)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minHeight">minHeight</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The minimum height for the element (defaults to 5)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minWidth">minWidth</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The minimum width for the element (defaults to 5)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minX">minX</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The minimum allowed page X for the element (only used for west resizing, defaults to 0)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minY">minY</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The minimum allowed page Y for the element (only used for north resizing, defaults to 0)</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-multiDirectional">multiDirectional</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Deprecated. The old style of adding multi-direction resize handles, deprecated in favor of the handles config option ...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-pinned">pinned</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">True to ensure that the resize handles are always visible, false to display them only when the user mouses over the r...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-preserveRatio">preserveRatio</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True to preserve the original ratio between height and width during resize (defaults to false)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-resizeChild">resizeChild</a> : Boolean/String/Element</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True to resize the first child, or id/element to resize (defaults to false)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-transparent">transparent</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True for transparent handles. This is only applied at config time. (defaults to false)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-width">width</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The width of the element in pixels (defaults to null)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-widthIncrement">widthIncrement</a> : Number</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The increment to snap the width resize in pixels (dynamic must be true, defaults to 0)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-wrap">wrap</a> : Boolean</td>
+        <td class="msource" rowspan="2">Resizable</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True to wrap an element with a div if needed (required for textareas and images, defaults to false)</td>
+    </tr>
+            </table>
+                
+                    <a name="Resizable"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>Resizable</i></h3>
+                <code>public function Resizable(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new resizable component                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The id or element to resize</div></li><li><code>config</code> : Object<div class="sub-desc">configuration options</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="addEvents"></a>
+                <div class="mdetail">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail alt">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail alt">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail alt">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail alt">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-adjustments"></a>
+                <div class="mdetail">
+                <h3>adjustments</i></h3>
+                <code>adjustments : Array/String</code>
+                <div class="mdetail-desc">
+                    String "auto" or an array [width, height] with values to be <b>added</b> to the resize operation's new size (defaults to [0, 0])                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-animate"></a>
+                <div class="mdetail alt">
+                <h3>animate</i></h3>
+                <code>animate : Boolean</code>
+                <div class="mdetail-desc">
+                    True to animate the resize (not compatible with dynamic sizing, defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-disableTrackOver"></a>
+                <div class="mdetail">
+                <h3>disableTrackOver</i></h3>
+                <code>disableTrackOver : Boolean</code>
+                <div class="mdetail-desc">
+                    True to disable mouse tracking. This is only applied at config time. (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-draggable"></a>
+                <div class="mdetail alt">
+                <h3>draggable</i></h3>
+                <code>draggable : Boolean</code>
+                <div class="mdetail-desc">
+                    Convenience to initialize drag drop (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-duration"></a>
+                <div class="mdetail">
+                <h3>duration</i></h3>
+                <code>duration : Number</code>
+                <div class="mdetail-desc">
+                    Animation duration if animate = true (defaults to .35)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-dynamic"></a>
+                <div class="mdetail alt">
+                <h3>dynamic</i></h3>
+                <code>dynamic : Boolean</code>
+                <div class="mdetail-desc">
+                    True to resize the element while dragging instead of using a proxy (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-easing"></a>
+                <div class="mdetail">
+                <h3>easing</i></h3>
+                <code>easing : String</code>
+                <div class="mdetail-desc">
+                    Animation easing if animate = true (defaults to 'easingOutStrong')                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-enabled"></a>
+                <div class="mdetail alt">
+                <h3>enabled</i></h3>
+                <code>enabled : Boolean</code>
+                <div class="mdetail-desc">
+                    False to disable resizing (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-handles"></a>
+                <div class="mdetail">
+                <h3>handles</i></h3>
+                <code>handles : String</code>
+                <div class="mdetail-desc">
+                    String consisting of the resize handles to display (defaults to undefined)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-height"></a>
+                <div class="mdetail alt">
+                <h3>height</i></h3>
+                <code>height : Number</code>
+                <div class="mdetail-desc">
+                    The height of the element in pixels (defaults to null)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-heightIncrement"></a>
+                <div class="mdetail">
+                <h3>heightIncrement</i></h3>
+                <code>heightIncrement : Number</code>
+                <div class="mdetail-desc">
+                    The increment to snap the height resize in pixels (dynamic must be true, defaults to 0)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-maxHeight"></a>
+                <div class="mdetail alt">
+                <h3>maxHeight</i></h3>
+                <code>maxHeight : Number</code>
+                <div class="mdetail-desc">
+                    The maximum height for the element (defaults to 10000)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-maxWidth"></a>
+                <div class="mdetail">
+                <h3>maxWidth</i></h3>
+                <code>maxWidth : Number</code>
+                <div class="mdetail-desc">
+                    The maximum width for the element (defaults to 10000)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-minHeight"></a>
+                <div class="mdetail alt">
+                <h3>minHeight</i></h3>
+                <code>minHeight : Number</code>
+                <div class="mdetail-desc">
+                    The minimum height for the element (defaults to 5)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-minWidth"></a>
+                <div class="mdetail">
+                <h3>minWidth</i></h3>
+                <code>minWidth : Number</code>
+                <div class="mdetail-desc">
+                    The minimum width for the element (defaults to 5)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-minX"></a>
+                <div class="mdetail alt">
+                <h3>minX</i></h3>
+                <code>minX : Number</code>
+                <div class="mdetail-desc">
+                    The minimum allowed page X for the element (only used for west resizing, defaults to 0)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-minY"></a>
+                <div class="mdetail">
+                <h3>minY</i></h3>
+                <code>minY : Number</code>
+                <div class="mdetail-desc">
+                    The minimum allowed page Y for the element (only used for north resizing, defaults to 0)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-multiDirectional"></a>
+                <div class="mdetail alt">
+                <h3>multiDirectional</i></h3>
+                <code>multiDirectional : Boolean</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated</b>. The old style of adding multi-direction resize handles, deprecated in favor of the handles config option (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-pinned"></a>
+                <div class="mdetail">
+                <h3>pinned</i></h3>
+                <code>pinned : Boolean</code>
+                <div class="mdetail-desc">
+                    True to ensure that the resize handles are always visible, false to display them only when the user mouses over the resizable borders. This is only applied at config time. (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-preserveRatio"></a>
+                <div class="mdetail alt">
+                <h3>preserveRatio</i></h3>
+                <code>preserveRatio : Boolean</code>
+                <div class="mdetail-desc">
+                    True to preserve the original ratio between height and width during resize (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-resizeChild"></a>
+                <div class="mdetail">
+                <h3>resizeChild</i></h3>
+                <code>resizeChild : Boolean/String/Element</code>
+                <div class="mdetail-desc">
+                    True to resize the first child, or id/element to resize (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-transparent"></a>
+                <div class="mdetail alt">
+                <h3>transparent</i></h3>
+                <code>transparent : Boolean</code>
+                <div class="mdetail-desc">
+                    True for transparent handles. This is only applied at config time. (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-width"></a>
+                <div class="mdetail">
+                <h3>width</i></h3>
+                <code>width : Number</code>
+                <div class="mdetail-desc">
+                    The width of the element in pixels (defaults to null)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-widthIncrement"></a>
+                <div class="mdetail alt">
+                <h3>widthIncrement</i></h3>
+                <code>widthIncrement : Number</code>
+                <div class="mdetail-desc">
+                    The increment to snap the width resize in pixels (dynamic must be true, defaults to 0)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                            <a name="config-wrap"></a>
+                <div class="mdetail">
+                <h3>wrap</i></h3>
+                <code>wrap : Boolean</code>
+                <div class="mdetail-desc">
+                    True to wrap an element with a div if needed (required for textareas and images, defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by Resizable.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

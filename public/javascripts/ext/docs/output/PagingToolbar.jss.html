@@ -1,0 +1,263 @@
+<html><head><title>PagingToolbar.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>PagingToolbar.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.PagingToolbar
+ * @extends Ext.Toolbar
+ * A specialized toolbar that is bound to a {@link Ext.data.Store} and provides automatic paging controls.
+ * @constructor
+ * Create a <b>new</b> PagingToolbar
+ * @param {String/HTMLElement/Element} container The id or element that will contain the toolbar
+ * @param {Ext.data.Store} store The underlying data store providing the paged data
+ * @param {Object} config The config object
+ */</i>
+Ext.PagingToolbar = <b>function</b>(el, ds, config){
+    Ext.PagingToolbar.superclass.constructor.call(<b>this</b>, el, null, config);
+    <b>this</b>.ds = ds;
+    <b>this</b>.cursor = 0;
+    <b>this</b>.renderButtons(<b>this</b>.el);
+    <b>this</b>.bind(ds);
+};
+
+Ext.extend(Ext.PagingToolbar, Ext.Toolbar, {
+    <i>/**
+     * @cfg {Number} pageSize
+     * The number of records to display per page (defaults to 20)
+     */</i>
+    pageSize: 20,
+    <i>/**
+     * @cfg {String} displayMsg
+     * The paging status message to display (defaults to &quot;Displaying {start} - {end} of {total}&quot;)
+     */</i>
+    displayMsg : <em>'Displaying {0} - {1} of {2}'</em>,
+    <i>/**
+     * @cfg {String} emptyMsg
+     * The message to display when no records are found (defaults to &quot;No data to display&quot;)
+     */</i>
+    emptyMsg : <em>'No data to display'</em>,
+    <i>/**
+     * Customizable piece of the <b>default</b> paging text (defaults to &quot;Page&quot;)
+     * @type String
+     */</i>
+    beforePageText : &quot;Page&quot;,
+    <i>/**
+     * Customizable piece of the <b>default</b> paging text (defaults to &quot;of %0&quot;)
+     * @type String
+     */</i>
+    afterPageText : &quot;of {0}&quot;,
+    <i>/**
+     * Customizable piece of the <b>default</b> paging text (defaults to &quot;First Page&quot;)
+     * @type String
+     */</i>
+    firstText : &quot;First Page&quot;,
+    <i>/**
+     * Customizable piece of the <b>default</b> paging text (defaults to &quot;Previous Page&quot;)
+     * @type String
+     */</i>
+    prevText : &quot;Previous Page&quot;,
+    <i>/**
+     * Customizable piece of the <b>default</b> paging text (defaults to &quot;Next Page&quot;)
+     * @type String
+     */</i>
+    nextText : &quot;Next Page&quot;,
+    <i>/**
+     * Customizable piece of the <b>default</b> paging text (defaults to &quot;Last Page&quot;)
+     * @type String
+     */</i>
+    lastText : &quot;Last Page&quot;,
+    <i>/**
+     * Customizable piece of the <b>default</b> paging text (defaults to &quot;Refresh&quot;)
+     * @type String
+     */</i>
+    refreshText : &quot;Refresh&quot;,
+
+    <i>// private</i>
+    renderButtons : <b>function</b>(el){
+        Ext.PagingToolbar.superclass.render.call(<b>this</b>, el);
+        <b>this</b>.first = <b>this</b>.addButton({
+            tooltip: <b>this</b>.firstText,
+            cls: &quot;x-btn-icon x-grid-page-first&quot;,
+            disabled: true,
+            handler: <b>this</b>.onClick.createDelegate(<b>this</b>, [&quot;first&quot;])
+        });
+        <b>this</b>.prev = <b>this</b>.addButton({
+            tooltip: <b>this</b>.prevText,
+            cls: &quot;x-btn-icon x-grid-page-prev&quot;,
+            disabled: true,
+            handler: <b>this</b>.onClick.createDelegate(<b>this</b>, [&quot;prev&quot;])
+        });
+        <b>this</b>.addSeparator();
+        <b>this</b>.add(<b>this</b>.beforePageText);
+        <b>this</b>.field = Ext.get(<b>this</b>.addDom({
+           tag: &quot;input&quot;,
+           type: &quot;text&quot;,
+           size: &quot;3&quot;,
+           value: &quot;1&quot;,
+           cls: &quot;x-grid-page-number&quot;
+        }).el);
+        <b>this</b>.field.on(&quot;keydown&quot;, <b>this</b>.onPagingKeydown, <b>this</b>);
+        <b>this</b>.field.on(&quot;focus&quot;, <b>function</b>(){<b>this</b>.dom.select();});
+        <b>this</b>.afterTextEl = <b>this</b>.addText(String.format(<b>this</b>.afterPageText, 1));
+        <b>this</b>.field.setHeight(18);
+        <b>this</b>.addSeparator();
+        <b>this</b>.next = <b>this</b>.addButton({
+            tooltip: <b>this</b>.nextText,
+            cls: &quot;x-btn-icon x-grid-page-next&quot;,
+            disabled: true,
+            handler: <b>this</b>.onClick.createDelegate(<b>this</b>, [&quot;next&quot;])
+        });
+        <b>this</b>.last = <b>this</b>.addButton({
+            tooltip: <b>this</b>.lastText,
+            cls: &quot;x-btn-icon x-grid-page-last&quot;,
+            disabled: true,
+            handler: <b>this</b>.onClick.createDelegate(<b>this</b>, [&quot;last&quot;])
+        });
+        <b>this</b>.addSeparator();
+        <b>this</b>.loading = <b>this</b>.addButton({
+            tooltip: <b>this</b>.refreshText,
+            cls: &quot;x-btn-icon x-grid-loading&quot;,
+            handler: <b>this</b>.onClick.createDelegate(<b>this</b>, [&quot;refresh&quot;])
+        });
+
+        <b>if</b>(this.displayInfo){
+            <b>this</b>.displayEl = Ext.fly(<b>this</b>.el.dom.firstChild).createChild({cls:<em>'x-paging-info'</em>});
+        }
+    },
+
+    <i>// private</i>
+    updateInfo : <b>function</b>(){
+        <b>if</b>(this.displayEl){
+            <b>var</b> count = <b>this</b>.ds.getCount();
+            <b>var</b> msg = count == 0 ?
+                <b>this</b>.emptyMsg :
+                String.format(
+                    <b>this</b>.displayMsg,
+                    <b>this</b>.cursor+1, <b>this</b>.cursor+count, <b>this</b>.ds.getTotalCount()    
+                );
+            <b>this</b>.displayEl.update(msg);
+        }
+    },
+
+    <i>// private</i>
+    onLoad : <b>function</b>(ds, r, o){
+       <b>this</b>.cursor = o.params ? o.params.start : 0;
+       <b>var</b> d = <b>this</b>.getPageData(), ap = d.activePage, ps = d.pages;
+
+       <b>this</b>.afterTextEl.el.innerHTML = String.format(<b>this</b>.afterPageText, d.pages);
+       <b>this</b>.field.dom.value = ap;
+       <b>this</b>.first.setDisabled(ap == 1);
+       <b>this</b>.prev.setDisabled(ap == 1);
+       <b>this</b>.next.setDisabled(ap == ps);
+       <b>this</b>.last.setDisabled(ap == ps);
+       <b>this</b>.loading.enable();
+       <b>this</b>.updateInfo();
+    },
+
+    <i>// private</i>
+    getPageData : <b>function</b>(){
+        <b>var</b> total = <b>this</b>.ds.getTotalCount();
+        <b>return</b> {
+            total : total,
+            activePage : Math.ceil((<b>this</b>.cursor+<b>this</b>.pageSize)/<b>this</b>.pageSize),
+            pages :  total &lt; <b>this</b>.pageSize ? 1 : Math.ceil(total/<b>this</b>.pageSize)
+        };
+    },
+
+    <i>// private</i>
+    onLoadError : <b>function</b>(){
+        <b>this</b>.loading.enable();
+    },
+
+    <i>// private</i>
+    onPagingKeydown : <b>function</b>(e){
+        <b>var</b> k = e.getKey();
+        <b>var</b> d = <b>this</b>.getPageData();
+        <b>if</b>(k == e.RETURN){
+            <b>var</b> v = <b>this</b>.field.dom.value, pageNum;
+            <b>if</b>(!v || isNaN(pageNum = parseInt(v, 10))){
+                <b>this</b>.field.dom.value = d.activePage;
+                <b>return</b>;
+            }
+            pageNum = Math.min(Math.max(1, pageNum), d.pages) - 1;
+            <b>this</b>.ds.load({params:{start: pageNum * <b>this</b>.pageSize, limit: <b>this</b>.pageSize}});
+            e.stopEvent();
+        }
+        <b>else</b> if(k == e.HOME || (k == e.UP &amp;&amp; e.ctrlKey) || (k == e.PAGEUP &amp;&amp; e.ctrlKey) || (k == e.RIGHT &amp;&amp; e.ctrlKey) || k == e.END || (k == e.DOWN &amp;&amp; e.ctrlKey) || (k == e.LEFT &amp;&amp; e.ctrlKey) || (k == e.PAGEDOWN &amp;&amp; e.ctrlKey))
+        {
+          <b>var</b> pageNum = (k == e.HOME || (k == e.DOWN &amp;&amp; e.ctrlKey) || (k == e.LEFT &amp;&amp; e.ctrlKey) || (k == e.PAGEDOWN &amp;&amp; e.ctrlKey)) ? 1 : d.pages;
+          <b>this</b>.field.dom.value = pageNum;
+          <b>this</b>.ds.load({params:{start: (pageNum - 1) * <b>this</b>.pageSize, limit: <b>this</b>.pageSize}});
+          e.stopEvent();
+        }
+        <b>else</b> if(k == e.UP || k == e.RIGHT || k == e.PAGEUP || k == e.DOWN || k == e.LEFT || k == e.PAGEDOWN)
+        {
+          <b>var</b> v = <b>this</b>.field.dom.value, pageNum; 
+          <b>var</b> increment = (e.shiftKey) ? 10 : 1;
+          <b>if</b>(k == e.DOWN || k == e.LEFT || k == e.PAGEDOWN)
+            increment *= -1;
+          <b>if</b>(!v || isNaN(pageNum = parseInt(v, 10))) {
+            <b>this</b>.field.dom.value = d.activePage;
+            <b>return</b>;
+          }
+          <b>else</b> if(parseInt(v, 10) + increment &gt;= 1 &amp; parseInt(v, 10) + increment &lt;= d.pages)
+          {
+            <b>this</b>.field.dom.value = parseInt(v, 10) + increment;
+            pageNum = Math.min(Math.max(1, pageNum + increment), d.pages) - 1;
+            <b>this</b>.ds.load({params:{start: pageNum * <b>this</b>.pageSize, limit: <b>this</b>.pageSize}});
+          }
+          e.stopEvent();
+        }
+    },
+
+    <i>// private</i>
+    beforeLoad : <b>function</b>(){
+        <b>if</b>(this.loading){
+            <b>this</b>.loading.disable();
+        }
+    },
+
+    <i>// private</i>
+    onClick : <b>function</b>(which){
+        <b>var</b> ds = <b>this</b>.ds;
+        <b>switch</b>(which){
+            <b>case</b> &quot;first&quot;:
+                ds.load({params:{start: 0, limit: <b>this</b>.pageSize}});
+            <b>break</b>;
+            <b>case</b> &quot;prev&quot;:
+                ds.load({params:{start: Math.max(0, <b>this</b>.cursor-<b>this</b>.pageSize), limit: <b>this</b>.pageSize}});
+            <b>break</b>;
+            <b>case</b> &quot;next&quot;:
+                ds.load({params:{start: <b>this</b>.cursor+<b>this</b>.pageSize, limit: <b>this</b>.pageSize}});
+            <b>break</b>;
+            <b>case</b> &quot;last&quot;:
+                <b>var</b> total = ds.getTotalCount();
+                <b>var</b> extra = total % <b>this</b>.pageSize;
+                <b>var</b> lastStart = extra ? (total - extra) : total-<b>this</b>.pageSize;
+                ds.load({params:{start: lastStart, limit: <b>this</b>.pageSize}});
+            <b>break</b>;
+            <b>case</b> &quot;refresh&quot;:
+                ds.load({params:{start: <b>this</b>.cursor, limit: <b>this</b>.pageSize}});
+            <b>break</b>;
+        }
+    },
+
+    <i>/**
+     * Unbinds the paging toolbar from the specified {@link Ext.data.Store}
+     * @param {Ext.data.Store} store The data store to unbind
+     */</i>
+    unbind : <b>function</b>(ds){
+        ds.un(&quot;beforeload&quot;, <b>this</b>.beforeLoad, <b>this</b>);
+        ds.un(&quot;load&quot;, <b>this</b>.onLoad, <b>this</b>);
+        ds.un(&quot;loadexception&quot;, <b>this</b>.onLoadError, <b>this</b>);
+        <b>this</b>.ds = undefined;
+    },
+
+    <i>/**
+     * Binds the paging toolbar to the specified {@link Ext.data.Store}
+     * @param {Ext.data.Store} store The data store to bind
+     */</i>
+    bind : <b>function</b>(ds){
+        ds.on(&quot;beforeload&quot;, <b>this</b>.beforeLoad, <b>this</b>);
+        ds.on(&quot;load&quot;, <b>this</b>.onLoad, <b>this</b>);
+        ds.on(&quot;loadexception&quot;, <b>this</b>.onLoadError, <b>this</b>);
+        <b>this</b>.ds = ds;
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

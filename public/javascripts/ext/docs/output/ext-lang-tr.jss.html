@@ -1,0 +1,172 @@
+<html><head><title>ext-lang-tr.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-tr.js</h1><pre class="highlighted"><code><i>/**
+ * List compiled by mystix on the extjs.com forums.
+ * Thank you Mystix!
+ */</i>
+<i>// holder</i>
+<i>/***
+ * Turkish translation by H&Atilde;&frac14;seyin T&Atilde;&frac14;fek&Atilde;&sect;ilerli
+ * 04-11-2007, 09:52 AM 
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;Y&Atilde;&frac14;kleniyor...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} se&Atilde;&sect;ili sat&Auml;&plusmn;r&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;Bu sekmeyi kapat&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;Bu alandaki de&Auml;Ÿer ge&Atilde;&sect;ersiz&quot;;
+}
+
+Date.monthNames = [
+   &quot;Ocak&quot;,
+   &quot;&Aring;žubat&quot;,
+   &quot;Mart&quot;,
+   &quot;Nisan&quot;,
+   &quot;May&Auml;&plusmn;s&quot;,
+   &quot;Haziran&quot;,
+   &quot;Temmuz&quot;,
+   &quot;A&Auml;Ÿustos&quot;,
+   &quot;Eyl&Atilde;&frac14;l&quot;,
+   &quot;Ekim&quot;,
+   &quot;Kas&Auml;&plusmn;m&quot;,
+   &quot;Aral&Auml;&plusmn;k&quot;
+];
+
+Date.dayNames = [
+   &quot;Pazar&quot;,
+   &quot;Pazartesi&quot;,
+   &quot;Sal&Auml;&plusmn;&quot;,
+   &quot;&Atilde;‡ar&Aring;Ÿamba&quot;,
+   &quot;Per&Aring;Ÿembe&quot;,
+   &quot;Cuma&quot;,
+   &quot;Cumartesi&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;Tamam&quot;,
+      cancel : &quot;&Auml;&deg;ptal&quot;,
+      yes    : &quot;Evet&quot;,
+      no     : &quot;Hay&Auml;&plusmn;r&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;d/m/Y&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;Bug&Atilde;&frac14;n&quot;,
+      minText           : &quot;Bu tarih minimum tarihten &Atilde;&para;nce&quot;,
+      maxText           : &quot;Bu tarih maximum tarihten sonra&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames	: Date.monthNames,
+      dayNames		: Date.dayNames,
+      nextText          : <em>'Sonraki Ay (Ctrl+Sa&Auml;Ÿ)'</em>,
+      prevText          : <em>'&Atilde;–nceki Ay (Ctrl+Sol)'</em>,
+      monthYearText     : <em>'Bir ay se&Atilde;&sect;<b>in</b> (Y&Auml;&plusmn;llar&Auml;&plusmn; de&Auml;Ÿi&Aring;Ÿtirmek i&Atilde;&sect;<b>in</b> Ctrl+Yukar&Auml;&plusmn;/A&Aring;Ÿa&Auml;Ÿ&Auml;&plusmn;)'</em>,
+      todayTip          : &quot;{0} (Bo&Aring;Ÿluk)&quot;,
+      format            : &quot;d/m/y&quot;,
+      startDay          : 1
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;Sayfa&quot;,
+      afterPageText  : &quot; / {0}&quot;,
+      firstText      : &quot;&Auml;&deg;lk Sayfa&quot;,
+      prevText       : &quot;&Atilde;–nceki Sayfa&quot;,
+      nextText       : &quot;Sonraki Sayfa&quot;,
+      lastText       : &quot;Son Sayfa&quot;,
+      refreshText    : &quot;Yenile&quot;,
+      displayMsg     : &quot;{2} sat&Auml;&plusmn;rdan {0} - {1} aras&Auml;&plusmn; g&Atilde;&para;steriliyor&quot;,
+      emptyMsg       : <em>'G&Atilde;&para;sterilecek veri yok'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;Bu alan i&Atilde;&sect;<b>in</b> minimum uzunluk {0}&quot;,
+      maxLengthText : &quot;Bu alan i&Atilde;&sect;<b>in</b> maximum uzunluk {0}&quot;,
+      blankText     : &quot;Bu alan gerekli&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;Bu alan i&Atilde;&sect;<b>in</b> minimum de&Auml;Ÿer {0}&quot;,
+      maxText : &quot;Bu alan i&Atilde;&sect;<b>in</b> maximum de&Auml;Ÿer {0}&quot;,
+      nanText : &quot;{0} ge&Atilde;&sect;erli bir say&Auml;&plusmn; de&Auml;Ÿil&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;Pasif&quot;,
+      disabledDatesText : &quot;Pasif&quot;,
+      minText           : &quot;Bu alana {0} tarihinden sonraki bir tarih girilmeli&quot;,
+      maxText           : &quot;Bu alana {0} tarihinden &Atilde;&para;nceki bir tarih girilmeli&quot;,
+      invalidText       : &quot;{0} ge&Atilde;&sect;erli bir tarih de&Auml;Ÿil - &Aring;Ÿu formatta olmal&Auml;&plusmn; {1}&quot;,
+      format            : &quot;d/m/y&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;Y&Atilde;&frac14;kleniyor...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'Bu alan bir e-mail adresi format&Auml;&plusmn;nda olmal&Auml;&plusmn; &quot;kullanici@alanadi.com&quot;'</em>,
+      urlText      : <em>'Bu alan bir URL format&Auml;&plusmn;nda olmal&Auml;&plusmn; &quot;http:/'</em>+<em>'/www.alanadi.com&quot;'</em>,
+      alphaText    : <em>'Bu alan sadece harf ve _ i&Atilde;&sect;ermeli'</em>,
+      alphanumText : <em>'Bu alan sadece harf, say&Auml;&plusmn; ve _ i&Atilde;&sect;ermeli'</em>
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;Artarak S&Auml;&plusmn;rala&quot;,
+      sortDescText : &quot;Azalarak S&Auml;&plusmn;rala&quot;,
+      lockText     : &quot;S&Atilde;&frac14;t&Atilde;&frac14;nu Kilitle&quot;,
+      unlockText   : &quot;S&Atilde;&frac14;tunun Kilidini Kald&Auml;&plusmn;r&quot;,
+      columnsText  : &quot;S&Atilde;&frac14;tunlar&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;&Auml;&deg;sim&quot;,
+      valueText  : &quot;De&Auml;Ÿer&quot;,
+      dateFormat : &quot;j/m/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;Boyutland&Auml;&plusmn;rmak i&Atilde;&sect;<b>in</b> s&Atilde;&frac14;r&Atilde;&frac14;kleyin.&quot;,
+      collapsibleSplitTip : &quot;Boyutland&Auml;&plusmn;rmak i&Atilde;&sect;<b>in</b> s&Atilde;&frac14;r&Atilde;&frac14;kleyin. Gizlemek i&Atilde;&sect;<b>in</b> &Atilde;&sect;ift t&Auml;&plusmn;klay&Auml;&plusmn;n.&quot;
+   });
+}</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

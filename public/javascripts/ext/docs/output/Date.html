@@ -1,0 +1,761 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Date</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Date.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Date</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Global</td></tr>
+            <tr><td class="label">Class:</td><td>Date</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="Date.jss.html">Date.js</a></td></tr>
+        </table>
+        <div class="description">
+            The date parsing and format syntax is a subset of
+<a href="http://www.php.net/date">PHP's date() function</a>, and the formats that are
+supported will provide results equivalent to their PHP versions.
+Following is the list of all currently supported formats:
+<pre>Sample date:
+'Wed Jan 10 2007 15:05:01 GMT-0600 (Central Standard Time)'
+
+Format  Output      Description
+------  ----------  --------------------------------------------------------------
+  d      10         Day of the month, 2 digits with leading zeros
+  D      Wed        A textual representation of a day, three letters
+  j      10         Day of the month without leading zeros
+  l      Wednesday  A full textual representation of the day of the week
+  S      th         English ordinal day of month suffix, 2 chars (use with j)
+  w      3          Numeric representation of the day of the week
+  z      9          The julian date, or day of the year (0-365)
+  W      01         ISO-8601 2-digit week number of year, weeks starting on Monday (00-52)
+  F      January    A full textual representation of the month
+  m      01         Numeric representation of a month, with leading zeros
+  M      Jan        Month name abbreviation, three letters
+  n      1          Numeric representation of a month, without leading zeros
+  t      31         Number of days in the given month
+  L      0          Whether it's a leap year (1 if it is a leap year, else 0)
+  Y      2007       A full numeric representation of a year, 4 digits
+  y      07         A two digit representation of a year
+  a      pm         Lowercase Ante meridiem and Post meridiem
+  A      PM         Uppercase Ante meridiem and Post meridiem
+  g      3          12-hour format of an hour without leading zeros
+  G      15         24-hour format of an hour without leading zeros
+  h      03         12-hour format of an hour with leading zeros
+  H      15         24-hour format of an hour with leading zeros
+  i      05         Minutes with leading zeros
+  s      01         Seconds, with leading zeros
+  O      -0600      Difference to Greenwich time (GMT) in hours
+  T      CST        Timezone setting of the machine running the code
+  Z      -21600     Timezone offset in seconds (negative if west of UTC, positive if east)</pre>
+Example usage (note that you must escape format specifiers with '\\' to render them as character literals):
+<pre><code>var dt = <b>new</b> Date(<em>'1/10/2007 03:05:01 PM GMT-0600'</em>);
+document.write(dt.format(<em>'Y-m-d'</em>));                         <i>//2007-01-10</i>
+document.write(dt.format(<em>'F j, Y, g:i a'</em>));                 <i>//January 10, 2007, 3:05 pm</i>
+document.write(dt.format(<em>'l, \\t\\he dS of F Y h:i:s A'</em>));  //Wednesday, the 10th of January 2007 03:05:01 PM</code></pre>
+Here are some standard date/time patterns that you might find helpful.  They
+are not part of the source of Date.js, but to use them you can simply copy this
+block of code into any script that is included after Date.js and they will also become
+globally available on the Date object.  Feel free to add or remove patterns as needed in your code.
+<pre><code>Date.patterns = {
+    ISO8601Long:<em>"Y-m-d H:i:s"</em>,
+    ISO8601Short:<em>"Y-m-d"</em>,
+    ShortDate: <em>"n/j/Y"</em>,
+    LongDate: <em>"l, F d, Y"</em>,
+    FullDateTime: <em>"l, F d, Y g:i:s A"</em>,
+    MonthDay: <em>"F d"</em>,
+    ShortTime: <em>"g:i A"</em>,
+    LongTime: <em>"g:i:s A"</em>,
+    SortableDateTime: <em>"Y-m-d\\TH:i:s"</em>,
+    UniversalSortableDateTime: <em>"Y-m-d H:i:sO"</em>,
+    YearMonth: <em>"F, Y"</em>
+};</code></pre>
+Example usage:
+<pre><code>var dt = <b>new</b> Date();
+document.write(dt.format(Date.patterns.ShortDate));</code></pre>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.DAY">Date.DAY</a> : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Date interval constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.HOUR">Date.HOUR</a> : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Date interval constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.MILLI">Date.MILLI</a> : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Date interval constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.MINUTE">Date.MINUTE</a> : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Date interval constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.MONTH">Date.MONTH</a> : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Date interval constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.SECOND">Date.SECOND</a> : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Date interval constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.YEAR">Date.YEAR</a> : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Date interval constant</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.dayNames">Date.dayNames</a> : Array</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">&lt;static&gt; An array of textual day names.
+Override these values for international dates, for example...
+Date.dayN...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.monthNames">Date.monthNames</a> : Array</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; An array of textual month names.
+Override these values for international dates, for example...
+Date.mo...</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Date.parseDate">Date.parseDate</a>(&nbsp;<code>String input</code>, <code>String format</code>&nbsp;) : Date</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; Parses the passed string using the specified format. Note that this function expects dates in normal c...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#add">add</a>(&nbsp;<code>String interval</code>, <code>Number value</code>&nbsp;) : Date</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Provides a convenient method of performing basic date arithmetic.  This method
+does not modify the Date instance bein...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearTime">clearTime</a>(&nbsp;<code>Boolean clone</code>&nbsp;) : Date</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Clears any time information from this date</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clone">clone</a>() : Date</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Creates and returns a new Date instance with the exact same date value as the called instance.
+Dates are copied and p...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#format">format</a>(&nbsp;<code>String format</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Formats a date given the supplied format string</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getDayOfYear">getDayOfYear</a>() : Number</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Get the numeric day number of the year, adjusted for leap year.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getDaysInMonth">getDaysInMonth</a>() : Number</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Get the number of days in the current month, adjusted for leap year.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getElapsed">getElapsed</a>(&nbsp;<span class="optional" title="Optional">[<code>Date date</code>]</span>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the number of milliseconds between this date and date</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getFirstDateOfMonth">getFirstDateOfMonth</a>() : Date</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Get a Date of the first day of this date's month</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getFirstDayOfMonth">getFirstDayOfMonth</a>() : Number</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Get the first day of the current month, adjusted for leap year.  The returned value
+is the numeric day index within t...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getGMTOffset">getGMTOffset</a>() : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Get the offset from GMT of the current date (equivalent to the format specifier 'O').</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getLastDateOfMonth">getLastDateOfMonth</a>() : Date</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Get a Date of the late day of this date's month</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getLastDayOfMonth">getLastDayOfMonth</a>() : Number</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Get the last day of the current month, adjusted for leap year.  The returned value
+is the numeric day index within th...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getSuffix">getSuffix</a>() : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Get the English ordinal suffix of the current day (equivalent to the format specifier 'S').</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTimezone">getTimezone</a>() : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Get the timezone abbreviation of the current date (equivalent to the format specifier 'T').</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getWeekOfYear">getWeekOfYear</a>() : String</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Get the string representation of the numeric week number of the year
+(equivalent to the format specifier 'W').</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isLeapYear">isLeapYear</a>() : Boolean</td>
+        <td class="msource" rowspan="2">Date</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Whether or not the current date is in a leap year.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="Date.DAY"></a>
+                <div class="mdetail">
+                <h3>Date.DAY</i></h3>
+                <code>public String Date.DAY</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Date interval constant                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                            <a name="Date.HOUR"></a>
+                <div class="mdetail alt">
+                <h3>Date.HOUR</i></h3>
+                <code>public String Date.HOUR</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Date interval constant                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                            <a name="Date.MILLI"></a>
+                <div class="mdetail">
+                <h3>Date.MILLI</i></h3>
+                <code>public String Date.MILLI</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Date interval constant                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                            <a name="Date.MINUTE"></a>
+                <div class="mdetail alt">
+                <h3>Date.MINUTE</i></h3>
+                <code>public String Date.MINUTE</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Date interval constant                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                            <a name="Date.MONTH"></a>
+                <div class="mdetail">
+                <h3>Date.MONTH</i></h3>
+                <code>public String Date.MONTH</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Date interval constant                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                            <a name="Date.SECOND"></a>
+                <div class="mdetail alt">
+                <h3>Date.SECOND</i></h3>
+                <code>public String Date.SECOND</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Date interval constant                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                            <a name="Date.YEAR"></a>
+                <div class="mdetail">
+                <h3>Date.YEAR</i></h3>
+                <code>public String Date.YEAR</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Date interval constant                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                            <a name="Date.dayNames"></a>
+                <div class="mdetail alt">
+                <h3>Date.dayNames</i></h3>
+                <code>public Array Date.dayNames</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; An array of textual day names.
+Override these values for international dates, for example...
+Date.dayNames = ['SundayInYourLang', 'MondayInYourLang', ...];                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                            <a name="Date.monthNames"></a>
+                <div class="mdetail">
+                <h3>Date.monthNames</i></h3>
+                <code>public Array Date.monthNames</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; An array of textual month names.
+Override these values for international dates, for example...
+Date.monthNames = ['JanInYourLang', 'FebInYourLang', ...];                </div>
+                <div class="mdetail-def">This property is defined by Date.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="Date.parseDate"></a>
+                <div class="mdetail">
+                <h3>Date.parseDate</i></h3>
+                <code>public function Date.parseDate(&nbsp;<code>String input</code>, <code>String format</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Parses the passed string using the specified format. Note that this function expects dates in normal calendar
+format, meaning that months are 1-based (1 = January) and not zero-based like in JavaScript dates.  Any part of
+the date format that is not specified will default to the current date value for that part.  Time parts can also
+be specified, but default to 0.  Keep in mind that the input date string must precisely match the specified format
+string or the parse operation will fail.
+Example Usage:
+<pre><code><i>//dt = Fri May 25 2007 (current date)</i>
+<b>var</b> dt = <b>new</b> Date();
+
+<i>//dt = Thu May 25 2006 (today's month/day <b>in</b> 2006)</i>
+dt = Date.parseDate(<em>"2006"</em>, <em>"Y"</em>);
+
+<i>//dt = Sun Jan 15 2006 (all date parts specified)</i>
+dt = Date.parseDate(<em>"2006-1-15"</em>, <em>"Y-m-d"</em>);
+
+<i>//dt = Sun Jan 15 2006 15:20:01 GMT-0600 (CST)</i>
+dt = Date.parseDate(<em>"2006-1-15 3:20:01 PM"</em>, <em>"Y-m-d h:i:s A"</em> );</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>input</code> : String<div class="sub-desc">The unparsed date as a string</div></li><li><code>format</code> : String<div class="sub-desc">The format the date is in</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Date</code><div class="sub-desc">The parsed date</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="add"></a>
+                <div class="mdetail alt">
+                <h3>add</i></h3>
+                <code>public function add(&nbsp;<code>String interval</code>, <code>Number value</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Provides a convenient method of performing basic date arithmetic.  This method
+does not modify the Date instance being called - it creates and returns
+a new Date instance containing the resulting date value.
+Examples:
+<pre><code><i>//Basic usage:</i>
+<b>var</b> dt = <b>new</b> Date(<em>'10/29/2006'</em>).add(Date.DAY, 5);
+document.write(dt); <i>//returns <em>'Fri Oct 06 2006 00:00:00'</em></i>
+
+<i>//Negative values will subtract correctly:</i>
+<b>var</b> dt2 = <b>new</b> Date(<em>'10/1/2006'</em>).add(Date.DAY, -5);
+document.write(dt2); <i>//returns <em>'Tue Sep 26 2006 00:00:00'</em></i>
+
+<i>//You can even chain several calls together <b>in</b> one line!</i>
+<b>var</b> dt3 = <b>new</b> Date(<em>'10/1/2006'</em>).add(Date.DAY, 5).add(Date.HOUR, 8).add(Date.MINUTE, -30);
+document.write(dt3); //returns <em>'Fri Oct 06 2006 07:30:00'</em></code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>interval</code> : String<div class="sub-desc">A valid date interval enum value</div></li><li><code>value</code> : Number<div class="sub-desc">The amount to add to the current date</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Date</code><div class="sub-desc">The new Date instance</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="clearTime"></a>
+                <div class="mdetail">
+                <h3>clearTime</i></h3>
+                <code>public function clearTime(&nbsp;<code>Boolean clone</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Clears any time information from this date
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>clone</code> : Boolean<div class="sub-desc">true to create a clone of this date, clear the time and return it</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Date</code><div class="sub-desc">this or the clone</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="clone"></a>
+                <div class="mdetail alt">
+                <h3>clone</i></h3>
+                <code>public function clone()</code>
+                <div class="mdetail-desc">
+                    Creates and returns a new Date instance with the exact same date value as the called instance.
+Dates are copied and passed by reference, so if a copied date variable is modified later, the original
+variable will also be changed.  When the intention is to create a new variable that will not
+modify the original instance, you should create a clone.
+Example of correctly cloning a date:
+<pre><code><i>//wrong way:</i>
+<b>var</b> orig = <b>new</b> Date(<em>'10/1/2006'</em>);
+<b>var</b> copy = orig;
+copy.setDate(5);
+document.write(orig);  <i>//returns <em>'Thu Oct 05 2006'</em>!</i>
+
+<i>//correct way:</i>
+<b>var</b> orig = <b>new</b> Date(<em>'10/1/2006'</em>);
+<b>var</b> copy = orig.clone();
+copy.setDate(5);
+document.write(orig);  //returns <em>'Thu Oct 01 2006'</em></code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Date</code><div class="sub-desc">The new Date instance</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="format"></a>
+                <div class="mdetail">
+                <h3>format</i></h3>
+                <code>public function format(&nbsp;<code>String format</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Formats a date given the supplied format string
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>format</code> : String<div class="sub-desc">The format string</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">The formatted date</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getDayOfYear"></a>
+                <div class="mdetail alt">
+                <h3>getDayOfYear</i></h3>
+                <code>public function getDayOfYear()</code>
+                <div class="mdetail-desc">
+                    Get the numeric day number of the year, adjusted for leap year.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">0 through 364 (365 in leap years)</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getDaysInMonth"></a>
+                <div class="mdetail">
+                <h3>getDaysInMonth</i></h3>
+                <code>public function getDaysInMonth()</code>
+                <div class="mdetail-desc">
+                    Get the number of days in the current month, adjusted for leap year.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The number of days in the month</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getElapsed"></a>
+                <div class="mdetail alt">
+                <h3>getElapsed</i></h3>
+                <code>public function getElapsed(&nbsp;<span class="optional" title="Optional">[<code>Date date</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the number of milliseconds between this date and date
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>date</code> : Date<div class="sub-desc">(optional) Defaults to now</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The diff in milliseconds</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getFirstDateOfMonth"></a>
+                <div class="mdetail">
+                <h3>getFirstDateOfMonth</i></h3>
+                <code>public function getFirstDateOfMonth()</code>
+                <div class="mdetail-desc">
+                    Get a Date of the first day of this date's month
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Date</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getFirstDayOfMonth"></a>
+                <div class="mdetail alt">
+                <h3>getFirstDayOfMonth</i></h3>
+                <code>public function getFirstDayOfMonth()</code>
+                <div class="mdetail-desc">
+                    Get the first day of the current month, adjusted for leap year.  The returned value
+is the numeric day index within the week (0-6) which can be used in conjunction with
+the <a ext:cls="Date" ext:member="monthNames" href="Date.html#monthNames">monthNames</a> array to retrieve the textual day name.
+Example:
+<pre><code>var dt = <b>new</b> Date(<em>'1/10/2007'</em>);
+document.write(Date.dayNames[dt.getFirstDayOfMonth()]); //output: <em>'Monday'</em></code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The day number (0-6)</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getGMTOffset"></a>
+                <div class="mdetail">
+                <h3>getGMTOffset</i></h3>
+                <code>public function getGMTOffset()</code>
+                <div class="mdetail-desc">
+                    Get the offset from GMT of the current date (equivalent to the format specifier 'O').
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">The 4-character offset string prefixed with + or - (e.g. '-0600')</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getLastDateOfMonth"></a>
+                <div class="mdetail alt">
+                <h3>getLastDateOfMonth</i></h3>
+                <code>public function getLastDateOfMonth()</code>
+                <div class="mdetail-desc">
+                    Get a Date of the late day of this date's month
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Date</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getLastDayOfMonth"></a>
+                <div class="mdetail">
+                <h3>getLastDayOfMonth</i></h3>
+                <code>public function getLastDayOfMonth()</code>
+                <div class="mdetail-desc">
+                    Get the last day of the current month, adjusted for leap year.  The returned value
+is the numeric day index within the week (0-6) which can be used in conjunction with
+the <a ext:cls="Date" ext:member="monthNames" href="Date.html#monthNames">monthNames</a> array to retrieve the textual day name.
+Example:
+<pre><code>var dt = <b>new</b> Date(<em>'1/10/2007'</em>);
+document.write(Date.dayNames[dt.getLastDayOfMonth()]); //output: <em>'Wednesday'</em></code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The day number (0-6)</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getSuffix"></a>
+                <div class="mdetail alt">
+                <h3>getSuffix</i></h3>
+                <code>public function getSuffix()</code>
+                <div class="mdetail-desc">
+                    Get the English ordinal suffix of the current day (equivalent to the format specifier 'S').
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">'st, 'nd', 'rd' or 'th'</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getTimezone"></a>
+                <div class="mdetail">
+                <h3>getTimezone</i></h3>
+                <code>public function getTimezone()</code>
+                <div class="mdetail-desc">
+                    Get the timezone abbreviation of the current date (equivalent to the format specifier 'T').
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">The abbreviated timezone name (e.g. 'CST')</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="getWeekOfYear"></a>
+                <div class="mdetail alt">
+                <h3>getWeekOfYear</i></h3>
+                <code>public function getWeekOfYear()</code>
+                <div class="mdetail-desc">
+                    Get the string representation of the numeric week number of the year
+(equivalent to the format specifier 'W').
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">'00' through '52'</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                            <a name="isLeapYear"></a>
+                <div class="mdetail">
+                <h3>isLeapYear</i></h3>
+                <code>public function isLeapYear()</code>
+                <div class="mdetail-desc">
+                    Whether or not the current date is in a leap year.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the current date is in a leap year, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Date.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

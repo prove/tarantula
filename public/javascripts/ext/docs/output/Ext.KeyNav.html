@@ -1,0 +1,140 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.KeyNav</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.KeyNav.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.KeyNav</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>KeyNav</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="KeyNav.jss.html">KeyNav.js</a></td></tr>
+        </table>
+        <div class="description">
+            Provides a convenient wrapper for normalized keyboard navigation.  KeyNav allows you to bind
+navigation keys to function calls that will get called when the keys are pressed.
+<br />Usage:
+ <pre><code>var nav = <b>new</b> Ext.KeyNav(<em>"my-element"</em>, {
+    <em>"left"</em> : <b>function</b>(e){
+        <b>this</b>.moveLeft(e.ctrlKey);
+    },
+    <em>"right"</em> : <b>function</b>(e){
+        <b>this</b>.moveRight(e.ctrlKey);
+    },
+    <em>"enter"</em> : <b>function</b>(e){
+        <b>this</b>.save();
+    },
+    scope : <b>this</b>
+});</code></pre>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>KeyNav</b>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">KeyNav</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disable">disable</a>() : void</td>
+        <td class="msource" rowspan="2">KeyNav</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Disable this KeyNav</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#enable">enable</a>() : void</td>
+        <td class="msource" rowspan="2">KeyNav</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Enable this KeyNav</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                
+                    <a name="KeyNav"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>KeyNav</i></h3>
+                <code>public function KeyNav(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The element to bind to</div></li><li><code>config</code> : Object<div class="sub-desc">The config</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="disable"></a>
+                <div class="mdetail">
+                <h3>disable</i></h3>
+                <code>public function disable()</code>
+                <div class="mdetail-desc">
+                    Disable this KeyNav
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by KeyNav.</div>
+                </div>
+                            <a name="enable"></a>
+                <div class="mdetail alt">
+                <h3>enable</i></h3>
+                <code>public function enable()</code>
+                <div class="mdetail-desc">
+                    Enable this KeyNav
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by KeyNav.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

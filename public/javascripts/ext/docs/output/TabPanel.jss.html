@@ -1,0 +1,768 @@
+<html><head><title>TabPanel.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>TabPanel.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.TabPanel
+ * @extends Ext.util.Observable
+ * Creates a lightweight TabPanel component using Yahoo! UI.
+ * &lt;br&gt;&lt;br&gt;
+ * Usage:
+ * &lt;pre&gt;&lt;code&gt;
+&lt;font color=&quot;#008000&quot;&gt;<i>// basic tabs 1, built from existing content&lt;/font&gt;</i>
+<b>var</b> tabs = <b>new</b> Ext.TabPanel(&quot;tabs1&quot;);
+tabs.addTab(&quot;script&quot;, &quot;View Script&quot;);
+tabs.addTab(&quot;markup&quot;, &quot;View Markup&quot;);
+tabs.activate(&quot;script&quot;);
+
+&lt;font color=&quot;#008000&quot;&gt;<i>// more advanced tabs, built from javascript&lt;/font&gt;</i>
+<b>var</b> jtabs = <b>new</b> Ext.TabPanel(&quot;jtabs&quot;);
+jtabs.addTab(&quot;jtabs-1&quot;, &quot;Normal Tab&quot;, &quot;My content was added during construction.&quot;);
+
+&lt;font color=&quot;#008000&quot;&gt;<i>// set up the UpdateManager&lt;/font&gt;</i>
+<b>var</b> tab2 = jtabs.addTab(&quot;jtabs-2&quot;, &quot;Ajax Tab 1&quot;);
+<b>var</b> updater = tab2.getUpdateManager();
+updater.setDefaultUrl(&quot;ajax1.htm&quot;);
+tab2.on(<em>'activate'</em>, updater.refresh, updater, true);
+
+&lt;font color=&quot;#008000&quot;&gt;<i>// Use setUrl <b>for</b> Ajax loading&lt;/font&gt;</i>
+<b>var</b> tab3 = jtabs.addTab(&quot;jtabs-3&quot;, &quot;Ajax Tab 2&quot;);
+tab3.setUrl(&quot;ajax2.htm&quot;, null, true);
+
+&lt;font color=&quot;#008000&quot;&gt;<i>// Disabled tab&lt;/font&gt;</i>
+<b>var</b> tab4 = jtabs.addTab(&quot;tabs1-5&quot;, &quot;Disabled Tab&quot;, &quot;Can<em>'t see me cause I'</em>m disabled&quot;);
+tab4.disable();
+
+jtabs.activate(&quot;jtabs-1&quot;);
+ * &lt;/code&gt;&lt;/pre&gt;
+ * @constructor
+ * Create a <b>new</b> TabPanel.
+ * @param {String/HTMLElement/Ext.Element} container The id, DOM element or Ext.Element container where <b>this</b> TabPanel is to be rendered.
+ * @param {Object/Boolean} config Config object to set any properties <b>for</b> this TabPanel, or true to render the tabs on the bottom.
+ */</i>
+Ext.TabPanel = <b>function</b>(container, config){
+    <i>/**
+    * The container element <b>for</b> this TabPanel.
+    * @type Ext.Element
+    */</i>
+    <b>this</b>.el = Ext.get(container, true);
+    <b>if</b>(config){
+        <b>if</b>(typeof config == &quot;boolean&quot;){
+            <b>this</b>.tabPosition = config ? &quot;bottom&quot; : &quot;top&quot;;
+        }<b>else</b>{
+            Ext.apply(<b>this</b>, config);
+        }
+    }
+    <b>if</b>(this.tabPosition == &quot;bottom&quot;){
+        <b>this</b>.bodyEl = Ext.get(<b>this</b>.createBody(<b>this</b>.el.dom));
+        <b>this</b>.el.addClass(&quot;x-tabs-bottom&quot;);
+    }
+    <b>this</b>.stripWrap = Ext.get(<b>this</b>.createStrip(<b>this</b>.el.dom), true);
+    <b>this</b>.stripEl = Ext.get(<b>this</b>.createStripList(<b>this</b>.stripWrap.dom), true);
+    <b>this</b>.stripBody = Ext.get(<b>this</b>.stripWrap.dom.firstChild.firstChild, true);
+    <b>if</b>(Ext.isIE){
+        Ext.fly(<b>this</b>.stripWrap.dom.firstChild).setStyle(&quot;overflow-x&quot;, &quot;hidden&quot;);
+    }
+    <b>if</b>(this.tabPosition != &quot;bottom&quot;){
+    <i>/** The body element that contains {@link Ext.TabPanelItem} bodies.
+     * @type Ext.Element
+     */</i>
+      <b>this</b>.bodyEl = Ext.get(<b>this</b>.createBody(<b>this</b>.el.dom));
+      <b>this</b>.el.addClass(&quot;x-tabs-top&quot;);
+    }
+    <b>this</b>.items = [];
+
+    <b>this</b>.bodyEl.setStyle(&quot;position&quot;, &quot;relative&quot;);
+
+    <b>this</b>.active = null;
+    <b>this</b>.activateDelegate = <b>this</b>.activate.createDelegate(<b>this</b>);
+
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event tabchange
+         * Fires when the active tab changes
+         * @param {Ext.TabPanel} <b>this</b>
+         * @param {Ext.TabPanelItem} activePanel The <b>new</b> active tab
+         */</i>
+        &quot;tabchange&quot;: true,
+        <i>/**
+         * @event beforetabchange
+         * Fires before the active tab changes, set cancel to true on the &quot;e&quot; parameter to cancel the change
+         * @param {Ext.TabPanel} <b>this</b>
+         * @param {Object} e Set cancel to true on <b>this</b> object to cancel the tab change
+         * @param {Ext.TabPanelItem} tab The tab being changed to
+         */</i>
+        &quot;beforetabchange&quot; : true
+    });
+
+    Ext.EventManager.onWindowResize(<b>this</b>.onResize, <b>this</b>);
+    <b>this</b>.cpad = <b>this</b>.el.getPadding(&quot;lr&quot;);
+    <b>this</b>.hiddenCount = 0;
+
+    Ext.TabPanel.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.TabPanel, Ext.util.Observable, {
+	<i>/*
+	 *@cfg {String} tabPosition &quot;top&quot; or &quot;bottom&quot; (defaults to &quot;top&quot;)
+	 */</i>
+    tabPosition : &quot;top&quot;,
+	<i>/*
+	 *@cfg {Number} currentTabWidth The width of the current tab (defaults to 0)
+	 */</i>
+    currentTabWidth : 0,
+	<i>/*
+	 *@cfg {Number} minTabWidth The minimum width of a tab (defaults to 40) (ignored <b>if</b> {@link #resizeTabs} is not true)
+	 */</i>
+    minTabWidth : 40,
+	<i>/*
+	 *@cfg {Number} maxTabWidth The maximum width of a tab (defaults to 250) (ignored <b>if</b> {@link #resizeTabs} is not true)
+	 */</i>
+    maxTabWidth : 250,
+	<i>/*
+	 *@cfg {Number} preferredTabWidth The preferred (<b>default</b>) width of a tab (defaults to 175) (ignored <b>if</b> {@link #resizeTabs} is not true)
+	 */</i>
+    preferredTabWidth : 175,
+	<i>/*
+	 *@cfg {Boolean} resizeTabs True to enable dynamic tab resizing (defaults to false)
+	 */</i>
+    resizeTabs : false,
+	<i>/*
+	 *@cfg {Boolean} monitorResize Set <b>this</b> to true to turn on window resize monitoring (ignored <b>if</b> {@link #resizeTabs} is not true) (defaults to true)
+	 */</i>
+    monitorResize : true,
+
+    <i>/**
+     * Creates a <b>new</b> {@link Ext.TabPanelItem} by looking <b>for</b> an existing element <b>with</b> the provided id -- <b>if</b> it's not found it creates one.
+     * @param {String} id The id of the div to use &lt;b&gt;or create&lt;/b&gt;
+     * @param {String} text The text <b>for</b> the tab
+     * @param {String} content (optional) Content to put <b>in</b> the TabPanelItem body
+     * @param {Boolean} closable (optional) True to create a close icon on the tab
+     * @<b>return</b> {Ext.TabPanelItem} The created TabPanelItem
+     */</i>
+    addTab : <b>function</b>(id, text, content, closable){
+        <b>var</b> item = <b>new</b> Ext.TabPanelItem(<b>this</b>, id, text, closable);
+        <b>this</b>.addTabItem(item);
+        <b>if</b>(content){
+            item.setContent(content);
+        }
+        <b>return</b> item;
+    },
+
+    <i>/**
+     * Returns the {@link Ext.TabPanelItem} <b>with</b> the specified id/index
+     * @param {String/Number} id The id or index of the TabPanelItem to fetch.
+     * @<b>return</b> {Ext.TabPanelItem}
+     */</i>
+    getTab : <b>function</b>(id){
+        <b>return</b> this.items[id];
+    },
+
+    <i>/**
+     * Hides the {@link Ext.TabPanelItem} <b>with</b> the specified id/index
+     * @param {String/Number} id The id or index of the TabPanelItem to hide.
+     */</i>
+    hideTab : <b>function</b>(id){
+        <b>var</b> t = <b>this</b>.items[id];
+        <b>if</b>(!t.isHidden()){
+           t.setHidden(true);
+           <b>this</b>.hiddenCount++;
+           <b>this</b>.autoSizeTabs();
+        }
+    },
+
+    <i>/**
+     * &quot;Unhides&quot; the {@link Ext.TabPanelItem} <b>with</b> the specified id/index.
+     * @param {String/Number} id The id or index of the TabPanelItem to unhide.
+     */</i>
+    unhideTab : <b>function</b>(id){
+        <b>var</b> t = <b>this</b>.items[id];
+        <b>if</b>(t.isHidden()){
+           t.setHidden(false);
+           <b>this</b>.hiddenCount--;
+           <b>this</b>.autoSizeTabs();
+        }
+    },
+
+    <i>/**
+     * Adds an existing {@link Ext.TabPanelItem}.
+     * @param {Ext.TabPanelItem} item The TabPanelItem to add
+     */</i>
+    addTabItem : <b>function</b>(item){
+        <b>this</b>.items[item.id] = item;
+        <b>this</b>.items.push(item);
+        <b>if</b>(this.resizeTabs){
+           item.setWidth(<b>this</b>.currentTabWidth || <b>this</b>.preferredTabWidth);
+           <b>this</b>.autoSizeTabs();
+        }<b>else</b>{
+            item.autoSize();
+        }
+    },
+
+    <i>/**
+     * Removes a {@link Ext.TabPanelItem}.
+     * @param {String/Number} id The id or index of the TabPanelItem to remove.
+     */</i>
+    removeTab : <b>function</b>(id){
+        <b>var</b> items = <b>this</b>.items;
+        <b>var</b> tab = items[id];
+        <b>if</b>(!tab) <b>return</b>;
+        <b>var</b> index = items.indexOf(tab);
+        <b>if</b>(this.active == tab &amp;&amp; items.length &gt; 1){
+            <b>var</b> newTab = <b>this</b>.getNextAvailable(index);
+            <b>if</b>(newTab)newTab.activate();
+        }
+        <b>this</b>.stripEl.dom.removeChild(tab.pnode.dom);
+        <b>if</b>(tab.bodyEl.dom.parentNode == <b>this</b>.bodyEl.dom){ <i>// <b>if</b> it was moved already prevent error</i>
+            <b>this</b>.bodyEl.dom.removeChild(tab.bodyEl.dom);
+        }
+        items.splice(index, 1);
+        <b>delete</b> this.items[tab.id];
+        tab.fireEvent(&quot;close&quot;, tab);
+        tab.purgeListeners();
+        <b>this</b>.autoSizeTabs();
+    },
+
+    getNextAvailable : <b>function</b>(start){
+        <b>var</b> items = <b>this</b>.items;
+        <b>var</b> index = start;
+        <i>// look <b>for</b> a next tab that will slide over to</i>
+        <i>// replace the one being removed</i>
+        <b>while</b>(index &lt; items.length){
+            <b>var</b> item = items[++index];
+            <b>if</b>(item &amp;&amp; !item.isHidden()){
+                <b>return</b> item;
+            }
+        }
+        <i>// <b>if</b> one isn't found select the previous tab (on the left)</i>
+        index = start;
+        <b>while</b>(index &gt;= 0){
+            <b>var</b> item = items[--index];
+            <b>if</b>(item &amp;&amp; !item.isHidden()){
+                <b>return</b> item;
+            }
+        }
+        <b>return</b> null;
+    },
+
+    <i>/**
+     * Disables a {@link Ext.TabPanelItem}. It cannot be the active tab, <b>if</b> it is <b>this</b> call is ignored.
+     * @param {String/Number} id The id or index of the TabPanelItem to disable.
+     */</i>
+    disableTab : <b>function</b>(id){
+        <b>var</b> tab = <b>this</b>.items[id];
+        <b>if</b>(tab &amp;&amp; <b>this</b>.active != tab){
+            tab.disable();
+        }
+    },
+
+    <i>/**
+     * Enables a {@link Ext.TabPanelItem} that is disabled.
+     * @param {String/Number} id The id or index of the TabPanelItem to enable.
+     */</i>
+    enableTab : <b>function</b>(id){
+        <b>var</b> tab = <b>this</b>.items[id];
+        tab.enable();
+    },
+
+    <i>/**
+     * Activates a {@link Ext.TabPanelItem}. The currently active one will be deactivated.
+     * @param {String/Number} id The id or index of the TabPanelItem to activate.
+     * @<b>return</b> {Ext.TabPanelItem} The TabPanelItem.
+     */</i>
+    activate : <b>function</b>(id){
+        <b>var</b> tab = <b>this</b>.items[id];
+        <b>if</b>(!tab){
+            <b>return</b> null;
+        }
+        <b>if</b>(tab == <b>this</b>.active || tab.disabled){
+            <b>return</b> tab;
+        }
+        <b>var</b> e = {};
+        <b>this</b>.fireEvent(&quot;beforetabchange&quot;, <b>this</b>, e, tab);
+        <b>if</b>(e.cancel !== true &amp;&amp; !tab.disabled){
+            <b>if</b>(this.active){
+                <b>this</b>.active.hide();
+            }
+            <b>this</b>.active = <b>this</b>.items[id];
+            <b>this</b>.active.show();
+            <b>this</b>.fireEvent(&quot;tabchange&quot;, <b>this</b>, <b>this</b>.active);
+        }
+        <b>return</b> tab;
+    },
+
+    <i>/**
+     * Gets the active {@link Ext.TabPanelItem}.
+     * @<b>return</b> {Ext.TabPanelItem} The active TabPanelItem or null <b>if</b> none are active.
+     */</i>
+    getActiveTab : <b>function</b>(){
+        <b>return</b> this.active;
+    },
+
+    <i>/**
+     * Updates the tab body element to fit the height of the container element
+     * <b>for</b> overflow scrolling
+     * @param {Number} targetHeight (optional) Override the starting height from the elements height
+     */</i>
+    syncHeight : <b>function</b>(targetHeight){
+        <b>var</b> height = (targetHeight || <b>this</b>.el.getHeight())-<b>this</b>.el.getBorderWidth(&quot;tb&quot;)-<b>this</b>.el.getPadding(&quot;tb&quot;);
+        <b>var</b> bm = <b>this</b>.bodyEl.getMargins();
+        <b>var</b> newHeight = height-(<b>this</b>.stripWrap.getHeight()||0)-(bm.top+bm.bottom);
+        <b>this</b>.bodyEl.setHeight(newHeight);
+        <b>return</b> newHeight;
+    },
+
+    onResize : <b>function</b>(){
+        <b>if</b>(this.monitorResize){
+            <b>this</b>.autoSizeTabs();
+        }
+    },
+
+    <i>/**
+     * Disables tab resizing <b>while</b> tabs are being added (<b>if</b> {@link #resizeTabs} is false <b>this</b> does nothing)
+     */</i>
+    beginUpdate : <b>function</b>(){
+        <b>this</b>.updating = true;
+    },
+
+    <i>/**
+     * Stops an update and resizes the tabs (<b>if</b> {@link #resizeTabs} is false <b>this</b> does nothing)
+     */</i>
+    endUpdate : <b>function</b>(){
+        <b>this</b>.updating = false;
+        <b>this</b>.autoSizeTabs();
+    },
+
+    <i>/**
+     * Manual call to resize the tabs (<b>if</b> {@link #resizeTabs} is false <b>this</b> does nothing)
+     */</i>
+    autoSizeTabs : <b>function</b>(){
+        <b>var</b> count = <b>this</b>.items.length;
+        <b>var</b> vcount = count - <b>this</b>.hiddenCount;
+        <b>if</b>(!<b>this</b>.resizeTabs || count &lt; 1 || vcount &lt; 1 || <b>this</b>.updating) <b>return</b>;
+        <b>var</b> w = Math.max(<b>this</b>.el.getWidth() - <b>this</b>.cpad, 10);
+        <b>var</b> availWidth = Math.floor(w / vcount);
+        <b>var</b> b = <b>this</b>.stripBody;
+        <b>if</b>(b.getWidth() &gt; w){
+            <b>var</b> tabs = <b>this</b>.items;
+            <b>this</b>.setTabWidth(Math.max(availWidth, <b>this</b>.minTabWidth)-2);
+            <b>if</b>(availWidth &lt; <b>this</b>.minTabWidth){
+                <i>/*<b>if</b>(!<b>this</b>.sleft){    <i>// incomplete scrolling code</i>
+                    <b>this</b>.createScrollButtons();
+                }
+                <b>this</b>.showScroll();
+                <b>this</b>.stripClip.setWidth(w - (<b>this</b>.sleft.getWidth()+<b>this</b>.sright.getWidth()));*/</i>
+            }
+        }<b>else</b>{
+            <b>if</b>(this.currentTabWidth &lt; <b>this</b>.preferredTabWidth){
+                <b>this</b>.setTabWidth(Math.min(availWidth, <b>this</b>.preferredTabWidth)-2);
+            }
+        }
+    },
+
+    <i>/**
+     * Returns the number of tabs <b>in</b> this TabPanel.
+     * @<b>return</b> {Number}
+     */</i>
+     getCount : <b>function</b>(){
+         <b>return</b> this.items.length;
+     },
+
+    <i>/**
+     * Resizes all the tabs to the passed width
+     * @param {Number} The <b>new</b> width
+     */</i>
+    setTabWidth : <b>function</b>(width){
+        <b>this</b>.currentTabWidth = width;
+        <b>for</b>(var i = 0, len = <b>this</b>.items.length; i &lt; len; i++) {
+        	<b>if</b>(!<b>this</b>.items[i].isHidden())<b>this</b>.items[i].setWidth(width);
+        }
+    },
+
+    <i>/**
+     * Destroys <b>this</b> TabPanel
+     * @param {Boolean} removeEl (optional) True to remove the element from the DOM as well (defaults to undefined)
+     */</i>
+    destroy : <b>function</b>(removeEl){
+        Ext.EventManager.removeResizeListener(<b>this</b>.onResize, <b>this</b>);
+        <b>for</b>(var i = 0, len = <b>this</b>.items.length; i &lt; len; i++){
+            <b>this</b>.items[i].purgeListeners();
+        }
+        <b>if</b>(removeEl === true){
+            <b>this</b>.el.update(&quot;&quot;);
+            <b>this</b>.el.remove();
+        }
+    }
+});
+
+<i>/**
+ * @class Ext.TabPanelItem
+ * @extends Ext.util.Observable
+ * Represents an individual item (tab plus body) <b>in</b> a TabPanel.
+ * @param {Ext.TabPanel} tabPanel The {@link Ext.TabPanel} <b>this</b> TabPanelItem belongs to
+ * @param {String} id The id of <b>this</b> TabPanelItem
+ * @param {String} text The text <b>for</b> the tab of <b>this</b> TabPanelItem
+ * @param {Boolean} closable True to allow <b>this</b> TabPanelItem to be closable (defaults to false)
+ */</i>
+Ext.TabPanelItem = <b>function</b>(tabPanel, id, text, closable){
+    <i>/**
+     * The {@link Ext.TabPanel} <b>this</b> TabPanelItem belongs to
+     * @type Ext.TabPanel
+     */</i>
+    <b>this</b>.tabPanel = tabPanel;
+    <i>/**
+     * The id <b>for</b> this TabPanelItem
+     * @type String
+     */</i>
+    <b>this</b>.id = id;
+    <i>/** @private */</i>
+    <b>this</b>.disabled = false;
+    <i>/** @private */</i>
+    <b>this</b>.text = text;
+    <i>/** @private */</i>
+    <b>this</b>.loaded = false;
+    <b>this</b>.closable = closable;
+
+    <i>/**
+     * The body element <b>for</b> this TabPanelItem.
+     * @type Ext.Element
+     */</i>
+    <b>this</b>.bodyEl = Ext.get(tabPanel.createItemBody(tabPanel.bodyEl.dom, id));
+    <b>this</b>.bodyEl.setVisibilityMode(Ext.Element.VISIBILITY);
+    <b>this</b>.bodyEl.setStyle(&quot;display&quot;, &quot;block&quot;);
+    <b>this</b>.bodyEl.setStyle(&quot;zoom&quot;, &quot;1&quot;);
+    <b>this</b>.hideAction();
+
+    <b>var</b> els = tabPanel.createStripElements(tabPanel.stripEl.dom, text, closable);
+    <i>/** @private */</i>
+    <b>this</b>.el = Ext.get(els.el, true);
+    <b>this</b>.inner = Ext.get(els.inner, true);
+    <b>this</b>.textEl = Ext.get(<b>this</b>.el.dom.firstChild.firstChild.firstChild, true);
+    <b>this</b>.pnode = Ext.get(els.el.parentNode, true);
+    <b>this</b>.el.on(&quot;mousedown&quot;, <b>this</b>.onTabMouseDown, <b>this</b>);
+    <b>this</b>.el.on(&quot;click&quot;, <b>this</b>.onTabClick, <b>this</b>);
+    <i>/** @private */</i>
+    <b>if</b>(closable){
+        <b>var</b> c = Ext.get(els.close, true);
+        c.dom.title = <b>this</b>.closeText;
+        c.addClassOnOver(&quot;close-over&quot;);
+        c.on(&quot;click&quot;, <b>this</b>.closeClick, <b>this</b>);
+     }
+
+    <b>this</b>.addEvents({
+         <i>/**
+         * @event activate
+         * Fires when <b>this</b> tab becomes the active tab.
+         * @param {Ext.TabPanel} tabPanel The parent TabPanel
+         * @param {Ext.TabPanelItem} <b>this</b>
+         */</i>
+        &quot;activate&quot;: true,
+        <i>/**
+         * @event beforeclose
+         * Fires before <b>this</b> tab is closed. To cancel the close, set cancel to true on e (e.cancel = true).
+         * @param {Ext.TabPanelItem} <b>this</b>
+         * @param {Object} e Set cancel to true on <b>this</b> object to cancel the close.
+         */</i>
+        &quot;beforeclose&quot;: true,
+        <i>/**
+         * @event close
+         * Fires when <b>this</b> tab is closed.
+         * @param {Ext.TabPanelItem} <b>this</b>
+         */</i>
+         &quot;close&quot;: true,
+        <i>/**
+         * @event deactivate
+         * Fires when <b>this</b> tab is no longer the active tab.
+         * @param {Ext.TabPanel} tabPanel The parent TabPanel
+         * @param {Ext.TabPanelItem} <b>this</b>
+         */</i>
+         &quot;deactivate&quot; : true
+    });
+    <b>this</b>.hidden = false;
+
+    Ext.TabPanelItem.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.TabPanelItem, Ext.util.Observable, {
+    purgeListeners : <b>function</b>(){
+       Ext.util.Observable.prototype.purgeListeners.call(<b>this</b>);
+       <b>this</b>.el.removeAllListeners();
+    },
+    <i>/**
+     * Shows <b>this</b> TabPanelItem -- <b>this</b> &lt;b&gt;does not&lt;/b&gt; deactivate the currently active TabPanelItem.
+     */</i>
+    show : <b>function</b>(){
+        <b>this</b>.pnode.addClass(&quot;on&quot;);
+        <b>this</b>.showAction();
+        <b>if</b>(Ext.isOpera){
+            <b>this</b>.tabPanel.stripWrap.repaint();
+        }
+        <b>this</b>.fireEvent(&quot;activate&quot;, <b>this</b>.tabPanel, <b>this</b>);
+    },
+
+    <i>/**
+     * Returns true <b>if</b> this tab is the active tab.
+     * @<b>return</b> {Boolean}
+     */</i>
+    isActive : <b>function</b>(){
+        <b>return</b> this.tabPanel.getActiveTab() == <b>this</b>;
+    },
+
+    <i>/**
+     * Hides <b>this</b> TabPanelItem -- <b>if</b> you don't activate another TabPanelItem <b>this</b> could look odd.
+     */</i>
+    hide : <b>function</b>(){
+        <b>this</b>.pnode.removeClass(&quot;on&quot;);
+        <b>this</b>.hideAction();
+        <b>this</b>.fireEvent(&quot;deactivate&quot;, <b>this</b>.tabPanel, <b>this</b>);
+    },
+
+    hideAction : <b>function</b>(){
+        <b>this</b>.bodyEl.hide();
+        <b>this</b>.bodyEl.setStyle(&quot;position&quot;, &quot;absolute&quot;);
+        <b>this</b>.bodyEl.setLeft(&quot;-20000px&quot;);
+        <b>this</b>.bodyEl.setTop(&quot;-20000px&quot;);
+    },
+
+    showAction : <b>function</b>(){
+        <b>this</b>.bodyEl.setStyle(&quot;position&quot;, &quot;relative&quot;);
+        <b>this</b>.bodyEl.setTop(&quot;&quot;);
+        <b>this</b>.bodyEl.setLeft(&quot;&quot;);
+        <b>this</b>.bodyEl.show();
+    },
+
+    <i>/**
+     * Set the tooltip <b>for</b> the tab.
+     * @param {String} tooltip The tab's tooltip
+     */</i>
+    setTooltip : <b>function</b>(text){
+        <b>if</b>(Ext.QuickTips &amp;&amp; Ext.QuickTips.isEnabled()){
+            <b>this</b>.textEl.dom.qtip = text;
+            <b>this</b>.textEl.dom.removeAttribute(<em>'title'</em>);
+        }<b>else</b>{
+            <b>this</b>.textEl.dom.title = text;
+        }
+    },
+
+    onTabClick : <b>function</b>(e){
+        e.preventDefault();
+        <b>this</b>.tabPanel.activate(<b>this</b>.id);
+    },
+
+    onTabMouseDown : <b>function</b>(e){
+        e.preventDefault();
+        <b>this</b>.tabPanel.activate(<b>this</b>.id);
+    },
+
+    getWidth : <b>function</b>(){
+        <b>return</b> this.inner.getWidth();
+    },
+
+    setWidth : <b>function</b>(width){
+        <b>var</b> iwidth = width - <b>this</b>.pnode.getPadding(&quot;lr&quot;);
+        <b>this</b>.inner.setWidth(iwidth);
+        <b>this</b>.textEl.setWidth(iwidth-<b>this</b>.inner.getPadding(&quot;lr&quot;));
+        <b>this</b>.pnode.setWidth(width);
+    },
+
+    <i>/**
+     * Show or hide the tab
+     * @param {Boolean} hidden True to hide or false to show.
+     */</i>
+    setHidden : <b>function</b>(hidden){
+        <b>this</b>.hidden = hidden;
+        <b>this</b>.pnode.setStyle(&quot;display&quot;, hidden ? &quot;none&quot; : &quot;&quot;);
+    },
+
+    <i>/**
+     * Returns true <b>if</b> this tab is &quot;hidden&quot;
+     * @<b>return</b> {Boolean}
+     */</i>
+    isHidden : <b>function</b>(){
+        <b>return</b> this.hidden;
+    },
+
+    <i>/**
+     * Returns the text <b>for</b> this tab
+     * @<b>return</b> {String}
+     */</i>
+    getText : <b>function</b>(){
+        <b>return</b> this.text;
+    },
+
+    autoSize : <b>function</b>(){
+        <i>//<b>this</b>.el.beginMeasure();</i>
+        <b>this</b>.textEl.setWidth(1);
+        <b>this</b>.setWidth(<b>this</b>.textEl.dom.scrollWidth+<b>this</b>.pnode.getPadding(&quot;lr&quot;)+<b>this</b>.inner.getPadding(&quot;lr&quot;));
+        <i>//<b>this</b>.el.endMeasure();</i>
+    },
+
+    <i>/**
+     * Sets the text <b>for</b> the tab (Note: <b>this</b> also sets the tooltip text)
+     * @param {String} text The tab's text and tooltip
+     */</i>
+    setText : <b>function</b>(text){
+        <b>this</b>.text = text;
+        <b>this</b>.textEl.update(text);
+        <b>this</b>.setTooltip(text);
+        <b>if</b>(!<b>this</b>.tabPanel.resizeTabs){
+            <b>this</b>.autoSize();
+        }
+    },
+    <i>/**
+     * Activates <b>this</b> TabPanelItem -- <b>this</b> &lt;b&gt;does&lt;/b&gt; deactivate the currently active TabPanelItem.
+     */</i>
+    activate : <b>function</b>(){
+        <b>this</b>.tabPanel.activate(<b>this</b>.id);
+    },
+
+    <i>/**
+     * Disables <b>this</b> TabPanelItem -- <b>this</b> does nothing <b>if</b> this is the active TabPanelItem.
+     */</i>
+    disable : <b>function</b>(){
+        <b>if</b>(this.tabPanel.active != <b>this</b>){
+            <b>this</b>.disabled = true;
+            <b>this</b>.pnode.addClass(&quot;disabled&quot;);
+        }
+    },
+
+    <i>/**
+     * Enables <b>this</b> TabPanelItem <b>if</b> it was previously disabled.
+     */</i>
+    enable : <b>function</b>(){
+        <b>this</b>.disabled = false;
+        <b>this</b>.pnode.removeClass(&quot;disabled&quot;);
+    },
+
+    <i>/**
+     * Sets the content <b>for</b> this TabPanelItem.
+     * @param {String} content The content
+     * @param {Boolean} loadScripts true to look <b>for</b> and load scripts
+     */</i>
+    setContent : <b>function</b>(content, loadScripts){
+        <b>this</b>.bodyEl.update(content, loadScripts);
+    },
+
+    <i>/**
+     * Gets the {@link Ext.UpdateManager} <b>for</b> the body of <b>this</b> TabPanelItem. Enables you to perform Ajax updates.
+     * @<b>return</b> {Ext.UpdateManager} The UpdateManager
+     */</i>
+    getUpdateManager : <b>function</b>(){
+        <b>return</b> this.bodyEl.getUpdateManager();
+    },
+
+    <i>/**
+     * Set a URL to be used to load the content <b>for</b> this TabPanelItem.
+     * @param {String/Function} url The URL to load the content from, or a <b>function</b> to call to get the URL
+     * @param {String/Object} params (optional) The string params <b>for</b> the update call or an object of the params. See {@link Ext.UpdateManager#update} <b>for</b> more details. (Defaults to null)
+     * @param {Boolean} loadOnce (optional) Whether to only load the content once. If <b>this</b> is false it makes the Ajax call every time <b>this</b> TabPanelItem is activated. (Defaults to false)
+     * @<b>return</b> {Ext.UpdateManager} The UpdateManager
+     */</i>
+    setUrl : <b>function</b>(url, params, loadOnce){
+        <b>if</b>(this.refreshDelegate){
+            <b>this</b>.un(<em>'activate'</em>, <b>this</b>.refreshDelegate);
+        }
+        <b>this</b>.refreshDelegate = <b>this</b>._handleRefresh.createDelegate(<b>this</b>, [url, params, loadOnce]);
+        <b>this</b>.on(&quot;activate&quot;, <b>this</b>.refreshDelegate);
+        <b>return</b> this.bodyEl.getUpdateManager();
+    },
+
+    <i>/** @private */</i>
+    _handleRefresh : <b>function</b>(url, params, loadOnce){
+        <b>if</b>(!loadOnce || !<b>this</b>.loaded){
+            <b>var</b> updater = <b>this</b>.bodyEl.getUpdateManager();
+            updater.update(url, params, <b>this</b>._setLoaded.createDelegate(<b>this</b>));
+        }
+    },
+
+    <i>/**
+     *   Forces a content refresh from the URL specified <b>in</b> the {@link #setUrl} method.
+     *   Will fail silently <b>if</b> the setUrl method has not been called.
+     *   This does not activate the panel, just updates its content.
+     */</i>
+    refresh : <b>function</b>(){
+        <b>if</b>(this.refreshDelegate){
+           <b>this</b>.loaded = false;
+           <b>this</b>.refreshDelegate();
+        }
+    },
+
+    <i>/** @private */</i>
+    _setLoaded : <b>function</b>(){
+        <b>this</b>.loaded = true;
+    },
+
+    <i>/** @private */</i>
+    closeClick : <b>function</b>(e){
+        <b>var</b> o = {};
+        e.stopEvent();
+        <b>this</b>.fireEvent(&quot;beforeclose&quot;, <b>this</b>, o);
+        <b>if</b>(o.cancel !== true){
+            <b>this</b>.tabPanel.removeTab(<b>this</b>.id);
+        }
+    },
+    <i>/**
+     * The text displayed <b>in</b> the tooltip <b>for</b> the close icon.
+     * @type String
+     */</i>
+    closeText : &quot;Close <b>this</b> tab&quot;
+});
+
+<i>/** @private */</i>
+Ext.TabPanel.prototype.createStrip = <b>function</b>(container){
+    <b>var</b> strip = document.createElement(&quot;div&quot;);
+    strip.className = &quot;x-tabs-wrap&quot;;
+    container.appendChild(strip);
+    <b>return</b> strip;
+};
+<i>/** @private */</i>
+Ext.TabPanel.prototype.createStripList = <b>function</b>(strip){
+    <i>// div wrapper <b>for</b> retard IE</i>
+    strip.innerHTML = <em>'&lt;div class=&quot;x-tabs-strip-wrap&quot;&gt;&lt;table class=&quot;x-tabs-strip&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;'</em>;
+    <b>return</b> strip.firstChild.firstChild.firstChild.firstChild;
+};
+<i>/** @private */</i>
+Ext.TabPanel.prototype.createBody = <b>function</b>(container){
+    <b>var</b> body = document.createElement(&quot;div&quot;);
+    Ext.id(body, &quot;tab-body&quot;);
+    Ext.fly(body).addClass(&quot;x-tabs-body&quot;);
+    container.appendChild(body);
+    <b>return</b> body;
+};
+<i>/** @private */</i>
+Ext.TabPanel.prototype.createItemBody = <b>function</b>(bodyEl, id){
+    <b>var</b> body = Ext.getDom(id);
+    <b>if</b>(!body){
+        body = document.createElement(&quot;div&quot;);
+        body.id = id;
+    }
+    Ext.fly(body).addClass(&quot;x-tabs-item-body&quot;);
+    bodyEl.insertBefore(body, bodyEl.firstChild);
+    <b>return</b> body;
+};
+<i>/** @private */</i>
+Ext.TabPanel.prototype.createStripElements = <b>function</b>(stripEl, text, closable){
+    <b>var</b> td = document.createElement(&quot;td&quot;);
+    stripEl.appendChild(td);
+    <b>if</b>(closable){
+        td.className = &quot;x-tabs-closable&quot;;
+        <b>if</b>(!<b>this</b>.closeTpl){
+            <b>this</b>.closeTpl = <b>new</b> Ext.Template(
+               <em>'&lt;a href=&quot;#&quot; class=&quot;x-tabs-right&quot;&gt;&lt;span class=&quot;x-tabs-left&quot;&gt;&lt;em class=&quot;x-tabs-inner&quot;&gt;'</em> +
+               <em>'&lt;span unselectable=&quot;on&quot;'</em> + (<b>this</b>.disableTooltips ? <em>''</em> : <em>' title=&quot;{text}&quot;'</em>) +<em>' class=&quot;x-tabs-text&quot;&gt;{text}&lt;/span&gt;'</em> +
+               <em>'&lt;div unselectable=&quot;on&quot; class=&quot;close-icon&quot;&gt;&amp;#160;&lt;/div&gt;&lt;/em&gt;&lt;/span&gt;&lt;/a&gt;'</em>
+            );
+        }
+        <b>var</b> el = <b>this</b>.closeTpl.overwrite(td, {&quot;text&quot;: text});
+        <b>var</b> close = el.getElementsByTagName(&quot;div&quot;)[0];
+        <b>var</b> inner = el.getElementsByTagName(&quot;em&quot;)[0];
+        <b>return</b> {&quot;el&quot;: el, &quot;close&quot;: close, &quot;inner&quot;: inner};
+    } <b>else</b> {
+        <b>if</b>(!<b>this</b>.tabTpl){
+            <b>this</b>.tabTpl = <b>new</b> Ext.Template(
+               <em>'&lt;a href=&quot;#&quot; class=&quot;x-tabs-right&quot;&gt;&lt;span class=&quot;x-tabs-left&quot;&gt;&lt;em class=&quot;x-tabs-inner&quot;&gt;'</em> +
+               <em>'&lt;span unselectable=&quot;on&quot;'</em> + (<b>this</b>.disableTooltips ? <em>''</em> : <em>' title=&quot;{text}&quot;'</em>) +<em>' class=&quot;x-tabs-text&quot;&gt;{text}&lt;/span&gt;&lt;/em&gt;&lt;/span&gt;&lt;/a&gt;'</em>
+            );
+        }
+        <b>var</b> el = <b>this</b>.tabTpl.overwrite(td, {&quot;text&quot;: text});
+        <b>var</b> inner = el.getElementsByTagName(&quot;em&quot;)[0];
+        <b>return</b> {&quot;el&quot;: el, &quot;inner&quot;: inner};
+    }
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

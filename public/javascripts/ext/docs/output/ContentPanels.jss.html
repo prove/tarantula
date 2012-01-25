@@ -1,0 +1,467 @@
+<html><head><title>ContentPanels.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ContentPanels.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.ContentPanel
+ * @extends Ext.util.Observable
+ * A basic ContentPanel element.
+ * @cfg {Boolean} fitToFrame True <b>for</b> this panel to adjust its size to fit when the region resizes  (defaults to false)
+ * @cfg {Boolean} fitContainer When using {@link #fitToFrame} and {@link #resizeEl}, you can also fit the parent container  (defaults to false)
+ * @cfg {Boolean/Object} autoCreate True to auto generate the DOM element <b>for</b> this panel, or a {@link Ext.DomHelper} config of the element to create
+ * @cfg {Boolean} closable True <b>if</b> the panel can be closed/removed
+ * @cfg {Boolean} background True <b>if</b> the panel should not be activated when it is added (defaults to false)
+ * @cfg {String/HTMLElement/Element} resizeEl An element to resize <b>if</b> {@link #fitToFrame} is true (instead of <b>this</b> panel's element)
+ * @cfg {Toolbar} toolbar A toolbar <b>for</b> this panel
+ * @cfg {Boolean} autoScroll True to scroll overflow <b>in</b> this panel (use <b>with</b> {@link #fitToFrame})
+ * @cfg {String} title The title <b>for</b> this panel
+ * @cfg {Array} adjustments Values to &lt;b&gt;add&lt;/b&gt; to the width/height when doing a {@link #fitToFrame} (<b>default</b> is [0, 0])
+ * @cfg {String} url Calls {@link #setUrl} <b>with</b> this value
+ * @cfg {String/Object} params When used <b>with</b> {@link #url}, calls {@link #setUrl} <b>with</b> this value
+ * @cfg {Boolean} loadOnce When used <b>with</b> {@link #url}, calls {@link #setUrl} <b>with</b> this value
+ * @constructor
+ * Create a <b>new</b> ContentPanel.
+ * @param {String/HTMLElement/Ext.Element} el The container element <b>for</b> this panel
+ * @param {String/Object} config A string to set only the title or a config object
+ * @param {String} content (optional) Set the HTML content <b>for</b> this panel
+ */</i>
+Ext.ContentPanel = <b>function</b>(el, config, content){
+    <b>if</b>(el.autoCreate){
+        config = el;
+        el = Ext.id();
+    }
+    <b>this</b>.el = Ext.get(el);
+    <b>if</b>(!<b>this</b>.el &amp;&amp; config &amp;&amp; config.autoCreate){
+        <b>if</b>(typeof config.autoCreate == &quot;object&quot;){
+            <b>if</b>(!config.autoCreate.id){
+                config.autoCreate.id = config.id||el;
+            }
+            <b>this</b>.el = Ext.DomHelper.append(document.body,
+                        config.autoCreate, true);
+        }<b>else</b>{
+            <b>this</b>.el = Ext.DomHelper.append(document.body,
+                        {tag: &quot;div&quot;, cls: &quot;x-layout-inactive-content&quot;, id: config.id||el}, true);
+        }
+    }
+    <b>this</b>.closable = false;
+    <b>this</b>.loaded = false;
+    <b>this</b>.active = false;
+    <b>if</b>(typeof config == &quot;string&quot;){
+        <b>this</b>.title = config;
+    }<b>else</b>{
+        Ext.apply(<b>this</b>, config);
+    }
+    <b>if</b>(this.resizeEl){
+        <b>this</b>.resizeEl = Ext.get(<b>this</b>.resizeEl, true);
+    }<b>else</b>{
+        <b>this</b>.resizeEl = <b>this</b>.el;
+    }
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event activate
+         * Fires when <b>this</b> panel is activated. 
+         * @param {Ext.ContentPanel} <b>this</b>
+         */</i>
+        &quot;activate&quot; : true,
+        <i>/**
+         * @event deactivate
+         * Fires when <b>this</b> panel is activated. 
+         * @param {Ext.ContentPanel} <b>this</b>
+         */</i>
+        &quot;deactivate&quot; : true,
+
+        <i>/**
+         * @event resize
+         * Fires when <b>this</b> panel is resized <b>if</b> fitToFrame is true.
+         * @param {Ext.ContentPanel} <b>this</b>
+         * @param {Number} width The width after any component adjustments
+         * @param {Number} height The height after any component adjustments
+         */</i>
+        &quot;resize&quot; : true
+    });
+    <b>if</b>(this.autoScroll){
+        <b>this</b>.resizeEl.setStyle(&quot;overflow&quot;, &quot;auto&quot;);
+    }
+    content = content || <b>this</b>.content;
+    <b>if</b>(content){
+        <b>this</b>.setContent(content);
+    }
+    <b>if</b>(config &amp;&amp; config.url){
+        <b>this</b>.setUrl(<b>this</b>.url, <b>this</b>.params, <b>this</b>.loadOnce);
+    }
+    Ext.ContentPanel.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.ContentPanel, Ext.util.Observable, {
+    tabTip:<em>''</em>,
+    setRegion : <b>function</b>(region){
+        <b>this</b>.region = region;
+        <b>if</b>(region){
+           <b>this</b>.el.replaceClass(&quot;x-layout-inactive-content&quot;, &quot;x-layout-active-content&quot;);
+        }<b>else</b>{
+           <b>this</b>.el.replaceClass(&quot;x-layout-active-content&quot;, &quot;x-layout-inactive-content&quot;);
+        } 
+    },
+    
+    <i>/**
+     * Returns the toolbar <b>for</b> this Panel <b>if</b> one was configured. 
+     * @<b>return</b> {Ext.Toolbar} 
+     */</i>
+    getToolbar : <b>function</b>(){
+        <b>return</b> this.toolbar;
+    },
+    
+    setActiveState : <b>function</b>(active){
+        <b>this</b>.active = active;
+        <b>if</b>(!active){
+            <b>this</b>.fireEvent(&quot;deactivate&quot;, <b>this</b>);
+        }<b>else</b>{
+            <b>this</b>.fireEvent(&quot;activate&quot;, <b>this</b>);
+        }
+    },
+    <i>/**
+     * Updates <b>this</b> panel's element
+     * @param {String} content The <b>new</b> content
+     * @param {Boolean} loadScripts (optional) true to look <b>for</b> and process scripts
+    */</i>
+    setContent : <b>function</b>(content, loadScripts){
+        <b>this</b>.el.update(content, loadScripts);
+    },
+
+    ignoreResize : <b>function</b>(w, h){
+        <b>if</b>(this.lastSize &amp;&amp; <b>this</b>.lastSize.width == w &amp;&amp; <b>this</b>.lastSize.height == h){
+            <b>return</b> true;
+        }<b>else</b>{
+            <b>this</b>.lastSize = {width: w, height: h};
+            <b>return</b> false;
+        }
+    },
+    <i>/**
+     * Get the {@link Ext.UpdateManager} <b>for</b> this panel. Enables you to perform Ajax updates.
+     * @<b>return</b> {Ext.UpdateManager} The UpdateManager
+     */</i>
+    getUpdateManager : <b>function</b>(){
+        <b>return</b> this.el.getUpdateManager();
+    },
+     <i>/**
+     * Loads <b>this</b> content panel immediately <b>with</b> content from XHR. Note: to delay loading until the panel is activated, use {@link #setUrl}.
+     * @param {Object/String/Function} url The url <b>for</b> this request or a <b>function</b> to call to get the url or a config object containing any of the following options:
+&lt;pre&gt;&lt;code&gt;
+panel.load({
+    url: &quot;your-url.php&quot;,
+    params: {param1: &quot;foo&quot;, param2: &quot;bar&quot;}, <i>// or a URL encoded string</i>
+    callback: yourFunction,
+    scope: yourObject, <i>//(optional scope)</i>
+    discardUrl: false,
+    nocache: false,
+    text: &quot;Loading...&quot;,
+    timeout: 30,
+    scripts: false
+});
+&lt;/code&gt;&lt;/pre&gt;
+     * The only required property is &lt;i&gt;url&lt;/i&gt;. The optional properties &lt;i&gt;nocache&lt;/i&gt;, &lt;i&gt;text&lt;/i&gt; and &lt;i&gt;scripts&lt;/i&gt;
+     * are shorthand <b>for</b> &lt;i&gt;disableCaching&lt;/i&gt;, &lt;i&gt;indicatorText&lt;/i&gt; and &lt;i&gt;loadScripts&lt;/i&gt; and are used to set their associated property on <b>this</b> panel UpdateManager instance.
+     * @param {String/Object} params (optional) The parameters to pass as either a URL encoded string &quot;param1=1&amp;amp;param2=2&quot; or an object {param1: 1, param2: 2}
+     * @param {Function} callback (optional) Callback when transaction is complete -- called <b>with</b> signature (oElement, bSuccess, oResponse)
+     * @param {Boolean} discardUrl (optional) By <b>default</b> when you execute an update the defaultUrl is changed to the last used URL. If true, it will not store the URL.
+     * @<b>return</b> {Ext.ContentPanel} <b>this</b>
+     */</i>
+    load : <b>function</b>(){
+        <b>var</b> um = <b>this</b>.el.getUpdateManager();
+        um.update.apply(um, arguments);
+        <b>return</b> this;
+    },
+
+
+    <i>/**
+     * Set a URL to be used to load the content <b>for</b> this panel. When <b>this</b> panel is activated, the content will be loaded from that URL.
+     * @param {String/Function} url The URL to load the content from or a <b>function</b> to call to get the URL
+     * @param {String/Object} params (optional) The string params <b>for</b> the update call or an object of the params. See {@link Ext.UpdateManager#update} <b>for</b> more details. (Defaults to null)
+     * @param {Boolean} loadOnce (optional) Whether to only load the content once. If <b>this</b> is false it makes the Ajax call every time <b>this</b> panel is activated. (Defaults to false)
+     * @<b>return</b> {Ext.UpdateManager} The UpdateManager
+     */</i>
+    setUrl : <b>function</b>(url, params, loadOnce){
+        <b>if</b>(this.refreshDelegate){
+            <b>this</b>.removeListener(&quot;activate&quot;, <b>this</b>.refreshDelegate);
+        }
+        <b>this</b>.refreshDelegate = <b>this</b>._handleRefresh.createDelegate(<b>this</b>, [url, params, loadOnce]);
+        <b>this</b>.on(&quot;activate&quot;, <b>this</b>.refreshDelegate);
+        <b>return</b> this.el.getUpdateManager();
+    },
+    
+    _handleRefresh : <b>function</b>(url, params, loadOnce){
+        <b>if</b>(!loadOnce || !<b>this</b>.loaded){
+            <b>var</b> updater = <b>this</b>.el.getUpdateManager();
+            updater.update(url, params, <b>this</b>._setLoaded.createDelegate(<b>this</b>));
+        }
+    },
+    
+    _setLoaded : <b>function</b>(){
+        <b>this</b>.loaded = true;
+    }, 
+    
+    <i>/**
+     * Returns <b>this</b> panel's id
+     * @<b>return</b> {String} 
+     */</i>
+    getId : <b>function</b>(){
+        <b>return</b> this.el.id;
+    },
+    
+    <i>/**
+     * Returns <b>this</b> panel's element
+     * @<b>return</b> {Ext.Element} 
+     */</i>
+    getEl : <b>function</b>(){
+        <b>return</b> this.el;
+    },
+    
+    adjustForComponents : <b>function</b>(width, height){
+        <b>if</b>(this.resizeEl != <b>this</b>.el){
+            width -= <b>this</b>.el.getFrameWidth(<em>'lr'</em>);
+            height -= <b>this</b>.el.getFrameWidth(<em>'tb'</em>);
+        }
+        <b>if</b>(this.toolbar){
+            <b>var</b> te = <b>this</b>.toolbar.getEl();
+            height -= te.getHeight();
+            te.setWidth(width);
+        }
+        <b>if</b>(this.adjustments){
+            width += <b>this</b>.adjustments[0];
+            height += <b>this</b>.adjustments[1];
+        }
+        <b>return</b> {&quot;width&quot;: width, &quot;height&quot;: height};
+    },
+    
+    setSize : <b>function</b>(width, height){
+        <b>if</b>(this.fitToFrame &amp;&amp; !<b>this</b>.ignoreResize(width, height)){
+            <b>if</b>(this.fitContainer &amp;&amp; <b>this</b>.resizeEl != <b>this</b>.el){
+                <b>this</b>.el.setSize(width, height);
+            }
+            <b>var</b> size = <b>this</b>.adjustForComponents(width, height);
+            <b>this</b>.resizeEl.setSize(<b>this</b>.autoWidth ? &quot;auto&quot; : size.width, <b>this</b>.autoHeight ? &quot;auto&quot; : size.height);
+            <b>this</b>.fireEvent(<em>'resize'</em>, <b>this</b>, size.width, size.height);
+        }
+    },
+    
+    <i>/**
+     * Returns <b>this</b> panel's title
+     * @<b>return</b> {String} 
+     */</i>
+    getTitle : <b>function</b>(){
+        <b>return</b> this.title;
+    },
+    
+    <i>/**
+     * Set <b>this</b> panel's title
+     * @param {String} title
+     */</i>
+    setTitle : <b>function</b>(title){
+        <b>this</b>.title = title;
+        <b>if</b>(this.region){
+            <b>this</b>.region.updatePanelTitle(<b>this</b>, title);
+        }
+    },
+    
+    <i>/**
+     * Returns true is <b>this</b> panel was configured to be closable
+     * @<b>return</b> {Boolean} 
+     */</i>
+    isClosable : <b>function</b>(){
+        <b>return</b> this.closable;
+    },
+    
+    beforeSlide : <b>function</b>(){
+        <b>this</b>.el.clip();
+        <b>this</b>.resizeEl.clip();
+    },
+    
+    afterSlide : <b>function</b>(){
+        <b>this</b>.el.unclip();
+        <b>this</b>.resizeEl.unclip();
+    },
+    
+    <i>/**
+     *   Force a content refresh from the URL specified <b>in</b> the {@link #setUrl} method.
+     *   Will fail silently <b>if</b> the {@link #setUrl} method has not been called.
+     *   This does not activate the panel, just updates its content.
+     */</i>
+    refresh : <b>function</b>(){
+        <b>if</b>(this.refreshDelegate){
+           <b>this</b>.loaded = false;
+           <b>this</b>.refreshDelegate();
+        }
+    },
+    
+    <i>/**
+     * Destroys <b>this</b> panel
+     */</i>
+    destroy : <b>function</b>(){
+        <b>this</b>.el.removeAllListeners();
+        <b>var</b> tempEl = document.createElement(&quot;span&quot;);
+        tempEl.appendChild(<b>this</b>.el.dom);
+        tempEl.innerHTML = &quot;&quot;;
+        <b>this</b>.el.remove();
+        <b>this</b>.el = null;
+    }
+});
+
+<i>/**
+ * @class Ext.GridPanel
+ * @extends Ext.ContentPanel
+ * @constructor
+ * Create a <b>new</b> GridPanel.
+ * @param {Ext.grid.Grid} grid The grid <b>for</b> this panel
+ * @param {String/Object} config A string to set only the panel's title, or a config object
+ */</i>
+Ext.GridPanel = <b>function</b>(grid, config){
+    <b>this</b>.wrapper = Ext.DomHelper.append(document.body, <i>// wrapper <b>for</b> IE7 strict &amp; safari scroll issue</i>
+        {tag: &quot;div&quot;, cls: &quot;x-layout-grid-wrapper x-layout-inactive-content&quot;}, true);
+    <b>this</b>.wrapper.dom.appendChild(grid.getGridEl().dom);
+    Ext.GridPanel.superclass.constructor.call(<b>this</b>, <b>this</b>.wrapper, config);
+    <b>if</b>(this.toolbar){
+        <b>this</b>.toolbar.el.insertBefore(<b>this</b>.wrapper.dom.firstChild);
+    }
+    grid.monitorWindowResize = false; <i>// turn off autosizing</i>
+    grid.autoHeight = false;
+    grid.autoWidth = false;
+    <b>this</b>.grid = grid;
+    <b>this</b>.grid.getGridEl().replaceClass(&quot;x-layout-inactive-content&quot;, &quot;x-layout-component-panel&quot;);
+};
+
+Ext.extend(Ext.GridPanel, Ext.ContentPanel, {
+    getId : <b>function</b>(){
+        <b>return</b> this.grid.id;
+    },
+    
+    <i>/**
+     * Returns the grid <b>for</b> this panel
+     * @<b>return</b> {Ext.grid.Grid} 
+     */</i>
+    getGrid : <b>function</b>(){
+        <b>return</b> this.grid;    
+    },
+    
+    setSize : <b>function</b>(width, height){
+        <b>if</b>(!<b>this</b>.ignoreResize(width, height)){
+            <b>var</b> grid = <b>this</b>.grid;
+            <b>var</b> size = <b>this</b>.adjustForComponents(width, height);
+            grid.getGridEl().setSize(size.width, size.height);
+            grid.autoSize();
+        }
+    },
+    
+    beforeSlide : <b>function</b>(){
+        <b>this</b>.grid.getView().scroller.clip();
+    },
+    
+    afterSlide : <b>function</b>(){
+        <b>this</b>.grid.getView().scroller.unclip();
+    },
+    
+    destroy : <b>function</b>(){
+        <b>this</b>.grid.destroy();
+        <b>delete</b> this.grid;
+        Ext.GridPanel.superclass.destroy.call(<b>this</b>); 
+    }
+});
+
+
+<i>/**
+ * @class Ext.NestedLayoutPanel
+ * @extends Ext.ContentPanel
+ * @constructor
+ * Create a <b>new</b> NestedLayoutPanel.
+ * @param {Ext.BorderLayout} layout The layout <b>for</b> this panel
+ * @param {String/Object} config A string to set only the title or a config object
+ */</i>
+Ext.NestedLayoutPanel = <b>function</b>(layout, config){
+    Ext.NestedLayoutPanel.superclass.constructor.call(<b>this</b>, layout.getEl(), config);
+    layout.monitorWindowResize = false; <i>// turn off autosizing</i>
+    <b>this</b>.layout = layout;
+    <b>this</b>.layout.getEl().addClass(&quot;x-layout-nested-layout&quot;);
+};
+
+Ext.extend(Ext.NestedLayoutPanel, Ext.ContentPanel, {
+
+    setSize : <b>function</b>(width, height){
+        <b>if</b>(!<b>this</b>.ignoreResize(width, height)){
+            <b>var</b> size = <b>this</b>.adjustForComponents(width, height);
+            <b>var</b> el = <b>this</b>.layout.getEl();
+            el.setSize(size.width, size.height);
+            <b>var</b> touch = el.dom.offsetWidth;
+            <b>this</b>.layout.layout();
+            <i>// ie requires a double layout on the first pass</i>
+            <b>if</b>(Ext.isIE &amp;&amp; !<b>this</b>.initialized){
+                <b>this</b>.initialized = true;
+                <b>this</b>.layout.layout();
+            }
+        }
+    },
+    
+    <i>/**
+     * Returns the nested BorderLayout <b>for</b> this panel
+     * @<b>return</b> {Ext.BorderLayout} 
+     */</i>
+    getLayout : <b>function</b>(){
+        <b>return</b> this.layout;
+    }
+});
+
+Ext.ScrollPanel = <b>function</b>(el, config, content){
+    config = config || {};
+    config.fitToFrame = true;
+    Ext.ScrollPanel.superclass.constructor.call(<b>this</b>, el, config, content);
+    
+    <b>this</b>.el.dom.style.overflow = &quot;hidden&quot;;
+    <b>var</b> wrap = <b>this</b>.el.wrap({cls: &quot;x-scroller x-layout-inactive-content&quot;});
+    <b>this</b>.el.removeClass(&quot;x-layout-inactive-content&quot;);
+    <b>this</b>.el.on(&quot;mousewheel&quot;, <b>this</b>.onWheel, <b>this</b>);
+
+    <b>var</b> up = wrap.createChild({cls: &quot;x-scroller-up&quot;, html: &quot;&amp;#160;&quot;}, <b>this</b>.el.dom);
+    <b>var</b> down = wrap.createChild({cls: &quot;x-scroller-down&quot;, html: &quot;&amp;#160;&quot;});
+    up.unselectable(); down.unselectable();
+    up.on(&quot;click&quot;, <b>this</b>.scrollUp, <b>this</b>);
+    down.on(&quot;click&quot;, <b>this</b>.scrollDown, <b>this</b>);
+    up.addClassOnOver(&quot;x-scroller-btn-over&quot;);
+    down.addClassOnOver(&quot;x-scroller-btn-over&quot;);
+    up.addClassOnClick(&quot;x-scroller-btn-click&quot;);
+    down.addClassOnClick(&quot;x-scroller-btn-click&quot;);
+    <b>this</b>.adjustments = [0, -(up.getHeight() + down.getHeight())];
+
+    <b>this</b>.resizeEl = <b>this</b>.el;
+    <b>this</b>.el = wrap; <b>this</b>.up = up; <b>this</b>.down = down;
+};
+
+Ext.extend(Ext.ScrollPanel, Ext.ContentPanel, {
+    increment : 100,
+    wheelIncrement : 5,
+    scrollUp : <b>function</b>(){
+        <b>this</b>.resizeEl.scroll(&quot;up&quot;, <b>this</b>.increment, {callback: <b>this</b>.afterScroll, scope: <b>this</b>});
+    },
+
+    scrollDown : <b>function</b>(){
+        <b>this</b>.resizeEl.scroll(&quot;down&quot;, <b>this</b>.increment, {callback: <b>this</b>.afterScroll, scope: <b>this</b>});
+    },
+
+    afterScroll : <b>function</b>(){
+        <b>var</b> el = <b>this</b>.resizeEl;
+        <b>var</b> t = el.dom.scrollTop, h = el.dom.scrollHeight, ch = el.dom.clientHeight;
+        <b>this</b>.up[t == 0 ? &quot;addClass&quot; : &quot;removeClass&quot;](&quot;x-scroller-btn-disabled&quot;);
+        <b>this</b>.down[h - t &lt;= ch ? &quot;addClass&quot; : &quot;removeClass&quot;](&quot;x-scroller-btn-disabled&quot;);
+    },
+
+    setSize : <b>function</b>(){
+        Ext.ScrollPanel.superclass.setSize.apply(<b>this</b>, arguments);
+        <b>this</b>.afterScroll();
+    },
+
+    onWheel : <b>function</b>(e){
+        <b>var</b> d = e.getWheelDelta();
+        <b>this</b>.resizeEl.dom.scrollTop -= (d*<b>this</b>.wheelIncrement);
+        <b>this</b>.afterScroll();
+        e.stopEvent();
+    },
+
+    setContent : <b>function</b>(content, loadScripts){
+        <b>this</b>.resizeEl.update(content, loadScripts);
+    }
+
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

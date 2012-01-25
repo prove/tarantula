@@ -1,0 +1,454 @@
+<html><head><title>Component.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Component.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.ComponentMgr
+ * Provides a common registry of all components on a page so that they can be easily accessed by component id (see {@link Ext.getCmp}).
+ * @singleton
+ */</i>
+Ext.ComponentMgr = <b>function</b>(){
+    <b>var</b> all = <b>new</b> Ext.util.MixedCollection();
+
+    <b>return</b> {
+        <i>/**
+         * Registers a component.
+         * @param {Ext.Component} c The component
+         */</i>
+        register : <b>function</b>(c){
+            all.add(c);
+        },
+
+        <i>/**
+         * Unregisters a component.
+         * @param {Ext.Component} c The component
+         */</i>
+        unregister : <b>function</b>(c){
+            all.remove(c);
+        },
+
+        <i>/**
+         * Returns a component by id
+         * @param {String} id The component id
+         */</i>
+        get : <b>function</b>(id){
+            <b>return</b> all.get(id);
+        },
+
+        <i>/**
+         * Registers a <b>function</b> that will be called when a specified component is added to ComponentMgr
+         * @param {String} id The component id
+         * @param {Funtction} fn The callback <b>function</b>
+         * @param {Object} scope The scope of the callback
+         */</i>
+        onAvailable : <b>function</b>(id, fn, scope){
+            all.on(&quot;add&quot;, <b>function</b>(index, o){
+                <b>if</b>(o.id == id){
+                    fn.call(scope || o, o);
+                    all.un(&quot;add&quot;, fn, scope);
+                }
+            });
+        }
+    };
+}();
+
+<i>/**
+ * @class Ext.Component
+ * @extends Ext.util.Observable
+ * Base class <b>for</b> all major Ext components.  All subclasses of Component can automatically participate <b>in</b> the standard
+ * Ext component lifecycle of creation, rendering and destruction.  They also have automatic support <b>for</b> basic hide/show
+ * and enable/disable behavior.  Component allows any subclass to be lazy-rendered into any {@link Ext.Container} and
+ * to be automatically registered <b>with</b> the {@link Ext.ComponentMgr} so that it can be referenced at any time via {@link Ext.getCmp}.
+ * All visual components (widgets) that require rendering into a layout should subclass Component.
+ * @constructor
+ * @param {Ext.Element/String/Object} config The configuration options.  If an element is passed, it is set as the internal
+ * element and its id used as the component id.  If a string is passed, it is assumed to be the id of an existing element
+ * and is used as the component id.  Otherwise, it is assumed to be a standard config object and is applied to the component.
+ */</i>
+Ext.Component = <b>function</b>(config){
+    config = config || {};
+    <b>if</b>(config.tagName || config.dom || <b>typeof</b> config == &quot;string&quot;){ <i>// element object</i>
+        config = {el: config, id: config.id || config};
+    }
+    <b>this</b>.initialConfig = config;
+
+    Ext.apply(<b>this</b>, config);
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event disable
+         * Fires after the component is disabled.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        disable : true,
+        <i>/**
+         * @event enable
+         * Fires after the component is enabled.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        enable : true,
+        <i>/**
+         * @event beforeshow
+         * Fires before the component is shown.  Return false to stop the show.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        beforeshow : true,
+        <i>/**
+         * @event show
+         * Fires after the component is shown.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        show : true,
+        <i>/**
+         * @event beforehide
+         * Fires before the component is hidden. Return false to stop the hide.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        beforehide : true,
+        <i>/**
+         * @event hide
+         * Fires after the component is hidden.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        hide : true,
+        <i>/**
+         * @event beforerender
+         * Fires before the component is rendered. Return false to stop the render.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        beforerender : true,
+        <i>/**
+         * @event render
+         * Fires after the component is rendered.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        render : true,
+        <i>/**
+         * @event beforedestroy
+         * Fires before the component is destroyed. Return false to stop the destroy.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        beforedestroy : true,
+        <i>/**
+         * @event destroy
+         * Fires after the component is destroyed.
+	     * @param {Ext.Component} <b>this</b>
+	     */</i>
+        destroy : true
+    });
+    <b>if</b>(!<b>this</b>.id){
+        <b>this</b>.id = &quot;ext-comp-&quot; + (++Ext.Component.AUTO_ID);
+    }
+    Ext.ComponentMgr.register(<b>this</b>);
+    Ext.Component.superclass.constructor.call(<b>this</b>);
+    <b>this</b>.initComponent();
+    <b>if</b>(this.renderTo){ <i>// not supported by all components yet. use at your own risk!</i>
+        <b>this</b>.render(<b>this</b>.renderTo);
+        <b>delete</b> this.renderTo;
+    }
+};
+
+<i>// private</i>
+Ext.Component.AUTO_ID = 1000;
+
+Ext.extend(Ext.Component, Ext.util.Observable, {
+    <i>/**
+     * true <b>if</b> this component is hidden. Read-only.
+     */</i>
+    hidden : false,
+    <i>/**
+     * true <b>if</b> this component is disabled. Read-only.
+     */</i>
+    disabled : false,
+    <i>/**
+     * true <b>if</b> this component has been rendered. Read-only.
+     */</i>
+    rendered : false,
+    
+    <i>/** @cfg {String} disableClass
+     * CSS class added to the component when it is disabled (defaults to &quot;x-item-disabled&quot;).
+     */</i>
+    disabledClass : &quot;x-item-disabled&quot;,
+	<i>/** @cfg {Boolean} allowDomMove
+	 * Whether the component can move the Dom node when rendering (defaults to true).
+	 */</i>
+    allowDomMove : true,
+    <i>/** @cfg {String} hideMode
+     * How <b>this</b> component should hidden. Supported values are
+     * &quot;visibility&quot; (css visibility), &quot;offsets&quot; (negative offset position) and
+     * &quot;display&quot; (css display) - defaults to &quot;display&quot;.
+     */</i>
+    hideMode: <em>'display'</em>,
+
+    <i>// private</i>
+    ctype : &quot;Ext.Component&quot;,
+
+    <i>// private</i>
+    actionMode : &quot;el&quot;,
+
+    <i>// private</i>
+    getActionEl : <b>function</b>(){
+        <b>return</b> this[<b>this</b>.actionMode];
+    },
+
+    initComponent : Ext.emptyFn,
+    <i>/**
+     * If <b>this</b> is a lazy rendering component, render it to its container element.
+     * @param {String/HTMLElement/Element} container (optional) The element <b>this</b> component should be rendered into. If it is being applied to existing markup, <b>this</b> should be left off.
+     */</i>
+    render : <b>function</b>(container, position){
+        <b>if</b>(!<b>this</b>.rendered &amp;&amp; <b>this</b>.fireEvent(&quot;beforerender&quot;, <b>this</b>) !== false){
+            <b>if</b>(!container &amp;&amp; <b>this</b>.el){
+                <b>this</b>.el = Ext.get(<b>this</b>.el);
+                container = <b>this</b>.el.dom.parentNode;
+                <b>this</b>.allowDomMove = false;
+            }
+            <b>this</b>.container = Ext.get(container);
+            <b>this</b>.rendered = true;
+            <b>if</b>(position !== undefined){
+                <b>if</b>(typeof position == <em>'number'</em>){
+                    position = <b>this</b>.container.dom.childNodes[position];
+                }<b>else</b>{
+                    position = Ext.getDom(position);
+                }
+            }
+            <b>this</b>.onRender(<b>this</b>.container, position || null);
+            <b>if</b>(this.cls){
+                <b>this</b>.el.addClass(<b>this</b>.cls);
+                <b>delete</b> this.cls;
+            }
+            <b>if</b>(this.style){
+                <b>this</b>.el.applyStyles(<b>this</b>.style);
+                <b>delete</b> this.style;
+            }
+            <b>this</b>.fireEvent(&quot;render&quot;, <b>this</b>);
+            <b>this</b>.afterRender(<b>this</b>.container);
+            <b>if</b>(this.hidden){
+                <b>this</b>.hide();
+            }
+            <b>if</b>(this.disabled){
+                <b>this</b>.disable();
+            }
+        }
+        <b>return</b> this;
+    },
+
+    <i>// private</i>
+    <i>// <b>default</b> function is not really useful</i>
+    onRender : <b>function</b>(ct, position){
+        <b>if</b>(this.el){
+            <b>this</b>.el = Ext.get(<b>this</b>.el);
+            <b>if</b>(this.allowDomMove !== false){
+                ct.dom.insertBefore(<b>this</b>.el.dom, position);
+            }
+        }
+    },
+
+    <i>// private</i>
+    getAutoCreate : <b>function</b>(){
+        <b>var</b> cfg = <b>typeof</b> this.autoCreate == &quot;object&quot; ?
+                      <b>this</b>.autoCreate : Ext.apply({}, <b>this</b>.defaultAutoCreate);
+        <b>if</b>(this.id &amp;&amp; !cfg.id){
+            cfg.id = <b>this</b>.id;
+        }
+        <b>return</b> cfg;
+    },
+
+    <i>// private</i>
+    afterRender : Ext.emptyFn,
+
+    <i>/**
+     * Destroys <b>this</b> component by purging any event listeners, removing the component's element from the DOM,
+     * removing the component from its {@link Ext.Container} (<b>if</b> applicable) and unregistering it from {@link Ext.ComponentMgr}.
+     */</i>
+    destroy : <b>function</b>(){
+        <b>if</b>(this.fireEvent(&quot;beforedestroy&quot;, <b>this</b>) !== false){
+            <b>this</b>.purgeListeners();
+            <b>this</b>.beforeDestroy();
+            <b>if</b>(this.rendered){
+                <b>this</b>.el.removeAllListeners();
+                <b>this</b>.el.remove();
+                <b>if</b>(this.actionMode == &quot;container&quot;){
+                    <b>this</b>.container.remove();
+                }
+            }
+            <b>this</b>.onDestroy();
+            Ext.ComponentMgr.unregister(<b>this</b>);
+            <b>this</b>.fireEvent(&quot;destroy&quot;, <b>this</b>);
+        }
+    },
+
+	<i>// private</i>
+    beforeDestroy : <b>function</b>(){
+
+    },
+
+	<i>// private</i>
+	onDestroy : <b>function</b>(){
+
+    },
+
+    <i>/**
+     * Returns the underlying {@link Ext.Element}.
+     * @<b>return</b> {Ext.Element} The element
+     */</i>
+    getEl : <b>function</b>(){
+        <b>return</b> this.el;
+    },
+
+    <i>/**
+     * Returns the id of <b>this</b> component.
+     * @<b>return</b> {String}
+     */</i>
+    getId : <b>function</b>(){
+        <b>return</b> this.id;
+    },
+
+    <i>/**
+     * Try to focus <b>this</b> component.
+     * @param {Boolean} selectText True to also select the text <b>in</b> this component (<b>if</b> applicable)
+     * @<b>return</b> {Ext.Component} <b>this</b>
+     */</i>
+    focus : <b>function</b>(selectText){
+        <b>if</b>(this.rendered){
+            <b>this</b>.el.focus();
+            <b>if</b>(selectText === true){
+                <b>this</b>.el.dom.select();
+            }
+        }
+        <b>return</b> this;
+    },
+
+    <i>// private</i>
+    blur : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>this</b>.el.blur();
+        }
+        <b>return</b> this;
+    },
+
+    <i>/**
+     * Disable <b>this</b> component.
+     * @<b>return</b> {Ext.Component} <b>this</b>
+     */</i>
+    disable : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>this</b>.onDisable();
+        }
+        <b>this</b>.disabled = true;
+        <b>this</b>.fireEvent(&quot;disable&quot;, <b>this</b>);
+        <b>return</b> this;
+    },
+
+	<i>// private</i>
+    onDisable : <b>function</b>(){
+        <b>this</b>.getActionEl().addClass(<b>this</b>.disabledClass);
+        <b>this</b>.el.dom.disabled = true;
+    },
+
+    <i>/**
+     * Enable <b>this</b> component.
+     * @<b>return</b> {Ext.Component} <b>this</b>
+     */</i>
+    enable : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>this</b>.onEnable();
+        }
+        <b>this</b>.disabled = false;
+        <b>this</b>.fireEvent(&quot;enable&quot;, <b>this</b>);
+        <b>return</b> this;
+    },
+
+	<i>// private</i>
+    onEnable : <b>function</b>(){
+        <b>this</b>.getActionEl().removeClass(<b>this</b>.disabledClass);
+        <b>this</b>.el.dom.disabled = false;
+    },
+
+    <i>/**
+     * Convenience <b>function</b> for setting disabled/enabled by boolean.
+     * @param {Boolean} disabled
+     */</i>
+    setDisabled : <b>function</b>(disabled){
+        <b>this</b>[disabled ? &quot;disable&quot; : &quot;enable&quot;]();
+    },
+
+    <i>/**
+     * Show <b>this</b> component.
+     * @<b>return</b> {Ext.Component} <b>this</b>
+     */</i>
+    show: <b>function</b>(){
+        <b>if</b>(this.fireEvent(&quot;beforeshow&quot;, <b>this</b>) !== false){
+            <b>this</b>.hidden = false;
+            <b>if</b>(this.rendered){
+                <b>this</b>.onShow();
+            }
+            <b>this</b>.fireEvent(&quot;show&quot;, <b>this</b>);
+        }
+        <b>return</b> this;
+    },
+
+    <i>// private</i>
+    onShow : <b>function</b>(){
+        <b>var</b> ae = <b>this</b>.getActionEl();
+        <b>if</b>(this.hideMode == <em>'visibility'</em>){
+            ae.dom.style.visibility = &quot;visible&quot;;
+        }<b>else</b> if(<b>this</b>.hideMode == <em>'offsets'</em>){
+            ae.removeClass(<em>'x-hidden'</em>);
+        }<b>else</b>{
+            ae.dom.style.display = &quot;&quot;;
+        }
+    },
+
+    <i>/**
+     * Hide <b>this</b> component.
+     * @<b>return</b> {Ext.Component} <b>this</b>
+     */</i>
+    hide: <b>function</b>(){
+        <b>if</b>(this.fireEvent(&quot;beforehide&quot;, <b>this</b>) !== false){
+            <b>this</b>.hidden = true;
+            <b>if</b>(this.rendered){
+                <b>this</b>.onHide();
+            }
+            <b>this</b>.fireEvent(&quot;hide&quot;, <b>this</b>);
+        }
+        <b>return</b> this;
+    },
+
+    <i>// private</i>
+    onHide : <b>function</b>(){
+        <b>var</b> ae = <b>this</b>.getActionEl();
+        <b>if</b>(this.hideMode == <em>'visibility'</em>){
+            ae.dom.style.visibility = &quot;hidden&quot;;
+        }<b>else</b> if(<b>this</b>.hideMode == <em>'offsets'</em>){
+            ae.addClass(<em>'x-hidden'</em>);
+        }<b>else</b>{
+            ae.dom.style.display = &quot;none&quot;;
+        }
+    },
+
+    <i>/**
+     * Convenience <b>function</b> to hide or show <b>this</b> component by boolean.
+     * @param {Boolean} visible True to show, false to hide
+     * @<b>return</b> {Ext.Component} <b>this</b>
+     */</i>
+    setVisible: <b>function</b>(visible){
+        <b>if</b>(visible) {
+            <b>this</b>.show();
+        }<b>else</b>{
+            <b>this</b>.hide();
+        }
+        <b>return</b> this;
+    },
+
+    <i>/**
+     * Returns true <b>if</b> this component is visible.
+     */</i>
+    isVisible : <b>function</b>(){
+        <b>return</b> this.getActionEl().isVisible();
+    },
+
+    cloneConfig : <b>function</b>(overrides){
+        overrides = overrides || {};
+        <b>var</b> id = overrides.id || Ext.id();
+        <b>var</b> cfg = Ext.applyIf(overrides, <b>this</b>.initialConfig);
+        cfg.id = id; <i>// prevent dup id</i>
+        <b>return</b> new <b>this</b>.constructor(cfg);
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

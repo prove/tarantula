@@ -1,0 +1,10 @@
+<html><head><title>DataReader.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>DataReader.js</h1><pre class="highlighted"><code>Ext.data.DataReader = <b>function</b>(meta, recordType){
+    <b>this</b>.meta = meta;
+    <b>this</b>.recordType = recordType instanceof Array ? 
+        Ext.data.Record.create(recordType) : recordType;
+};
+
+Ext.data.DataReader.prototype = {
+    
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

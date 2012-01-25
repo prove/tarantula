@@ -1,0 +1,125 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.data.DataProxy</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.data.DataProxy.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.data.DataProxy</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.data</td></tr>
+            <tr><td class="label">Class:</td><td>DataProxy</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="DataProxy.jss.html">DataProxy.js</a></td></tr>
+        </table>
+        <div class="description">
+            This class is an abstract base class for implementations which provide retrieval of
+unformatted data objects.<br>
+<p>
+DataProxy implementations are usually used in conjunction with an implementation of Ext.data.DataReader
+(of the appropriate type which knows how to parse the data object) to provide a block of
+<a ext:cls="Ext.data.Records" href="Ext.data.Records.html">Ext.data.Records</a> to an <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a>.<br>
+<p>
+Custom implementations must implement the load method as described in
+<a ext:cls="Ext.data.HttpProxy" ext:member="load" href="Ext.data.HttpProxy.html#load">Ext.data.HttpProxy.load</a>.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+        <div class="no-members">This class has no public methods.</div>        <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeload">beforeload</a> : (&nbsp;<code>Object This</code>, <code>Object params</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">DataProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires before a network request is made to retrieve a data object.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-load">load</a> : (&nbsp;<code>Object This</code>, <code>Object o</code>, <code>Object arg</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">DataProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires before the load method's callback is called.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-loadexception">loadexception</a> : (&nbsp;<code>Object This</code>, <code>Object o</code>, <code>Object arg</code>, <code>Object e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">DataProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires if an Exception occurs during data retrieval.</td>
+    </tr>
+            </table>
+                        
+        
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-beforeload"></a>
+                <div class="mdetail">
+                <h3>beforeload</i></h3>
+                <code>public event beforeload</code>
+                <div class="mdetail-desc">
+                Fires before a network request is made to retrieve a data object.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>This</code> : Object<div class="sub-desc">DataProxy object.</div></li><li><code>params</code> : Object<div class="sub-desc">The params parameter to the load function.</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by DataProxy.</div>
+                </div>
+                            <a name="event-load"></a>
+                <div class="mdetail alt">
+                <h3>load</i></h3>
+                <code>public event load</code>
+                <div class="mdetail-desc">
+                Fires before the load method's callback is called.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>This</code> : Object<div class="sub-desc">DataProxy object.</div></li><li><code>o</code> : Object<div class="sub-desc">The data object.</div></li><li><code>arg</code> : Object<div class="sub-desc">The callback argument object passed to the load function.</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by DataProxy.</div>
+                </div>
+                            <a name="event-loadexception"></a>
+                <div class="mdetail">
+                <h3>loadexception</i></h3>
+                <code>public event loadexception</code>
+                <div class="mdetail-desc">
+                Fires if an Exception occurs during data retrieval.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>This</code> : Object<div class="sub-desc">DataProxy object.</div></li><li><code>o</code> : Object<div class="sub-desc">The data object.</div></li><li><code>arg</code> : Object<div class="sub-desc">The callback argument object passed to the load function.</div></li><li><code>e</code> : Object<div class="sub-desc">The Exception.</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by DataProxy.</div>
+                </div>
+                        </div>
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

@@ -1,0 +1,162 @@
+<html><head><title>ClickRepeater.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ClickRepeater.js</h1><pre class="highlighted"><code><i>/**
+ @class Ext.util.ClickRepeater
+ @extends Ext.util.Observable
+
+ A wrapper class which can be applied to any element. Fires a &quot;click&quot; event <b>while</b> the
+ mouse is pressed. The interval between firings may be specified <b>in</b> the config but
+ defaults to 10 milliseconds.
+
+ Optionally, a CSS class may be applied to the element during the time it is pressed.
+
+ @cfg {String/HTMLElement/Element} el The element to act as a button.
+ @cfg {Number} delay The initial delay before the repeating event begins firing.
+ Similar to an autorepeat key delay.
+ @cfg {Number} interval The interval between firings of the &quot;click&quot; event. Default 10 ms.
+ @cfg {String} pressClass A CSS class name to be applied to the element <b>while</b> pressed.
+ @cfg {Boolean} accelerate True <b>if</b> autorepeating should start slowly and accelerate.
+           &quot;interval&quot; and &quot;delay&quot; are ignored. &quot;immediate&quot; is honored.
+ @cfg {Boolean} preventDefault True to prevent the <b>default</b> click event
+ @cfg {Boolean} stopDefault True to stop the <b>default</b> click event
+
+ @history
+    2007-02-02 jvs Original code contributed by Nige &quot;Animal&quot; White
+    2007-02-02 jvs Renamed to ClickRepeater
+    2007-02-03 jvs Modifications <b>for</b> FF Mac and Safari 
+
+ @constructor
+ @param {String/HTMLElement/Element} el The element to listen on
+ @param {Object} config
+ */</i>
+Ext.util.ClickRepeater = <b>function</b>(el, config)
+{
+    <b>this</b>.el = Ext.get(el);
+    <b>this</b>.el.unselectable();
+
+    Ext.apply(<b>this</b>, config);
+
+    <b>this</b>.addEvents({
+    <i>/**
+     * @event mousedown
+     * Fires when the mouse button is depressed.
+     * @param {Ext.util.ClickRepeater} <b>this</b>
+     */</i>
+        &quot;mousedown&quot; : true,
+    <i>/**
+     * @event click
+     * Fires on a specified interval during the time the element is pressed.
+     * @param {Ext.util.ClickRepeater} <b>this</b>
+     */</i>
+        &quot;click&quot; : true,
+    <i>/**
+     * @event mouseup
+     * Fires when the mouse key is released.
+     * @param {Ext.util.ClickRepeater} <b>this</b>
+     */</i>
+        &quot;mouseup&quot; : true
+    });
+
+    <b>this</b>.el.on(&quot;mousedown&quot;, <b>this</b>.handleMouseDown, <b>this</b>);
+    <b>if</b>(this.preventDefault || <b>this</b>.stopDefault){
+        <b>this</b>.el.on(&quot;click&quot;, <b>function</b>(e){
+            <b>if</b>(this.preventDefault){
+                e.preventDefault();
+            }
+            <b>if</b>(this.stopDefault){
+                e.stopEvent();
+            }
+        }, <b>this</b>);
+    }
+
+    <i>// allow inline handler</i>
+    <b>if</b>(this.handler){
+        <b>this</b>.on(&quot;click&quot;, <b>this</b>.handler,  <b>this</b>.scope || <b>this</b>);
+    }
+
+    Ext.util.ClickRepeater.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.util.ClickRepeater, Ext.util.Observable, {
+    interval : 20,
+    delay: 250,
+    preventDefault : true,
+    stopDefault : false,
+    timer : 0,
+
+    <i>// private</i>
+    handleMouseDown : <b>function</b>(){
+        clearTimeout(<b>this</b>.timer);
+        <b>this</b>.el.blur();
+        <b>if</b>(this.pressClass){
+            <b>this</b>.el.addClass(<b>this</b>.pressClass);
+        }
+        <b>this</b>.mousedownTime = <b>new</b> Date();
+
+        Ext.get(document).on(&quot;mouseup&quot;, <b>this</b>.handleMouseUp, <b>this</b>);
+        <b>this</b>.el.on(&quot;mouseout&quot;, <b>this</b>.handleMouseOut, <b>this</b>);
+
+        <b>this</b>.fireEvent(&quot;mousedown&quot;, <b>this</b>);
+        <b>this</b>.fireEvent(&quot;click&quot;, <b>this</b>);
+        
+        <b>this</b>.timer = <b>this</b>.click.defer(<b>this</b>.delay || <b>this</b>.interval, <b>this</b>);
+    },
+
+    <i>// private</i>
+    click : <b>function</b>(){
+        <b>this</b>.fireEvent(&quot;click&quot;, <b>this</b>);
+        <b>this</b>.timer = <b>this</b>.click.defer(<b>this</b>.getInterval(), <b>this</b>);
+    },
+
+    <i>// private</i>
+    getInterval: <b>function</b>(){
+        <b>if</b>(!<b>this</b>.accelerate){
+            <b>return</b> this.interval;
+        }
+        <b>var</b> pressTime = <b>this</b>.mousedownTime.getElapsed();
+        <b>if</b>(pressTime &lt; 500){
+            <b>return</b> 400;
+        }<b>else</b> if(pressTime &lt; 1700){
+            <b>return</b> 320;
+        }<b>else</b> if(pressTime &lt; 2600){
+            <b>return</b> 250;
+        }<b>else</b> if(pressTime &lt; 3500){
+            <b>return</b> 180;
+        }<b>else</b> if(pressTime &lt; 4400){
+            <b>return</b> 140;
+        }<b>else</b> if(pressTime &lt; 5300){
+            <b>return</b> 80;
+        }<b>else</b> if(pressTime &lt; 6200){
+            <b>return</b> 50;
+        }<b>else</b>{
+            <b>return</b> 10;
+        }
+    },
+
+    <i>// private</i>
+    handleMouseOut : <b>function</b>(){
+        clearTimeout(<b>this</b>.timer);
+        <b>if</b>(this.pressClass){
+            <b>this</b>.el.removeClass(<b>this</b>.pressClass);
+        }
+        <b>this</b>.el.on(&quot;mouseover&quot;, <b>this</b>.handleMouseReturn, <b>this</b>);
+    },
+
+    <i>// private</i>
+    handleMouseReturn : <b>function</b>(){
+        <b>this</b>.el.un(&quot;mouseover&quot;, <b>this</b>.handleMouseReturn);
+        <b>if</b>(this.pressClass){
+            <b>this</b>.el.addClass(<b>this</b>.pressClass);
+        }
+        <b>this</b>.click();
+    },
+
+    <i>// private</i>
+    handleMouseUp : <b>function</b>(){
+        clearTimeout(<b>this</b>.timer);
+        <b>this</b>.el.un(&quot;mouseover&quot;, <b>this</b>.handleMouseReturn);
+        <b>this</b>.el.un(&quot;mouseout&quot;, <b>this</b>.handleMouseOut);
+        Ext.get(document).un(&quot;mouseup&quot;, <b>this</b>.handleMouseUp);
+        <b>this</b>.el.removeClass(<b>this</b>.pressClass);
+        <b>this</b>.fireEvent(&quot;mouseup&quot;, <b>this</b>);
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

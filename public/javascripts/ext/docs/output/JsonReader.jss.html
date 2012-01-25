@@ -1,0 +1,171 @@
+<html><head><title>JsonReader.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>JsonReader.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.JsonReader
+ * @extends Ext.data.DataReader
+ * Data reader class to create an Array of Ext.data.Record objects from a JSON response
+ * based on mappings <b>in</b> a provided Ext.data.Record constructor.
+ * &lt;p&gt;
+ * Example code:
+ * &lt;pre&gt;&lt;code&gt;
+<b>var</b> RecordDef = Ext.data.Record.create([
+    {name: <em>'name'</em>, mapping: <em>'name'</em>},     <i>// &quot;mapping&quot; property not needed <b>if</b> it's the same as &quot;name&quot;</i>
+    {name: <em>'occupation'</em>}                 <i>// This field will use &quot;occupation&quot; as the mapping.</i>
+]);
+<b>var</b> myReader = <b>new</b> Ext.data.JsonReader({
+    totalProperty: &quot;results&quot;,    <i>// The property which contains the total dataset size (optional)</i>
+    root: &quot;rows&quot;,                <i>// The property which contains an Array of row objects</i>
+    id: &quot;id&quot;                     <i>// The property within each row object that provides an ID <b>for</b> the record (optional)</i>
+}, RecordDef);
+&lt;/code&gt;&lt;/pre&gt;
+ * &lt;p&gt;
+ * This would consume a JSON file like <b>this</b>:
+ * &lt;pre&gt;&lt;code&gt;
+{ <em>'results'</em>: 2, <em>'rows'</em>: [
+    { <em>'id'</em>: 1, <em>'name'</em>: <em>'Bill'</em>, occupation: <em>'Gardener'</em> },
+    { <em>'id'</em>: 2, <em>'name'</em>: <em>'Ben'</em>, occupation: <em>'Horticulturalist'</em> } ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+ * @cfg {String} totalProperty Name of the property from which to retrieve the total number of records
+ * <b>in</b> the dataset. This is only needed <b>if</b> the whole dataset is not passed <b>in</b> one go, but is being
+ * paged from the remote server.
+ * @cfg {String} successProperty Name of the property from which to retrieve the success attribute used by forms.
+ * @cfg {String} root name of the property which contains the Array of row objects.
+ * @cfg {String} id Name of the property within a row object that contains a record identifier value.
+ * @constructor
+ * Create a <b>new</b> JsonReader
+ * @param {Object} meta Metadata configuration options
+ * @param {Object} recordType Either an Array of field definition objects,
+ * or an {@link Ext.data.Record} object created using {@link Ext.data.Record#create}.
+ */</i>
+Ext.data.JsonReader = <b>function</b>(meta, recordType){
+    meta = meta || {};
+    Ext.data.JsonReader.superclass.constructor.call(<b>this</b>, meta, recordType||meta.fields);
+};
+Ext.extend(Ext.data.JsonReader, Ext.data.DataReader, {
+    <i>/**
+     * This method is only used by a DataProxy which has retrieved data from a remote server.
+     * @param {Object} response The XHR object which contains the JSON data <b>in</b> its responseText.
+     * @<b>return</b> {Object} data A data block which is used by an Ext.data.Store object as
+     * a cache of Ext.data.Records.
+     */</i>
+    read : <b>function</b>(response){
+        <b>var</b> json = response.responseText;
+        <b>var</b> o = eval(&quot;(&quot;+json+&quot;)&quot;);
+        <b>if</b>(!o) {
+            throw {message: &quot;JsonReader.read: Json object not found&quot;};
+        }
+        <b>if</b>(o.metaData){
+            <b>delete</b> this.ef;
+            <b>this</b>.meta = o.metaData;
+            <b>this</b>.recordType = Ext.data.Record.create(o.metaData.fields);
+            <b>this</b>.onMetaChange(<b>this</b>.meta, <b>this</b>.recordType, o);
+        }
+        <b>return</b> this.readRecords(o);
+    },
+
+    <i>// private <b>function</b> a store will implement</i>
+    onMetaChange : <b>function</b>(meta, recordType, o){
+
+    },
+
+    <i>/**
+	 * @ignore
+	 */</i>
+    simpleAccess: <b>function</b>(obj, subsc) {
+    	<b>return</b> obj[subsc];
+    },
+
+	<i>/**
+	 * @ignore
+	 */</i>
+    getJsonAccessor: <b>function</b>(){
+        <b>var</b> re = /[\[\.]/;
+        <b>return</b> function(expr) {
+            try {
+                <b>return</b>(re.test(expr))
+                    ? <b>new</b> Function(&quot;obj&quot;, &quot;<b>return</b> obj.&quot; + expr)
+                    : <b>function</b>(obj){
+                        <b>return</b> obj[expr];
+                    };
+            } catch(e){}
+            <b>return</b> Ext.emptyFn;
+        };
+    }(),
+
+    <i>/**
+     * Create a data block containing Ext.data.Records from an XML document.
+     * @param {Object} o An object which contains an Array of row objects <b>in</b> the property specified
+     * <b>in</b> the config as <em>'root, and optionally a property, specified <b>in</b> the config as '</em>totalProperty'
+     * which contains the total size of the dataset.
+     * @<b>return</b> {Object} data A data block which is used by an Ext.data.Store object as
+     * a cache of Ext.data.Records.
+     */</i>
+    readRecords : <b>function</b>(o){
+        <i>/**
+         * After any data loads, the raw JSON data is available <b>for</b> further custom processing.
+         * @type Object
+         */</i>
+        <b>this</b>.jsonData = o;
+        <b>var</b> s = <b>this</b>.meta, Record = <b>this</b>.recordType,
+            f = Record.prototype.fields, fi = f.items, fl = f.length;
+
+<i>//      Generate extraction functions <b>for</b> the totalProperty, the root, the id, and <b>for</b> each field</i>
+        <b>if</b> (!<b>this</b>.ef) {
+            <b>if</b>(s.totalProperty) {
+	            <b>this</b>.getTotal = <b>this</b>.getJsonAccessor(s.totalProperty);
+	        }
+	        <b>if</b>(s.successProperty) {
+	            <b>this</b>.getSuccess = <b>this</b>.getJsonAccessor(s.successProperty);
+	        }
+	        <b>this</b>.getRoot = s.root ? <b>this</b>.getJsonAccessor(s.root) : <b>function</b>(p){<b>return</b> p;};
+	        <b>if</b> (s.id) {
+	        	<b>var</b> g = <b>this</b>.getJsonAccessor(s.id);
+	        	<b>this</b>.getId = <b>function</b>(rec) {
+	        		<b>var</b> r = g(rec);
+		        	<b>return</b> (r === undefined || r === &quot;&quot;) ? null : r;
+	        	};
+	        } <b>else</b> {
+	        	<b>this</b>.getId = <b>function</b>(){<b>return</b> null;};
+	        }
+            <b>this</b>.ef = [];
+            <b>for</b>(var i = 0; i &lt; fl; i++){
+                f = fi[i];
+                <b>var</b> map = (f.mapping !== undefined &amp;&amp; f.mapping !== null) ? f.mapping : f.name;
+                <b>this</b>.ef[i] = <b>this</b>.getJsonAccessor(map);
+            }
+        }
+
+    	<b>var</b> root = <b>this</b>.getRoot(o), c = root.length, totalRecords = c, success = true;
+    	<b>if</b>(s.totalProperty){
+            <b>var</b> v = parseInt(<b>this</b>.getTotal(o), 10);
+            <b>if</b>(!isNaN(v)){
+                totalRecords = v;
+            }
+        }
+        <b>if</b>(s.successProperty){
+            <b>var</b> v = <b>this</b>.getSuccess(o);
+            <b>if</b>(v === false || v === <em>'false'</em>){
+                success = false;
+            }
+        }
+        <b>var</b> records = [];
+	    <b>for</b>(var i = 0; i &lt; c; i++){
+		    <b>var</b> n = root[i];
+	        <b>var</b> values = {};
+	        <b>var</b> id = <b>this</b>.getId(n);
+	        <b>for</b>(var j = 0; j &lt; fl; j++){
+	            f = fi[j];
+                <b>var</b> v = <b>this</b>.ef[j](n);
+                values[f.name] = f.convert((v !== undefined) ? v : f.defaultValue);
+	        }
+	        <b>var</b> record = <b>new</b> Record(values, id);
+	        record.json = n;
+	        records[i] = record;
+	    }
+	    <b>return</b> {
+	        success : success,
+	        records : records,
+	        totalRecords : totalRecords
+	    };
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

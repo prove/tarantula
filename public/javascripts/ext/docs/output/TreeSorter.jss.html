@@ -1,0 +1,64 @@
+<html><head><title>TreeSorter.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>TreeSorter.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.tree.TreeSorter
+ * Provides sorting of nodes <b>in</b> a TreePanel
+ * 
+ * @cfg {Boolean} folderSort True to sort leaf nodes under non leaf nodes
+ * @cfg {String} property The named attribute on the node to sort by (defaults to text)
+ * @cfg {String} dir The direction to sort (asc or desc) (defaults to asc)
+ * @cfg {String} leafAttr The attribute used to determine leaf nodes <b>in</b> folder sort (defaults to &quot;leaf&quot;)
+ * @cfg {Boolean} caseSensitive true <b>for</b> case sensitive sort (defaults to false)
+ * @cfg {Function} sortType A custom &quot;casting&quot; <b>function</b> used to convert node values before sorting
+ * @constructor
+ * @param {TreePanel} tree
+ * @param {Object} config
+ */</i>
+Ext.tree.TreeSorter = <b>function</b>(tree, config){
+    Ext.apply(<b>this</b>, config);
+    tree.on(&quot;beforechildrenrendered&quot;, <b>this</b>.doSort, <b>this</b>);
+    tree.on(&quot;append&quot;, <b>this</b>.updateSort, <b>this</b>);
+    tree.on(&quot;insert&quot;, <b>this</b>.updateSort, <b>this</b>);
+    
+    <b>var</b> dsc = <b>this</b>.dir &amp;&amp; <b>this</b>.dir.toLowerCase() == &quot;desc&quot;;
+    <b>var</b> p = <b>this</b>.property || &quot;text&quot;;
+    <b>var</b> sortType = <b>this</b>.sortType;
+    <b>var</b> fs = <b>this</b>.folderSort;
+    <b>var</b> cs = <b>this</b>.caseSensitive === true;
+    <b>var</b> leafAttr = <b>this</b>.leafAttr || <em>'leaf'</em>;
+
+    <b>this</b>.sortFn = <b>function</b>(n1, n2){
+        <b>if</b>(fs){
+            <b>if</b>(n1.attributes[leafAttr] &amp;&amp; !n2.attributes[leafAttr]){
+                <b>return</b> 1;
+            }
+            <b>if</b>(!n1.attributes[leafAttr] &amp;&amp; n2.attributes[leafAttr]){
+                <b>return</b> -1;
+            }
+        }
+    	<b>var</b> v1 = sortType ? sortType(n1) : (cs ? n1.attributes[p] : n1.attributes[p].toUpperCase());
+    	<b>var</b> v2 = sortType ? sortType(n2) : (cs ? n2.attributes[p] : n2.attributes[p].toUpperCase());
+    	<b>if</b>(v1 &lt; v2){
+			<b>return</b> dsc ? +1 : -1;
+		}<b>else</b> if(v1 &gt; v2){
+			<b>return</b> dsc ? -1 : +1;
+        }<b>else</b>{
+	    	<b>return</b> 0;
+        }
+    };
+};
+
+Ext.tree.TreeSorter.prototype = {
+    doSort : <b>function</b>(node){
+        node.sort(<b>this</b>.sortFn);
+    },
+    
+    compareNodes : <b>function</b>(n1, n2){
+        <b>return</b> (n1.text.toUpperCase() &gt; n2.text.toUpperCase() ? 1 : -1);
+    },
+    
+    updateSort : <b>function</b>(tree, node){
+        <b>if</b>(node.childrenRendered){
+            <b>this</b>.doSort.defer(1, <b>this</b>, [node]);
+        }
+    }
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

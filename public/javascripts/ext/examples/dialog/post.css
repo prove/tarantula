@@ -1,0 +1,132 @@
+/*
+ * Ext JS Library 1.1
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://www.extjs.com/license
+ */
+
+body{
+	font: normal 9pt verdana,tahoma,arial,helvetica;
+}
+.post{
+	padding:15px;
+}
+.post h2{
+	font:normal 22px times;
+	margin-bottom:10px;
+}
+.post p{
+	margin-bottom:10px;
+	line-height:18px;
+}
+
+.loading-indicator {
+	font-size:8pt;
+	background-image: url('../../images/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	margin:5px;
+}
+
+/** Posting messages */
+.x-dlg-ft{
+	position:relative;
+}
+
+#dlg-msg {
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:40%;
+}
+.posting-msg{
+	display:none;
+	font:normal 8pt tahoma, arial;
+	color:black;
+}
+#post-error-msg{
+	color:red;
+}
+.active-msg{
+	display:block;
+}
+
+/** Comment Box (with links) */
+#comment-box{
+	float:right;
+	clear:none;
+	border:2px solid #aca899;
+	background-color:#f3f2e7;
+	padding:10px;
+	margin:15px;
+}
+#comment-box li{
+	margin:4px;
+}
+#comment-box a{
+	text-decoration:none;
+}
+#comments-list{
+	margin:0px;
+	padding:0px;
+}
+/** Comment Post Form */
+#post-tab .inner-tab{
+	margin:10px;
+	margin-top:5px;
+}
+#comment-form label {
+	margin:4px;
+	margin-left:0px;
+	display:block;
+	color:#333333;
+	font:normal 10px arial,helvetica;
+	line-height:14px;
+}
+#comment-form .textinput{
+	border:1px solid #6593cf;
+	width:98%;
+	padding:1px;
+	margin-bottom:2px;
+	font:normal 11px tahoma, arial;
+}
+#comment {
+	width:480px;
+	height:205px;
+	font:normal 11px tahoma, arial;
+}
+
+/** Comment List */
+.commentmetadata {
+	margin: 0;
+	display: block;
+	font-size: 9px;
+	font-weight:normal;
+	color:gray;
+	margin-bottom:10px;
+	float:right;
+	clear:none;
+}
+.cuser{
+	float:left;
+	clear:none;
+	font:bold 12px tahoma, arial;
+	padding-left:21px;
+	background: url(images/comment.gif) no-repeat;
+}
+.cuser a{
+	font:bold 12px tahoma, arial;
+}
+.cheader{
+	height:20px;
+}
+#comments-list li {
+	display:block;
+	background: url(images/comment-bg.gif) repeat-x;
+	background-position:0px -5px;
+	padding:15px;
+	padding-bottom:18px;
+	font-size:12px;
+}

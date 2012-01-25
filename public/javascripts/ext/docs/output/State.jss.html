@@ -1,0 +1,278 @@
+<html><head><title>State.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>State.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.state.Provider
+ * Abstract base class <b>for</b> state provider implementations. This class provides methods
+ * <b>for</b> encoding and decoding &lt;b&gt;typed&lt;/b&gt; variables including dates and defines the 
+ * Provider interface.
+ */</i>
+Ext.state.Provider = <b>function</b>(){
+    <i>/**
+     * @event statechange
+     * Fires when a state change occurs.
+     * @param {Provider} <b>this</b> This state provider
+     * @param {String} key The state key which was changed
+     * @param {String} value The encoded value <b>for</b> the state
+     */</i>
+    <b>this</b>.addEvents({
+        &quot;statechange&quot;: true
+    });
+    <b>this</b>.state = {};
+    Ext.state.Provider.superclass.constructor.call(<b>this</b>);
+};
+Ext.extend(Ext.state.Provider, Ext.util.Observable, {
+    <i>/**
+     * Returns the current value <b>for</b> a key
+     * @param {String} name The key name
+     * @param {Mixed} defaultValue A <b>default</b> value to <b>return</b> if the key's value is not found
+     * @<b>return</b> {Mixed} The state data
+     */</i>
+    get : <b>function</b>(name, defaultValue){
+        <b>return</b> typeof <b>this</b>.state[name] == &quot;undefined&quot; ?
+            defaultValue : <b>this</b>.state[name];
+    },
+    
+    <i>/**
+     * Clears a value from the state
+     * @param {String} name The key name
+     */</i>
+    clear : <b>function</b>(name){
+        <b>delete</b> this.state[name];
+        <b>this</b>.fireEvent(&quot;statechange&quot;, <b>this</b>, name, null);
+    },
+    
+    <i>/**
+     * Sets the value <b>for</b> a key
+     * @param {String} name The key name
+     * @param {Mixed} value The value to set
+     */</i>
+    set : <b>function</b>(name, value){
+        <b>this</b>.state[name] = value;
+        <b>this</b>.fireEvent(&quot;statechange&quot;, <b>this</b>, name, value);
+    },
+    
+    <i>/**
+     * Decodes a string previously encoded <b>with</b> {@link #encodeValue}.
+     * @param {String} value The value to decode
+     * @<b>return</b> {Mixed} The decoded value
+     */</i>
+    decodeValue : <b>function</b>(cookie){
+        <b>var</b> re = /^(a|n|d|b|s|o)\:(.*)$/;
+        <b>var</b> matches = re.exec(unescape(cookie));
+        <b>if</b>(!matches || !matches[1]) <b>return</b>; <i>// non state cookie</i>
+        <b>var</b> type = matches[1];
+        <b>var</b> v = matches[2];
+        <b>switch</b>(type){
+            <b>case</b> &quot;n&quot;:
+                <b>return</b> parseFloat(v);
+            <b>case</b> &quot;d&quot;:
+                <b>return</b> new Date(Date.parse(v));
+            <b>case</b> &quot;b&quot;:
+                <b>return</b> (v == &quot;1&quot;);
+            <b>case</b> &quot;a&quot;:
+                <b>var</b> all = [];
+                <b>var</b> values = v.split(&quot;^&quot;);
+                <b>for</b>(var i = 0, len = values.length; i &lt; len; i++){
+                    all.push(<b>this</b>.decodeValue(values[i]));
+                }
+                <b>return</b> all;
+           <b>case</b> &quot;o&quot;:
+                <b>var</b> all = {};
+                <b>var</b> values = v.split(&quot;^&quot;);
+                <b>for</b>(var i = 0, len = values.length; i &lt; len; i++){
+                    <b>var</b> kv = values[i].split(&quot;=&quot;);
+                    all[kv[0]] = <b>this</b>.decodeValue(kv[1]);
+                }
+                <b>return</b> all;
+           <b>default</b>:
+                <b>return</b> v;
+        }
+    },
+    
+    <i>/**
+     * Encodes a value including type information.  Decode <b>with</b> {@link #decodeValue}.
+     * @param {Mixed} value The value to encode
+     * @<b>return</b> {String} The encoded value
+     */</i>
+    encodeValue : <b>function</b>(v){
+        <b>var</b> enc;
+        <b>if</b>(typeof v == &quot;number&quot;){
+            enc = &quot;n:&quot; + v;
+        }<b>else</b> if(<b>typeof</b> v == &quot;boolean&quot;){
+            enc = &quot;b:&quot; + (v ? &quot;1&quot; : &quot;0&quot;);
+        }<b>else</b> if(v instanceof Date){
+            enc = &quot;d:&quot; + v.toGMTString();
+        }<b>else</b> if(v instanceof Array){
+            <b>var</b> flat = &quot;&quot;;
+            <b>for</b>(var i = 0, len = v.length; i &lt; len; i++){
+                flat += <b>this</b>.encodeValue(v[i]);
+                <b>if</b>(i != len-1) flat += &quot;^&quot;;
+            }
+            enc = &quot;a:&quot; + flat;
+        }<b>else</b> if(<b>typeof</b> v == &quot;object&quot;){
+            <b>var</b> flat = &quot;&quot;;
+            <b>for</b>(var key <b>in</b> v){
+                <b>if</b>(typeof v[key] != &quot;<b>function</b>&quot;){
+                    flat += key + &quot;=&quot; + <b>this</b>.encodeValue(v[key]) + &quot;^&quot;;
+                }
+            }
+            enc = &quot;o:&quot; + flat.substring(0, flat.length-1);
+        }<b>else</b>{
+            enc = &quot;s:&quot; + v;
+        }
+        <b>return</b> escape(enc);        
+    }
+});
+
+<i>/**
+ * @class Ext.state.Manager
+ * This is the global state manager. By <b>default</b> all components that are &quot;state aware&quot; check <b>this</b> class
+ * <b>for</b> state information <b>if</b> you don't pass them a custom state provider. In order <b>for</b> this class
+ * to be useful, it must be initialized <b>with</b> a provider when your application initializes.
+ &lt;pre&gt;&lt;code&gt;
+<i>// <b>in</b> your initialization <b>function</b></i>
+init : <b>function</b>(){
+   Ext.state.Manager.setProvider(<b>new</b> Ext.state.CookieProvider());
+   ...
+   <i>// supposed you have a {@link Ext.BorderLayout}</i>
+   <b>var</b> layout = <b>new</b> Ext.BorderLayout(...);
+   layout.restoreState();
+   <i>// or a {Ext.BasicDialog}</i>
+   <b>var</b> dialog = <b>new</b> Ext.BasicDialog(...);
+   dialog.restoreState();
+ &lt;/code&gt;&lt;/pre&gt;
+ * @singleton
+ */</i>
+Ext.state.Manager = <b>function</b>(){
+    <b>var</b> provider = <b>new</b> Ext.state.Provider();
+    
+    <b>return</b> {
+        <i>/**
+         * Configures the <b>default</b> state provider <b>for</b> your application
+         * @param {Provider} stateProvider The state provider to set
+         */</i>
+        setProvider : <b>function</b>(stateProvider){
+            provider = stateProvider;
+        },
+        
+        <i>/**
+         * Returns the current value <b>for</b> a key
+         * @param {String} name The key name
+         * @param {Mixed} defaultValue The <b>default</b> value to <b>return</b> if the key lookup does not match
+         * @<b>return</b> {Mixed} The state data
+         */</i>
+        get : <b>function</b>(key, defaultValue){
+            <b>return</b> provider.get(key, defaultValue);
+        },
+        
+        <i>/**
+         * Sets the value <b>for</b> a key
+         * @param {String} name The key name
+         * @param {Mixed} value The state data
+         */</i>
+         set : <b>function</b>(key, value){
+            provider.set(key, value);
+        },
+        
+        <i>/**
+         * Clears a value from the state
+         * @param {String} name The key name
+         */</i>
+        clear : <b>function</b>(key){
+            provider.clear(key);
+        },
+        
+        <i>/**
+         * Gets the currently configured state provider
+         * @<b>return</b> {Provider} The state provider
+         */</i>
+        getProvider : <b>function</b>(){
+            <b>return</b> provider;
+        }
+    };
+}();
+
+<i>/**
+ * @class Ext.state.CookieProvider
+ * @extends Ext.state.Provider
+ * The <b>default</b> Provider implementation which saves state via cookies.
+ * &lt;br /&gt;Usage:
+ &lt;pre&gt;&lt;code&gt;
+   <b>var</b> cp = <b>new</b> Ext.state.CookieProvider({
+       path: &quot;/cgi-bin/&quot;,
+       expires: <b>new</b> Date(<b>new</b> Date().getTime()+(1000*60*60*24*30)); <i>//30 days</i>
+       domain: &quot;extjs.com&quot;
+   })
+   Ext.state.Manager.setProvider(cp);
+ &lt;/code&gt;&lt;/pre&gt;
+ * @cfg {String} path The path <b>for</b> which the cookie is active (defaults to root <em>'/'</em> which makes it active <b>for</b> all pages <b>in</b> the site)
+ * @cfg {Date} expires The cookie expiration date (defaults to 7 days from now)
+ * @cfg {String} domain The domain to save the cookie <b>for</b>.  Note that you cannot specify a different domain than
+ * your page is on, but you can specify a sub-domain, or simply the domain itself like <em>'extjs.com'</em> to include
+ * all sub-domains <b>if</b> you need to access cookies across different sub-domains (defaults to null which uses the same
+ * domain the page is running on including the <em>'www'</em> like <em>'www.extjs.com'</em>)
+ * @cfg {Boolean} secure True <b>if</b> the site is using SSL (defaults to false)
+ * @constructor
+ * Create a <b>new</b> CookieProvider
+ * @param {Object} config The configuration object
+ */</i>
+Ext.state.CookieProvider = <b>function</b>(config){
+    Ext.state.CookieProvider.superclass.constructor.call(<b>this</b>);
+    <b>this</b>.path = &quot;/&quot;;
+    <b>this</b>.expires = <b>new</b> Date(<b>new</b> Date().getTime()+(1000*60*60*24*7)); <i>//7 days</i>
+    <b>this</b>.domain = null;
+    <b>this</b>.secure = false;
+    Ext.apply(<b>this</b>, config);
+    <b>this</b>.state = <b>this</b>.readCookies();
+};
+
+Ext.extend(Ext.state.CookieProvider, Ext.state.Provider, {
+    <i>// private</i>
+    set : <b>function</b>(name, value){
+        <b>if</b>(typeof value == &quot;undefined&quot; || value === null){
+            <b>this</b>.clear(name);
+            <b>return</b>;
+        }
+        <b>this</b>.setCookie(name, value);
+        Ext.state.CookieProvider.superclass.set.call(<b>this</b>, name, value);
+    },
+
+    <i>// private</i>
+    clear : <b>function</b>(name){
+        <b>this</b>.clearCookie(name);
+        Ext.state.CookieProvider.superclass.clear.call(<b>this</b>, name);
+    },
+
+    <i>// private</i>
+    readCookies : <b>function</b>(){
+        <b>var</b> cookies = {};
+        <b>var</b> c = document.cookie + &quot;;&quot;;
+        <b>var</b> re = /\s?(.*?)=(.*?);/g;
+    	<b>var</b> matches;
+    	<b>while</b>((matches = re.exec(c)) != null){
+            <b>var</b> name = matches[1];
+            <b>var</b> value = matches[2];
+            <b>if</b>(name &amp;&amp; name.substring(0,3) == &quot;ys-&quot;){
+                cookies[name.substr(3)] = <b>this</b>.decodeValue(value);
+            }
+        }
+        <b>return</b> cookies;
+    },
+
+    <i>// private</i>
+    setCookie : <b>function</b>(name, value){
+        document.cookie = &quot;ys-&quot;+ name + &quot;=&quot; + <b>this</b>.encodeValue(value) +
+           ((<b>this</b>.expires == null) ? &quot;&quot; : (&quot;; expires=&quot; + <b>this</b>.expires.toGMTString())) +
+           ((<b>this</b>.path == null) ? &quot;&quot; : (&quot;; path=&quot; + <b>this</b>.path)) +
+           ((<b>this</b>.domain == null) ? &quot;&quot; : (&quot;; domain=&quot; + <b>this</b>.domain)) +
+           ((<b>this</b>.secure == true) ? &quot;; secure&quot; : &quot;&quot;);
+    },
+
+    <i>// private</i>
+    clearCookie : <b>function</b>(name){
+        document.cookie = &quot;ys-&quot; + name + &quot;=null; expires=Thu, 01-Jan-70 00:00:01 GMT&quot; +
+           ((<b>this</b>.path == null) ? &quot;&quot; : (&quot;; path=&quot; + <b>this</b>.path)) +
+           ((<b>this</b>.domain == null) ? &quot;&quot; : (&quot;; domain=&quot; + <b>this</b>.domain)) +
+           ((<b>this</b>.secure == true) ? &quot;; secure&quot; : &quot;&quot;);
+    }
+});
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

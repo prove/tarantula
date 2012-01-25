@@ -1,0 +1,1519 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.SplitLayoutRegion</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.SplitLayoutRegion.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.SplitLayoutRegion</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>SplitLayoutRegion</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.LayoutRegion" ext:member="" href="Ext.LayoutRegion.html">LayoutRegion</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="SplitLayoutRegion.jss.html">SplitLayoutRegion.js</a></td></tr>
+        </table>
+        <div class="description">
+            Adds a splitbar and other (private) useful functionality to a <a ext:cls="Ext.LayoutRegion" href="Ext.LayoutRegion.html">Ext.LayoutRegion</a>.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#bodyEl">bodyEl</a> : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#bodyEl" href="Ext.LayoutRegion.html#bodyEl">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">This region's body element</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#collapsedEl">collapsedEl</a> : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#collapsedEl" href="Ext.LayoutRegion.html#collapsedEl">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">This region's collapsed element</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#el">el</a> : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#el" href="Ext.LayoutRegion.html#el">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">This region's container element</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#panels">panels</a> : Ext.util.MixedCollection</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#panels" href="Ext.BasicLayoutRegion.html#panels">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">A collection of panels in this region.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#split">split</a> : Ext.SplitBar</td>
+        <td class="msource" rowspan="2">SplitLayoutRegion</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The SplitBar for this region</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#titleEl">titleEl</a> : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#titleEl" href="Ext.LayoutRegion.html#titleEl">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">This region's title element</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#titleTextEl">titleTextEl</a> : HTMLElement</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#titleTextEl" href="Ext.LayoutRegion.html#titleTextEl">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">This region's title text element</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#add">add</a>(&nbsp;<code>ContentPanel... panel</code>&nbsp;) : Ext.ContentPanel</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#add" href="Ext.BasicLayoutRegion.html#add">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Add the passed ContentPanel(s)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#collapse">collapse</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean skipAnim</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#collapse" href="Ext.LayoutRegion.html#collapse">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Collapses this region.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#expand">expand</a>(&nbsp;<code>Ext.EventObject e</code>, <span class="optional" title="Optional">[<code>Boolean skipAnim</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#expand" href="Ext.LayoutRegion.html#expand">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Expands this region if it was previously collapsed.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getActivePanel">getActivePanel</a>() : Ext.ContentPanel</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#getActivePanel" href="Ext.BasicLayoutRegion.html#getActivePanel">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Get the active panel for this region.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getEl">getEl</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#getEl" href="Ext.BasicLayoutRegion.html#getEl">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the container element for this region.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getPanel">getPanel</a>(&nbsp;<code>Number/String/ContentPanel panel</code>&nbsp;) : Ext.ContentPanel</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#getPanel" href="Ext.BasicLayoutRegion.html#getPanel">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns the panel specified or null if it's not in this region.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getPosition">getPosition</a>() : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#getPosition" href="Ext.BasicLayoutRegion.html#getPosition">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns this regions position (north/south/east/west/center).</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getSplitBar">getSplitBar</a>() : Ext.SplitBar</td>
+        <td class="msource" rowspan="2">SplitLayoutRegion</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the <a ext:cls="Ext.SplitBar" href="Ext.SplitBar.html">Ext.SplitBar</a> for this region.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTabs">getTabs</a>() : Ext.TabPanel</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#getTabs" href="Ext.LayoutRegion.html#getTabs">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the TabPanel component used by this region</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasPanel">hasPanel</a>(&nbsp;<code>Number/String/ContentPanel panel</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#hasPanel" href="Ext.BasicLayoutRegion.html#hasPanel">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns true if the panel is in this region.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hide">hide</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#hide" href="Ext.LayoutRegion.html#hide">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Hides this region.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hidePanel">hidePanel</a>(&nbsp;<code>Number/String/ContentPanel panel</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#hidePanel" href="Ext.LayoutRegion.html#hidePanel">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Hides the tab for the specified panel.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isVisible">isVisible</a>() : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#isVisible" href="Ext.BasicLayoutRegion.html#isVisible">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns true if this region is currently visible.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#remove">remove</a>(&nbsp;<code>Number/String/ContentPanel panel</code>, <code>Boolean preservePanel</code>&nbsp;) : Ext.ContentPanel</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#remove" href="Ext.BasicLayoutRegion.html#remove">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes the specified panel. If preservePanel is not true (either here or in the config), the panel is destroyed.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#resizeTo">resizeTo</a>(&nbsp;<code>Number newSize</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#resizeTo" href="Ext.BasicLayoutRegion.html#resizeTo">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Resizes the region to the specified size. For vertical regions (west, east) this adjusts 
+the width, for horizontal (...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setCollapsedTitle">setCollapsedTitle</a>(&nbsp;<span class="optional" title="Optional">[<code>String title</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#setCollapsedTitle" href="Ext.LayoutRegion.html#setCollapsedTitle">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Updates the title for collapsed north/south regions (used with <a ext:cls="Ext.LayoutRegion" ext:member="collapsedTitle" href="Ext.LayoutRegion.html#collapsedTitle">collapsedTitle</a> config option)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#show">show</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#show" href="Ext.LayoutRegion.html#show">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Shows this region if it was previously hidden.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#showPanel">showPanel</a>(&nbsp;<code>Number/String/ContentPanel panelId</code>&nbsp;) : Ext.ContentPanel</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#showPanel" href="Ext.BasicLayoutRegion.html#showPanel">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Show the specified panel.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#unhidePanel">unhidePanel</a>(&nbsp;<code>Number/String/ContentPanel panel</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#unhidePanel" href="Ext.LayoutRegion.html#unhidePanel">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Unhides the tab for a previously hidden panel.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeremove">beforeremove</a> : (&nbsp;<code>Ext.LayoutRegion this</code>, <code>Ext.ContentPanel panel</code>, <code>Object e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-beforeremove" href="Ext.BasicLayoutRegion.html#event-beforeremove">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before a panel is removed (or closed). To cancel the removal set "e.cancel = true" on the event argument.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-collapsed">collapsed</a> : (&nbsp;<code>Ext.LayoutRegion this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-collapsed" href="Ext.BasicLayoutRegion.html#event-collapsed">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when this region is collapsed.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-expanded">expanded</a> : (&nbsp;<code>Ext.LayoutRegion this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-expanded" href="Ext.BasicLayoutRegion.html#event-expanded">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when this region is expanded.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-invalidated">invalidated</a> : (&nbsp;<code>Ext.LayoutRegion this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-invalidated" href="Ext.BasicLayoutRegion.html#event-invalidated">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when the layout for this region is changed.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-panelactivated">panelactivated</a> : (&nbsp;<code>Ext.LayoutRegion this</code>, <code>Ext.ContentPanel panel</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-panelactivated" href="Ext.BasicLayoutRegion.html#event-panelactivated">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when a panel is activated.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-paneladded">paneladded</a> : (&nbsp;<code>Ext.LayoutRegion this</code>, <code>Ext.ContentPanel panel</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-paneladded" href="Ext.BasicLayoutRegion.html#event-paneladded">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when a panel is added.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-panelremoved">panelremoved</a> : (&nbsp;<code>Ext.LayoutRegion this</code>, <code>Ext.ContentPanel panel</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-panelremoved" href="Ext.BasicLayoutRegion.html#event-panelremoved">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when a panel is removed.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-resized">resized</a> : (&nbsp;<code>Ext.LayoutRegion this</code>, <code>Number newSize</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-resized" href="Ext.BasicLayoutRegion.html#event-resized">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when the user resizes this region.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-slidehide">slidehide</a> : (&nbsp;<code>Ext.LayoutRegion this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-slidehide" href="Ext.BasicLayoutRegion.html#event-slidehide">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when this region slides out of view.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-slideshow">slideshow</a> : (&nbsp;<code>Ext.LayoutRegion this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-slideshow" href="Ext.BasicLayoutRegion.html#event-slideshow">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when this region is slid into view.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-visibilitychange">visibilitychange</a> : (&nbsp;<code>Ext.LayoutRegion this</code>, <code>Boolean visibility</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-visibilitychange" href="Ext.BasicLayoutRegion.html#event-visibilitychange">BasicLayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when this region is shown or hidden</td>
+    </tr>
+            </table>
+                        <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-alwaysShowTabs">alwaysShowTabs</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#alwaysShowTabs" href="Ext.LayoutRegion.html#alwaysShowTabs">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to always display tabs even when there is only 1 panel (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-animate">animate</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#animate" href="Ext.LayoutRegion.html#animate">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to animate expand/collapse (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-autoHide">autoHide</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#autoHide" href="Ext.LayoutRegion.html#autoHide">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">False to disable auto hiding when the mouse leaves the "floated" region (defaults to true)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-autoScroll">autoScroll</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#autoScroll" href="Ext.LayoutRegion.html#autoScroll">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to enable overflow scrolling (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-closeOnTab">closeOnTab</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#closeOnTab" href="Ext.LayoutRegion.html#closeOnTab">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to place the close icon on the tabs instead of the region titlebar (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-cmargins">cmargins</a> : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#cmargins" href="Ext.LayoutRegion.html#cmargins">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Margins for the element when collapsed (defaults to: north/south {top: 2, left: 0, right:0, bottom: 2} or east/west {...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-collapsed">collapsed</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#collapsed" href="Ext.LayoutRegion.html#collapsed">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to set the initial display to collapsed (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-collapsedTitle">collapsedTitle</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#collapsedTitle" href="Ext.LayoutRegion.html#collapsedTitle">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Optional string message to display in the collapsed block of a north or south region</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-collapsible">collapsible</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#collapsible" href="Ext.LayoutRegion.html#collapsible">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">False to disable collapsing (defaults to true)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-disableTabTips">disableTabTips</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#disableTabTips" href="Ext.LayoutRegion.html#disableTabTips">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to disable tab tooltips</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-floatable">floatable</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#floatable" href="Ext.LayoutRegion.html#floatable">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">False to disable floating (defaults to true)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hidden">hidden</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#hidden" href="Ext.LayoutRegion.html#hidden">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to start the region hidden (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hideTabs">hideTabs</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#hideTabs" href="Ext.LayoutRegion.html#hideTabs">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to hide the tab strip (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hideWhenEmpty">hideWhenEmpty</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#hideWhenEmpty" href="Ext.LayoutRegion.html#hideWhenEmpty">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to hide the region when it has no panels</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-margins">margins</a> : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#margins" href="Ext.LayoutRegion.html#margins">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Margins for the element (defaults to {top: 0, left: 0, right:0, bottom: 0})</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minTabWidth">minTabWidth</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#minTabWidth" href="Ext.LayoutRegion.html#minTabWidth">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The minimum tab width (defaults to 40)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-preferredTabWidth">preferredTabWidth</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#preferredTabWidth" href="Ext.LayoutRegion.html#preferredTabWidth">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The preferred tab width (defaults to 150)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-preservePanels">preservePanels</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#preservePanels" href="Ext.LayoutRegion.html#preservePanels">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to preserve removed panels so they can be readded later (defaults to false)</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-resizeTabs">resizeTabs</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#resizeTabs" href="Ext.LayoutRegion.html#resizeTabs">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">True to enable automatic tab resizing. This will resize the tabs so they are all the same size and fit within the spa...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-showPin">showPin</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#showPin" href="Ext.LayoutRegion.html#showPin">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to show a pin button</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-tabPosition">tabPosition</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#tabPosition" href="Ext.LayoutRegion.html#tabPosition">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">"top" or "bottom" (defaults to "bottom")</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-title">title</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#title" href="Ext.LayoutRegion.html#title">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The title for the region (overrides panel titles)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-titlebar">titlebar</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.LayoutRegion" ext:member="#titlebar" href="Ext.LayoutRegion.html#titlebar">LayoutRegion</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to display a title bar (defaults to true)</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="bodyEl"></a>
+                <div class="mdetail">
+                <h3>bodyEl</i></h3>
+                <code>public Ext.Element bodyEl</code>
+                <div class="mdetail-desc">
+                    This region's body element                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#bodyEl" href="Ext.LayoutRegion.html#bodyEl">LayoutRegion</a>.</div>
+                </div>
+                            <a name="collapsedEl"></a>
+                <div class="mdetail alt">
+                <h3>collapsedEl</i></h3>
+                <code>public Ext.Element collapsedEl</code>
+                <div class="mdetail-desc">
+                    This region's collapsed element                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#collapsedEl" href="Ext.LayoutRegion.html#collapsedEl">LayoutRegion</a>.</div>
+                </div>
+                            <a name="el"></a>
+                <div class="mdetail">
+                <h3>el</i></h3>
+                <code>public Ext.Element el</code>
+                <div class="mdetail-desc">
+                    This region's container element                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#el" href="Ext.LayoutRegion.html#el">LayoutRegion</a>.</div>
+                </div>
+                            <a name="panels"></a>
+                <div class="mdetail alt">
+                <h3>panels</i></h3>
+                <code>public Ext.util.MixedCollection panels</code>
+                <div class="mdetail-desc">
+                    A collection of panels in this region.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#panels" href="Ext.BasicLayoutRegion.html#panels">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="split"></a>
+                <div class="mdetail">
+                <h3>split</i></h3>
+                <code>public Ext.SplitBar split</code>
+                <div class="mdetail-desc">
+                    The SplitBar for this region                </div>
+                <div class="mdetail-def">This property is defined by SplitLayoutRegion.</div>
+                </div>
+                            <a name="titleEl"></a>
+                <div class="mdetail alt">
+                <h3>titleEl</i></h3>
+                <code>public Ext.Element titleEl</code>
+                <div class="mdetail-desc">
+                    This region's title element                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#titleEl" href="Ext.LayoutRegion.html#titleEl">LayoutRegion</a>.</div>
+                </div>
+                            <a name="titleTextEl"></a>
+                <div class="mdetail">
+                <h3>titleTextEl</i></h3>
+                <code>public HTMLElement titleTextEl</code>
+                <div class="mdetail-desc">
+                    This region's title text element                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#titleTextEl" href="Ext.LayoutRegion.html#titleTextEl">LayoutRegion</a>.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="add"></a>
+                <div class="mdetail">
+                <h3>add</i></h3>
+                <code>public function add(&nbsp;<code>ContentPanel... panel</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Add the passed ContentPanel(s)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>panel</code> : ContentPanel...<div class="sub-desc">The ContentPanel(s) to add (you can pass more than one)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.ContentPanel</code><div class="sub-desc">The panel added (if only one was added)</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#add" href="Ext.BasicLayoutRegion.html#add">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="addEvents"></a>
+                <div class="mdetail alt">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="collapse"></a>
+                <div class="mdetail alt">
+                <h3>collapse</i></h3>
+                <code>public function collapse(&nbsp;<span class="optional" title="Optional">[<code>Boolean skipAnim</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Collapses this region.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>skipAnim</code> : Boolean<div class="sub-desc">(optional) true to collapse the element without animation (if animate is true)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#collapse" href="Ext.LayoutRegion.html#collapse">LayoutRegion</a>.</div>
+                </div>
+                            <a name="expand"></a>
+                <div class="mdetail">
+                <h3>expand</i></h3>
+                <code>public function expand(&nbsp;<code>Ext.EventObject e</code>, <span class="optional" title="Optional">[<code>Boolean skipAnim</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Expands this region if it was previously collapsed.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The event that triggered the expand (or null if calling manually)</div></li><li><code>skipAnim</code> : Boolean<div class="sub-desc">(optional) true to expand the element without animation (if animate is true)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#expand" href="Ext.LayoutRegion.html#expand">LayoutRegion</a>.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail alt">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="getActivePanel"></a>
+                <div class="mdetail">
+                <h3>getActivePanel</i></h3>
+                <code>public function getActivePanel()</code>
+                <div class="mdetail-desc">
+                    Get the active panel for this region.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.ContentPanel</code><div class="sub-desc">The active panel or null</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#getActivePanel" href="Ext.BasicLayoutRegion.html#getActivePanel">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="getEl"></a>
+                <div class="mdetail alt">
+                <h3>getEl</i></h3>
+                <code>public function getEl()</code>
+                <div class="mdetail-desc">
+                    Returns the container element for this region.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#getEl" href="Ext.BasicLayoutRegion.html#getEl">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="getPanel"></a>
+                <div class="mdetail">
+                <h3>getPanel</i></h3>
+                <code>public function getPanel(&nbsp;<code>Number/String/ContentPanel panel</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the panel specified or null if it's not in this region.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>panel</code> : Number/String/ContentPanel<div class="sub-desc">The panels index, id or the panel itself</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.ContentPanel</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#getPanel" href="Ext.BasicLayoutRegion.html#getPanel">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="getPosition"></a>
+                <div class="mdetail alt">
+                <h3>getPosition</i></h3>
+                <code>public function getPosition()</code>
+                <div class="mdetail-desc">
+                    Returns this regions position (north/south/east/west/center).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#getPosition" href="Ext.BasicLayoutRegion.html#getPosition">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="getSplitBar"></a>
+                <div class="mdetail">
+                <h3>getSplitBar</i></h3>
+                <code>public function getSplitBar()</code>
+                <div class="mdetail-desc">
+                    Returns the <a ext:cls="Ext.SplitBar" href="Ext.SplitBar.html">Ext.SplitBar</a> for this region.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.SplitBar</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by SplitLayoutRegion.</div>
+                </div>
+                            <a name="getTabs"></a>
+                <div class="mdetail alt">
+                <h3>getTabs</i></h3>
+                <code>public function getTabs()</code>
+                <div class="mdetail-desc">
+                    Returns the TabPanel component used by this region
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.TabPanel</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#getTabs" href="Ext.LayoutRegion.html#getTabs">LayoutRegion</a>.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="hasPanel"></a>
+                <div class="mdetail alt">
+                <h3>hasPanel</i></h3>
+                <code>public function hasPanel(&nbsp;<code>Number/String/ContentPanel panel</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if the panel is in this region.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>panel</code> : Number/String/ContentPanel<div class="sub-desc">The panels index, id or the panel itself</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#hasPanel" href="Ext.BasicLayoutRegion.html#hasPanel">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="hide"></a>
+                <div class="mdetail">
+                <h3>hide</i></h3>
+                <code>public function hide()</code>
+                <div class="mdetail-desc">
+                    Hides this region.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#hide" href="Ext.LayoutRegion.html#hide">LayoutRegion</a>.</div>
+                </div>
+                            <a name="hidePanel"></a>
+                <div class="mdetail alt">
+                <h3>hidePanel</i></h3>
+                <code>public function hidePanel(&nbsp;<code>Number/String/ContentPanel panel</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Hides the tab for the specified panel.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>panel</code> : Number/String/ContentPanel<div class="sub-desc">The panel's index, id or the panel itself</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#hidePanel" href="Ext.LayoutRegion.html#hidePanel">LayoutRegion</a>.</div>
+                </div>
+                            <a name="isVisible"></a>
+                <div class="mdetail">
+                <h3>isVisible</i></h3>
+                <code>public function isVisible()</code>
+                <div class="mdetail-desc">
+                    Returns true if this region is currently visible.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#isVisible" href="Ext.BasicLayoutRegion.html#isVisible">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail alt">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="remove"></a>
+                <div class="mdetail alt">
+                <h3>remove</i></h3>
+                <code>public function remove(&nbsp;<code>Number/String/ContentPanel panel</code>, <code>Boolean preservePanel</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes the specified panel. If preservePanel is not true (either here or in the config), the panel is destroyed.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>panel</code> : Number/String/ContentPanel<div class="sub-desc">The panels index, id or the panel itself</div></li><li><code>preservePanel</code> : Boolean<div class="sub-desc">Overrides the config preservePanel option</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.ContentPanel</code><div class="sub-desc">The panel that was removed</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#remove" href="Ext.BasicLayoutRegion.html#remove">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="resizeTo"></a>
+                <div class="mdetail alt">
+                <h3>resizeTo</i></h3>
+                <code>public function resizeTo(&nbsp;<code>Number newSize</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Resizes the region to the specified size. For vertical regions (west, east) this adjusts 
+the width, for horizontal (north, south) the height.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>newSize</code> : Number<div class="sub-desc">The new width or height</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#resizeTo" href="Ext.BasicLayoutRegion.html#resizeTo">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="setCollapsedTitle"></a>
+                <div class="mdetail">
+                <h3>setCollapsedTitle</i></h3>
+                <code>public function setCollapsedTitle(&nbsp;<span class="optional" title="Optional">[<code>String title</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Updates the title for collapsed north/south regions (used with <a ext:cls="Ext.LayoutRegion" ext:member="collapsedTitle" href="Ext.LayoutRegion.html#collapsedTitle">collapsedTitle</a> config option)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>title</code> : String<div class="sub-desc">(optional) The title text (accepts HTML markup, defaults to the numeric character reference for a non-breaking space, "&amp;#160;")</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#setCollapsedTitle" href="Ext.LayoutRegion.html#setCollapsedTitle">LayoutRegion</a>.</div>
+                </div>
+                            <a name="show"></a>
+                <div class="mdetail alt">
+                <h3>show</i></h3>
+                <code>public function show()</code>
+                <div class="mdetail-desc">
+                    Shows this region if it was previously hidden.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#show" href="Ext.LayoutRegion.html#show">LayoutRegion</a>.</div>
+                </div>
+                            <a name="showPanel"></a>
+                <div class="mdetail">
+                <h3>showPanel</i></h3>
+                <code>public function showPanel(&nbsp;<code>Number/String/ContentPanel panelId</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Show the specified panel.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>panelId</code> : Number/String/ContentPanel<div class="sub-desc">The panels index, id or the panel itself</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.ContentPanel</code><div class="sub-desc">The shown panel or null</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#showPanel" href="Ext.BasicLayoutRegion.html#showPanel">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail alt">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                            <a name="unhidePanel"></a>
+                <div class="mdetail">
+                <h3>unhidePanel</i></h3>
+                <code>public function unhidePanel(&nbsp;<code>Number/String/ContentPanel panel</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Unhides the tab for a previously hidden panel.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>panel</code> : Number/String/ContentPanel<div class="sub-desc">The panel's index, id or the panel itself</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#unhidePanel" href="Ext.LayoutRegion.html#unhidePanel">LayoutRegion</a>.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-beforeremove"></a>
+                <div class="mdetail">
+                <h3>beforeremove</i></h3>
+                <code>public event beforeremove</code>
+                <div class="mdetail-desc">
+                Fires before a panel is removed (or closed). To cancel the removal set "e.cancel = true" on the event argument.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li><li><code>panel</code> : Ext.ContentPanel<div class="sub-desc">The panel</div></li><li><code>e</code> : Object<div class="sub-desc">The cancel event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-beforeremove" href="Ext.BasicLayoutRegion.html#event-beforeremove">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-collapsed"></a>
+                <div class="mdetail alt">
+                <h3>collapsed</i></h3>
+                <code>public event collapsed</code>
+                <div class="mdetail-desc">
+                Fires when this region is collapsed.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-collapsed" href="Ext.BasicLayoutRegion.html#event-collapsed">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-expanded"></a>
+                <div class="mdetail">
+                <h3>expanded</i></h3>
+                <code>public event expanded</code>
+                <div class="mdetail-desc">
+                Fires when this region is expanded.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-expanded" href="Ext.BasicLayoutRegion.html#event-expanded">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-invalidated"></a>
+                <div class="mdetail alt">
+                <h3>invalidated</i></h3>
+                <code>public event invalidated</code>
+                <div class="mdetail-desc">
+                Fires when the layout for this region is changed.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-invalidated" href="Ext.BasicLayoutRegion.html#event-invalidated">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-panelactivated"></a>
+                <div class="mdetail">
+                <h3>panelactivated</i></h3>
+                <code>public event panelactivated</code>
+                <div class="mdetail-desc">
+                Fires when a panel is activated.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li><li><code>panel</code> : Ext.ContentPanel<div class="sub-desc">The activated panel</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-panelactivated" href="Ext.BasicLayoutRegion.html#event-panelactivated">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-paneladded"></a>
+                <div class="mdetail alt">
+                <h3>paneladded</i></h3>
+                <code>public event paneladded</code>
+                <div class="mdetail-desc">
+                Fires when a panel is added.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li><li><code>panel</code> : Ext.ContentPanel<div class="sub-desc">The panel</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-paneladded" href="Ext.BasicLayoutRegion.html#event-paneladded">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-panelremoved"></a>
+                <div class="mdetail">
+                <h3>panelremoved</i></h3>
+                <code>public event panelremoved</code>
+                <div class="mdetail-desc">
+                Fires when a panel is removed.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li><li><code>panel</code> : Ext.ContentPanel<div class="sub-desc">The panel</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-panelremoved" href="Ext.BasicLayoutRegion.html#event-panelremoved">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-resized"></a>
+                <div class="mdetail alt">
+                <h3>resized</i></h3>
+                <code>public event resized</code>
+                <div class="mdetail-desc">
+                Fires when the user resizes this region.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li><li><code>newSize</code> : Number<div class="sub-desc">The new size (width for east/west, height for north/south)</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-resized" href="Ext.BasicLayoutRegion.html#event-resized">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-slidehide"></a>
+                <div class="mdetail">
+                <h3>slidehide</i></h3>
+                <code>public event slidehide</code>
+                <div class="mdetail-desc">
+                Fires when this region slides out of view.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-slidehide" href="Ext.BasicLayoutRegion.html#event-slidehide">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-slideshow"></a>
+                <div class="mdetail alt">
+                <h3>slideshow</i></h3>
+                <code>public event slideshow</code>
+                <div class="mdetail-desc">
+                Fires when this region is slid into view.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-slideshow" href="Ext.BasicLayoutRegion.html#event-slideshow">BasicLayoutRegion</a>.</div>
+                </div>
+                            <a name="event-visibilitychange"></a>
+                <div class="mdetail">
+                <h3>visibilitychange</i></h3>
+                <code>public event visibilitychange</code>
+                <div class="mdetail-desc">
+                Fires when this region is shown or hidden
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.LayoutRegion<div class="sub-desc"></div></li><li><code>visibility</code> : Boolean<div class="sub-desc">true or false</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BasicLayoutRegion" ext:member="#event-visibilitychange" href="Ext.BasicLayoutRegion.html#event-visibilitychange">BasicLayoutRegion</a>.</div>
+                </div>
+                        </div>
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-alwaysShowTabs"></a>
+                <div class="mdetail">
+                <h3>alwaysShowTabs</i></h3>
+                <code>alwaysShowTabs : Boolean</code>
+                <div class="mdetail-desc">
+                    True to always display tabs even when there is only 1 panel (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#alwaysShowTabs" href="Ext.LayoutRegion.html#alwaysShowTabs">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-animate"></a>
+                <div class="mdetail alt">
+                <h3>animate</i></h3>
+                <code>animate : Boolean</code>
+                <div class="mdetail-desc">
+                    True to animate expand/collapse (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#animate" href="Ext.LayoutRegion.html#animate">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-autoHide"></a>
+                <div class="mdetail">
+                <h3>autoHide</i></h3>
+                <code>autoHide : Boolean</code>
+                <div class="mdetail-desc">
+                    False to disable auto hiding when the mouse leaves the "floated" region (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#autoHide" href="Ext.LayoutRegion.html#autoHide">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-autoScroll"></a>
+                <div class="mdetail alt">
+                <h3>autoScroll</i></h3>
+                <code>autoScroll : Boolean</code>
+                <div class="mdetail-desc">
+                    True to enable overflow scrolling (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#autoScroll" href="Ext.LayoutRegion.html#autoScroll">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-closeOnTab"></a>
+                <div class="mdetail">
+                <h3>closeOnTab</i></h3>
+                <code>closeOnTab : Boolean</code>
+                <div class="mdetail-desc">
+                    True to place the close icon on the tabs instead of the region titlebar (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#closeOnTab" href="Ext.LayoutRegion.html#closeOnTab">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-cmargins"></a>
+                <div class="mdetail alt">
+                <h3>cmargins</i></h3>
+                <code>cmargins : Object</code>
+                <div class="mdetail-desc">
+                    Margins for the element when collapsed (defaults to: north/south {top: 2, left: 0, right:0, bottom: 2} or east/west {top: 0, left: 2, right:2, bottom: 0})                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#cmargins" href="Ext.LayoutRegion.html#cmargins">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-collapsed"></a>
+                <div class="mdetail">
+                <h3>collapsed</i></h3>
+                <code>collapsed : Boolean</code>
+                <div class="mdetail-desc">
+                    True to set the initial display to collapsed (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#collapsed" href="Ext.LayoutRegion.html#collapsed">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-collapsedTitle"></a>
+                <div class="mdetail alt">
+                <h3>collapsedTitle</i></h3>
+                <code>collapsedTitle : String</code>
+                <div class="mdetail-desc">
+                    Optional string message to display in the collapsed block of a north or south region                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#collapsedTitle" href="Ext.LayoutRegion.html#collapsedTitle">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-collapsible"></a>
+                <div class="mdetail">
+                <h3>collapsible</i></h3>
+                <code>collapsible : Boolean</code>
+                <div class="mdetail-desc">
+                    False to disable collapsing (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#collapsible" href="Ext.LayoutRegion.html#collapsible">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-disableTabTips"></a>
+                <div class="mdetail alt">
+                <h3>disableTabTips</i></h3>
+                <code>disableTabTips : Boolean</code>
+                <div class="mdetail-desc">
+                    True to disable tab tooltips                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#disableTabTips" href="Ext.LayoutRegion.html#disableTabTips">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-floatable"></a>
+                <div class="mdetail">
+                <h3>floatable</i></h3>
+                <code>floatable : Boolean</code>
+                <div class="mdetail-desc">
+                    False to disable floating (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#floatable" href="Ext.LayoutRegion.html#floatable">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-hidden"></a>
+                <div class="mdetail alt">
+                <h3>hidden</i></h3>
+                <code>hidden : Boolean</code>
+                <div class="mdetail-desc">
+                    True to start the region hidden (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#hidden" href="Ext.LayoutRegion.html#hidden">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-hideTabs"></a>
+                <div class="mdetail">
+                <h3>hideTabs</i></h3>
+                <code>hideTabs : Boolean</code>
+                <div class="mdetail-desc">
+                    True to hide the tab strip (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#hideTabs" href="Ext.LayoutRegion.html#hideTabs">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-hideWhenEmpty"></a>
+                <div class="mdetail alt">
+                <h3>hideWhenEmpty</i></h3>
+                <code>hideWhenEmpty : Boolean</code>
+                <div class="mdetail-desc">
+                    True to hide the region when it has no panels                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#hideWhenEmpty" href="Ext.LayoutRegion.html#hideWhenEmpty">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-margins"></a>
+                <div class="mdetail">
+                <h3>margins</i></h3>
+                <code>margins : Object</code>
+                <div class="mdetail-desc">
+                    Margins for the element (defaults to {top: 0, left: 0, right:0, bottom: 0})                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#margins" href="Ext.LayoutRegion.html#margins">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-minTabWidth"></a>
+                <div class="mdetail alt">
+                <h3>minTabWidth</i></h3>
+                <code>minTabWidth : Number</code>
+                <div class="mdetail-desc">
+                    The minimum tab width (defaults to 40)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#minTabWidth" href="Ext.LayoutRegion.html#minTabWidth">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-preferredTabWidth"></a>
+                <div class="mdetail">
+                <h3>preferredTabWidth</i></h3>
+                <code>preferredTabWidth : Number</code>
+                <div class="mdetail-desc">
+                    The preferred tab width (defaults to 150)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#preferredTabWidth" href="Ext.LayoutRegion.html#preferredTabWidth">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-preservePanels"></a>
+                <div class="mdetail alt">
+                <h3>preservePanels</i></h3>
+                <code>preservePanels : Boolean</code>
+                <div class="mdetail-desc">
+                    True to preserve removed panels so they can be readded later (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#preservePanels" href="Ext.LayoutRegion.html#preservePanels">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-resizeTabs"></a>
+                <div class="mdetail">
+                <h3>resizeTabs</i></h3>
+                <code>resizeTabs : Boolean</code>
+                <div class="mdetail-desc">
+                    True to enable automatic tab resizing. This will resize the tabs so they are all the same size and fit within the space available, similar to FireFox 1.5 tabs (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#resizeTabs" href="Ext.LayoutRegion.html#resizeTabs">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-showPin"></a>
+                <div class="mdetail alt">
+                <h3>showPin</i></h3>
+                <code>showPin : Boolean</code>
+                <div class="mdetail-desc">
+                    True to show a pin button                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#showPin" href="Ext.LayoutRegion.html#showPin">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-tabPosition"></a>
+                <div class="mdetail">
+                <h3>tabPosition</i></h3>
+                <code>tabPosition : String</code>
+                <div class="mdetail-desc">
+                    "top" or "bottom" (defaults to "bottom")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#tabPosition" href="Ext.LayoutRegion.html#tabPosition">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-title"></a>
+                <div class="mdetail alt">
+                <h3>title</i></h3>
+                <code>title : String</code>
+                <div class="mdetail-desc">
+                    The title for the region (overrides panel titles)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#title" href="Ext.LayoutRegion.html#title">LayoutRegion</a>.</div>
+                </div>
+                            <a name="config-titlebar"></a>
+                <div class="mdetail">
+                <h3>titlebar</i></h3>
+                <code>titlebar : Boolean</code>
+                <div class="mdetail-desc">
+                    True to display a title bar (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.LayoutRegion" ext:member="#titlebar" href="Ext.LayoutRegion.html#titlebar">LayoutRegion</a>.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

@@ -1,0 +1,387 @@
+<html><head><title>QuickTips.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>QuickTips.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.QuickTips
+ * Provides attractive and customizable tooltips <b>for</b> any element.
+ * @singleton
+ */</i>
+Ext.QuickTips = <b>function</b>(){
+    <b>var</b> el, tipBody, tipBodyText, tipTitle, tm, cfg, close, tagEls = {}, esc, removeCls = null, bdLeft, bdRight;
+    <b>var</b> ce, bd, xy, dd;
+    <b>var</b> visible = false, disabled = true, inited = false;
+    <b>var</b> showProc = 1, hideProc = 1, dismissProc = 1, locks = [];
+    
+    <b>var</b> onOver = <b>function</b>(e){
+        <b>if</b>(disabled){
+            <b>return</b>;
+        }
+        <b>var</b> t = e.getTarget();
+        <b>if</b>(!t || t.nodeType !== 1 || t == document || t == document.body){
+            <b>return</b>;
+        }
+        <b>if</b>(ce &amp;&amp; t == ce.el){
+            clearTimeout(hideProc);
+            <b>return</b>;
+        }
+        <b>if</b>(t &amp;&amp; tagEls[t.id]){
+            tagEls[t.id].el = t;
+            showProc = show.defer(tm.showDelay, tm, [tagEls[t.id]]);
+            <b>return</b>;
+        }
+        <b>var</b> ttp, et = Ext.fly(t);
+        <b>var</b> ns = cfg.namespace;
+        <b>if</b>(tm.interceptTitles &amp;&amp; t.title){
+            ttp = t.title;
+            t.qtip = ttp;
+            t.removeAttribute(&quot;title&quot;);
+            e.preventDefault();
+        }<b>else</b>{
+            ttp = t.qtip || et.getAttributeNS(ns, cfg.attribute);
+        }
+        <b>if</b>(ttp){
+            showProc = show.defer(tm.showDelay, tm, [{
+                el: t, 
+                text: ttp, 
+                width: et.getAttributeNS(ns, cfg.width),
+                autoHide: et.getAttributeNS(ns, cfg.hide) != &quot;user&quot;,
+                title: et.getAttributeNS(ns, cfg.title),
+           	    cls: et.getAttributeNS(ns, cfg.cls)
+            }]);
+        }
+    };
+    
+    <b>var</b> onOut = <b>function</b>(e){
+        clearTimeout(showProc);
+        <b>var</b> t = e.getTarget();
+        <b>if</b>(t &amp;&amp; ce &amp;&amp; ce.el == t &amp;&amp; (tm.autoHide &amp;&amp; ce.autoHide !== false)){
+            hideProc = setTimeout(hide, tm.hideDelay);
+        }
+    };
+    
+    <b>var</b> onMove = <b>function</b>(e){
+        <b>if</b>(disabled){
+            <b>return</b>;
+        }
+        xy = e.getXY();
+        xy[1] += 18;
+        <b>if</b>(tm.trackMouse &amp;&amp; ce){
+            el.setXY(xy);
+        }
+    };
+    
+    <b>var</b> onDown = <b>function</b>(e){
+        clearTimeout(showProc);
+        clearTimeout(hideProc);
+        <b>if</b>(!e.within(el)){
+            <b>if</b>(tm.hideOnClick){
+                hide();
+                tm.disable();
+            }
+        }
+    };
+    
+    <b>var</b> onUp = <b>function</b>(e){
+        tm.enable();
+    };
+
+    <b>var</b> getPad = <b>function</b>(){
+        <b>return</b> bdLeft.getPadding(<em>'l'</em>)+bdRight.getPadding(<em>'r'</em>);
+    };
+
+    <b>var</b> show = <b>function</b>(o){
+        <b>if</b>(disabled){
+            <b>return</b>;
+        }
+        clearTimeout(dismissProc);
+        ce = o;
+        <b>if</b>(removeCls){ <i>// <b>in</b> case manually hidden</i>
+            el.removeClass(removeCls);
+            removeCls = null;
+        }
+        <b>if</b>(ce.cls){
+            el.addClass(ce.cls);
+            removeCls = ce.cls;
+        }
+        <b>if</b>(ce.title){
+            tipTitle.update(ce.title);
+            tipTitle.show();
+        }<b>else</b>{
+            tipTitle.update(<em>''</em>);
+            tipTitle.hide();
+        }
+        el.dom.style.width  = tm.maxWidth+<em>'px'</em>;
+        <i>//tipBody.dom.style.width = <em>''</em>;</i>
+        tipBodyText.update(o.text);
+        <b>var</b> p = getPad(), w = ce.width;
+        <b>if</b>(!w){
+            <b>var</b> td = tipBodyText.dom;
+            <b>var</b> aw = Math.max(td.offsetWidth, td.clientWidth, td.scrollWidth);
+            <b>if</b>(aw &gt; tm.maxWidth){
+                w = tm.maxWidth;
+            }<b>else</b> if(aw &lt; tm.minWidth){
+                w = tm.minWidth;
+            }<b>else</b>{
+                w = aw;
+            }
+        }
+        <i>//tipBody.setWidth(w);</i>
+        el.setWidth(parseInt(w, 10) + p);
+        <b>if</b>(ce.autoHide === false){
+            close.setDisplayed(true);
+            <b>if</b>(dd){
+                dd.unlock();
+            }
+        }<b>else</b>{
+            close.setDisplayed(false);
+            <b>if</b>(dd){
+                dd.lock();
+            }
+        }
+        <b>if</b>(xy){
+            el.avoidY = xy[1]-18;
+            el.setXY(xy);
+        }
+        <b>if</b>(tm.animate){
+            el.setOpacity(.1);
+            el.setStyle(&quot;visibility&quot;, &quot;visible&quot;);
+            el.fadeIn({callback: afterShow});
+        }<b>else</b>{
+            afterShow();
+        }
+    };
+    
+    <b>var</b> afterShow = <b>function</b>(){
+        <b>if</b>(ce){
+            el.show();
+            esc.enable();
+            <b>if</b>(tm.autoDismiss &amp;&amp; ce.autoHide !== false){
+                dismissProc = setTimeout(hide, tm.autoDismissDelay);
+            }
+        }
+    };
+    
+    <b>var</b> hide = <b>function</b>(noanim){
+        clearTimeout(dismissProc);
+        clearTimeout(hideProc);
+        ce = null;
+        <b>if</b>(el.isVisible()){
+            esc.disable();
+            <b>if</b>(noanim !== true &amp;&amp; tm.animate){
+                el.fadeOut({callback: afterHide});
+            }<b>else</b>{
+                afterHide();
+            } 
+        }
+    };
+    
+    <b>var</b> afterHide = <b>function</b>(){
+        el.hide();
+        <b>if</b>(removeCls){
+            el.removeClass(removeCls);
+            removeCls = null;
+        }
+    };
+    
+    <b>return</b> {
+        <i>/**
+        * @cfg {Number} minWidth
+        * The minimum width of the quick tip (defaults to 40)
+        */</i>
+       minWidth : 40,
+        <i>/**
+        * @cfg {Number} maxWidth
+        * The maximum width of the quick tip (defaults to 300)
+        */</i>
+       maxWidth : 300,
+        <i>/**
+        * @cfg {Boolean} interceptTitles
+        * True to automatically use the element's DOM title value <b>if</b> available (defaults to false)
+        */</i>
+       interceptTitles : false,
+        <i>/**
+        * @cfg {Boolean} trackMouse
+        * True to have the quick tip follow the mouse as it moves over the target element (defaults to false)
+        */</i>
+       trackMouse : false,
+        <i>/**
+        * @cfg {Boolean} hideOnClick
+        * True to hide the quick tip <b>if</b> the user clicks anywhere <b>in</b> the document (defaults to true)
+        */</i>
+       hideOnClick : true,
+        <i>/**
+        * @cfg {Number} showDelay
+        * Delay <b>in</b> milliseconds before the quick tip displays after the mouse enters the target element (defaults to 500)
+        */</i>
+       showDelay : 500,
+        <i>/**
+        * @cfg {Number} hideDelay
+        * Delay <b>in</b> milliseconds before the quick tip hides when autoHide = true (defaults to 200)
+        */</i>
+       hideDelay : 200,
+        <i>/**
+        * @cfg {Boolean} autoHide
+        * True to automatically hide the quick tip after the mouse exits the target element (defaults to true).
+        * Used <b>in</b> conjunction <b>with</b> hideDelay.
+        */</i>
+       autoHide : true,
+        <i>/**
+        * @cfg {Boolean}
+        * True to automatically hide the quick tip after a set period of time, regardless of the user's actions
+        * (defaults to true).  Used <b>in</b> conjunction <b>with</b> autoDismissDelay.
+        */</i>
+       autoDismiss : true,
+        <i>/**
+        * @cfg {Number}
+        * Delay <b>in</b> milliseconds before the quick tip hides when autoDismiss = true (defaults to 5000)
+        */</i>
+       autoDismissDelay : 5000,
+       <i>/**
+        * @cfg {Boolean} animate
+        * True to turn on fade animation. Defaults to false (ClearType/scrollbar flicker issues <b>in</b> IE7).
+        */</i>
+       animate : false,
+
+       <i>/**
+        * @cfg {String} title
+        * Title text to display (defaults to <em>''</em>).  This can be any valid HTML markup.
+        */</i>
+<i>// holder</i>
+<i>/***
+        * @cfg {String} text
+        * Body text to display (defaults to <em>''</em>).  This can be any valid HTML markup.
+        */</i>
+<i>// holder</i>
+<i>/***
+        * @cfg {String} cls
+        * A CSS class to apply to the base quick tip element (defaults to <em>''</em>).
+        */</i>
+<i>// holder</i>
+<i>/***
+        * @cfg {Number} width
+        * Width <b>in</b> pixels of the quick tip (defaults to auto).  Width will be ignored <b>if</b> it exceeds the bounds of
+        * minWidth or maxWidth.
+        */</i>
+<i>// holder</i>
+<i>/***
+     * Initialize and enable QuickTips <b>for</b> first use.  This should be called once before the first attempt to access
+     * or display QuickTips <b>in</b> a page.
+     */</i>
+       init : <b>function</b>(){
+          tm = Ext.QuickTips;
+          cfg = tm.tagConfig;
+          <b>if</b>(!inited){
+              <b>if</b>(!Ext.isReady){ <i>// allow calling of init() before onReady</i>
+                  Ext.onReady(Ext.QuickTips.init, Ext.QuickTips);
+                  <b>return</b>;
+              }
+              el = <b>new</b> Ext.Layer({cls:&quot;x-tip&quot;, shadow:&quot;drop&quot;, shim: true, constrain:true, shadowOffset:4});
+              el.fxDefaults = {stopFx: true};
+              <i>// maximum custom styling</i>
+              el.update(<em>'&lt;div class=&quot;x-tip-top-left&quot;&gt;&lt;div class=&quot;x-tip-top-right&quot;&gt;&lt;div class=&quot;x-tip-top&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;x-tip-bd-left&quot;&gt;&lt;div class=&quot;x-tip-bd-right&quot;&gt;&lt;div class=&quot;x-tip-bd&quot;&gt;&lt;div class=&quot;x-tip-close&quot;&gt;&lt;/div&gt;&lt;h3&gt;&lt;/h3&gt;&lt;div class=&quot;x-tip-bd-inner&quot;&gt;&lt;/div&gt;&lt;div class=&quot;x-clear&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;x-tip-ft-left&quot;&gt;&lt;div class=&quot;x-tip-ft-right&quot;&gt;&lt;div class=&quot;x-tip-ft&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;'</em>);
+              tipTitle = el.child(<em>'h3'</em>);
+              tipTitle.enableDisplayMode(&quot;block&quot;);
+              tipBody = el.child(<em>'div.x-tip-bd'</em>);
+              tipBodyText = el.child(<em>'div.x-tip-bd-inner'</em>);
+              bdLeft = el.child(<em>'div.x-tip-bd-left'</em>);
+              bdRight = el.child(<em>'div.x-tip-bd-right'</em>);
+              close = el.child(<em>'div.x-tip-close'</em>);
+              close.enableDisplayMode(&quot;block&quot;);
+              close.on(&quot;click&quot;, hide);
+              <b>var</b> d = Ext.get(document);
+              d.on(&quot;mousedown&quot;, onDown);
+              d.on(&quot;mouseup&quot;, onUp);
+              d.on(&quot;mouseover&quot;, onOver);
+              d.on(&quot;mouseout&quot;, onOut);
+              d.on(&quot;mousemove&quot;, onMove);
+              esc = d.addKeyListener(27, hide);
+              esc.disable();
+              <b>if</b>(Ext.dd.DD){
+                  dd = el.initDD(&quot;<b>default</b>&quot;, null, {
+                      onDrag : <b>function</b>(){
+                          el.sync();  
+                      }
+                  });
+                  dd.setHandleElId(tipTitle.id);
+                  dd.lock();
+              }
+              inited = true;
+          }
+          <b>this</b>.enable(); 
+       },
+
+    <i>/**
+     * Configures a <b>new</b> quick tip instance and assigns it to a target element (should be passed as config.target).
+     * @param {Object} config The config object
+     */</i>
+       register : <b>function</b>(config){
+           <b>var</b> cs = config instanceof Array ? config : arguments;
+           <b>for</b>(var i = 0, len = cs.length; i &lt; len; i++) {
+               <b>var</b> c = cs[i];
+               <b>var</b> target = c.target;
+               <b>if</b>(target){
+                   <b>if</b>(target instanceof Array){
+                       <b>for</b>(var j = 0, jlen = target.length; j &lt; jlen; j++){
+                           tagEls[target[j]] = c;
+                       }
+                   }<b>else</b>{
+                       tagEls[<b>typeof</b> target == <em>'string'</em> ? target : Ext.id(target)] = c;
+                   }
+               }
+           }
+       },
+
+    <i>/**
+     * Removes <b>this</b> quick tip from its element and destroys it.
+     * @param {String/HTMLElement/Element} el The element from which the quick tip is to be removed.
+     */</i>
+       unregister : <b>function</b>(el){
+           <b>delete</b> tagEls[Ext.id(el)];
+       },
+
+    <i>/**
+     * Enable <b>this</b> quick tip.
+     */</i>
+       enable : <b>function</b>(){
+           <b>if</b>(inited &amp;&amp; disabled){
+               locks.pop();
+               <b>if</b>(locks.length &lt; 1){
+                   disabled = false;
+               }
+           }
+       },
+
+    <i>/**
+     * Disable <b>this</b> quick tip.
+     */</i>
+       disable : <b>function</b>(){
+          disabled = true;
+          clearTimeout(showProc);
+          clearTimeout(hideProc);
+          clearTimeout(dismissProc);
+          <b>if</b>(ce){
+              hide(true);
+          }
+          locks.push(1);
+       },
+
+    <i>/**
+     * Returns true <b>if</b> the quick tip is enabled, <b>else</b> false.
+     */</i>
+       isEnabled : <b>function</b>(){
+            <b>return</b> !disabled;
+       },
+
+        <i>// private</i>
+       tagConfig : {
+           namespace : &quot;ext&quot;,
+           attribute : &quot;qtip&quot;,
+           width : &quot;width&quot;,
+           target : &quot;target&quot;,
+           title : &quot;qtitle&quot;,
+           hide : &quot;hide&quot;,
+           cls : &quot;qclass&quot;
+       }
+   };
+}();
+
+<i>// backwards compat</i>
+Ext.QuickTips.tips = Ext.QuickTips.register;</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

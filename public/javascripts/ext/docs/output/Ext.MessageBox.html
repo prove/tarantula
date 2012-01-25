@@ -1,0 +1,555 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.MessageBox</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.MessageBox.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.MessageBox</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>MessageBox</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="MessageBox.jss.html">MessageBox.js</a></td></tr>
+        </table>
+        <div class="description">
+            Utility class for generating different styles of message boxes.  The alias Ext.Msg can also be used.
+Example usage:
+<pre><code><i>// Basic alert:</i>
+Ext.Msg.alert(<em>'Status'</em>, <em>'Changes saved successfully.'</em>);
+
+<i>// Prompt <b>for</b> user data:</i>
+Ext.Msg.prompt(<em>'Name'</em>, <em>'Please enter your name:'</em>, <b>function</b>(btn, text){
+    <b>if</b> (btn == <em>'ok'</em>){
+        <i>// process text value...</i>
+    }
+});
+
+<i>// Show a dialog using config options:</i>
+Ext.Msg.show({
+   title:<em>'Save Changes?'</em>,
+   msg: <em>'Your are closing a tab that has unsaved changes. Would you like to save your changes?'</em>,
+   buttons: Ext.Msg.YESNOCANCEL,
+   fn: processResult,
+   animEl: <em>'elId'</em>
+});</code></pre><br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#OK">OK</a> : Object</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Button config that displays a single OK button</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#OKCANCEL">OKCANCEL</a> : Object</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Button config that displays OK and Cancel buttons</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#YESNO">YESNO</a> : Object</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Button config that displays Yes and No buttons</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#YESNOCANCEL">YESNOCANCEL</a> : Object</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Button config that displays Yes, No and Cancel buttons</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#buttonText">buttonText</a> : Object</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">An object containing the default button text strings that can be overriden for localized language support.
+Supported ...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#defaultTextHeight">defaultTextHeight</a> : Number</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The default height in pixels of the message box's multiline textarea if displayed (defaults to 75)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#maxWidth">maxWidth</a> : Number</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The maximum width in pixels of the message box (defaults to 600)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#minProgressWidth">minProgressWidth</a> : Number</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The minimum width in pixels of the message box progress bar if displayed (defaults to 250)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#minWidth">minWidth</a> : Number</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The minimum width in pixels of the message box (defaults to 100)</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#alert">alert</a>(&nbsp;<code>String title</code>, <code>String msg</code>, <span class="optional" title="Optional">[<code>Function fn</code>]</span>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.MessageBox</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Displays a standard read-only message box with an OK button (comparable to the basic JavaScript Window.alert).
+If a c...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#confirm">confirm</a>(&nbsp;<code>String title</code>, <code>String msg</code>, <span class="optional" title="Optional">[<code>Function fn</code>]</span>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.MessageBox</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Displays a confirmation message box with Yes and No buttons (comparable to JavaScript's Window.confirm).
+If a callbac...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getDialog">getDialog</a>() : Ext.BasicDialog</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns a reference to the underlying <a ext:cls="Ext.BasicDialog" href="Ext.BasicDialog.html">Ext.BasicDialog</a> element</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hide">hide</a>() : void</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Hides the message box if it is displayed</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isVisible">isVisible</a>() : Boolean</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns true if the message box is currently displayed</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#progress">progress</a>(&nbsp;<code>String title</code>, <code>String msg</code>&nbsp;) : Ext.MessageBox</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Displays a message box with a progress bar.  This message box has no buttons and is not closeable by
+the user.  You a...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#prompt">prompt</a>(&nbsp;<code>String title</code>, <code>String msg</code>, <span class="optional" title="Optional">[<code>Function fn</code>]</span>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number multiline</code>]</span>&nbsp;) : Ext.MessageBox</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Displays a message box with OK and Cancel buttons prompting the user to enter some text (comparable to
+JavaScript's W...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#show">show</a>(&nbsp;<code>Object config</code>&nbsp;) : Ext.MessageBox</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Displays a new message box, or reinitializes an existing message box, based on the config options
+passed in. All func...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#updateProgress">updateProgress</a>(&nbsp;<code>Number value</code>, <span class="optional" title="Optional">[<code>String text</code>]</span>&nbsp;) : Ext.MessageBox</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Updates a progress-style message box's text and progress bar.  Only relevant on message boxes
+initiated via Ext.Messa...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#updateText">updateText</a>(&nbsp;<span class="optional" title="Optional">[<code>String text</code>]</span>&nbsp;) : Ext.MessageBox</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Updates the message box body text</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#wait">wait</a>(&nbsp;<code>String msg</code>, <span class="optional" title="Optional">[<code>String title</code>]</span>&nbsp;) : Ext.MessageBox</td>
+        <td class="msource" rowspan="2">MessageBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Displays a message box with an infinitely auto-updating progress bar.  This can be used to block user
+interaction whi...</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="OK"></a>
+                <div class="mdetail">
+                <h3>OK</i></h3>
+                <code>public Object OK</code>
+                <div class="mdetail-desc">
+                    Button config that displays a single OK button                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                            <a name="OKCANCEL"></a>
+                <div class="mdetail alt">
+                <h3>OKCANCEL</i></h3>
+                <code>public Object OKCANCEL</code>
+                <div class="mdetail-desc">
+                    Button config that displays OK and Cancel buttons                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                            <a name="YESNO"></a>
+                <div class="mdetail">
+                <h3>YESNO</i></h3>
+                <code>public Object YESNO</code>
+                <div class="mdetail-desc">
+                    Button config that displays Yes and No buttons                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                            <a name="YESNOCANCEL"></a>
+                <div class="mdetail alt">
+                <h3>YESNOCANCEL</i></h3>
+                <code>public Object YESNOCANCEL</code>
+                <div class="mdetail-desc">
+                    Button config that displays Yes, No and Cancel buttons                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                            <a name="buttonText"></a>
+                <div class="mdetail">
+                <h3>buttonText</i></h3>
+                <code>public Object buttonText</code>
+                <div class="mdetail-desc">
+                    An object containing the default button text strings that can be overriden for localized language support.
+Supported properties are: ok, cancel, yes and no.
+Customize the default text like so: Ext.MessageBox.buttonText.yes = "Sí";                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                            <a name="defaultTextHeight"></a>
+                <div class="mdetail alt">
+                <h3>defaultTextHeight</i></h3>
+                <code>public Number defaultTextHeight</code>
+                <div class="mdetail-desc">
+                    The default height in pixels of the message box's multiline textarea if displayed (defaults to 75)                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                            <a name="maxWidth"></a>
+                <div class="mdetail">
+                <h3>maxWidth</i></h3>
+                <code>public Number maxWidth</code>
+                <div class="mdetail-desc">
+                    The maximum width in pixels of the message box (defaults to 600)                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                            <a name="minProgressWidth"></a>
+                <div class="mdetail alt">
+                <h3>minProgressWidth</i></h3>
+                <code>public Number minProgressWidth</code>
+                <div class="mdetail-desc">
+                    The minimum width in pixels of the message box progress bar if displayed (defaults to 250)                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                            <a name="minWidth"></a>
+                <div class="mdetail">
+                <h3>minWidth</i></h3>
+                <code>public Number minWidth</code>
+                <div class="mdetail-desc">
+                    The minimum width in pixels of the message box (defaults to 100)                </div>
+                <div class="mdetail-def">This property is defined by MessageBox.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="alert"></a>
+                <div class="mdetail">
+                <h3>alert</i></h3>
+                <code>public function alert(&nbsp;<code>String title</code>, <code>String msg</code>, <span class="optional" title="Optional">[<code>Function fn</code>]</span>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Displays a standard read-only message box with an OK button (comparable to the basic JavaScript Window.alert).
+If a callback function is passed it will be called after the user clicks the button, and the
+id of the button that was clicked will be passed as the only parameter to the callback
+(could also be the top-right close button).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>title</code> : String<div class="sub-desc">The title bar text</div></li><li><code>msg</code> : String<div class="sub-desc">The message box body text</div></li><li><code>fn</code> : Function<div class="sub-desc">(optional) The callback function invoked after the message box is closed</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the callback function</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.MessageBox</code><div class="sub-desc">This message box</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="confirm"></a>
+                <div class="mdetail alt">
+                <h3>confirm</i></h3>
+                <code>public function confirm(&nbsp;<code>String title</code>, <code>String msg</code>, <span class="optional" title="Optional">[<code>Function fn</code>]</span>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Displays a confirmation message box with Yes and No buttons (comparable to JavaScript's Window.confirm).
+If a callback function is passed it will be called after the user clicks either button, and the id of the
+button that was clicked will be passed as the only parameter to the callback (could also be the top-right close button).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>title</code> : String<div class="sub-desc">The title bar text</div></li><li><code>msg</code> : String<div class="sub-desc">The message box body text</div></li><li><code>fn</code> : Function<div class="sub-desc">(optional) The callback function invoked after the message box is closed</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the callback function</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.MessageBox</code><div class="sub-desc">This message box</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="getDialog"></a>
+                <div class="mdetail">
+                <h3>getDialog</i></h3>
+                <code>public function getDialog()</code>
+                <div class="mdetail-desc">
+                    Returns a reference to the underlying <a ext:cls="Ext.BasicDialog" href="Ext.BasicDialog.html">Ext.BasicDialog</a> element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BasicDialog</code><div class="sub-desc">The BasicDialog element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="hide"></a>
+                <div class="mdetail alt">
+                <h3>hide</i></h3>
+                <code>public function hide()</code>
+                <div class="mdetail-desc">
+                    Hides the message box if it is displayed
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="isVisible"></a>
+                <div class="mdetail">
+                <h3>isVisible</i></h3>
+                <code>public function isVisible()</code>
+                <div class="mdetail-desc">
+                    Returns true if the message box is currently displayed
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the message box is visible, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="progress"></a>
+                <div class="mdetail alt">
+                <h3>progress</i></h3>
+                <code>public function progress(&nbsp;<code>String title</code>, <code>String msg</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Displays a message box with a progress bar.  This message box has no buttons and is not closeable by
+the user.  You are responsible for updating the progress bar as needed via <a ext:cls="Ext.MessageBox" ext:member="updateProgress" href="Ext.MessageBox.html#updateProgress">Ext.MessageBox.updateProgress</a>
+and closing the message box when the process is complete.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>title</code> : String<div class="sub-desc">The title bar text</div></li><li><code>msg</code> : String<div class="sub-desc">The message box body text</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.MessageBox</code><div class="sub-desc">This message box</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="prompt"></a>
+                <div class="mdetail">
+                <h3>prompt</i></h3>
+                <code>public function prompt(&nbsp;<code>String title</code>, <code>String msg</code>, <span class="optional" title="Optional">[<code>Function fn</code>]</span>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number multiline</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Displays a message box with OK and Cancel buttons prompting the user to enter some text (comparable to
+JavaScript's Window.prompt).  The prompt can be a single-line or multi-line textbox.  If a callback function
+is passed it will be called after the user clicks either button, and the id of the button that was clicked
+(could also be the top-right close button) and the text that was entered will be passed as the two
+parameters to the callback.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>title</code> : String<div class="sub-desc">The title bar text</div></li><li><code>msg</code> : String<div class="sub-desc">The message box body text</div></li><li><code>fn</code> : Function<div class="sub-desc">(optional) The callback function invoked after the message box is closed</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the callback function</div></li><li><code>multiline</code> : Boolean/Number<div class="sub-desc">(optional) True to create a multiline textbox using the defaultTextHeight
+property, or the height in pixels to create the textbox (defaults to false / single-line)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.MessageBox</code><div class="sub-desc">This message box</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="show"></a>
+                <div class="mdetail alt">
+                <h3>show</i></h3>
+                <code>public function show(&nbsp;<code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Displays a new message box, or reinitializes an existing message box, based on the config options
+passed in. All functions (e.g. prompt, alert, etc) on MessageBox call this function internally.
+The following config object properties are supported:
+<pre>Property    Type             Description
+----------  ---------------  ----------------------------------------------------------------------
+title       String           The title text
+closable    Boolean          False to hide the top-right close box (defaults to true)
+prompt      Boolean          True to prompt the user to enter single-line text (defaults to false)
+multiline   Boolean          True to prompt the user to enter multi-line text (defaults to false)
+progress    Boolean          True to display a progress bar (defaults to false)
+value       String           The string value to set into the active textbox element if displayed
+buttons     Object/Boolean   A button config object (e.g., Ext.MessageBox.OKCANCEL or {ok:'Foo',
+                             cancel:'Bar'}), or false to not show any buttons (defaults to false)
+msg         String           A string that will replace the existing message box body text (defaults
+                             to the XHTML-compliant non-breaking space character &#160;)
+cls         String           A custom CSS class to apply to the message box element
+proxyDrag   Boolean          True to display a lightweight proxy while dragging (defaults to false)
+modal       Boolean          False to allow user interaction with the page while the message box is
+                             displayed (defaults to true)</pre>
+Example usage:
+<pre><code>Ext.Msg.show({
+   title: <em>'Address'</em>,
+   msg: <em>'Please enter your address:'</em>,
+   width: 300,
+   buttons: Ext.MessageBox.OKCANCEL,
+   multiline: true,
+   fn: saveAddress,
+   animEl: <em>'addAddressBtn'</em>
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object<div class="sub-desc">Configuration options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.MessageBox</code><div class="sub-desc">This message box</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="updateProgress"></a>
+                <div class="mdetail">
+                <h3>updateProgress</i></h3>
+                <code>public function updateProgress(&nbsp;<code>Number value</code>, <span class="optional" title="Optional">[<code>String text</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Updates a progress-style message box's text and progress bar.  Only relevant on message boxes
+initiated via <a ext:cls="Ext.MessageBox" ext:member="progress" href="Ext.MessageBox.html#progress">Ext.MessageBox.progress</a> or by calling <a ext:cls="Ext.MessageBox" ext:member="show" href="Ext.MessageBox.html#show">Ext.MessageBox.show</a> with progress: true.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>value</code> : Number<div class="sub-desc">Any number between 0 and 1 (e.g., .5)</div></li><li><code>text</code> : String<div class="sub-desc">(optional) If defined, the message box's body text is replaced with the specified string (defaults to undefined)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.MessageBox</code><div class="sub-desc">This message box</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="updateText"></a>
+                <div class="mdetail alt">
+                <h3>updateText</i></h3>
+                <code>public function updateText(&nbsp;<span class="optional" title="Optional">[<code>String text</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Updates the message box body text
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>text</code> : String<div class="sub-desc">(optional) Replaces the message box element's innerHTML with the specified string (defaults to
+the XHTML-compliant non-breaking space character '&amp;#160;')</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.MessageBox</code><div class="sub-desc">This message box</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                            <a name="wait"></a>
+                <div class="mdetail">
+                <h3>wait</i></h3>
+                <code>public function wait(&nbsp;<code>String msg</code>, <span class="optional" title="Optional">[<code>String title</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Displays a message box with an infinitely auto-updating progress bar.  This can be used to block user
+interaction while waiting for a long-running process to complete that does not have defined intervals.
+You are responsible for closing the message box when the process is complete.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>msg</code> : String<div class="sub-desc">The message box body text</div></li><li><code>title</code> : String<div class="sub-desc">(optional) The title bar text</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.MessageBox</code><div class="sub-desc">This message box</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by MessageBox.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

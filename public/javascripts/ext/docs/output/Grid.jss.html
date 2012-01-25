@@ -1,0 +1,607 @@
+<html><head><title>Grid.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Grid.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.grid.Grid
+ * @extends Ext.util.Observable
+ * This class represents the primary interface of a component based grid control.
+ * &lt;br&gt;&lt;br&gt;Usage:&lt;pre&gt;&lt;code&gt;
+ <b>var</b> grid = <b>new</b> Ext.grid.Grid(&quot;my-container-id&quot;, {
+     ds: myDataStore,
+     cm: myColModel,
+     selModel: mySelectionModel,
+     autoSizeColumns: true,
+     monitorWindowResize: false,
+     trackMouseOver: true
+ });
+ <i>// set any options</i>
+ grid.render();
+ * &lt;/code&gt;&lt;/pre&gt;
+ * &lt;b&gt;Common Problems:&lt;/b&gt;&lt;br/&gt;
+ * - Grid does not resize properly when going smaller: Setting overflow hidden on the container
+ * element will correct <b>this</b>&lt;br/&gt;
+ * - If you get el.style[camel]= NaNpx or -2px or something related, be certain you have given your container element
+ * dimensions. The grid adapts to your container's size, <b>if</b> your container has no size defined then the results
+ * are unpredictable.&lt;br/&gt;
+ * - Do not render the grid into an element <b>with</b> display:none. Try using visibility:hidden. Otherwise there is no way <b>for</b> the
+ * grid to calculate dimensions/offsets.&lt;br/&gt;
+  * @constructor
+ * @param {String/HTMLElement/Ext.Element} container The element into which <b>this</b> grid will be rendered -
+ * The container MUST have some type of size defined <b>for</b> the grid to fill. The container will be
+ * automatically set to position relative <b>if</b> it isn't already.
+ * @param {Object} config A config object that sets properties on <b>this</b> grid.
+ */</i>
+Ext.grid.Grid = <b>function</b>(container, config){
+	<i>// initialize the container</i>
+	<b>this</b>.container = Ext.get(container);
+	<b>this</b>.container.update(&quot;&quot;);
+	<b>this</b>.container.setStyle(&quot;overflow&quot;, &quot;hidden&quot;);
+    <b>this</b>.container.addClass(<em>'x-grid-container'</em>);
+
+    <b>this</b>.id = <b>this</b>.container.id;
+
+    Ext.apply(<b>this</b>, config);
+    <i>// check and correct shorthanded configs</i>
+    <b>if</b>(this.ds){
+        <b>this</b>.dataSource = <b>this</b>.ds;
+        <b>delete</b> this.ds;
+    }
+    <b>if</b>(this.cm){
+        <b>this</b>.colModel = <b>this</b>.cm;
+        <b>delete</b> this.cm;
+    }
+    <b>if</b>(this.sm){
+        <b>this</b>.selModel = <b>this</b>.sm;
+        <b>delete</b> this.sm;
+    }
+
+    <b>if</b>(this.width){
+        <b>this</b>.container.setWidth(<b>this</b>.width);
+    }
+
+    <b>if</b>(this.height){
+        <b>this</b>.container.setHeight(<b>this</b>.height);
+    }
+    <i>/** @private */</i>
+	<b>this</b>.addEvents({
+	    <i>// raw events</i>
+	    <i>/**
+	     * @event click
+	     * The raw click event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;click&quot; : true,
+	    <i>/**
+	     * @event dblclick
+	     * The raw dblclick event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;dblclick&quot; : true,
+	    <i>/**
+	     * @event contextmenu
+	     * The raw contextmenu event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;contextmenu&quot; : true,
+	    <i>/**
+	     * @event mousedown
+	     * The raw mousedown event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;mousedown&quot; : true,
+	    <i>/**
+	     * @event mouseup
+	     * The raw mouseup event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;mouseup&quot; : true,
+	    <i>/**
+	     * @event mouseover
+	     * The raw mouseover event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;mouseover&quot; : true,
+	    <i>/**
+	     * @event mouseout
+	     * The raw mouseout event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;mouseout&quot; : true,
+	    <i>/**
+	     * @event keypress
+	     * The raw keypress event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;keypress&quot; : true,
+	    <i>/**
+	     * @event keydown
+	     * The raw keydown event <b>for</b> the entire grid.
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;keydown&quot; : true,
+
+	    <i>// custom events</i>
+
+	    <i>/**
+	     * @event cellclick
+	     * Fires when a cell is clicked
+	     * @param {Grid} <b>this</b>
+	     * @param {Number} rowIndex
+	     * @param {Number} columnIndex
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;cellclick&quot; : true,
+	    <i>/**
+	     * @event celldblclick
+	     * Fires when a cell is double clicked
+	     * @param {Grid} <b>this</b>
+	     * @param {Number} rowIndex
+	     * @param {Number} columnIndex
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;celldblclick&quot; : true,
+	    <i>/**
+	     * @event rowclick
+	     * Fires when a row is clicked
+	     * @param {Grid} <b>this</b>
+	     * @param {Number} rowIndex
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;rowclick&quot; : true,
+	    <i>/**
+	     * @event rowdblclick
+	     * Fires when a row is double clicked
+	     * @param {Grid} <b>this</b>
+	     * @param {Number} rowIndex
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;rowdblclick&quot; : true,
+	    <i>/**
+	     * @event headerclick
+	     * Fires when a header is clicked
+	     * @param {Grid} <b>this</b>
+	     * @param {Number} columnIndex
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;headerclick&quot; : true,
+	    <i>/**
+	     * @event headerdblclick
+	     * Fires when a header cell is double clicked
+	     * @param {Grid} <b>this</b>
+	     * @param {Number} columnIndex
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;headerdblclick&quot; : true,
+	    <i>/**
+	     * @event rowcontextmenu
+	     * Fires when a row is right clicked
+	     * @param {Grid} <b>this</b>
+	     * @param {Number} rowIndex
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;rowcontextmenu&quot; : true,
+	    <i>/**
+         * @event cellcontextmenu
+         * Fires when a cell is right clicked
+         * @param {Grid} <b>this</b>
+         * @param {Number} rowIndex
+         * @param {Number} cellIndex
+         * @param {Ext.EventObject} e
+         */</i>
+         &quot;cellcontextmenu&quot; : true,
+	    <i>/**
+	     * @event headercontextmenu
+	     * Fires when a header is right clicked
+	     * @param {Grid} <b>this</b>
+	     * @param {Number} columnIndex
+	     * @param {Ext.EventObject} e
+	     */</i>
+	    &quot;headercontextmenu&quot; : true,
+	    <i>/**
+	     * @event bodyscroll
+	     * Fires when the body element is scrolled
+	     * @param {Number} scrollLeft
+	     * @param {Number} scrollTop
+	     */</i>
+	    &quot;bodyscroll&quot; : true,
+	    <i>/**
+	     * @event columnresize
+	     * Fires when the user resizes a column
+	     * @param {Number} columnIndex
+	     * @param {Number} newSize
+	     */</i>
+	    &quot;columnresize&quot; : true,
+	    <i>/**
+	     * @event columnmove
+	     * Fires when the user moves a column
+	     * @param {Number} oldIndex
+	     * @param {Number} newIndex
+	     */</i>
+	    &quot;columnmove&quot; : true,
+	    <i>/**
+	     * @event startdrag
+	     * Fires when row(s) start being dragged
+	     * @param {Grid} <b>this</b>
+	     * @param {Ext.GridDD} dd The drag drop object
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;startdrag&quot; : true,
+	    <i>/**
+	     * @event enddrag
+	     * Fires when a drag operation is complete
+	     * @param {Grid} <b>this</b>
+	     * @param {Ext.GridDD} dd The drag drop object
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;enddrag&quot; : true,
+	    <i>/**
+	     * @event dragdrop
+	     * Fires when dragged row(s) are dropped on a valid DD target
+	     * @param {Grid} <b>this</b>
+	     * @param {Ext.GridDD} dd The drag drop object
+	     * @param {String} targetId The target drag drop object
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;dragdrop&quot; : true,
+	    <i>/**
+	     * @event dragover
+	     * Fires <b>while</b> row(s) are being dragged. &quot;targetId&quot; is the id of the Yahoo.util.DD object the selected rows are being dragged over.
+	     * @param {Grid} <b>this</b>
+	     * @param {Ext.GridDD} dd The drag drop object
+	     * @param {String} targetId The target drag drop object
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;dragover&quot; : true,
+	    <i>/**
+	     * @event dragenter
+	     *  Fires when the dragged row(s) first cross another DD target <b>while</b> being dragged
+	     * @param {Grid} <b>this</b>
+	     * @param {Ext.GridDD} dd The drag drop object
+	     * @param {String} targetId The target drag drop object
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;dragenter&quot; : true,
+	    <i>/**
+	     * @event dragout
+	     * Fires when the dragged row(s) leave another DD target <b>while</b> being dragged
+	     * @param {Grid} <b>this</b>
+	     * @param {Ext.GridDD} dd The drag drop object
+	     * @param {String} targetId The target drag drop object
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;dragout&quot; : true,
+        <i>/**
+         * @event render
+         * Fires when the grid is rendered
+         * @param {Grid} grid
+         */</i>
+        render : true
+    });
+
+    Ext.grid.Grid.superclass.constructor.call(<b>this</b>);
+};
+Ext.extend(Ext.grid.Grid, Ext.util.Observable, {
+    <i>/**
+     * @cfg {Number} minColumnWidth The minimum width a column can be resized to. Default is 25.
+	 */</i>
+	minColumnWidth : 25,
+
+    <i>/**
+	 * @cfg {Boolean} autoSizeColumns True to automatically resize the columns to fit their content
+	 * &lt;b&gt;on initial render.&lt;/b&gt; It is more efficient to explicitly size the columns
+	 * through the ColumnModel's {@link Ext.grid.ColumnModel#width} config option.  Default is false.
+	 */</i>
+	autoSizeColumns : false,
+
+	<i>/**
+	 * @cfg {Boolean} autoSizeHeaders True to measure headers <b>with</b> column data when auto sizing columns. Default is true.
+	 */</i>
+	autoSizeHeaders : true,
+
+	<i>/**
+	 * @cfg {Boolean} monitorWindowResize True to autoSize the grid when the window resizes. Default is true.
+	 */</i>
+	monitorWindowResize : true,
+
+	<i>/**
+	 * @cfg {Boolean} maxRowsToMeasure If autoSizeColumns is on, maxRowsToMeasure can be used to limit the number of
+	 * rows measured to get a columns size. Default is 0 (all rows).
+	 */</i>
+	maxRowsToMeasure : 0,
+
+	<i>/**
+	 * @cfg {Boolean} trackMouseOver True to highlight rows when the mouse is over. Default is true.
+	 */</i>
+	trackMouseOver : true,
+
+	<i>/**
+	 * @cfg {Boolean} enableDragDrop True to enable drag and drop of rows. Default is false.
+	 */</i>
+	enableDragDrop : false,
+
+	<i>/**
+	 * @cfg {Boolean} enableColumnMove True to enable drag and drop reorder of columns. Default is true.
+	 */</i>
+	enableColumnMove : true,
+
+	<i>/**
+	 * @cfg {Boolean} enableColumnHide True to enable hiding of columns <b>with</b> the header context menu. Default is true.
+	 */</i>
+	enableColumnHide : true,
+
+	<i>/**
+	 * @cfg {Boolean} enableRowHeightSync True to manually sync row heights across locked and not locked rows. Default is false.
+	 */</i>
+	enableRowHeightSync : false,
+
+	<i>/**
+	 * @cfg {Boolean} stripeRows True to stripe the rows.  Default is true.
+	 */</i>
+	stripeRows : true,
+
+	<i>/**
+	 * @cfg {Boolean} autoHeight True to fit the height of the grid container to the height of the data. Default is false.
+	 */</i>
+	autoHeight : false,
+
+    <i>/**
+     * @cfg {String} autoExpandColumn The id of a column <b>in</b> this grid that should expand to fill unused space. This id can not be 0. Default is false.
+     */</i>
+    autoExpandColumn : false,
+
+    <i>/**
+    * @cfg {Number} autoExpandMin The minimum width the autoExpandColumn can have (<b>if</b> enabled).
+    * Default is 50.
+    */</i>
+    autoExpandMin : 50,
+
+    <i>/**
+    * @cfg {Number} autoExpandMax The maximum width the autoExpandColumn can have (<b>if</b> enabled). Default is 1000.
+    */</i>
+    autoExpandMax : 1000,
+
+    <i>/**
+	 * @cfg {Object} view The {@link Ext.grid.GridView} used by the grid. This can be set before a call to render().
+	 */</i>
+	view : null,
+
+	<i>/**
+     * @cfg {Object} loadMask An {@link Ext.LoadMask} config or true to mask the grid <b>while</b> loading. Default is false.
+	 */</i>
+	loadMask : false,
+
+    <i>// private</i>
+    rendered : false,
+
+    <i>/**
+    * @cfg {Number} maxHeight Sets the maximum height of the grid - ignored <b>if</b> autoHeight is not on.
+    */</i>
+<i>// holder</i>
+<i>/***
+     * Called once after all setup has been completed and the grid is ready to be rendered.
+     * @<b>return</b> {Ext.grid.Grid} <b>this</b>
+     */</i>
+    render : <b>function</b>(){
+        <b>var</b> c = <b>this</b>.container;
+        <i>// try to detect autoHeight/width mode</i>
+        <b>if</b>((!c.dom.offsetHeight || c.dom.offsetHeight &lt; 20) || c.getStyle(&quot;height&quot;) == &quot;auto&quot;){
+    	    <b>this</b>.autoHeight = true;
+    	}
+    	<b>var</b> view = <b>this</b>.getView();
+        view.init(<b>this</b>);
+
+        c.on(&quot;click&quot;, <b>this</b>.onClick, <b>this</b>);
+        c.on(&quot;dblclick&quot;, <b>this</b>.onDblClick, <b>this</b>);
+        c.on(&quot;contextmenu&quot;, <b>this</b>.onContextMenu, <b>this</b>);
+        c.on(&quot;keydown&quot;, <b>this</b>.onKeyDown, <b>this</b>);
+
+        <b>this</b>.relayEvents(c, [&quot;mousedown&quot;,&quot;mouseup&quot;,&quot;mouseover&quot;,&quot;mouseout&quot;,&quot;keypress&quot;]);
+
+        <b>this</b>.getSelectionModel().init(<b>this</b>);
+
+        view.render();
+
+        <b>if</b>(this.loadMask){
+            <b>this</b>.loadMask = <b>new</b> Ext.LoadMask(<b>this</b>.container,
+                    Ext.apply({store:<b>this</b>.dataSource}, <b>this</b>.loadMask));
+        }
+        <b>this</b>.rendered = true;
+        <b>this</b>.fireEvent(<em>'render'</em>, <b>this</b>);
+        <b>return</b> this;
+    },
+
+	<i>/**
+	 * Reconfigures the grid to use a different Store and Column Model.
+	 * The View will be bound to the <b>new</b> objects and refreshed.
+	 * @param {Ext.data.Store} dataSource The <b>new</b> {@link Ext.data.Store} object
+	 * @param {Ext.grid.ColumnModel} The <b>new</b> {@link Ext.grid.ColumnModel} object
+	 */</i>
+    reconfigure : <b>function</b>(dataSource, colModel){
+        <b>if</b>(this.loadMask){
+            <b>this</b>.loadMask.destroy();
+            <b>this</b>.loadMask = <b>new</b> Ext.LoadMask(<b>this</b>.container,
+                    Ext.apply({store:dataSource}, <b>this</b>.loadMask));
+        }
+        <b>this</b>.view.bind(dataSource, colModel);
+        <b>this</b>.dataSource = dataSource;
+        <b>this</b>.colModel = colModel;
+        <b>this</b>.view.refresh(true);
+    },
+
+    onKeyDown : <b>function</b>(e){
+        <b>this</b>.fireEvent(&quot;keydown&quot;, e);
+    },
+
+    <i>/**
+     * Destroy <b>this</b> grid.
+     * @param {Boolean} removeEl True to remove the element
+     */</i>
+    destroy : <b>function</b>(removeEl, keepListeners){
+        <b>if</b>(this.loadMask){
+            <b>this</b>.loadMask.destroy();
+        }
+        <b>var</b> c = <b>this</b>.container;
+        c.removeAllListeners();
+        <b>this</b>.view.destroy();
+        <b>this</b>.colModel.purgeListeners();
+        <b>if</b>(!keepListeners){
+            <b>this</b>.purgeListeners();
+        }
+        c.update(&quot;&quot;);
+        <b>if</b>(removeEl === true){
+            c.remove();
+        }
+    },
+
+    <i>// private</i>
+    processEvent : <b>function</b>(name, e){
+        <b>this</b>.fireEvent(name, e);
+        <b>var</b> t = e.getTarget();
+        <b>var</b> v = <b>this</b>.view;
+        <b>var</b> header = v.findHeaderIndex(t);
+        <b>if</b>(header !== false){
+            <b>this</b>.fireEvent(&quot;header&quot; + name, <b>this</b>, header, e);
+        }<b>else</b>{
+            <b>var</b> row = v.findRowIndex(t);
+            <b>var</b> cell = v.findCellIndex(t);
+            <b>if</b>(row !== false){
+                <b>this</b>.fireEvent(&quot;row&quot; + name, <b>this</b>, row, e);
+                <b>if</b>(cell !== false){
+                    <b>this</b>.fireEvent(&quot;cell&quot; + name, <b>this</b>, row, cell, e);
+                }
+            }
+        }
+    },
+
+    <i>// private</i>
+    onClick : <b>function</b>(e){
+        <b>this</b>.processEvent(&quot;click&quot;, e);
+    },
+
+    <i>// private</i>
+    onContextMenu : <b>function</b>(e, t){
+        <b>this</b>.processEvent(&quot;contextmenu&quot;, e);
+    },
+
+    <i>// private</i>
+    onDblClick : <b>function</b>(e){
+        <b>this</b>.processEvent(&quot;dblclick&quot;, e);
+    },
+
+    walkCells : <b>function</b>(row, col, step, fn, scope){
+        <b>var</b> cm = <b>this</b>.colModel, clen = cm.getColumnCount();
+        <b>var</b> ds = <b>this</b>.dataSource, rlen = ds.getCount(), first = true;
+        <b>if</b>(step &lt; 0){
+            <b>if</b>(col &lt; 0){
+                row--;
+                first = false;
+            }
+            <b>while</b>(row &gt;= 0){
+                <b>if</b>(!first){
+                    col = clen-1;
+                }
+                first = false;
+                <b>while</b>(col &gt;= 0){
+                    <b>if</b>(fn.call(scope || <b>this</b>, row, col, cm) === true){
+                        <b>return</b> [row, col];
+                    }
+                    col--;
+                }
+                row--;
+            }
+        } <b>else</b> {
+            <b>if</b>(col &gt;= clen){
+                row++;
+                first = false;
+            }
+            <b>while</b>(row &lt; rlen){
+                <b>if</b>(!first){
+                    col = 0;
+                }
+                first = false;
+                <b>while</b>(col &lt; clen){
+                    <b>if</b>(fn.call(scope || <b>this</b>, row, col, cm) === true){
+                        <b>return</b> [row, col];
+                    }
+                    col++;
+                }
+                row++;
+            }
+        }
+        <b>return</b> null;
+    },
+
+    getSelections : <b>function</b>(){
+        <b>return</b> this.selModel.getSelections();
+    },
+
+    <i>/**
+     * Causes the grid to manually recalculate its dimensions. Generally <b>this</b> is done automatically,
+     * but <b>if</b> manual update is required <b>this</b> method will initiate it.
+     */</i>
+    autoSize : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>this</b>.view.layout();
+            <b>if</b>(this.view.adjustForScroll){
+                <b>this</b>.view.adjustForScroll();
+            }
+        }
+    },
+
+    getGridEl : <b>function</b>(){
+        <b>return</b> this.container;
+    },
+
+    <i>// private <b>for</b> compatibility, overridden by editor grid</i>
+    stopEditing : <b>function</b>(){},
+
+    <i>/**
+     * Returns the grid's SelectionModel.
+     * @<b>return</b> {SelectionModel}
+     */</i>
+    getSelectionModel : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.selModel){
+            <b>this</b>.selModel = <b>new</b> Ext.grid.RowSelectionModel();
+        }
+        <b>return</b> this.selModel;
+    },
+
+    <i>/**
+     * Returns the grid's DataSource.
+     * @<b>return</b> {DataSource}
+     */</i>
+    getDataSource : <b>function</b>(){
+        <b>return</b> this.dataSource;
+    },
+
+    <i>/**
+     * Returns the grid's ColumnModel.
+     * @<b>return</b> {ColumnModel}
+     */</i>
+    getColumnModel : <b>function</b>(){
+        <b>return</b> this.colModel;
+    },
+
+    <i>/**
+     * Returns the grid's GridView object.
+     * @<b>return</b> {GridView}
+     */</i>
+    getView : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.view){
+            <b>this</b>.view = <b>new</b> Ext.grid.GridView(<b>this</b>.viewConfig);
+        }
+        <b>return</b> this.view;
+    },
+    <i>/**
+     * Called to get grid's drag proxy text, by <b>default</b> returns <b>this</b>.ddText.
+     * @<b>return</b> {String}
+     */</i>
+    getDragDropText : <b>function</b>(){
+        <b>var</b> count = <b>this</b>.selModel.getCount();
+        <b>return</b> String.format(<b>this</b>.ddText, count, count == 1 ? <em>''</em> : <em>'s'</em>);
+    }
+});
+<i>/**
+ * Configures the text is the drag proxy (defaults to &quot;%0 selected row(s)&quot;).
+ * %0 is replaced <b>with</b> the number of selected rows.
+ * @type String
+ */</i>
+Ext.grid.Grid.prototype.ddText = &quot;{0} selected row{1}&quot;;</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

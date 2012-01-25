@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>index (UsersController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/users_controller.rb, line 21</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">index</span>
+    <span class="ruby-identifier">ret</span> = <span class="ruby-value str">''</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:project_id</span>])
+      <span class="ruby-identifier">users</span> = <span class="ruby-constant">ProjectsUsers</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">'`project_id` =?'</span>,<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:project_id</span>]])
+      <span class="ruby-identifier">ret</span> = <span class="ruby-node">&quot;{\&quot;data\&quot;: #{users.to_json(:only =&gt; [:user_id, :group], :methods =&gt; [:realname, :login])} }&quot;</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">users</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:format</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'tree'</span>)
+      <span class="ruby-identifier">ret</span> = <span class="ruby-identifier">users</span>.<span class="ruby-identifier">to_treejson</span>(<span class="ruby-value str">'login'</span>)
+    <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:project_id</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">ret</span> = <span class="ruby-node">&quot;{\&quot;data\&quot;: #{users.to_json(:only =&gt; [:id, :realname, :login])} }&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ret</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

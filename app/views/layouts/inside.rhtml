@@ -1,0 +1,1779 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+
+<script type="text/javascript">
+/**
+ * Global function for generating urls on clientside, so
+ * that they are correctly related to actual installation
+ * directory on serverside.
+ *
+ * Installation directory is specified in config/environment.rb
+ *
+ */
+function createUrl( url) {
+    return '<%= Testia::WWW_PATH %>' + url;
+}
+
+function hasOwnProperties(o) {
+    for (var i in o) {
+        if (o.hasOwnProperty(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function open_flash_chart_data(id) {
+    return ReportRequests.ofc_data(id);
+}
+
+// By default, right-clicking on Open Flash Chart and choosing "save
+// image locally" calls this function.
+function save_image(id) {
+    var img_win = window.open('', 'Tarantula: Export chart as image');
+    img_win.document.write("<html><head><title>Charts: Export as Image<\/title><\/head><body>"+
+              "<img src='data:image/png/;base64," + Ext.fly(id).dom.get_img_binary() +
+              "' /><\/body><\/html>");
+    img_win.document.close();
+}
+
+/**
+ * Preset amount of list items to be loaded
+ */
+var LIST_LOAD_LIMIT = parseInt('<%= Testia::LOAD_LIMIT %>', 10);
+</script>
+
+<%= stylesheet_link_tag "../javascripts/ext/resources/css/ext-all.css",
+    "../javascripts/ext/resources/css/xtheme-vista.css",
+    'accordion.css',
+    'Ext.testia.ListPanel.css',
+    'Ext.testia.AttachmentForm.css',
+    'main.css',
+    :cache => 'cached_all' %>
+
+    <title>Testia Tarantula</title>
+
+    <%= javascript_include_tag "mozilla.org/mozilla.js",
+        "prototype.js",
+        "effects.js",
+        "swfobject.js",
+        "ext/adapter/prototype/ext-prototype-adapter.js" %>
+    <%= if (ENV['RAILS_ENV'] == 'development')
+          javascript_include_tag "ext/ext-all-debug.js"
+        else
+          javascript_include_tag "ext/ext-all.js"
+        end %>
+    <%= javascript_include_tag "ext-infopanel/Ext.ux.InfoPanel.js",
+        "ext-infopanel/Ext.ux.Accordion.js",
+        "ext-taggedlist/Ext.testia.ListItem.js",
+        "ext-taggedlist/Ext.testia.ListPathItem.js",
+        "ext-taggedlist/Ext.testia.ListPanel.js",
+        "ext-taggedlist/Ext.testia.CaseListPanel.js",
+        "app/shared/CommonStores.js",
+        "app/shared/Resources.js",
+        "app/shared/AppForm.js",
+        "app/shared/AppStores.js",
+        "app/shared/Ext.testia.AttachmentForm.js",
+        "app/shared/Ext.testia.RequestWatcher.js",
+        "app/shared/TestiaCombo.js",
+        "app/shared/MainContent.js",
+        "app/shared/FormDialog.js",
+        "app/shared/CheckboxList.js",
+        "app/tasks/tasklist.js",
+        "app/design/TagField.js",
+        "app/design/StepField.js",
+        "app/design/StepArea.js",
+        "app/design/CaseForm.js",
+        "app/design/design.js",
+        "app/design/casedesign.js",
+        "app/design/setdesign.js",
+        "app/design/requirementdesign.js",
+        "app/design/assignset.js",
+        "app/design/testobjectdesign.js",
+        "app/design/DesignDialog.js",
+        "app/execute/execute.js",
+        "app/execute/CaseExecute.js",
+        "app/execute/CSVImportDialog.js",
+        "app/execute/TestGrid.js",
+        "app/execute/CommentDialog.js",
+        "app/execute/DefectDialog.js",
+        "app/admin/admin.js",
+        "app/admin/users.js",
+        "app/admin/ProjectForm.js",
+        "app/admin/projects.js",
+        "app/report/MainContentReport.js",
+        "app/report/BaseReportForm.js",
+        "app/report/ReportForm.js",
+        "app/report/SortableReportForm.js",
+        "app/report/ResultsForm.js",
+        "app/report/StatusForm.js",
+        "app/report/CoverageForm.js",
+        "app/report/report.js",
+        "app/home/home.js",
+        "app/home/userinfo.js",
+        "app/report/testresults.js",
+        "app/report/testefficiency.js",
+        "app/report/caseanalysis.js",
+        "app/report/status.js",
+        "app/report/requirementcoverage.js",
+        "app/report/defectsbyobject.js",
+        "app/report/resultsbyobject.js",
+        "app/tools/ImportForm.js",
+        "app/tools/doorsimport.js"
+    %>
+
+<!-- For IE6 and IE7, include css modifications to work around css issues-->
+
+<!--[if lte IE 7]>
+	<link rel="stylesheet" type="text/css" href="stylesheets/ie-only.css" />
+<![endif]-->
+
+    <link rel="SHORTCUT ICON" href="/images/favicon.ico" />
+    <script type="text/javascript">
+    //<![CDATA[
+
+
+
+
+
+/**
+ * Enabled / disabled status for main navibar buttons in different
+ * project specific user permission levels.
+ */
+var NAVIBAR_PERMISSIONS = {
+  //              HOME,   DESIGN,   TEST,   REPORT,   ADMIN
+  admin:         [true,   true,     true,   true,     true],
+  manager:       [true,   true,     true,   true,     true],
+  test_designer: [true,   true,     true,   true,     false],
+  test_engineer: [true,   false,    true,   false,     false],
+  guest:         [true,   false,    false,  false,     false],
+  none:          [true,   false,    false,  false,    false] // Not assigned
+                                                            //to any project.
+};
+
+ /**
+ * Messagebox to display while waiting for requests to complete.
+ */
+
+var LAYOUT_NORTH_SIZE = 190; /* Header and menuareas + white space before panels */
+var LAYOUT_WEST_INITIAL_SIZE = 400;
+
+
+var USER_ID = <%= @current_user.id %>;
+/**
+ * Time given request to complete (in milliseconds).
+ * When exceeded, error is displayed in UI.
+ */
+var AJAX_TIMEOUT = 60000; // 60s
+
+var user_group;
+
+var MainContent;
+
+var GUI;
+
+// Creates chain of functions where first one gets arguments and
+// other users the return values as an argument
+Ext.applyIf(Function.prototype, {
+    // args[0] = scope, args[1..n] = functions
+    createChain: function() {
+        var args = Array.prototype.slice.call(arguments); // other functions called after this
+        var method = this;
+        var scope = args.shift();
+        return function() {
+            var r = method.apply(scope || this, arguments);
+            for(var i=0,il=args.length;i<il;++i) {
+                if (typeof args[i] === "function") {
+                    if (r !== undefined) {
+                        r = args[i].apply(scope || this, [r]);
+                    } else {
+                        r = args[i].apply(scope || this, arguments);
+                    }
+                }
+            }
+            return r;
+        }
+    }
+});
+
+// Exted basic Javascript number datatype
+Ext.applyIf(Number.prototype, {
+    toDurationString: function() {
+        var hours = Math.floor(this / 3600);
+        var minutes = Math.floor( (this - hours * 3600) / 60);
+        var seconds = Math.round( (this % 60));
+
+        if (hours>0) {
+            return hours + ":" +
+                String.leftPad((minutes+""), 2, "0") + ":" +
+                String.leftPad((seconds+""), 2, "0");
+        } else {
+            return minutes + ":" +
+                String.leftPad((seconds+""), 2, "0");
+        }
+    }
+});
+
+// add last -method to array, so prototype.js doesn't have to be used
+Ext.applyIf(Array.prototype, {
+
+    /**
+     * Returns random item from the array
+     */
+    randomItem: function() {
+        var l = this.length;
+        return this[Math.round(l * Math.random()) % l];
+    },
+    /**
+     * Returns last item of the array
+     * @return {Object} Last item from the array, or null if array is empty.
+     */
+    last: function() {
+        var li = this.length - 1;
+        if (li  >= 0) {
+            return this[li];
+        }
+        return null;
+    },
+    /**
+     * @param {Function} cmp Filter function. Select only items for which this is true.
+     * @return {Array} Array of items which produce true with function f.
+     */
+    filter: function(cmp) {
+        if (typeof cmp != 'function') {
+            if (cmp) {
+                return this;
+            }
+            return [];
+        }
+        var ret = [];
+        for (var i=0,il=this.length; i<il; ++i) {
+            if (cmp(this[i])) {
+                ret.push(this[i]);
+            }
+        }
+        return ret;
+    },
+
+    /**
+    * Make array of unique items using custom compare function f.
+    * @param {Function} cmp Compare function. True == items are same.
+    */
+    uniq: function(cmp) {
+        if (typeof cmp != 'function') {
+            return [];
+        }
+        var ret = [];
+        for (var i=0,il=this.length; i<il; ++i) {
+            var found = false;
+            for (var j=0,jl=ret.length; j<jl; ++j) {
+                if (cmp(this[i], ret[j])) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                ret.push(this[i]);
+            }
+        }
+        return ret;
+    },
+
+    map: function(f) {
+        var ret = [];
+        for (var i=0,il=this.length; i<il; ++i) {
+            ret.push(f(this[i]));
+        }
+        return ret;
+    }
+});
+
+Ext.applyIf(String.prototype, {
+    /**
+    * Humanize function for string like one in rails
+    */
+    humanize: function() {
+        var toUpper = function(m) {
+                    m = m.replace(/_/,' ');
+                    return m.toUpperCase();
+        };
+        return this.replace(/^[a-z]|_[a-z]/g, toUpper);
+    }
+});
+
+Ext.override(Ext.Element, {
+    clearContent: function() {
+        if (!Ext.isIE) {
+            this.dom.innerHTML = '';
+        } else {
+            // IE specific flash element removal treatment to avoid
+            // runtime errors and memoryleaks.
+            var swfEls = Ext.DomQuery.select('object', this.dom);
+            Ext.each(swfEls, function(j) {
+                var el = Ext.get(j);
+                if (el && el.dom) {
+                    for (var i in el.dom) {
+                        if (typeof el.dom[i] === 'function') {
+                            el.dom[i] = null;
+                        }
+                    }
+                    el.dom.parentNode.removeChild(el.dom);
+                }
+            });
+            while(this.dom.firstChild) {
+                this.dom.removeChild(this.dom.firstChild);
+            }
+        }
+    }
+});
+
+/* Fix bug "Ext Radio onCheck triggered only once".
+ * More info: http://extjs.com/forum/showthread.php?t=13247
+ * TODO: Remove this when migrating to Ext 2.*
+ */
+Ext.override(Ext.form.Radio, {
+    onClick : function(){
+        if(this.el.dom.checked != this.checked){
+            var els = this.el.up('form').select('input[name='+this.el.dom.name+']');
+            els.each(function(el){
+                if(el.dom.id == this.id){
+                    this.setValue(true);
+                }else{
+                    Ext.getCmp(el.dom.id).setValue(false);
+                }
+            }, this);
+        }
+    }
+});
+
+/* Add getSelectedText function to ComboBox
+ */
+Ext.override(Ext.form.ComboBox, {
+    getSelectedText: function() {
+        var id = this.getValue();
+        var ret;
+        this.store.each(function(i) {
+            if (i.get(this.valueField) == id) {
+                ret = i.get(this.displayField);
+                return false;
+            }
+        }, this);
+        return ret;
+    }
+});
+
+/* Add exception handling which would fix syntax error in IE,
+ * when using upload form with the attachments */
+Ext.override(Ext.form.Action.Submit, {
+    handleResponse: function(response){
+        if(this.form.errorReader){
+            var rs = this.form.errorReader.read(response);
+            var errors = [];
+            if(rs.records){
+                for(var i = 0, len = rs.records.length; i < len; i++) {
+                    var r = rs.records[i];
+                    errors[i] = r.data;
+                }
+            }
+            if(errors.length < 1){
+                errors = null;
+            }
+            return {
+                success : rs.success,
+                errors : errors
+            };
+        }
+        try {
+            var res = Ext.decode(response.responseText);
+        } catch(e) {
+            res = response.responseText;
+        }
+        return res;
+    }
+});
+
+// Tab navigation and creating new rows in the stepsgrid.
+Ext.override(Ext.grid.RowSelectionModel, {
+    onEditorKey : function(field, e){
+        var k = e.getKey(), newCell, g = this.grid, ed = g.activeEditor;
+        if(k == e.TAB){
+            if(e.shiftKey){
+                newCell = g.walkCells(ed.row, ed.col-1, -1,
+                                      this.acceptsNav, this);
+            }else{
+                newCell = g.walkCells(ed.row, ed.col+1, 1,
+                                      this.acceptsNav, this);
+                if (!newCell) {
+                    var ds = g.getDataSource();
+                    var s = new (Ext.data.Record.create(
+                        [{name: 'id'},
+                         {name: 'position'},
+                         {name: 'action'},
+                         {name: 'result'}
+                        ]))(
+                        {action: '', result: '',
+                         position: ds.data.getCount()+1});
+                    ds.add(s);
+                    //ed.completeEdit();
+                    newCell = g.walkCells(ed.row, ed.col+1, 1,
+                                          this.acceptsNav, this);
+                    var bodyEl = GUI.layout.getRegion('center').bodyEl;
+                    var oldScroll = bodyEl.dom.scrollTop;
+                    g.container.child("tr:last").scrollIntoView(bodyEl);
+                    // Kludge to scroll a little more to fit editor also
+                    if (bodyEl.scrollTop != oldScroll) {
+                        bodyEl.scroll('down', 30);
+                    }
+                }
+            }
+            e.stopEvent();
+        }else if(k == e.ENTER) {
+            if (field.el.dom.type !='textarea') {
+                e.stopEvent();
+                ed.completeEdit();
+            }
+        } else if(k == e.ESC){
+            ed.cancelEdit();
+        }
+        if(newCell){
+            g.startEditing(newCell[0], newCell[1]);
+        }
+    }
+});
+
+
+
+Ext.namespace('Ext.testia');
+/**
+ * @class Ext.testia.GUI
+ * Top Level UI / Application Component
+ * @extends Ext.util.Observable
+ * @constructor
+ */
+Ext.testia.GUI = function() {
+    // Initialize cookie provider
+    this.chartCookies = new Ext.state.CookieProvider({
+        path: '/',
+        expires: new Date(new Date().getTime()+(1000*60*60*24*60)) // 30 days
+        //domain:
+    });
+    // Add events to be listened by other components.
+    this.addEvents({
+        /**
+        * @event projectchanged
+        * Fires when active project is changed
+        * @param {Integer} project_id DB id of the selected project.
+        */
+        "projectchanged": true,
+        /**
+        * @event testareachanged
+        * Fires when global filter tag is changed.
+        */
+        "testareachanged": true,
+        /**
+        * @event windowresized
+        * Fires when active project is changed
+        * @param {Object} dimensions Dimensions for the content are after resize.
+        * @param {Integer} dimensions.naviHeight New height for navigator panel.
+        * @param {Integer} dimensions.contentWidth New width for main content.
+        * @param {Integer} dimensions.contentHeight New height for main content.
+        */
+        "windowresized": true,
+        /**
+        * @event resourceobjectselected
+        * Fires when user selects item from navigator panel on the left side
+        * or somewhere else in the page.
+        * @param {String} form Form name which should handle the selected object.
+        * @param {Integer} objId Database id of the selected object.
+        */
+        "resourceobjectselected": true,
+        /**
+        * @event navigatorresized
+        * Fires when navigator panel heights are updated.
+        * @param {Integer} height New height reserved for content of each panel.
+        */
+        "navigatorresized": true
+    });
+    // Default event handlers
+    this.on('resourceobjectselected', function( form, objId) {
+        if (!this.clear(false)) {
+            return false;
+        }
+        if( form != this.currentForm) {
+            this.initForm(form, objId);
+        }
+        if (this.formFunc.load) {
+            this.formFunc.load( objId);
+            /* Select correct list from the lists object for handling
+             * the verification that loaded item is also hilighted as selected
+             * in the according list.
+             */
+            var lists = {
+                cases: this.case_list,
+                sets: this.set_list,
+                requirements: this.requirement_list,
+                executions: this.exec_list,
+                testobjects: this.testobjects_list
+            };
+            var m = form.match(/design(cases|sets|requirements|executions|testobjects)/);
+            if (m && m[1]) {
+                var list = lists[m[1]];
+                var itemFound = false;
+                // Check is selected item is found from the list selections
+                Ext.each(list.selectedItems, function(i) {
+                    if (i.dbid == objId) {
+                        itemFound = true;
+                        return false;
+                    }
+                }, this);
+                // If it's not, clear all selections and select only the loaded item.
+                if (itemFound === false) {
+                    Ext.each(list.selectedItems, function(i) {
+                        i.unselect();
+                    }, this);
+                    Ext.each(list.items, function(i) {
+                        if (i.dbid == objId) {
+                            i.select();
+                            list.selectedItems = [i];
+                            return false;
+                        }
+                    }, this);
+                }
+            }
+        }
+    }, this);
+    // Default event handlers for projectchange, which will load all lists
+    this.on('projectchanged', function() {
+        CommonStores.reload();
+
+        this.requirement_list.reset();
+        this.requirement_list.reload();
+
+        this.case_list.reset();
+        this.case_list.reload();
+
+        this.exec_list.reset();
+        this.exec_list.reload();
+
+        this.set_list.reset();
+        this.set_list.reload();
+
+        this.testobjects_list.reset();
+        this.testobjects_list.reload();
+
+        this.tagsStore.load();
+    }, this);
+
+    this.on('testareachanged', function() {
+        CommonStores.reload();
+
+        this.requirement_list.reset();
+        this.requirement_list.reload();
+
+        this.case_list.reset();
+        this.case_list.reload();
+
+        this.exec_list.reset();
+        this.exec_list.reload();
+
+        this.set_list.reset();
+        this.set_list.reload();
+
+        this.testobjects_list.reset();
+        this.testobjects_list.reload();
+    }, this);
+
+    Ext.BLANK_IMAGE_URL = createUrl('/images/s.gif');
+
+    Ext.Ajax.timeout = AJAX_TIMEOUT;
+
+    Ext.Ajax.on( 'beforerequest', function(conn,options) {
+        this.requestCount++;
+        Ext.get('load-indicator').setVisible( true);
+    }, this);
+
+    Ext.Ajax.on( 'requestcomplete', function(conn,response,options) {
+        this.requestCount--;
+
+        if (this.requestCount === 0) {
+            Ext.get('load-indicator').setVisible( false);
+        }
+
+        if (Ext.isEmpty(response.responseText)) {
+            Ext.get('bad-network').setVisible(true);
+        } else {
+            Ext.get('bad-network').setVisible(false);
+        }
+    }, this);
+
+    Ext.Ajax.on( 'requestexception', function(conn,response,options) {
+        var r, m;
+        this.requestCount--;
+
+        if (this.requestCount === 0) {
+            Ext.get('load-indicator').setVisible( false);
+        }
+
+        try {
+            r = Ext.decode(response.responseText);
+        } catch(e) {}
+        if (r && r.status == 409) {
+            Ext.Msg.confirm("Are you sure?", r.message, function(btn) {
+                options.params = options.params || {};
+                if (btn === 'yes') {
+                    options.params.confirm = 'yes';
+                    Ext.Ajax.request(options);
+                }
+            });
+        } else {
+            if( response.responseText) {
+                m = response.responseText;
+            } else {
+                m = response.statusText;
+            }
+
+            if ( m.length < 200 ) {
+                Ext.Msg.alert( 'Error',m);
+            } else {
+                top.errorWnd = window.open(
+                    null,'errorWnd',
+                    'left=30,top=30,width=1000,height=600,toolbar=0,' +
+                        'resizable=1,scrollbars=1');
+                top.errorWnd.document.writeln( m);
+            }
+        }
+    }, this);
+
+    Ext.EventManager.onWindowResize(function(nw,nh) {
+        // 1. Rakenna komponenteille lähtevät parametrit
+        // 2. this.fire('windowresized', parametrit)
+
+        if (!this.layout || !this.layout.regions) {
+            return;
+        }
+        if (!this.size) {
+            this.size = {height: nh, width: nw};
+        } else if ((this.size.height === nh) && (this.size.width === nw)) {
+            return;
+        }
+        this.size = {height: nh, width: nw};
+        this.layout.layout();
+
+        var naviHeight = nh - this.layout.regions.north.box.height;
+        var contentWidth = nw - this.layout.regions.west.box.width;
+        var contentHeight = naviHeight;
+
+        this.fireEvent('windowresized', {
+            naviHeight: naviHeight,
+            contentWidth: contentWidth,
+            contentHeight: contentHeight
+        });
+     }, this);
+
+    CommonStores.init();
+
+    this.layout = new Ext.BorderLayout( document.body, {
+
+        north: {
+            initialSize: LAYOUT_NORTH_SIZE,
+            titlebar: false
+        },
+        west: {
+            split:true,
+            initialSize: LAYOUT_WEST_INITIAL_SIZE,
+            minSize: 175,
+            //maxSize: 400,
+            titlebar: true,
+            collapsible: true,
+            floatable: false,
+            autoScroll: false
+        },
+        center: {
+            titlebar: false,
+            fitToFrame: false,
+            autoScroll: true,
+            resizeTabs: true,
+            minTabWidth: 50,
+            preferredTabWidth: 150
+        }
+    });
+
+    this.layout.monitorWindowResize = false;
+
+
+    var CP = Ext.ContentPanel;
+    this.layout.beginUpdate();
+
+    headerpanel = new CP("header", "North");
+
+
+    // Project selection box in toolbar
+    this.projectsStore = new Ext.data.JsonStore({
+        url: createUrl('/users/current/projects'),
+        root: '',
+        id: 'dbid',
+        fields: ['dbid', 'text', 'selected']
+    });
+
+    // Automatically select current project in the dropdown field
+    this.projectsStore.on('load', function(s, r) {
+        Ext.each(r, function(i) {
+            if (i.get('selected')) {
+                this.projectCombo.setValue(i.get('dbid'));
+                return false;
+            }
+        }, this);
+    }, this);
+
+    this.projectCombo = new Ext.form.ComboBox({
+        fieldLabel: 'Project',
+        store: this.projectsStore,
+        valueField: 'dbid',
+        displayField: 'text',
+        typeAhead: true,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText:'',
+        selectOnFocus:true,
+        forceSelection:true,
+        width:170
+    });
+
+    this.projectCombo.on('beforeselect', function(combo, record, index) {
+      return this.clear('projectselect');
+    },this);
+
+    this.projectCombo.on('select', function(combo, record, index) {
+        combo.store.data.each(function(i) {
+            if (i.get('selected')) {
+                i.set('selected', false);
+                return false;
+            }
+        });
+        record.set('selected', true);
+        this.loadProject(record.data.dbid);
+    },this);
+
+	this.projectCombo.render('project-select-center');
+
+    this.tagsStore = new Ext.data.JsonStore({
+        url: createUrl('/projects/current/test_areas'),
+        root: 'data',
+        id: 'dbid',
+        fields: ['dbid', 'text', 'selected', 'forced']
+    });
+
+    this.tagsStore.on('load', function(s, r) {
+        var rec = Ext.data.Record.create([
+            {name: 'text'},
+            {name: 'dbid'},
+            {name: 'selected'},
+            {name: 'forced'}
+        ]);
+        this.tagsStore.add(new rec({text:'[All]', dbid:0,
+                                    selected:false, forced:false}, 0));
+
+        var selected = false;
+        Ext.each(r, function(i) {
+            if (i.get('selected')) {
+                this.tagFilterCombo.setValue(i.get('dbid'));
+                selected = true;
+                if (i.get('forced')) {
+                    this.tagFilterCombo.disable();
+                } else {
+                    this.tagFilterCombo.enable();
+                }
+                return false;
+            }
+        }, this);
+        if (!selected) {
+            this.tagFilterCombo.setValue(0);
+            this.tagFilterCombo.enable();
+        }
+    }, this);
+
+    this.tagFilterCombo = new Ext.form.ComboBox({
+        fieldLabel: 'Testing area',
+        store: this.tagsStore,
+        valueField: 'dbid',
+        displayField: 'text',
+        width: 150,
+        mode: 'local',
+        forceSelection: true,
+        editable: false,
+        triggerAction: 'all'
+    });
+
+    this.tagFilterCombo.on('select', function(combo, record, index) {
+        Ext.Ajax.request({
+            url: createUrl(
+                 '/projects/current/users/current/test_area?test_area_id=' +
+                 record.get('dbid')),
+            scope: this,
+            method: 'put',
+            success: function() {
+              this.fireEvent('testareachanged');
+            }
+        });
+    }, this);
+
+    this.tagFilterCombo.render('tag-selector-combo');
+
+    this.layout.add("north", headerpanel);
+
+    this.acc = new Ext.ux.Accordion('west-div', {
+        title: 'Explorer',
+        body: 'accordion-panel',
+        //fitHeight: true,
+        //initialHeight: 220,
+        useShadow: true,
+        draggable: false,
+        independent: true
+    });
+    // Update panel heights
+    // Resize panel elements to use all available height. When multiple
+    // panels are expanded the total available height is divided equally
+    // to alla expanded panels.
+    //
+    // @param {Object} panel If called from 'beforeexpand' event handler
+    //                       this is the newly expanded panel otherwise
+    //                       undefined.
+    // @param {Integer} uh_diff Difference in fixed reserved height when
+    //                          panel is expanded or collapsed. Fixed
+    //                          reserved height is titles height + toolbars
+    //                          height + some other fixed size elements.
+    // @param {Integer} height  New total height in which whole panel is
+    //                          adjusted. Current height is used if
+    //                          value is 0 or undefined.
+    this.acc.updatePanelHeights = function(panel, uh_diff, height) {
+        var panels = [];
+        var uh = 0; // total fixed reserved height (titles,toolbars...)
+
+        var th = height || 0; // total height of the accordion element
+        if (this.region && (th === undefined || th === 0)) {
+            th = this.region.panelSize.height;
+        } else if (this.region) {
+            uh += this.region.titleEl.getHeight();
+        }
+
+
+        // Calculate reserved height
+        Ext.each(this.items.items, function(i) {
+            if (i.collapsed && i.el.isVisible()) {
+                uh += i.titleEl.getHeight();
+            } else if (i.el.isVisible()) {
+                panels.push(i);
+                uh += i.titleEl.getHeight();
+            }
+        }, this);
+
+        // Adjust reserved height & expanded count according to the
+        // current change of panel states.
+        if (uh_diff > 0) {
+            panels.push(panel);
+        } else if (uh_diff < 0) {
+            panels.splice(panels.indexOf(panel),1);
+        }
+
+        var eh = (th - uh - (panels.length || 0)) / (panels.length || 1);
+        // Set new height for all expanded panels.
+        Ext.each(panels, function(i) {
+            var tEl = i.el.child('div.x-listpanel') ||
+                i.el.child('div.x-tree');
+            if( !tEl) {
+                tEl = i.el.child('div.x-grid');
+            }
+
+            tEl.setHeight(eh);
+        }, this);
+        GUI.fireEvent('navigatorresized', eh);
+    };
+
+    this.acc.on('beforeexpand', function(panel) {
+        var diff = 1;
+        if (!panel.el.child('div.x-grid')) {
+            diff = panel.minHeight - panel.titleEl.getHeight();
+        }
+        this.updatePanelHeights(panel, diff);
+    }, this.acc);
+
+    this.acc.on('beforecollapse', function(panel) {
+        var diff = -1;
+        if (!panel.el.child('div.x-grid')) {
+            diff = panel.titleEl.getHeight() - panel.minHeight;
+        }
+        this.updatePanelHeights(panel, diff);
+    }, this.acc);
+
+    // Update navigator panel heights when window is resized
+    this.on('windowresized', function(dimensions) {
+        // undefined, 0 because panels collapsed/expanded status is not
+        // changing.
+        this.updatePanelHeights(undefined, 0, dimensions.naviHeight);
+    }, this.acc);
+
+    this.project_panel = this.acc.add(new Ext.ux.InfoPanel('project-tree', {
+        animate: false,
+        collapsed:true
+    }));
+    this.requirement_panel = this.acc.add(new Ext.ux.InfoPanel('reqs-tree', {
+        animate: false,
+        collapsed: true
+    }));
+    this.set_panel = this.acc.add(new Ext.ux.InfoPanel('sets-tree', {
+        animate: false,
+        collapsed:true
+    }));
+    this.case_panel = this.acc.add(new Ext.ux.InfoPanel('cases-tree', {
+        animate: false,
+        collapsed:true
+    }));
+    // For design, displays all sets (for current project)
+    this.exec_panel = this.acc.add(new Ext.ux.InfoPanel('exec2-tree', {
+        animate: false,
+        collapsed:true
+    }));
+    // For design, displays all test objects (for current project)
+    this.testobjects_panel = this.acc.add(new Ext.ux.InfoPanel('testobjects-list', {
+        animate: false,
+        collapsed:true
+    }));
+
+    // For displaying cases in test execution screen.
+    this.test_panel  = this.acc.add(new Ext.ux.InfoPanel('test', {
+        animate: false,
+        collapsed:true
+    }));
+
+    this.user_panel = this.acc.add(new Ext.ux.InfoPanel('user-tree', {
+        animate: false,
+        collapsed:true
+    }));
+
+    this.layout.add("west",this.acc);
+
+    // Create grid for test case execution.
+    TestGrid.init( this.test_panel, this);
+
+
+    /* Project selection list */
+    this.project_list = new Ext.ux.ListPanel(this.project_panel.body, {
+        treeUrl: createUrl('/users/current/projects/'),
+        itemUrl: createUrl('/projects/'),
+        ddGroup: 'projects-group',
+        acceptDrops: false,
+        tagging: false,
+        toolbarEnabled: false
+    });
+    this.project_list.on('beforeclick', function(item, e) {
+        if ( !GUI.clear()) {
+            return false;
+        }
+    });
+    this.project_list.on('click', function(item, e) {
+        if ((!e.ctrlKey) && (!e.shiftKey)) {
+            this.selected_project = item;
+            return this.fireEvent('resourceobjectselected',
+                                  'adminprojects', item.dbid);
+        } else {
+              e.stopEvent();
+        }
+    }, this);
+
+    /* Requirements listing */
+    this.requirement_list = new Ext.ux.ListPanel(this.requirement_panel.body, {
+        treeUrl: createUrl('/requirements/'),
+        itemUrl: createUrl('/requirements/'),
+        tagUrl: createUrl('/projects/current/tags/%i'),
+        taggableType: 'Requirement',
+        archiveUrl: createUrl('/projects/current/requirements/archive'),
+        ddGroup: 'requirements-group',
+        acceptDrops: false,
+        toolbarEnabled: false
+    });
+    this.requirement_list.on('beforeclick', function(item, e) {
+        if ( !GUI.clear()) {
+            return false;
+        }
+    });
+    this.requirement_list.on('click', function(item, e) {
+        if ((!e.ctrlKey) && (!e.shiftKey)) {
+            this.selected_project = item;
+            return this.fireEvent('resourceobjectselected',
+                                  'designrequirements', item.dbid);
+        } else {
+              e.stopEvent();
+        }
+    }, this);
+
+    /* Tagged selection list for sets */
+    this.set_list = new Ext.ux.ListPanel(this.set_panel.body, {
+        treeUrl: createUrl('/test_sets/'),
+        itemUrl: createUrl('/test_sets/'),
+        tagUrl: createUrl('/projects/current/tags/%i'),
+        taggableType: 'TestSet',
+        archiveUrl: createUrl('/projects/current/test_sets/archive'),
+        ddGroup: 'sets-group',
+        acceptDrops: false,
+        toolbarEnabled: false
+    });
+
+    this.set_list.on('beforeclick', function(item, e) {
+        if ( !GUI.clear()) {
+            return false;
+        }
+    });
+    this.set_list.on('click', function(item, e) {
+        if ((!e.ctrlKey) && (!e.shiftKey)) {
+            return this.fireEvent('resourceobjectselected',
+                                  'designsets', item.dbid);
+        } else {
+              e.stopEvent();
+        }
+    }, this);
+
+
+    /* Case selection tree */
+    this.case_list = new Ext.testia.CaseListPanel(this.case_panel.body, {
+        treeUrl: createUrl('/cases/'),
+        itemUrl: createUrl('/cases/'),
+        tagUrl: createUrl('/projects/current/tags/%i'),
+        taggableType: 'Case',
+        archiveUrl: createUrl('/projects/current/cases/archive'),
+        ddGroup: 'cases-group',
+        acceptDrops: false,
+        toolbarEnabled: false
+    });
+
+    this.case_list.on('beforeclick', function(item, e) {
+        if ( !GUI.clear()) {
+            return false;
+        }
+    });
+    this.case_list.on('click', function(item, e) {
+          if ((!e.ctrlKey) && (!e.shiftKey)) {
+              return this.fireEvent('resourceobjectselected',
+                                    'designcases', item.dbid);
+          } else {
+              e.stopEvent();
+          }
+    }, this);
+
+      /* Exec selection tree */
+    this.exec_list = new Ext.ux.ListPanel(this.exec_panel.body, {
+        treeUrl: createUrl('/executions/'),
+        itemUrl: createUrl('/executions/'),
+        tagUrl: createUrl('/projects/current/tags/%i'),
+        taggableType: 'Execution',
+        archiveUrl: createUrl('/projects/current/executions/archive'),
+        ddGroup: 'execs-group',
+        acceptDrops: false,
+        toolbarEnabled: false
+    });
+
+    this.exec_list.on('beforeclick', function(item, e) {
+        if ( !GUI.clear()) {
+            return false;
+        }
+    });
+    this.exec_list.on('click', function(item, e) {
+        if ((!e.ctrlKey) && (!e.shiftKey)) {
+            return this.fireEvent('resourceobjectselected',
+                                  'designexecutions', item.dbid);
+        } else {
+             e.stopEvent();
+        }
+    }, this);
+
+    /* User selection list */
+    this.user_list = new Ext.ux.ListPanel(this.user_panel.body, {
+        treeUrl: createUrl('/users/%t/'),
+        itemUrl: createUrl('/users/'),
+        ddGroup: 'users-group',
+        tagging: false,
+        acceptDrops: false,
+        toolbarEnabled: false
+    });
+    this.user_list.on('beforeclick', function(item, e) {
+        if ( !GUI.clear()) {
+            return false;
+        }
+    });
+    this.user_list.on('click', function(item, e) {
+        if ((!e.ctrlKey) && (!e.shiftKey)) {
+            return this.fireEvent('resourceobjectselected',
+                                  'adminusers', item.dbid);
+        } else {
+              e.stopEvent();
+        }
+    }, this);
+
+    this.testobjects_list = new Ext.ux.ListPanel(this.testobjects_panel.body, {
+        treeUrl: createUrl('/projects/current/test_objects/'),
+        itemUrl: createUrl('/projects/current/test_objects/'),
+        tagUrl: createUrl('/projects/current/tags/%i'),
+        taggableType: 'TestObject',
+        archiveUrl: createUrl('/projects/current/test_objects/archive'),
+        ddGroup: 'testobjects-group',
+        acceptDrops: false,
+        toolbarEnabled: false
+    });
+
+    this.testobjects_list.on('click', function(item, e) {
+        if ((!e.ctrlKey) && (!e.shiftKey)) {
+            return this.fireEvent('resourceobjectselected',
+                                  'designtestobjects', item.dbid);
+        } else {
+              e.stopEvent();
+        }
+    }, this);
+
+
+    // Tasks component
+    this.taskList = new Ext.testia.TaskList(Ext.get('profile'), {
+        text: 'Tasks',
+        cls: ''
+    });
+
+    this.layout.add("center", new CP("center1-div",
+                                {title: "Center panel", closable: false}));
+
+      // CP For content toolbar
+    var tbCP = new CP("toolbar",{title:"Content toolbar"});
+
+    this.maincontent = new CP("content",{title:"Main"});
+
+    this.layout.getRegion("center").showPanel("center1-div");
+
+    // Welcome tab is loaded by default, configure navigators....
+
+    // Needs some modification...must wait until page is loaded.
+    // setTimeout( "GUI.activateTab( 'home', 'home-welcometab')", 500);
+
+    this.layout.endUpdate();
+
+    // Resize elements (width) when west panel size changes.
+    this.layout.getRegion( 'west').addListener(
+            'resized', function(region, newWidth) {
+                TestGrid.resize( newWidth);
+                if (GUI) {
+                    // #586, prevents north panel from shrinking on west panel resize.
+                    GUI.layout.regions.north.resizeTo( LAYOUT_NORTH_SIZE);
+                }
+        }
+    );
+
+    this.layout.getRegion( 'west').addListener(
+            'expanded', function(region, newWidth) {
+                if (GUI) {
+                    // #586, prevents north panel from shrinking on west panel expand/collapse.
+                    GUI.layout.regions.north.resizeTo( LAYOUT_NORTH_SIZE);
+                }
+        }
+    );
+
+    this.layout.getRegion( 'west').addListener(
+            'collapsed', function(region, newWidth) {
+                if (GUI) {
+                    // #586, prevents north panel from shrinking on west panel expand/collapse.
+                    GUI.layout.regions.north.resizeTo( LAYOUT_NORTH_SIZE);
+                }
+        }
+    );
+
+
+    // Fire event once to set sizes.
+    this.layout.getRegion( 'west').resizeTo( LAYOUT_WEST_INITIAL_SIZE);
+
+    // Combobox size is not correctly set, unless panel
+    // is visible and expanded.
+    // Therefore relaunch resize event whenever panel
+    // containing combobox is expanded.
+    this.test_panel.addListener( 'expand', function() {
+        this.layout.getRegion( 'west').resizeTo(
+            this.layout.getRegion( 'west').bodyEl.getWidth());
+    }, this);
+
+    this.initForm('home');
+    this.update_permissions();
+    this.projectsStore.load();
+    this.tagsStore.load();
+
+
+    newLayout.initialize();
+
+    // Fix linkbar width according to login field name if IE is used.
+    if (Ext.isIE) {
+        var tmpEl = Ext.get('profile');
+        var loginnameEl = tmpEl.child('span');
+        tmpEl.setStyle('width', (20 + loginnameEl.dom.innerHTML.length * 0.65) + 'em');
+    }
+};
+
+
+Ext.extend(Ext.testia.GUI, Ext.util.Observable, {
+    chartCookies: undefined, // CookieProvider for chart resize saving
+    requestCount: 0,
+    project_id: undefined,
+    projectsStore: undefined,
+    projectCombo: undefined,
+    tagsStore: undefined,
+    tagFilterCombo: undefined,
+    layout: undefined,
+    size: undefined,
+    headerpanel: undefined,
+    navibar: undefined,
+    maincontent: undefined,
+    tabs: undefined,
+
+    navibar_buttons: undefined,
+    acc: undefined,
+
+    requirement_list: undefined,
+    set_list: undefined,
+    case_list: undefined,
+    exec_list: undefined,
+    user_list: undefined,
+    project_list: undefined,
+    testobjects_list: undefined,
+
+    project_panel: undefined,
+    requirement_panel: undefined,
+    set_panel: undefined,
+    case_panel: undefined,
+    exec_panel: undefined,
+    user_panel: undefined,
+    test_panel: undefined,
+    testobjects_panel: undefined,
+
+
+    currentForm: undefined,
+    formFunc: undefined,
+
+
+    clear: function(show_popup) {
+        // This function is called whenever some content needs to be loaded.
+        // (= causing potentially loss of current data displayed.
+        // Returns false, if operation should be cancelled.
+
+        // If no form displayed currently, proceeding is ok.
+        if (!this.formFunc) { return true; }
+
+        // Verify that form implements clear() method before calling it.
+        if (this.formFunc.clear) {
+            if(this.formFunc.clear(show_popup)) {
+                // Ok to clear.
+                return true;
+            } else if ( (show_popup === true) || (show_popup === undefined)){
+                Ext.Msg.show({
+                    title:'Operation not allowed.',
+                    msg: 'Please save or cancel changes before proceeding.',
+                    buttons: Ext.Msg.OK,
+                    width: 400
+                });
+                return false;
+            }
+        } else {
+            alert( 'Error: Current form doesn\'t implement clear() method');
+            return false;
+        }
+    },
+    initForm: function(form, objId) {
+        // Reload stores.
+        // We need better system here, stores should be reload on demand basis.
+        CommonStores.reload();
+
+        // Make sure that content is always displayed.
+        // Execution screen hides content until some execution is loaded.
+        // This makes sure that content will be available, if user switcher
+        // to another screen
+        // before loading some execution.
+        Ext.get( 'content').setVisible( true);
+
+        // Hide fixed test execution toolbar
+        Ext.get('exec_steps_tb').setDisplayed( false);
+
+        var contentClasses = {
+            home: Ext.testia.MainContentHome,
+            userinfo: Ext.testia.MainContentUser,
+
+            reportresults: Ext.testia.TestResults,
+            reportefficiency: Ext.testia.TestEfficiency,
+            reportanalysis: Ext.testia.CaseAnalysis,
+            reportstatus: Ext.testia.StatusReport,
+            reportrequirementcoverage: Ext.testia.RequirementCoverage,
+            reportdefectsbyobject: Ext.testia.DefectsByObjectReport,
+            reportresultsbyto: Ext.testia.ResultsByTestObject,
+
+            designcases: Ext.testia.CaseDesign,
+            designsets: Ext.testia.SetDesign,
+            designrequirements: Ext.testia.RequirementDesign,
+            designexecutions: Ext.testia.AssignSet,
+            designtestobjects: Ext.testia.TestObjectsDesign
+        };
+
+        // Just remove toolbar, if any.
+        // This might needs more robust handling...
+        this.clearToolbar();
+
+        if (contentClasses[form]) {
+            this.formFunc = new contentClasses[form](this);
+        }
+
+        // THE function
+        switch( form) {
+
+        case 'execute':
+
+            // Just remove toolbar, if any.
+            // This might needs more robust handling...
+            this.clearToolbar();
+
+            MainContent = MainContentExecute;
+            this.maincontent.setContent( MainContent.htmlContent() );
+
+
+            CaseExecute.init(this, objId); // optional object id
+
+            // makes possible to load executions directly from dashboard.
+            this.formFunc = CaseExecute;
+
+
+            // Launch resize event.
+            // It seems that combobox width is not otherwise
+            // set correctly (#453)
+            //  this.layout.getRegion( 'west').resizeTo(
+            //    this.layout.getRegion( 'west').bodyEl.getWidth());
+
+            Ext.get('exec_steps_tb').setDisplayed( true);
+
+
+            break;
+
+        case 'adminusers':
+            MainContent = MainContentAdmin;
+            this.maincontent.setContent( MainContent.htmlContentUsers() );
+            Users.init(this);
+            this.formFunc = Users;
+            break;
+
+        case 'adminprojects':
+            MainContent = MainContentAdmin;
+            this.maincontent.setContent( MainContent.htmlContentProjects() );
+            Projects.init(this);
+            this.formFunc = Projects;
+            break;
+
+        case 'admindefects':
+            Projects.editBugtrackers();
+            break;
+
+        case 'importdoors':
+            // Just remove toolbar, if any.
+            // This might needs more robust handling...
+            this.clearToolbar();
+            MainContent = null;
+            this.formFunc = null;
+            this.maincontent.load( createUrl("/import/doors"));
+
+            // Set toolbar
+            Ext.get('toolbar')
+            var titleTb = new Ext.Toolbar("toolbar");
+            titleTb.addField(new Ext.Toolbar.TextItem("Doors Import"));
+            break;
+        }
+
+
+        this.currentForm = form;
+
+    },
+
+    toolbarButtonPressed: function( form) {
+        // Handler function for button actions.
+        // Previously initForm was called directly.
+        // Now this works same way as other actions.
+        // Handled function just checks that it is ok to clear
+        // action and then calls initForm.
+        if( !this.clear(true)) {
+            return false;
+        }
+        this.initForm( form);
+    },
+
+    loadProject: function( project_id) {
+
+        // Disable menus
+        newLayout.initialize();
+
+        Ext.Ajax.request({
+            url: createUrl('/users/current/selected_project'),
+            method: 'put',
+            params:'project_id='+project_id,
+            scope: this,
+            success: function(r,o) {
+                var d = Ext.decode(r.responseText);
+                if (d.status) {
+
+                    this.update_permissions();
+                    this.fireEvent('projectchanged', project_id);
+                }
+            }
+        });
+    },
+
+    clearToolbar: function() {
+       // TODO: MainContent funktion tilalle oma "luokka", josta eri osiot periytyvät. Sama objekti hoitamaan fiksusti myös toolbarin siivouksen.
+          // Just remove toolbar, if any.
+          // This might needs more robust handling...
+
+      Ext.get('toolbar').dom.innerHTML = "";
+    },
+
+
+    update_permissions: function() {
+
+        Ext.Ajax.request({
+            url: createUrl('/users/current/projects/current/group'),
+            scope: this,
+            method: 'get',
+            callback: function(o,s,response) {
+                user_group = Ext.decode(response.responseText).data;
+                newLayout.setAccess( user_group);
+            }
+        });
+    }
+});
+
+Ext.EventManager.onDocumentReady(function() {GUI = new Ext.testia.GUI();},
+                                 this, true);
+window.onbeforeunload = function() {
+    return "";
+};
+
+
+// Interface between new graphical layout and existing codebase.
+var newLayout = function() {
+    var menuList = new Array('summary','design','test','report','tools','admin');
+    var access;
+
+    function highlightMenu(menu){
+        var menuItem;
+
+        // Clear existing entries.
+        for(i=0; i<menuList.length; i++){
+            menuItem = Ext.get('menuitem_'+menuList[i]);
+            menuItem.setStyle( "backgroundImage", "none");
+        };
+
+        // Function for setting selected menu entry.
+        menuItem = Ext.get('menuitem_'+menu);
+        menuItem.setStyle(
+             "background",
+             "url('../images/tarantula/menuitem_selected_bg.gif') no-repeat left");
+    };
+
+    function openSubMenu(menu){
+        var subMenuItem;
+
+        for(i=0; i<menuList.length; i++){
+            subMenuItem = Ext.get('submenu_'+menuList[i]);
+            if(subMenuItem) subMenuItem.setStyle( "display", "none");
+        };
+
+        subMenuItem = Ext.get('submenu_'+menu);
+        if(subMenuItem) subMenuItem.setStyle("display","block");
+    };
+
+    // Enables/disables menus according to user access.
+    function setMenuStyles() {
+        for(i=0; i<menuList.length; i++){
+            menuItem = Ext.get('menuitem_'+menuList[i]);
+            if( menuItem){
+                if( access[menuList[i]] ) {
+                    menuItem.removeClass( 'disabled');
+                } else {
+                    menuItem.addClass('disabled');
+                    menuItem.setStyle( "backgroundImage", "none")
+                }
+            }
+        }
+    };
+
+    return {
+        // Hide all submenus
+        initialize: function() {
+            access = {};
+            openSubMenu('none');
+            newLayout.setAccess();
+        },
+
+        // Set access to menus according current role in project.
+        // Called after role is received from server.
+	setAccess: function(role){
+            switch(role) {
+            case "ADMIN":
+                access.summary = true;
+                access.design = true;
+                access.test = true;
+                access.report = true;
+                access.tools = true;
+                access.admin = true;
+                break;
+            case "MANAGER":
+                access.summary = true;
+                access.design = true;
+                access.test = true;
+                access.report = true;
+                access.tools = true;
+                access.admin = true;
+                break;
+            case "TEST_DESIGNER":
+                access.summary = true;
+                access.design = true;
+                access.test = true;
+                access.report = true;
+                break;
+            case "TEST_ENGINEER":
+                access.summary = true;
+                access.test = true;
+                break;
+            case "MANAGER_VIEW_ONLY":
+                access.summary = true;
+                access.design = true;
+                access.test = false;
+                access.report = true;
+                access.tools = false;
+                access.admin = true;
+                break;
+            }
+            setMenuStyles();
+        },
+
+        menuSelected: function(menu){
+            if( access[menu] ) {
+                highlightMenu(menu);
+                openSubMenu(menu);
+            } else {
+                // No access
+            }
+        },
+
+        subMenuSelected: function(menu,subMenu){
+            if( access[menu] ) {
+                GUI.toolbarButtonPressed(subMenu);
+            } else {
+            // No access
+            }
+        }
+    };
+}();
+
+
+
+var importDoors = function (){
+
+    var mgr;
+
+    return{
+        submitForm : function(){
+            mgr = new Ext.UpdateManager("log");
+            mgr.formUpdate( "form", "/import/doors/");
+    }
+  };
+}();
+
+      //]]>
+      </script>
+    </head>
+
+
+  <body>
+    <div id="header">
+	<div id="top-stripe"></div>
+	<div id="header-actions">
+		<div id="tarantula-text-logo"></div>
+		<div id="project-select">
+			<div id="project-select-left">
+			<div>Project</div>
+			</div>
+			<div id="project-select-center">
+			</div>
+			<div id="project-select-right">
+			</div>
+		</div>
+		<div id="profile">
+                        <span style="margin-left:26px;"><%= @current_user.login %> logged in</span>
+                        &nbsp;|&nbsp;
+                        <span class="emulate-link" onclick="GUI.toolbarButtonPressed('userinfo')">Edit Profile</span>
+                        &nbsp;|&nbsp;
+                        <a href="http://tarantula.wikidot.com/" class="emulate-link" target="_blank">Wiki</a>
+                        &nbsp;|&nbsp;
+                        <a href="<%= Testia::WWW_PATH %>/home/logout" class="emulate-link">Log Out</a>
+                        &nbsp;|&nbsp;
+		</div>
+	</div>
+	<div id="menu">
+		<div id="menumargin">
+		</div>
+		<div class="disabled menuitem" id="menuitem_summary"
+		onmouseover="newLayout.menuSelected('summary');"
+		onclick="newLayout.subMenuSelected('summary','home')">
+			<div>Dashboard</div>
+		</div>
+		<div class="disabled menuitem" id="menuitem_design"
+		 onmouseover="newLayout.menuSelected('design');"
+		onclick="newLayout.subMenuSelected('design','designrequirements')">
+			<div>Design</div>
+		</div>
+		<div class="disabled menuitem" id="menuitem_test"
+		onmouseover="newLayout.menuSelected('test');"
+		onclick="newLayout.subMenuSelected('test','execute')">
+			<div>Test</div>
+		</div>
+		<div class="disabled menuitem" id="menuitem_report"
+		onmouseover="newLayout.menuSelected('report');"
+		onclick="newLayout.subMenuSelected('report','reportresults')">
+			<div>Report</div>
+		</div>
+		<div class="disabled menuitem" id="menuitem_tools"
+		onmouseover="newLayout.menuSelected('tools');"
+		onclick="newLayout.subMenuSelected('tools','importdoors')">
+			<div>Tools</div>
+		</div>
+		<div class="disabled menuitem" id="menuitem_admin"
+		onmouseover="newLayout.menuSelected('admin');"
+		onclick="newLayout.subMenuSelected('admin','adminusers')">
+			<div>Admin</div>
+		</div>
+                <div id="notification-area">
+                  <div id="load-indicator" style="float:left;margin-top:18px;margin-left:10px;">
+                    <img src="../javascripts/ext/resources/images/default/tree/loading.gif" alt="Loading..." />
+                  </div>
+    <img src="/images/testia/bad_network.gif" title="Couldn't retrieve data. Network connection may lag or server is down." id="bad-network" style="display:none;float:left;margin-top:14px;margin-left:10px;cursor:pointer;" />
+                </div>
+
+		<div id="tag-selector">
+			<span id="tag-selector-title">Test Area</span>
+			<span id="tag-selector-combo">
+			</span>
+		</div>
+	</div>
+	<div id="submenu">
+		<!-- OBS: Display must be set initially to block, otherwise items cannot be
+			activated later
+		-->
+		<div id="submenu_summary" class="submenu-items" style="margin-left: 2.5em;">
+                    <span onclick="javascript:newLayout.subMenuSelected('summary','home')">
+                        Dashboard
+                    </span>
+		</div>
+		<div id="submenu_design" class="submenu-items" style="margin-left: 11em;">
+                    <span onclick="javascript:newLayout.subMenuSelected('design','designrequirements')">
+                        Requirements
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('design','designsets')">
+                        Sets
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('design','designcases')">
+                        Cases
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('design','designexecutions')">
+                        Executions
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('design','designtestobjects')">
+                        Test Objects
+                    </span>
+		</div>
+		<div id="submenu_test" class="submenu-items" style="margin-left: 22.2em;">
+                    <span onclick="javascript:newLayout.subMenuSelected('test','execute')">
+                        Test
+                    </span>
+		</div>
+		<div id="submenu_report" class="submenu-items" style="margin-left: 29em;">
+                    <span onclick="javascript:newLayout.subMenuSelected('report','reportstatus')">
+                        Project Status
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('report','reportrequirementcoverage')">
+                        Req. Coverage
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('report','reportdefectsbyobject')">
+                        Defect Analysis
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('report','reportresults')">
+                        Test Result Status
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('report','reportefficiency')">
+                        Test Efficiency
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('report','reportanalysis')">
+                        Case Execution List
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('report','reportresultsbyto')">
+                        Prioritized Testing Maturity
+                    </span>
+		</div>
+		<div id="submenu_tools" class="submenu-items" style="margin-left: 38.5em;">
+                    <span onclick="javascript:newLayout.subMenuSelected('tools','importdoors')">
+                        Doors Import
+                    </span>
+		</div>
+		<div id="submenu_admin" class="submenu-items" style="margin-left: 49.2em;">
+                    <span onclick="javascript:newLayout.subMenuSelected('admin','adminusers')">
+                        Users
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('admin','adminprojects')">
+                        Projects
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('admin','admindefects')">
+                        Defect Trackers
+                    </span>
+		</div>
+	</div>
+    </div>
+
+    <div id="west-div">
+      <div id="accordion-panel">
+        <div id="project-tree">
+          <div>Projects</div>
+        </div>
+        <div id="reqs-tree">
+          <div>Requirements</div>
+        </div>
+        <div id="sets-tree">
+          <div>Sets</div>
+        </div>
+        <div id="cases-tree">
+          <div>Cases</div>
+        </div>
+        <div id="exec2-tree">
+          <div>Executions</div>
+        </div>
+        <div id="testobjects-list">
+          <div>Test Objects</div>
+        </div>
+        <div id="test">
+          <div>Test</div>
+        </div>
+        <div id="user-tree">
+          <div>Users</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="center1-div">
+        <div id="toolbar"></div>
+        <div id="content">
+            <%= yield %>
+        </div>
+    </div>
+    <!--
+        Floating toolbar for test execution.
+        Displayed above everything else, defined here outside content elements
+        to display element also in IE
+    -->
+    <div id="exec_steps_tb"></div>
+
+
+  </body>
+</html>

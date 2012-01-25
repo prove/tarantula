@@ -1,0 +1,295 @@
+<html><head><title>JsonView.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>JsonView.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.JsonView
+ * @extends Ext.View
+ * Shortcut class to create a JSON + {@link Ext.UpdateManager} template view. Usage:
+&lt;pre&gt;&lt;code&gt;
+<b>var</b> view = <b>new</b> Ext.JsonView(&quot;my-element&quot;,
+    <em>'&amp;lt;div id=&quot;{id}&quot;&amp;gt;{foo} - {bar}&amp;lt;/div&amp;gt;'</em>, <i>// auto create template</i>
+    { multiSelect: true, jsonRoot: &quot;data&quot; }
+);
+
+<i>// listen <b>for</b> node click?</i>
+view.on(&quot;click&quot;, <b>function</b>(vw, index, node, e){
+    alert(<em>'Node &quot;'</em> + node.id + <em>'&quot; at index: '</em> + index + &quot; was clicked.&quot;);
+});
+
+<i>// direct load of JSON data</i>
+view.load(&quot;foobar.php&quot;);
+
+<i>// Example from my blog list</i>
+<b>var</b> tpl = <b>new</b> Ext.Template(
+    <em>'&amp;lt;div class=&quot;entry&quot;&amp;gt;'</em> +
+    <em>'&amp;lt;a class=&quot;entry-title&quot; href=&quot;{link}&quot;&amp;gt;{title}&amp;lt;/a&amp;gt;'</em> +
+    &quot;&amp;lt;h4&amp;gt;{date} by {author} | {comments} Comments&amp;lt;/h4&amp;gt;{description}&quot; +
+    &quot;&amp;lt;/div&amp;gt;&amp;lt;hr /&amp;gt;&quot;
+);
+
+<b>var</b> moreView = <b>new</b> Ext.JsonView(&quot;entry-list&quot;, tpl, {
+    jsonRoot: &quot;posts&quot;
+});
+moreView.on(&quot;beforerender&quot;, <b>this</b>.sortEntries, <b>this</b>);
+moreView.load({
+    url: &quot;/blog/get-posts.php&quot;,
+    params: &quot;allposts=true&quot;,
+    text: &quot;Loading Blog Entries...&quot;
+});
+&lt;/code&gt;&lt;/pre&gt;
+ * @constructor
+ * Create a <b>new</b> JsonView
+ * @param {String/HTMLElement/Element} container The container element where the view is to be rendered.
+ * @param {Template} tpl The rendering template
+ * @param {Object} config The config object
+ */</i>
+Ext.JsonView = <b>function</b>(container, tpl, config){
+    Ext.JsonView.superclass.constructor.call(<b>this</b>, container, tpl, config);
+
+    <b>var</b> um = <b>this</b>.el.getUpdateManager();
+    um.setRenderer(<b>this</b>);
+    um.on(&quot;update&quot;, <b>this</b>.onLoad, <b>this</b>);
+    um.on(&quot;failure&quot;, <b>this</b>.onLoadException, <b>this</b>);
+
+    <i>/**
+     * @event beforerender
+     * Fires before rendering of the downloaded JSON data.
+     * @param {Ext.JsonView} <b>this</b>
+     * @param {Object} data The JSON data loaded
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @event load
+     * Fires when data is loaded.
+     * @param {Ext.JsonView} <b>this</b>
+     * @param {Object} data The JSON data loaded
+     * @param {Object} response The raw Connect response object
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @event loadexception
+     * Fires when loading fails.
+     * @param {Ext.JsonView} <b>this</b>
+     * @param {Object} response The raw Connect response object
+     */</i>
+    <b>this</b>.addEvents({
+        <em>'beforerender'</em> : true,
+        <em>'load'</em> : true,
+        <em>'loadexception'</em> : true
+    });
+};
+Ext.extend(Ext.JsonView, Ext.View, {
+    <i>/**
+     * The root property <b>in</b> the loaded JSON object that contains the data
+     * @type {String}
+     */</i>
+    jsonRoot : &quot;&quot;,
+
+    <i>/**
+     * Refreshes the view.
+     */</i>
+    refresh : <b>function</b>(){
+        <b>this</b>.clearSelections();
+        <b>this</b>.el.update(&quot;&quot;);
+        <b>var</b> html = [];
+        <b>var</b> o = <b>this</b>.jsonData;
+        <b>if</b>(o &amp;&amp; o.length &gt; 0){
+            <b>for</b>(var i = 0, len = o.length; i &lt; len; i++){
+                <b>var</b> data = <b>this</b>.prepareData(o[i], i, o);
+                html[html.length] = <b>this</b>.tpl.apply(data);
+            }
+        }<b>else</b>{
+            html.push(<b>this</b>.emptyText);
+        }
+        <b>this</b>.el.update(html.join(&quot;&quot;));
+        <b>this</b>.nodes = <b>this</b>.el.dom.childNodes;
+        <b>this</b>.updateIndexes(0);
+    },
+
+    <i>/**
+     * Performs an async HTTP request, and loads the JSON from the response. If &lt;i&gt;params&lt;/i&gt; are specified it uses POST, otherwise it uses GET.
+     * @param {Object/String/Function} url The URL <b>for</b> this request, or a <b>function</b> to call to get the URL, or a config object containing any of the following options:
+     &lt;pre&gt;&lt;code&gt;
+     view.load({
+         url: &quot;your-url.php&quot;,
+         params: {param1: &quot;foo&quot;, param2: &quot;bar&quot;}, <i>// or a URL encoded string</i>
+         callback: yourFunction,
+         scope: yourObject, <i>//(optional scope)</i>
+         discardUrl: false,
+         nocache: false,
+         text: &quot;Loading...&quot;,
+         timeout: 30,
+         scripts: false
+     });
+     &lt;/code&gt;&lt;/pre&gt;
+     * The only required property is &lt;i&gt;url&lt;/i&gt;. The optional properties &lt;i&gt;nocache&lt;/i&gt;, &lt;i&gt;text&lt;/i&gt; and &lt;i&gt;scripts&lt;/i&gt;
+     * are respectively shorthand <b>for</b> &lt;i&gt;disableCaching&lt;/i&gt;, &lt;i&gt;indicatorText&lt;/i&gt;, and &lt;i&gt;loadScripts&lt;/i&gt; and are used to set their associated property on <b>this</b> UpdateManager instance.
+     * @param {String/Object} params (optional) The parameters to pass, as either a URL encoded string &quot;param1=1&amp;amp;param2=2&quot; or an object {param1: 1, param2: 2}
+     * @param {Function} callback (optional) Callback when transaction is complete - called <b>with</b> signature (oElement, bSuccess)
+     * @param {Boolean} discardUrl (optional) By <b>default</b> when you execute an update the defaultUrl is changed to the last used URL. If true, it will not store the URL.
+     */</i>
+    load : <b>function</b>(){
+        <b>var</b> um = <b>this</b>.el.getUpdateManager();
+        um.update.apply(um, arguments);
+    },
+
+    render : <b>function</b>(el, response){
+        <b>this</b>.clearSelections();
+        <b>this</b>.el.update(&quot;&quot;);
+        <b>var</b> o;
+        try{
+            o = Ext.util.JSON.decode(response.responseText);
+            <b>if</b>(this.jsonRoot){
+                o = eval(&quot;o.&quot; + <b>this</b>.jsonRoot);
+            }
+        } catch(e){
+        }
+        <i>/**
+         * The current JSON data or null
+         */</i>
+        <b>this</b>.jsonData = o;
+        <b>this</b>.beforeRender();
+        <b>this</b>.refresh();
+    },
+
+<i>/**
+ * Get the number of records <b>in</b> the current JSON dataset
+ * @<b>return</b> {Number}
+ */</i>
+    getCount : <b>function</b>(){
+        <b>return</b> this.jsonData ? <b>this</b>.jsonData.length : 0;
+    },
+
+<i>/**
+ * Returns the JSON object <b>for</b> the specified node(s)
+ * @param {HTMLElement/Array} node The node or an array of nodes
+ * @<b>return</b> {Object/Array} If you pass <b>in</b> an array, you get an array back, otherwise
+ * you get the JSON object <b>for</b> the node
+ */</i>
+    getNodeData : <b>function</b>(node){
+        <b>if</b>(node instanceof Array){
+            <b>var</b> data = [];
+            <b>for</b>(var i = 0, len = node.length; i &lt; len; i++){
+                data.push(<b>this</b>.getNodeData(node[i]));
+            }
+            <b>return</b> data;
+        }
+        <b>return</b> this.jsonData[<b>this</b>.indexOf(node)] || null;
+    },
+
+    beforeRender : <b>function</b>(){
+        <b>this</b>.snapshot = <b>this</b>.jsonData;
+        <b>if</b>(this.sortInfo){
+            <b>this</b>.sort.apply(<b>this</b>, <b>this</b>.sortInfo);
+        }
+        <b>this</b>.fireEvent(&quot;beforerender&quot;, <b>this</b>, <b>this</b>.jsonData);
+    },
+
+    onLoad : <b>function</b>(el, o){
+        <b>this</b>.fireEvent(&quot;load&quot;, <b>this</b>, <b>this</b>.jsonData, o);
+    },
+
+    onLoadException : <b>function</b>(el, o){
+        <b>this</b>.fireEvent(&quot;loadexception&quot;, <b>this</b>, o);
+    },
+
+<i>/**
+ * Filter the data by a specific property.
+ * @param {String} property A property on your JSON objects
+ * @param {String/RegExp} value Either string that the property values
+ * should start <b>with</b>, or a RegExp to test against the property
+ */</i>
+    filter : <b>function</b>(property, value){
+        <b>if</b>(this.jsonData){
+            <b>var</b> data = [];
+            <b>var</b> ss = <b>this</b>.snapshot;
+            <b>if</b>(typeof value == &quot;string&quot;){
+                <b>var</b> vlen = value.length;
+                <b>if</b>(vlen == 0){
+                    <b>this</b>.clearFilter();
+                    <b>return</b>;
+                }
+                value = value.toLowerCase();
+                <b>for</b>(var i = 0, len = ss.length; i &lt; len; i++){
+                    <b>var</b> o = ss[i];
+                    <b>if</b>(o[property].substr(0, vlen).toLowerCase() == value){
+                        data.push(o);
+                    }
+                }
+            } <b>else</b> if(value.exec){ <i>// regex?</i>
+                <b>for</b>(var i = 0, len = ss.length; i &lt; len; i++){
+                    <b>var</b> o = ss[i];
+                    <b>if</b>(value.test(o[property])){
+                        data.push(o);
+                    }
+                }
+            } <b>else</b>{
+                <b>return</b>;
+            }
+            <b>this</b>.jsonData = data;
+            <b>this</b>.refresh();
+        }
+    },
+
+<i>/**
+ * Filter by a <b>function</b>. The passed <b>function</b> will be called <b>with</b> each
+ * object <b>in</b> the current dataset. If the <b>function</b> returns true the value is kept,
+ * otherwise it is filtered.
+ * @param {Function} fn
+ * @param {Object} scope (optional) The scope of the <b>function</b> (defaults to <b>this</b> JsonView)
+ */</i>
+    filterBy : <b>function</b>(fn, scope){
+        <b>if</b>(this.jsonData){
+            <b>var</b> data = [];
+            <b>var</b> ss = <b>this</b>.snapshot;
+            <b>for</b>(var i = 0, len = ss.length; i &lt; len; i++){
+                <b>var</b> o = ss[i];
+                <b>if</b>(fn.call(scope || <b>this</b>, o)){
+                    data.push(o);
+                }
+            }
+            <b>this</b>.jsonData = data;
+            <b>this</b>.refresh();
+        }
+    },
+
+<i>/**
+ * Clears the current filter.
+ */</i>
+    clearFilter : <b>function</b>(){
+        <b>if</b>(this.snapshot &amp;&amp; <b>this</b>.jsonData != <b>this</b>.snapshot){
+            <b>this</b>.jsonData = <b>this</b>.snapshot;
+            <b>this</b>.refresh();
+        }
+    },
+
+
+<i>/**
+ * Sorts the data <b>for</b> this view and refreshes it.
+ * @param {String} property A property on your JSON objects to sort on
+ * @param {String} direction (optional) &quot;desc&quot; or &quot;asc&quot; (defaults to &quot;asc&quot;)
+ * @param {Function} sortType (optional) A <b>function</b> to call to convert the data to a sortable value.
+ */</i>
+    sort : <b>function</b>(property, dir, sortType){
+        <b>this</b>.sortInfo = Array.prototype.slice.call(arguments, 0);
+        <b>if</b>(this.jsonData){
+            <b>var</b> p = property;
+            <b>var</b> dsc = dir &amp;&amp; dir.toLowerCase() == &quot;desc&quot;;
+            <b>var</b> f = <b>function</b>(o1, o2){
+                <b>var</b> v1 = sortType ? sortType(o1[p]) : o1[p];
+                <b>var</b> v2 = sortType ? sortType(o2[p]) : o2[p];
+                ;
+                <b>if</b>(v1 &lt; v2){
+                    <b>return</b> dsc ? +1 : -1;
+                } <b>else</b> if(v1 &gt; v2){
+                    <b>return</b> dsc ? -1 : +1;
+                } <b>else</b>{
+                    <b>return</b> 0;
+                }
+            };
+            <b>this</b>.jsonData.sort(f);
+            <b>this</b>.refresh();
+            <b>if</b>(this.jsonData != <b>this</b>.snapshot){
+                <b>this</b>.snapshot.sort(f);
+            }
+        }
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

@@ -1,0 +1,455 @@
+<html><head><title>View.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>View.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.View
+ * @extends Ext.util.Observable
+ * Create a &quot;View&quot; <b>for</b> an element based on a data model or UpdateManager and the supplied DomHelper template. 
+ * This class also supports single and multi selection modes. &lt;br&gt;
+ * Create a data model bound view:
+ &lt;pre&gt;&lt;code&gt;
+ <b>var</b> store = <b>new</b> Ext.data.Store(...);
+
+ <b>var</b> view = <b>new</b> Ext.View(&quot;my-element&quot;,
+ <em>'&amp;lt;div id=&quot;{0}&quot;&amp;gt;{2} - {1}&amp;lt;/div&amp;gt;'</em>, <i>// auto create template</i>
+ {
+ singleSelect: true,
+ selectedClass: &quot;ydataview-selected&quot;,
+ store: store
+ });
+
+ <i>// listen <b>for</b> node click?</i>
+ view.on(&quot;click&quot;, <b>function</b>(vw, index, node, e){
+ alert(<em>'Node &quot;'</em> + node.id + <em>'&quot; at index: '</em> + index + &quot; was clicked.&quot;);
+ });
+
+ <i>// load XML data</i>
+ dataModel.load(&quot;foobar.xml&quot;);
+ &lt;/code&gt;&lt;/pre&gt;
+ For an example of creating a JSON/UpdateManager view, see {@link Ext.JsonView}.
+ * &lt;br&gt;&lt;br&gt;
+ * &lt;b&gt;Note: The root of your template must be a single node. Table/row implementations may work but are not supported due to
+ * IE&quot;s limited insertion support <b>with</b> tables and Opera&quot;s faulty event bubbling.&lt;/b&gt;
+ * @constructor
+ * Create a <b>new</b> View
+ * @param {String/HTMLElement/Element} container The container element where the view is to be rendered.
+ * @param {String/DomHelper.Template} tpl The rendering template or a string to create a template <b>with</b>
+ * @param {Object} config The config object
+ */</i>
+Ext.View = <b>function</b>(container, tpl, config){
+    <b>this</b>.el = Ext.get(container);
+    <b>if</b>(typeof tpl == &quot;string&quot;){
+        tpl = <b>new</b> Ext.Template(tpl);
+    }
+    tpl.compile();
+    <i>/**
+     * The template used by <b>this</b> View
+     * @type {Ext.DomHelper.Template}
+     */</i>
+    <b>this</b>.tpl = tpl;
+
+    Ext.apply(<b>this</b>, config);
+
+    <i>/** @private */</i>
+    <b>this</b>.addEvents({
+    <i>/**
+     * @event beforeclick
+     * Fires before a click is processed. Returns false to cancel the <b>default</b> action.
+     * @param {Ext.View} <b>this</b>
+     * @param {Number} index The index of the target node
+     * @param {HTMLElement} node The target node
+     * @param {Ext.EventObject} e The raw event object
+     */</i>
+        &quot;beforeclick&quot; : true,
+    <i>/**
+     * @event click
+     * Fires when a template node is clicked.
+     * @param {Ext.View} <b>this</b>
+     * @param {Number} index The index of the target node
+     * @param {HTMLElement} node The target node
+     * @param {Ext.EventObject} e The raw event object
+     */</i>
+        &quot;click&quot; : true,
+    <i>/**
+     * @event dblclick
+     * Fires when a template node is double clicked.
+     * @param {Ext.View} <b>this</b>
+     * @param {Number} index The index of the target node
+     * @param {HTMLElement} node The target node
+     * @param {Ext.EventObject} e The raw event object
+     */</i>
+        &quot;dblclick&quot; : true,
+    <i>/**
+     * @event contextmenu
+     * Fires when a template node is right clicked.
+     * @param {Ext.View} <b>this</b>
+     * @param {Number} index The index of the target node
+     * @param {HTMLElement} node The target node
+     * @param {Ext.EventObject} e The raw event object
+     */</i>
+        &quot;contextmenu&quot; : true,
+    <i>/**
+     * @event selectionchange
+     * Fires when the selected nodes change.
+     * @param {Ext.View} <b>this</b>
+     * @param {Array} selections Array of the selected nodes
+     */</i>
+        &quot;selectionchange&quot; : true,
+
+    <i>/**
+     * @event beforeselect
+     * Fires before a selection is made. If any handlers <b>return</b> false, the selection is cancelled.
+     * @param {Ext.View} <b>this</b>
+     * @param {HTMLElement} node The node to be selected
+     * @param {Array} selections Array of currently selected nodes
+     */</i>
+        &quot;beforeselect&quot; : true
+    });
+
+    <b>this</b>.el.on({
+        &quot;click&quot;: <b>this</b>.onClick,
+        &quot;dblclick&quot;: <b>this</b>.onDblClick,
+        &quot;contextmenu&quot;: <b>this</b>.onContextMenu,
+        scope:<b>this</b>
+    });
+
+    <b>this</b>.selections = [];
+    <b>this</b>.nodes = [];
+    <b>this</b>.cmp = <b>new</b> Ext.CompositeElementLite([]);
+    <b>if</b>(this.store){
+        <b>this</b>.setStore(<b>this</b>.store, true);
+    }
+    Ext.View.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.View, Ext.util.Observable, {
+    <i>/**
+     * The css class to add to selected nodes
+     * @type {Ext.DomHelper.Template}
+     */</i>
+    selectedClass : &quot;x-view-selected&quot;,
+    
+    emptyText : &quot;&quot;,
+    <i>/**
+     * Returns the element <b>this</b> view is bound to.
+     * @<b>return</b> {Ext.Element}
+     */</i>
+    getEl : <b>function</b>(){
+        <b>return</b> this.el;
+    },
+
+    <i>/**
+     * Refreshes the view.
+     */</i>
+    refresh : <b>function</b>(){
+        <b>var</b> t = <b>this</b>.tpl;
+        <b>this</b>.clearSelections();
+        <b>this</b>.el.update(&quot;&quot;);
+        <b>var</b> html = [];
+        <b>var</b> records = <b>this</b>.store.getRange();
+        <b>if</b>(records.length &lt; 1){
+            <b>this</b>.el.update(<b>this</b>.emptyText);
+            <b>return</b>;
+        }
+        <b>for</b>(var i = 0, len = records.length; i &lt; len; i++){
+            <b>var</b> data = <b>this</b>.prepareData(records[i].data, i, records[i]);
+            html[html.length] = t.apply(data);
+        }
+        <b>this</b>.el.update(html.join(&quot;&quot;));
+        <b>this</b>.nodes = <b>this</b>.el.dom.childNodes;
+        <b>this</b>.updateIndexes(0);
+    },
+
+    <i>/**
+     * Function to override to reformat the data that is sent to
+     * the template <b>for</b> each node.
+     * @param {Array/Object} data The raw data (array of colData <b>for</b> a data model bound view or
+     * a JSON object <b>for</b> an UpdateManager bound view).
+     */</i>
+    prepareData : <b>function</b>(data){
+        <b>return</b> data;
+    },
+
+    onUpdate : <b>function</b>(ds, record){
+        <b>this</b>.clearSelections();
+        <b>var</b> index = <b>this</b>.store.indexOf(record);
+        <b>var</b> n = <b>this</b>.nodes[index];
+        <b>this</b>.tpl.insertBefore(n, <b>this</b>.prepareData(record.data));
+        n.parentNode.removeChild(n);
+        <b>this</b>.updateIndexes(index, index);
+    },
+
+    onAdd : <b>function</b>(ds, records, index){
+        <b>this</b>.clearSelections();
+        <b>if</b>(this.nodes.length == 0){
+            <b>this</b>.refresh();
+            <b>return</b>;
+        }
+        <b>var</b> n = <b>this</b>.nodes[index];
+        <b>for</b>(var i = 0, len = records.length; i &lt; len; i++){
+            <b>var</b> d = <b>this</b>.prepareData(records[i].data);
+            <b>if</b>(n){
+                <b>this</b>.tpl.insertBefore(n, d);
+            }<b>else</b>{
+                <b>this</b>.tpl.append(<b>this</b>.el, d);
+            }
+        }
+        <b>this</b>.updateIndexes(index);
+    },
+
+    onRemove : <b>function</b>(ds, record, index){
+        <b>this</b>.clearSelections();
+        <b>this</b>.el.dom.removeChild(<b>this</b>.nodes[index]);
+        <b>this</b>.updateIndexes(index);
+    },
+
+    <i>/**
+     * Refresh an individual node.
+     * @param {Number} index
+     */</i>
+    refreshNode : <b>function</b>(index){
+        <b>this</b>.onUpdate(<b>this</b>.store, <b>this</b>.store.getAt(index));
+    },
+
+    updateIndexes : <b>function</b>(startIndex, endIndex){
+        <b>var</b> ns = <b>this</b>.nodes;
+        startIndex = startIndex || 0;
+        endIndex = endIndex || ns.length - 1;
+        <b>for</b>(var i = startIndex; i &lt;= endIndex; i++){
+            ns[i].nodeIndex = i;
+        }
+    },
+
+    <i>/**
+     * Changes the data store <b>this</b> view uses and refresh the view.
+     * @param {Store} store
+     */</i>
+    setStore : <b>function</b>(store, initial){
+        <b>if</b>(!initial &amp;&amp; <b>this</b>.store){
+            <b>this</b>.store.un(&quot;datachanged&quot;, <b>this</b>.refresh);
+            <b>this</b>.store.un(&quot;add&quot;, <b>this</b>.onAdd);
+            <b>this</b>.store.un(&quot;remove&quot;, <b>this</b>.onRemove);
+            <b>this</b>.store.un(&quot;update&quot;, <b>this</b>.onUpdate);
+            <b>this</b>.store.un(&quot;clear&quot;, <b>this</b>.refresh);
+        }
+        <b>if</b>(store){
+            store.on(&quot;datachanged&quot;, <b>this</b>.refresh, <b>this</b>);
+            store.on(&quot;add&quot;, <b>this</b>.onAdd, <b>this</b>);
+            store.on(&quot;remove&quot;, <b>this</b>.onRemove, <b>this</b>);
+            store.on(&quot;update&quot;, <b>this</b>.onUpdate, <b>this</b>);
+            store.on(&quot;clear&quot;, <b>this</b>.refresh, <b>this</b>);
+        }
+        <b>this</b>.store = store;
+        <b>if</b>(store){
+            <b>this</b>.refresh();
+        }
+    },
+
+    <i>/**
+     * Returns the template node the passed child belongs to or null <b>if</b> it doesn't belong to one.
+     * @param {HTMLElement} node
+     * @<b>return</b> {HTMLElement} The template node
+     */</i>
+    findItemFromChild : <b>function</b>(node){
+        <b>var</b> el = <b>this</b>.el.dom;
+        <b>if</b>(!node || node.parentNode == el){
+		    <b>return</b> node;
+	    }
+	    <b>var</b> p = node.parentNode;
+	    <b>while</b>(p &amp;&amp; p != el){
+            <b>if</b>(p.parentNode == el){
+            	<b>return</b> p;
+            }
+            p = p.parentNode;
+        }
+	    <b>return</b> null;
+    },
+
+    <i>/** @ignore */</i>
+    onClick : <b>function</b>(e){
+        <b>var</b> item = <b>this</b>.findItemFromChild(e.getTarget());
+        <b>if</b>(item){
+            <b>var</b> index = <b>this</b>.indexOf(item);
+            <b>if</b>(this.onItemClick(item, index, e) !== false){
+                <b>this</b>.fireEvent(&quot;click&quot;, <b>this</b>, index, item, e);
+            }
+        }<b>else</b>{
+            <b>this</b>.clearSelections();
+        }
+    },
+
+    <i>/** @ignore */</i>
+    onContextMenu : <b>function</b>(e){
+        <b>var</b> item = <b>this</b>.findItemFromChild(e.getTarget());
+        <b>if</b>(item){
+            <b>this</b>.fireEvent(&quot;contextmenu&quot;, <b>this</b>, <b>this</b>.indexOf(item), item, e);
+        }
+    },
+
+    <i>/** @ignore */</i>
+    onDblClick : <b>function</b>(e){
+        <b>var</b> item = <b>this</b>.findItemFromChild(e.getTarget());
+        <b>if</b>(item){
+            <b>this</b>.fireEvent(&quot;dblclick&quot;, <b>this</b>, <b>this</b>.indexOf(item), item, e);
+        }
+    },
+
+    onItemClick : <b>function</b>(item, index, e){
+        <b>if</b>(this.fireEvent(&quot;beforeclick&quot;, <b>this</b>, index, item, e) === false){
+            <b>return</b> false;
+        }
+        <b>if</b>(this.multiSelect || <b>this</b>.singleSelect){
+            <b>if</b>(this.multiSelect &amp;&amp; e.shiftKey &amp;&amp; <b>this</b>.lastSelection){
+                <b>this</b>.select(<b>this</b>.getNodes(<b>this</b>.indexOf(<b>this</b>.lastSelection), index), false);
+            }<b>else</b>{
+                <b>this</b>.select(item, <b>this</b>.multiSelect &amp;&amp; e.ctrlKey);
+                <b>this</b>.lastSelection = item;
+            }
+            e.preventDefault();
+        }
+        <b>return</b> true;
+    },
+
+    <i>/**
+     * Get the number of selected nodes.
+     * @<b>return</b> {Number}
+     */</i>
+    getSelectionCount : <b>function</b>(){
+        <b>return</b> this.selections.length;
+    },
+
+    <i>/**
+     * Get the currently selected nodes.
+     * @<b>return</b> {Array} An array of HTMLElements
+     */</i>
+    getSelectedNodes : <b>function</b>(){
+        <b>return</b> this.selections;
+    },
+
+    <i>/**
+     * Get the indexes of the selected nodes.
+     * @<b>return</b> {Array}
+     */</i>
+    getSelectedIndexes : <b>function</b>(){
+        <b>var</b> indexes = [], s = <b>this</b>.selections;
+        <b>for</b>(var i = 0, len = s.length; i &lt; len; i++){
+            indexes.push(s[i].nodeIndex);
+        }
+        <b>return</b> indexes;
+    },
+
+    <i>/**
+     * Clear all selections
+     * @param {Boolean} suppressEvent (optional) true to skip firing of the selectionchange event
+     */</i>
+    clearSelections : <b>function</b>(suppressEvent){
+        <b>if</b>(this.nodes &amp;&amp; (<b>this</b>.multiSelect || <b>this</b>.singleSelect) &amp;&amp; <b>this</b>.selections.length &gt; 0){
+            <b>this</b>.cmp.elements = <b>this</b>.selections;
+            <b>this</b>.cmp.removeClass(<b>this</b>.selectedClass);
+            <b>this</b>.selections = [];
+            <b>if</b>(!suppressEvent){
+                <b>this</b>.fireEvent(&quot;selectionchange&quot;, <b>this</b>, <b>this</b>.selections);
+            }
+        }
+    },
+
+    <i>/**
+     * Returns true <b>if</b> the passed node is selected
+     * @param {HTMLElement/Number} node The node or node index
+     * @<b>return</b> {Boolean}
+     */</i>
+    isSelected : <b>function</b>(node){
+        <b>var</b> s = <b>this</b>.selections;
+        <b>if</b>(s.length &lt; 1){
+            <b>return</b> false;
+        }
+        node = <b>this</b>.getNode(node);
+        <b>return</b> s.indexOf(node) !== -1;
+    },
+
+    <i>/**
+     * Selects nodes.
+     * @param {Array/HTMLElement/String/Number} nodeInfo An HTMLElement template node, index of a template node, id of a template node or an array of any of those to select
+     * @param {Boolean} keepExisting (optional) true to keep existing selections
+     * @param {Boolean} suppressEvent (optional) true to skip firing of the selectionchange vent
+     */</i>
+    select : <b>function</b>(nodeInfo, keepExisting, suppressEvent){
+        <b>if</b>(nodeInfo instanceof Array){
+            <b>if</b>(!keepExisting){
+                <b>this</b>.clearSelections(true);
+            }
+            <b>for</b>(var i = 0, len = nodeInfo.length; i &lt; len; i++){
+                <b>this</b>.select(nodeInfo[i], true, true);
+            }
+        } <b>else</b>{
+            <b>var</b> node = <b>this</b>.getNode(nodeInfo);
+            <b>if</b>(node &amp;&amp; !<b>this</b>.isSelected(node)){
+                <b>if</b>(!keepExisting){
+                    <b>this</b>.clearSelections(true);
+                }
+                <b>if</b>(this.fireEvent(&quot;beforeselect&quot;, <b>this</b>, node, <b>this</b>.selections) !== false){
+                    Ext.fly(node).addClass(<b>this</b>.selectedClass);
+                    <b>this</b>.selections.push(node);
+                    <b>if</b>(!suppressEvent){
+                        <b>this</b>.fireEvent(&quot;selectionchange&quot;, <b>this</b>, <b>this</b>.selections);
+                    }
+                }
+            }
+        }
+    },
+
+    <i>/**
+     * Gets a template node.
+     * @param {HTMLElement/String/Number} nodeInfo An HTMLElement template node, index of a template node or the id of a template node
+     * @<b>return</b> {HTMLElement} The node or null <b>if</b> it wasn't found
+     */</i>
+    getNode : <b>function</b>(nodeInfo){
+        <b>if</b>(typeof nodeInfo == &quot;string&quot;){
+            <b>return</b> document.getElementById(nodeInfo);
+        }<b>else</b> if(<b>typeof</b> nodeInfo == &quot;number&quot;){
+            <b>return</b> this.nodes[nodeInfo];
+        }
+        <b>return</b> nodeInfo;
+    },
+
+    <i>/**
+     * Gets a range template nodes.
+     * @param {Number} startIndex
+     * @param {Number} endIndex
+     * @<b>return</b> {Array} An array of nodes
+     */</i>
+    getNodes : <b>function</b>(start, end){
+        <b>var</b> ns = <b>this</b>.nodes;
+        start = start || 0;
+        end = <b>typeof</b> end == &quot;undefined&quot; ? ns.length - 1 : end;
+        <b>var</b> nodes = [];
+        <b>if</b>(start &lt;= end){
+            <b>for</b>(var i = start; i &lt;= end; i++){
+                nodes.push(ns[i]);
+            }
+        } <b>else</b>{
+            <b>for</b>(var i = start; i &gt;= end; i--){
+                nodes.push(ns[i]);
+            }
+        }
+        <b>return</b> nodes;
+    },
+
+    <i>/**
+     * Finds the index of the passed node
+     * @param {HTMLElement/String/Number} nodeInfo An HTMLElement template node, index of a template node or the id of a template node
+     * @<b>return</b> {Number} The index of the node or -1
+     */</i>
+    indexOf : <b>function</b>(node){
+        node = <b>this</b>.getNode(node);
+        <b>if</b>(typeof node.nodeIndex == &quot;number&quot;){
+            <b>return</b> node.nodeIndex;
+        }
+        <b>var</b> ns = <b>this</b>.nodes;
+        <b>for</b>(var i = 0, len = ns.length; i &lt; len; i++){
+            <b>if</b>(ns[i] == node){
+                <b>return</b> i;
+            }
+        }
+        <b>return</b> -1;
+    }
+});
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

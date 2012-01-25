@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>permissions (UsersController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/users_controller.rb, line 44</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">permissions</span>
+    <span class="ruby-identifier">ret</span> = <span class="ruby-value str">''</span>
+    <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@user</span>.<span class="ruby-identifier">admin</span>)
+      <span class="ruby-ivar">@projects</span> = <span class="ruby-constant">Project</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>)
+      <span class="ruby-identifier">ret</span> = <span class="ruby-node">&quot;{\&quot;data\&quot;: #{@projects.collect{|p| {:project_name =&gt; p.name, :group =&gt; 'ADMIN'}}.to_json} }&quot;</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-ivar">@permissions</span> = <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">projects_users</span>
+      <span class="ruby-identifier">ret</span> = <span class="ruby-node">&quot;{\&quot;data\&quot;: #{@permissions.to_json(:only =&gt; [:group], :methods =&gt; [:project_name])} }&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ret</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

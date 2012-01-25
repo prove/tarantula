@@ -1,0 +1,169 @@
+<html><head><title>ext-lang-hr.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-hr.js</h1><pre class="highlighted"><code><i>/*
+ * Croatian translation
+ * By Ylodi (utf8 encoding)
+ * 8 May 2007
+ */</i>
+ 
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;U&Auml;çitavanje...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} odabranih redova&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;Zatvori ovaj tab&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;Unesena vrijednost u ovom polju je neispravna&quot;;
+}
+
+Date.monthNames = [
+   &quot;Sije&Auml;çanj&quot;,
+   &quot;Velja&Auml;ça&quot;,
+   &quot;O&Aring;&frac34;ujak&quot;,
+   &quot;Travanj&quot;,
+   &quot;Svibanj&quot;,
+   &quot;Lipanj&quot;,
+   &quot;Srpanj&quot;,
+   &quot;Kolovoz&quot;,
+   &quot;Rujan&quot;,
+   &quot;Listopad&quot;,
+   &quot;Studeni&quot;,
+   &quot;Prosinac&quot;
+];
+
+Date.dayNames = [
+   &quot;Nedjelja&quot;,
+   &quot;Ponedjeljak&quot;,
+   &quot;Utorak&quot;,
+   &quot;Srijeda&quot;,
+   &quot;&Auml;åetvrtak&quot;,
+   &quot;Petak&quot;,
+   &quot;Subota&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;U redu&quot;,
+      cancel : &quot;Odustani&quot;,
+      yes    : &quot;Da&quot;,
+      no     : &quot;Ne&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;d.m.Y&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;Danas&quot;,
+      minText           : &quot;Taj datum je prije najmanjeg datuma&quot;,
+      maxText           : &quot;Taj datum je poslije najve&Auml;áeg datuma&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames	: Date.monthNames,
+      dayNames		: Date.dayNames,
+      nextText          : <em>'Slijede&Auml;ái mjesec (Control+Desno)'</em>,
+      prevText          : <em>'Prethodni mjesec (Control+Lijevo)'</em>,
+      monthYearText     : <em>'Odaberite mjesec (Control+Gore/Dolje za promjenu godine)'</em>,
+      todayTip          : &quot;{0} (Razmaknica)&quot;,
+      format            : &quot;d.m.y&quot;,
+      startDay 		 : 1
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;Stranica&quot;,
+      afterPageText  : &quot;od {0}&quot;,
+      firstText      : &quot;Prva stranica&quot;,
+      prevText       : &quot;Prethodna stranica&quot;,
+      nextText       : &quot;Slijede&Auml;áa stranica&quot;,
+      lastText       : &quot;Posljednja stranica&quot;,
+      refreshText    : &quot;Obnovi&quot;,
+      displayMsg     : &quot;Prikazujem {0} - {1} od {2}&quot;,
+      emptyMsg       : <em>'Nema podataka za prikaz'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;Minimalna du&Aring;&frac34;ina za ovo polje je {0}&quot;,
+      maxLengthText : &quot;Maksimalna du&Aring;&frac34;ina za ovo polje je {0}&quot;,
+      blankText     : &quot;Ovo polje je obavezno&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;Minimalna vrijednost za ovo polje je {0}&quot;,
+      maxText : &quot;Maksimalna vrijednost za ovo polje je {0}&quot;,
+      nanText : &quot;{0} nije ispravan broj&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;Neaktivno&quot;,
+      disabledDatesText : &quot;Neaktivno&quot;,
+      minText           : &quot;Datum u ovom polje mora biti poslije {0}&quot;,
+      maxText           : &quot;Datum u ovom polju mora biti prije {0}&quot;,
+      invalidText       : &quot;{0} nije ispravan datum - mora biti u obliku {1}&quot;,
+      format            : &quot;d.m.y&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;U&Auml;çitavanje...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'Ovdje mo&Aring;&frac34;ete unijeti samo e-mail adresu u obliku &quot;korisnik@domena.com&quot;'</em>,
+      urlText      : <em>'Ovdje mo&Aring;&frac34;ete unijeti samo URL u obliku &quot;http:/'</em>+<em>'/www.domena.com&quot;'</em>,
+      alphaText    : <em>'Ovo polje mo&Aring;&frac34;e sadr&Aring;&frac34;avati samo slova i znak _'</em>,
+      alphanumText : <em>'Ovo polje mo&Aring;&frac34;e sadr&Aring;&frac34;avati samo slova, brojeve i znak _'</em>
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;Sortiraj rastu&Auml;áim redoslijedom&quot;,
+      sortDescText : &quot;Sortiraj padaju&Auml;áim redoslijedom&quot;,
+      lockText     : &quot;Zaklju&Auml;çaj stupac&quot;,
+      unlockText   : &quot;Otklju&Auml;çaj stupac&quot;,
+      columnsText  : &quot;Stupci&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;Naziv&quot;,
+      valueText  : &quot;Vrijednost&quot;,
+      dateFormat : &quot;d.m.Y&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;Povuci za promjenu veli&Auml;çine.&quot;,
+      collapsibleSplitTip : &quot;Povuci za promjenu veli&Auml;çine. Dvostruki klik za skrivanje.&quot;
+   });
+}
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

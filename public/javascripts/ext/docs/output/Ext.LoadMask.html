@@ -1,0 +1,214 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.LoadMask</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.LoadMask.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.LoadMask</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>LoadMask</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="LoadMask.jss.html">LoadMask.js</a></td></tr>
+        </table>
+        <div class="description">
+            A simple utility class for generically masking elements while loading data.  If the element being masked has
+an underlying <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a>, the masking will be automatically synchronized with the store's loading
+process and the mask element will be cached for reuse.  For all other elements, this mask will replace the
+element's UpdateManager load indicator and will be destroyed after the initial load.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disabled">disabled</a> : Boolean</td>
+        <td class="msource" rowspan="2">LoadMask</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Read-only. True if the mask is currently disabled so that it will not be displayed (defaults to false)</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>LoadMask</b>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">LoadMask</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new LoadMask</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disable">disable</a>() : void</td>
+        <td class="msource" rowspan="2">LoadMask</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Disables the mask to prevent it from being displayed</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#enable">enable</a>() : void</td>
+        <td class="msource" rowspan="2">LoadMask</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Enables the mask so that it can be displayed</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-msg">msg</a> : String</td>
+        <td class="msource" rowspan="2">LoadMask</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The text to display in a centered loading message box (defaults to 'Loading...')</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-msgCls">msgCls</a> : String</td>
+        <td class="msource" rowspan="2">LoadMask</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The CSS class to apply to the loading message element (defaults to "x-mask-loading")</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-removeMask">removeMask</a> : Boolean</td>
+        <td class="msource" rowspan="2">LoadMask</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">True to create a single-use mask that is automatically destroyed after loading (useful for page loads), False to pers...</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="disabled"></a>
+                <div class="mdetail">
+                <h3>disabled</i></h3>
+                <code>public Boolean disabled</code>
+                <div class="mdetail-desc">
+                    Read-only. True if the mask is currently disabled so that it will not be displayed (defaults to false)                </div>
+                <div class="mdetail-def">This property is defined by LoadMask.</div>
+                </div>
+                        </div>
+        
+                    <a name="LoadMask"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>LoadMask</i></h3>
+                <code>public function LoadMask(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new LoadMask                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The element or DOM node, or its id</div></li><li><code>config</code> : Object<div class="sub-desc">The config object</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="disable"></a>
+                <div class="mdetail">
+                <h3>disable</i></h3>
+                <code>public function disable()</code>
+                <div class="mdetail-desc">
+                    Disables the mask to prevent it from being displayed
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by LoadMask.</div>
+                </div>
+                            <a name="enable"></a>
+                <div class="mdetail alt">
+                <h3>enable</i></h3>
+                <code>public function enable()</code>
+                <div class="mdetail-desc">
+                    Enables the mask so that it can be displayed
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by LoadMask.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-msg"></a>
+                <div class="mdetail">
+                <h3>msg</i></h3>
+                <code>msg : String</code>
+                <div class="mdetail-desc">
+                    The text to display in a centered loading message box (defaults to 'Loading...')                </div>
+                <div class="mdetail-def">This config option is defined by LoadMask.</div>
+                </div>
+                            <a name="config-msgCls"></a>
+                <div class="mdetail alt">
+                <h3>msgCls</i></h3>
+                <code>msgCls : String</code>
+                <div class="mdetail-desc">
+                    The CSS class to apply to the loading message element (defaults to "x-mask-loading")                </div>
+                <div class="mdetail-def">This config option is defined by LoadMask.</div>
+                </div>
+                            <a name="config-removeMask"></a>
+                <div class="mdetail">
+                <h3>removeMask</i></h3>
+                <code>removeMask : Boolean</code>
+                <div class="mdetail-desc">
+                    True to create a single-use mask that is automatically destroyed after loading (useful for page loads), False to persist the mask element reference for multiple uses (e.g., for paged data widgets). Defaults to false.                </div>
+                <div class="mdetail-def">This config option is defined by LoadMask.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

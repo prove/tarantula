@@ -1,0 +1,82 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.UpdateManager.BasicRenderer</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.UpdateManager.BasicRenderer.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.UpdateManager.BasicRenderer</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>UpdateManager.BasicRenderer</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="UpdateManager.jss.html">UpdateManager.js</a></td></tr>
+        </table>
+        <div class="description">
+            Default Content renderer. Updates the elements innerHTML with the responseText.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#render">render</a>(&nbsp;<code>Ext.Element el</code>, <code>Object response</code>, <code>UpdateManager updateManager</code>, <code>Function callback</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">UpdateManager.BasicRenderer</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">This is called when the transaction is completed and it's time to update the element - The BasicRenderer
+updates the ...</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="render"></a>
+                <div class="mdetail">
+                <h3>render</i></h3>
+                <code>public function render(&nbsp;<code>Ext.Element el</code>, <code>Object response</code>, <code>UpdateManager updateManager</code>, <code>Function callback</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    This is called when the transaction is completed and it's time to update the element - The BasicRenderer
+updates the elements innerHTML with the responseText - To perform a custom render (i.e. XML or JSON processing),
+create an object with a "render(el, response)" method and pass it to setRenderer on the UpdateManager.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : Ext.Element<div class="sub-desc">The element being rendered</div></li><li><code>response</code> : Object<div class="sub-desc">The YUI Connect response object</div></li><li><code>updateManager</code> : UpdateManager<div class="sub-desc">The calling update manager</div></li><li><code>callback</code> : Function<div class="sub-desc">A callback that will need to be called if loadScripts is true on the UpdateManager</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by UpdateManager.BasicRenderer.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

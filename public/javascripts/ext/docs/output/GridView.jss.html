@@ -1,0 +1,1527 @@
+<html><head><title>GridView.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>GridView.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.grid.GridView
+ * @extends Ext.util.Observable
+ *
+ * @constructor
+ * @param {Object} config
+ */</i>
+Ext.grid.GridView = <b>function</b>(config){
+    Ext.grid.GridView.superclass.constructor.call(<b>this</b>);
+    <b>this</b>.el = null;
+
+    Ext.apply(<b>this</b>, config);
+};
+
+Ext.extend(Ext.grid.GridView, Ext.grid.AbstractGridView, {
+
+    <i>/**
+     * Override <b>this</b> function to apply custom css classes to rows during rendering
+     * @param {Record} record The record
+     * @param {Number} index
+     * @method getRowClass
+     */</i>
+    rowClass : &quot;x-grid-row&quot;,
+
+    cellClass : &quot;x-grid-col&quot;,
+
+    tdClass : &quot;x-grid-td&quot;,
+
+    hdClass : &quot;x-grid-hd&quot;,
+
+    splitClass : &quot;x-grid-split&quot;,
+
+    sortClasses : [&quot;sort-asc&quot;, &quot;sort-desc&quot;],
+
+    enableMoveAnim : false,
+
+    hlColor: &quot;C3DAF9&quot;,
+
+    dh : Ext.DomHelper,
+
+    fly : Ext.Element.fly,
+
+    css : Ext.util.CSS,
+
+    borderWidth: 1,
+
+    splitOffset: 3,
+
+    scrollIncrement : 22,
+
+    cellRE: /(?:.*?)x-grid-(?:hd|cell|csplit)-(?:[\d]+)-([\d]+)(?:.*?)/,
+
+    findRE: /\s?(?:x-grid-hd|x-grid-col|x-grid-csplit)\s/,
+
+    bind : <b>function</b>(ds, cm){
+        <b>if</b>(this.ds){
+            <b>this</b>.ds.un(&quot;load&quot;, <b>this</b>.onLoad, <b>this</b>);
+            <b>this</b>.ds.un(&quot;datachanged&quot;, <b>this</b>.onDataChange, <b>this</b>);
+            <b>this</b>.ds.un(&quot;add&quot;, <b>this</b>.onAdd, <b>this</b>);
+            <b>this</b>.ds.un(&quot;remove&quot;, <b>this</b>.onRemove, <b>this</b>);
+            <b>this</b>.ds.un(&quot;update&quot;, <b>this</b>.onUpdate, <b>this</b>);
+            <b>this</b>.ds.un(&quot;clear&quot;, <b>this</b>.onClear, <b>this</b>);
+        }
+        <b>if</b>(ds){
+            ds.on(&quot;load&quot;, <b>this</b>.onLoad, <b>this</b>);
+            ds.on(&quot;datachanged&quot;, <b>this</b>.onDataChange, <b>this</b>);
+            ds.on(&quot;add&quot;, <b>this</b>.onAdd, <b>this</b>);
+            ds.on(&quot;remove&quot;, <b>this</b>.onRemove, <b>this</b>);
+            ds.on(&quot;update&quot;, <b>this</b>.onUpdate, <b>this</b>);
+            ds.on(&quot;clear&quot;, <b>this</b>.onClear, <b>this</b>);
+        }
+        <b>this</b>.ds = ds;
+
+        <b>if</b>(this.cm){
+            <b>this</b>.cm.un(&quot;widthchange&quot;, <b>this</b>.onColWidthChange, <b>this</b>);
+            <b>this</b>.cm.un(&quot;headerchange&quot;, <b>this</b>.onHeaderChange, <b>this</b>);
+            <b>this</b>.cm.un(&quot;hiddenchange&quot;, <b>this</b>.onHiddenChange, <b>this</b>);
+            <b>this</b>.cm.un(&quot;columnmoved&quot;, <b>this</b>.onColumnMove, <b>this</b>);
+            <b>this</b>.cm.un(&quot;columnlockchange&quot;, <b>this</b>.onColumnLock, <b>this</b>);
+        }
+        <b>if</b>(cm){
+            <b>this</b>.generateRules(cm);
+            cm.on(&quot;widthchange&quot;, <b>this</b>.onColWidthChange, <b>this</b>);
+            cm.on(&quot;headerchange&quot;, <b>this</b>.onHeaderChange, <b>this</b>);
+            cm.on(&quot;hiddenchange&quot;, <b>this</b>.onHiddenChange, <b>this</b>);
+            cm.on(&quot;columnmoved&quot;, <b>this</b>.onColumnMove, <b>this</b>);
+            cm.on(&quot;columnlockchange&quot;, <b>this</b>.onColumnLock, <b>this</b>);
+        }
+        <b>this</b>.cm = cm;
+    },
+
+    init: <b>function</b>(grid){
+		Ext.grid.GridView.superclass.init.call(<b>this</b>, grid);
+
+		<b>this</b>.bind(grid.dataSource, grid.colModel);
+
+	    grid.on(&quot;headerclick&quot;, <b>this</b>.handleHeaderClick, <b>this</b>);
+
+        <b>if</b>(grid.trackMouseOver){
+            grid.on(&quot;mouseover&quot;, <b>this</b>.onRowOver, <b>this</b>);
+	        grid.on(&quot;mouseout&quot;, <b>this</b>.onRowOut, <b>this</b>);
+	    }
+	    grid.cancelTextSelection = <b>function</b>(){};
+		<b>this</b>.gridId = grid.id;
+
+		<b>var</b> tpls = <b>this</b>.templates || {};
+
+		<b>if</b>(!tpls.master){
+		    tpls.master = <b>new</b> Ext.Template(
+		       <em>'&lt;div class=&quot;x-grid&quot; hidefocus=&quot;true&quot;&gt;'</em>,
+		          <em>'&lt;div class=&quot;x-grid-topbar&quot;&gt;&lt;/div&gt;'</em>,
+		          <em>'&lt;div class=&quot;x-grid-scroller&quot;&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;'</em>,
+		          <em>'&lt;div class=&quot;x-grid-locked&quot;&gt;'</em>,
+		              <em>'&lt;div class=&quot;x-grid-header&quot;&gt;{lockedHeader}&lt;/div&gt;'</em>,
+		              <em>'&lt;div class=&quot;x-grid-body&quot;&gt;{lockedBody}&lt;/div&gt;'</em>,
+		          &quot;&lt;/div&gt;&quot;,
+		          <em>'&lt;div class=&quot;x-grid-viewport&quot;&gt;'</em>,
+		              <em>'&lt;div class=&quot;x-grid-header&quot;&gt;{header}&lt;/div&gt;'</em>,
+		              <em>'&lt;div class=&quot;x-grid-body&quot;&gt;{body}&lt;/div&gt;'</em>,
+		          &quot;&lt;/div&gt;&quot;,
+		          <em>'&lt;div class=&quot;x-grid-bottombar&quot;&gt;&lt;/div&gt;'</em>,
+		          <em>'&lt;a href=&quot;#&quot; class=&quot;x-grid-focus&quot; tabIndex=&quot;-1&quot;&gt;&lt;/a&gt;'</em>,
+		          <em>'&lt;div class=&quot;x-grid-resize-proxy&quot;&gt;&amp;#160;&lt;/div&gt;'</em>,
+		       &quot;&lt;/div&gt;&quot;
+		    );
+		    tpls.master.disableformats = true;
+		}
+
+		<b>if</b>(!tpls.header){
+		    tpls.header = <b>new</b> Ext.Template(
+		       <em>'&lt;table border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;'</em>,
+		       <em>'&lt;tbody&gt;&lt;tr class=&quot;x-grid-hd-row&quot;&gt;{cells}&lt;/tr&gt;&lt;/tbody&gt;'</em>,
+		       &quot;&lt;/table&gt;{splits}&quot;
+		    );
+		    tpls.header.disableformats = true;
+		}
+		tpls.header.compile();
+
+		<b>if</b>(!tpls.hcell){
+		    tpls.hcell = <b>new</b> Ext.Template(
+		        <em>'&lt;td class=&quot;x-grid-hd x-grid-td-{id} {cellId}&quot;&gt;&lt;div title=&quot;{title}&quot; class=&quot;x-grid-hd-inner x-grid-hd-{id}&quot;&gt;'</em>,
+		        <em>'&lt;div class=&quot;x-grid-hd-text&quot; unselectable=&quot;on&quot;&gt;{value}&lt;img class=&quot;x-grid-sort-icon&quot; src=&quot;'</em>, Ext.BLANK_IMAGE_URL, <em>'&quot; /&gt;&lt;/div&gt;'</em>,
+		        &quot;&lt;/div&gt;&lt;/td&gt;&quot;
+		     );
+		     tpls.hcell.disableFormats = true;
+		}
+		tpls.hcell.compile();
+
+		<b>if</b>(!tpls.hsplit){
+		    tpls.hsplit = <b>new</b> Ext.Template(<em>'&lt;div class=&quot;x-grid-split {splitId} x-grid-split-{id}&quot; style=&quot;{style}&quot; unselectable=&quot;on&quot;&gt;&amp;#160;&lt;/div&gt;'</em>);
+		    tpls.hsplit.disableFormats = true;
+		}
+		tpls.hsplit.compile();
+
+		<b>if</b>(!tpls.body){
+		    tpls.body = <b>new</b> Ext.Template(
+		       <em>'&lt;table border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;'</em>,
+		       &quot;&lt;tbody&gt;{rows}&lt;/tbody&gt;&quot;,
+		       &quot;&lt;/table&gt;&quot;
+		    );
+		    tpls.body.disableFormats = true;
+		}
+		tpls.body.compile();
+
+		<b>if</b>(!tpls.row){
+		    tpls.row = <b>new</b> Ext.Template(<em>'&lt;tr class=&quot;x-grid-row {alt}&quot;&gt;{cells}&lt;/tr&gt;'</em>);
+		    tpls.row.disableFormats = true;
+		}
+		tpls.row.compile();
+
+		<b>if</b>(!tpls.cell){
+		    tpls.cell = <b>new</b> Ext.Template(
+		        <em>'&lt;td class=&quot;x-grid-col x-grid-td-{id} {cellId} {css}&quot; tabIndex=&quot;0&quot;&gt;'</em>,
+		        <em>'&lt;div class=&quot;x-grid-col-{id} x-grid-cell-inner&quot;&gt;&lt;div class=&quot;x-grid-cell-text&quot; unselectable=&quot;on&quot; {attr}&gt;{value}&lt;/div&gt;&lt;/div&gt;'</em>,
+		        &quot;&lt;/td&gt;&quot;
+		    );
+            tpls.cell.disableFormats = true;
+        }
+		tpls.cell.compile();
+
+		<b>this</b>.templates = tpls;
+	},
+
+	<i>// remap these <b>for</b> backwards compat</i>
+    onColWidthChange : <b>function</b>(){
+        <b>this</b>.updateColumns.apply(<b>this</b>, arguments);
+    },
+    onHeaderChange : <b>function</b>(){
+        <b>this</b>.updateHeaders.apply(<b>this</b>, arguments);
+    }, 
+    onHiddenChange : <b>function</b>(){
+        <b>this</b>.handleHiddenChange.apply(<b>this</b>, arguments);
+    },
+    onColumnMove : <b>function</b>(){
+        <b>this</b>.handleColumnMove.apply(<b>this</b>, arguments);
+    },
+    onColumnLock : <b>function</b>(){
+        <b>this</b>.handleLockChange.apply(<b>this</b>, arguments);
+    },
+
+    onDataChange : <b>function</b>(){
+        <b>this</b>.refresh();
+        <b>this</b>.updateHeaderSortState();
+    },
+
+	onClear : <b>function</b>(){
+        <b>this</b>.refresh();
+    },
+
+	onUpdate : <b>function</b>(ds, record){
+        <b>this</b>.refreshRow(record);
+    },
+
+    refreshRow : <b>function</b>(record){
+        <b>var</b> ds = <b>this</b>.ds, index;
+        <b>if</b>(typeof record == <em>'number'</em>){
+            index = record;
+            record = ds.getAt(index);
+        }<b>else</b>{
+            index = ds.indexOf(record);
+        }
+        <b>this</b>.insertRows(ds, index, index, true);
+        <b>this</b>.onRemove(ds, record, index+1, true);
+        <b>this</b>.syncRowHeights(index, index);
+        <b>this</b>.layout();
+        <b>this</b>.fireEvent(&quot;rowupdated&quot;, <b>this</b>, index, record);
+    },
+
+    onAdd : <b>function</b>(ds, records, index){
+        <b>this</b>.insertRows(ds, index, index + (records.length-1));
+    },
+
+    onRemove : <b>function</b>(ds, record, index, isUpdate){
+        <b>if</b>(isUpdate !== true){
+            <b>this</b>.fireEvent(&quot;beforerowremoved&quot;, <b>this</b>, index, record);
+        }
+        <b>var</b> bt = <b>this</b>.getBodyTable(), lt = <b>this</b>.getLockedTable();
+        <b>if</b>(bt.rows[index]){
+            bt.firstChild.removeChild(bt.rows[index]);
+        }
+        <b>if</b>(lt.rows[index]){
+            lt.firstChild.removeChild(lt.rows[index]);
+        }
+        <b>if</b>(isUpdate !== true){
+            <b>this</b>.stripeRows(index);
+            <b>this</b>.syncRowHeights(index, index);
+            <b>this</b>.layout();
+            <b>this</b>.fireEvent(&quot;rowremoved&quot;, <b>this</b>, index, record);
+        }
+    },
+
+    onLoad : <b>function</b>(){
+        <b>this</b>.scrollToTop();
+    },
+
+    <i>/**
+     * Scrolls the grid to the top
+     */</i>
+    scrollToTop : <b>function</b>(){
+        <b>if</b>(this.scroller){
+            <b>this</b>.scroller.dom.scrollTop = 0;
+            <b>this</b>.syncScroll();
+        }
+    },
+
+    <i>/**
+     * Gets a panel <b>in</b> the header of the grid that can be used <b>for</b> toolbars etc.
+     * After modifying the contents of <b>this</b> panel a call to grid.autoSize() may be
+     * required to register any changes <b>in</b> size.
+     * @param {Boolean} doShow By <b>default</b> the header is hidden. Pass true to show the panel
+     * @<b>return</b> Ext.Element
+     */</i>
+    getHeaderPanel : <b>function</b>(doShow){
+        <b>if</b>(doShow){
+            <b>this</b>.headerPanel.show();
+        }
+        <b>return</b> this.headerPanel;
+	},
+
+	<i>/**
+     * Gets a panel <b>in</b> the footer of the grid that can be used <b>for</b> toolbars etc.
+     * After modifying the contents of <b>this</b> panel a call to grid.autoSize() may be
+     * required to register any changes <b>in</b> size.
+     * @param {Boolean} doShow By <b>default</b> the footer is hidden. Pass true to show the panel
+     * @<b>return</b> Ext.Element
+     */</i>
+    getFooterPanel : <b>function</b>(doShow){
+        <b>if</b>(doShow){
+            <b>this</b>.footerPanel.show();
+        }
+        <b>return</b> this.footerPanel;
+	},
+
+	initElements : <b>function</b>(){
+	    <b>var</b> E = Ext.Element;
+	    <b>var</b> el = <b>this</b>.grid.getGridEl().dom.firstChild;
+	    <b>var</b> cs = el.childNodes;
+
+	    <b>this</b>.el = <b>new</b> E(el);
+	    <b>this</b>.headerPanel = <b>new</b> E(el.firstChild);
+	    <b>this</b>.headerPanel.enableDisplayMode(&quot;block&quot;);
+
+        <b>this</b>.scroller = <b>new</b> E(cs[1]);
+	    <b>this</b>.scrollSizer = <b>new</b> E(<b>this</b>.scroller.dom.firstChild);
+
+	    <b>this</b>.lockedWrap = <b>new</b> E(cs[2]);
+	    <b>this</b>.lockedHd = <b>new</b> E(<b>this</b>.lockedWrap.dom.firstChild);
+	    <b>this</b>.lockedBody = <b>new</b> E(<b>this</b>.lockedWrap.dom.childNodes[1]);
+
+	    <b>this</b>.mainWrap = <b>new</b> E(cs[3]);
+	    <b>this</b>.mainHd = <b>new</b> E(<b>this</b>.mainWrap.dom.firstChild);
+	    <b>this</b>.mainBody = <b>new</b> E(<b>this</b>.mainWrap.dom.childNodes[1]);
+
+	    <b>this</b>.footerPanel = <b>new</b> E(cs[4]);
+	    <b>this</b>.footerPanel.enableDisplayMode(&quot;block&quot;);
+
+        <b>this</b>.focusEl = <b>new</b> E(cs[5]);
+        <b>this</b>.focusEl.swallowEvent(&quot;click&quot;, true);
+        <b>this</b>.resizeProxy = <b>new</b> E(cs[6]);
+
+	    <b>this</b>.headerSelector = String.format(
+	       <em>'#{0} td.x-grid-hd, #{1} td.x-grid-hd'</em>,
+	       <b>this</b>.lockedHd.id, <b>this</b>.mainHd.id
+	    );
+
+	    <b>this</b>.splitterSelector = String.format(
+	       <em>'#{0} div.x-grid-split, #{1} div.x-grid-split'</em>,
+	       <b>this</b>.lockedHd.id, <b>this</b>.mainHd.id
+	    );
+    },
+
+	getHeaderCell : <b>function</b>(index){
+	    <b>return</b> Ext.DomQuery.select(<b>this</b>.headerSelector)[index];
+	},
+
+	getHeaderCellMeasure : <b>function</b>(index){
+	    <b>return</b> this.getHeaderCell(index).firstChild;
+	},
+
+	getHeaderCellText : <b>function</b>(index){
+	    <b>return</b> this.getHeaderCell(index).firstChild.firstChild;
+	},
+
+	getLockedTable : <b>function</b>(){
+	    <b>return</b> this.lockedBody.dom.firstChild;
+	},
+
+	getBodyTable : <b>function</b>(){
+	    <b>return</b> this.mainBody.dom.firstChild;
+	},
+
+	getLockedRow : <b>function</b>(index){
+	    <b>return</b> this.getLockedTable().rows[index];
+	},
+
+	getRow : <b>function</b>(index){
+	    <b>return</b> this.getBodyTable().rows[index];
+	},
+
+	getRowComposite : <b>function</b>(index){
+	    <b>if</b>(!<b>this</b>.rowEl){
+	        <b>this</b>.rowEl = <b>new</b> Ext.CompositeElementLite();
+	    }
+        <b>var</b> els = [], lrow, mrow;
+        <b>if</b>(lrow = <b>this</b>.getLockedRow(index)){
+            els.push(lrow);
+        }
+        <b>if</b>(mrow = <b>this</b>.getRow(index)){
+            els.push(mrow);
+        }
+        <b>this</b>.rowEl.elements = els;
+	    <b>return</b> this.rowEl;
+	},
+
+	getCell : <b>function</b>(rowIndex, colIndex){
+	    <b>var</b> locked = <b>this</b>.cm.getLockedCount();
+	    <b>var</b> source;
+	    <b>if</b>(colIndex &lt; locked){
+	        source = <b>this</b>.lockedBody.dom.firstChild;
+	    }<b>else</b>{
+	        source = <b>this</b>.mainBody.dom.firstChild;
+	        colIndex -= locked;
+	    }
+        <b>return</b> source.rows[rowIndex].childNodes[colIndex];
+	},
+
+	getCellText : <b>function</b>(rowIndex, colIndex){
+	    <b>return</b> this.getCell(rowIndex, colIndex).firstChild.firstChild;
+	},
+
+	getCellBox : <b>function</b>(cell){
+	    <b>var</b> b = <b>this</b>.fly(cell).getBox();
+        <b>if</b>(Ext.isOpera){ <i>// opera fails to report the Y</i>
+            b.y = cell.offsetTop + <b>this</b>.mainBody.getY();
+        }
+        <b>return</b> b;
+    },
+
+    getCellIndex : <b>function</b>(cell){
+        <b>var</b> id = String(cell.className).match(<b>this</b>.cellRE);
+        <b>if</b>(id){
+            <b>return</b> parseInt(id[1], 10);
+        }
+        <b>return</b> 0;
+    },
+
+    findHeaderIndex : <b>function</b>(n){
+        <b>var</b> r = Ext.fly(n).findParent(&quot;td.&quot; + <b>this</b>.hdClass, 6);
+        <b>return</b> r ? <b>this</b>.getCellIndex(r) : false;
+    },
+
+    findHeaderCell : <b>function</b>(n){
+        <b>var</b> r = Ext.fly(n).findParent(&quot;td.&quot; + <b>this</b>.hdClass, 6);
+        <b>return</b> r ? r : false;
+    },
+
+    findRowIndex : <b>function</b>(n){
+        <b>if</b>(!n){
+            <b>return</b> false;
+        }
+        <b>var</b> r = Ext.fly(n).findParent(&quot;tr.&quot; + <b>this</b>.rowClass, 6);
+        <b>return</b> r ? r.rowIndex : false;
+    },
+
+    findCellIndex : <b>function</b>(node){
+        <b>var</b> stop = <b>this</b>.el.dom;
+        <b>while</b>(node &amp;&amp; node != stop){
+            <b>if</b>(this.findRE.test(node.className)){
+                <b>return</b> this.getCellIndex(node);
+            }
+            node = node.parentNode;
+        }
+        <b>return</b> false;
+    },
+
+    getColumnId : <b>function</b>(index){
+	    <b>return</b> this.cm.getColumnId(index);
+	},
+
+	getSplitters : <b>function</b>(){
+	    <b>if</b>(this.splitterSelector){
+	       <b>return</b> Ext.DomQuery.select(<b>this</b>.splitterSelector);
+	    }<b>else</b>{
+	        <b>return</b> null;
+	    }
+	},
+
+	getSplitter : <b>function</b>(index){
+	    <b>return</b> this.getSplitters()[index];
+	},
+
+    onRowOver : <b>function</b>(e, t){
+        <b>var</b> row;
+        <b>if</b>((row = <b>this</b>.findRowIndex(t)) !== false){
+            <b>this</b>.getRowComposite(row).addClass(&quot;x-grid-row-over&quot;);
+        }
+    },
+
+    onRowOut : <b>function</b>(e, t){
+        <b>var</b> row;
+        <b>if</b>((row = <b>this</b>.findRowIndex(t)) !== false &amp;&amp; row !== <b>this</b>.findRowIndex(e.getRelatedTarget())){
+            <b>this</b>.getRowComposite(row).removeClass(&quot;x-grid-row-over&quot;);
+        }
+    },
+
+    renderHeaders : <b>function</b>(){
+	    <b>var</b> cm = <b>this</b>.cm;
+        <b>var</b> ct = <b>this</b>.templates.hcell, ht = <b>this</b>.templates.header, st = <b>this</b>.templates.hsplit;
+        <b>var</b> cb = [], lb = [], sb = [], lsb = [], p = {};
+        <b>for</b>(var i = 0, len = cm.getColumnCount(); i &lt; len; i++){
+            p.cellId = &quot;x-grid-hd-0-&quot; + i;
+            p.splitId = &quot;x-grid-csplit-0-&quot; + i;
+            p.id = cm.getColumnId(i);
+            p.title = cm.getColumnTooltip(i) || &quot;&quot;;
+            p.value = cm.getColumnHeader(i) || &quot;&quot;;
+            p.style = (<b>this</b>.grid.enableColumnResize === false || !cm.isResizable(i) || cm.isFixed(i)) ? <em>'cursor:<b>default</b>'</em> : <em>''</em>;
+            <b>if</b>(!cm.isLocked(i)){
+                cb[cb.length] = ct.apply(p);
+                sb[sb.length] = st.apply(p);
+            }<b>else</b>{
+                lb[lb.length] = ct.apply(p);
+                lsb[lsb.length] = st.apply(p);
+            }
+        }
+        <b>return</b> [ht.apply({cells: lb.join(&quot;&quot;), splits:lsb.join(&quot;&quot;)}),
+                ht.apply({cells: cb.join(&quot;&quot;), splits:sb.join(&quot;&quot;)})];
+	},
+
+	updateHeaders : <b>function</b>(){
+        <b>var</b> html = <b>this</b>.renderHeaders();
+        <b>this</b>.lockedHd.update(html[0]);
+        <b>this</b>.mainHd.update(html[1]);
+    },
+
+    <i>/**
+     * Focuses the specified row.
+     * @param {Number} row The row index
+     */</i>
+    focusRow : <b>function</b>(row){
+        <b>var</b> x = <b>this</b>.scroller.dom.scrollLeft;
+        <b>this</b>.focusCell(row, 0, false);
+        <b>this</b>.scroller.dom.scrollLeft = x;
+    },
+
+    <i>/**
+     * Focuses the specified cell.
+     * @param {Number} row The row index
+     * @param {Number} col The column index
+     * @param {Boolean} hscroll false to disable horizontal scrolling
+     */</i>
+    focusCell : <b>function</b>(row, col, hscroll){
+        <b>var</b> el = <b>this</b>.ensureVisible(row, col, hscroll);
+        <b>this</b>.focusEl.alignTo(el, &quot;tl-tl&quot;);
+        <b>if</b>(Ext.isGecko){
+            <b>this</b>.focusEl.focus();
+        }<b>else</b>{
+            <b>this</b>.focusEl.focus.defer(1, <b>this</b>.focusEl);
+        }
+    },
+
+    <i>/**
+     * Scrolls the specified cell into view
+     * @param {Number} row The row index
+     * @param {Number} col The column index
+     * @param {Boolean} hscroll false to disable horizontal scrolling
+     */</i>
+    ensureVisible : <b>function</b>(row, col, hscroll){
+        <b>if</b>(typeof row != &quot;number&quot;){
+            row = row.rowIndex;
+        }
+        <b>if</b>(row &lt; 0 &amp;&amp; row &gt;= <b>this</b>.ds.getCount()){
+            <b>return</b>;
+        }
+        col = (col !== undefined ? col : 0);
+        <b>var</b> cm = <b>this</b>.grid.colModel;
+        <b>while</b>(cm.isHidden(col)){
+            col++;
+        }
+
+        <b>var</b> el = <b>this</b>.getCell(row, col);
+        <b>if</b>(!el){
+            <b>return</b>;
+        }
+        <b>var</b> c = <b>this</b>.scroller.dom;
+
+        <b>var</b> ctop = parseInt(el.offsetTop, 10);
+        <b>var</b> cleft = parseInt(el.offsetLeft, 10);
+        <b>var</b> cbot = ctop + el.offsetHeight;
+        <b>var</b> cright = cleft + el.offsetWidth;
+
+        <b>var</b> ch = c.clientHeight - <b>this</b>.mainHd.dom.offsetHeight;
+        <b>var</b> stop = parseInt(c.scrollTop, 10);
+        <b>var</b> sleft = parseInt(c.scrollLeft, 10);
+        <b>var</b> sbot = stop + ch;
+        <b>var</b> sright = sleft + c.clientWidth;
+
+        <b>if</b>(ctop &lt; stop){
+        	c.scrollTop = ctop;
+        }<b>else</b> if(cbot &gt; sbot){
+            c.scrollTop = cbot-ch;
+        }
+
+        <b>if</b>(hscroll !== false){
+            <b>if</b>(cleft &lt; sleft){
+                c.scrollLeft = cleft;
+            }<b>else</b> if(cright &gt; sright){
+                c.scrollLeft = cright-c.clientWidth;
+            }
+        }
+        <b>return</b> el;
+    },
+
+    updateColumns : <b>function</b>(){
+        <b>this</b>.grid.stopEditing();
+        <b>var</b> cm = <b>this</b>.grid.colModel, colIds = <b>this</b>.getColumnIds();
+        <i>//<b>var</b> totalWidth = cm.getTotalWidth();</i>
+        <b>var</b> pos = 0;
+        <b>for</b>(var i = 0, len = cm.getColumnCount(); i &lt; len; i++){
+            <i>//<b>if</b>(cm.isHidden(i)) <b>continue</b>;</i>
+            <b>var</b> w = cm.getColumnWidth(i);
+            <b>this</b>.css.updateRule(<b>this</b>.colSelector+colIds[i], &quot;width&quot;, (w - <b>this</b>.borderWidth) + &quot;px&quot;);
+            <b>this</b>.css.updateRule(<b>this</b>.hdSelector+colIds[i], &quot;width&quot;, (w - <b>this</b>.borderWidth) + &quot;px&quot;);
+        }
+        <b>this</b>.updateSplitters();
+    },
+
+    generateRules : <b>function</b>(cm){
+        <b>var</b> ruleBuf = [], rulesId = <b>this</b>.grid.id + <em>'-cssrules'</em>;
+        Ext.util.CSS.removeStyleSheet(rulesId);
+        <b>for</b>(var i = 0, len = cm.getColumnCount(); i &lt; len; i++){
+            <b>var</b> cid = cm.getColumnId(i);
+            <b>var</b> align = <em>''</em>;
+            <b>if</b>(cm.config[i].align){
+                align = <em>'text-align:'</em>+cm.config[i].align+<em>';'</em>;
+            }
+            <b>var</b> hidden = <em>''</em>;
+            <b>if</b>(cm.isHidden(i)){
+                hidden = <em>'display:none;'</em>;
+            }
+            <b>var</b> width = &quot;width:&quot; + (cm.getColumnWidth(i) - <b>this</b>.borderWidth) + &quot;px;&quot;;
+            ruleBuf.push(
+                    <b>this</b>.colSelector, cid, &quot; {\n&quot;, cm.config[i].css, align, width, &quot;\n}\n&quot;,
+                    <b>this</b>.hdSelector, cid, &quot; {\n&quot;, align, width, &quot;}\n&quot;,
+                    <b>this</b>.tdSelector, cid, &quot; {\n&quot;,hidden,&quot;\n}\n&quot;,
+                    <b>this</b>.splitSelector, cid, &quot; {\n&quot;, hidden , &quot;\n}\n&quot;);
+        }
+        <b>return</b> Ext.util.CSS.createStyleSheet(ruleBuf.join(&quot;&quot;), rulesId);
+    },
+
+    updateSplitters : <b>function</b>(){
+        <b>var</b> cm = <b>this</b>.cm, s = <b>this</b>.getSplitters();
+        <b>if</b>(s){ <i>// splitters not created yet</i>
+            <b>var</b> pos = 0, locked = true;
+            <b>for</b>(var i = 0, len = cm.getColumnCount(); i &lt; len; i++){
+                <b>if</b>(cm.isHidden(i)) <b>continue</b>;
+                <b>var</b> w = cm.getColumnWidth(i);
+                <b>if</b>(!cm.isLocked(i) &amp;&amp; locked){
+                    pos = 0;
+                    locked = false;
+                }
+                pos += w;
+                s[i].style.left = (pos-<b>this</b>.splitOffset) + &quot;px&quot;;
+            }
+        }
+    },
+
+    handleHiddenChange : <b>function</b>(colModel, colIndex, hidden){
+        <b>if</b>(hidden){
+            <b>this</b>.hideColumn(colIndex);
+        }<b>else</b>{
+            <b>this</b>.unhideColumn(colIndex);
+        }
+    },
+
+    hideColumn : <b>function</b>(colIndex){
+        <b>var</b> cid = <b>this</b>.getColumnId(colIndex);
+        <b>this</b>.css.updateRule(<b>this</b>.tdSelector+cid, &quot;display&quot;, &quot;none&quot;);
+        <b>this</b>.css.updateRule(<b>this</b>.splitSelector+cid, &quot;display&quot;, &quot;none&quot;);
+        <b>if</b>(Ext.isSafari){
+            <b>this</b>.updateHeaders();
+        }
+        <b>this</b>.updateSplitters();
+        <b>this</b>.layout();
+    },
+
+    unhideColumn : <b>function</b>(colIndex){
+        <b>var</b> cid = <b>this</b>.getColumnId(colIndex);
+        <b>this</b>.css.updateRule(<b>this</b>.tdSelector+cid, &quot;display&quot;, &quot;&quot;);
+        <b>this</b>.css.updateRule(<b>this</b>.splitSelector+cid, &quot;display&quot;, &quot;&quot;);
+
+        <b>if</b>(Ext.isSafari){
+            <b>this</b>.updateHeaders();
+        }
+        <b>this</b>.updateSplitters();
+        <b>this</b>.layout();
+    },
+
+    insertRows : <b>function</b>(dm, firstRow, lastRow, isUpdate){
+        <b>if</b>(firstRow == 0 &amp;&amp; lastRow == dm.getCount()-1){
+            <b>this</b>.refresh();
+        }<b>else</b>{
+            <b>if</b>(!isUpdate){
+                <b>this</b>.fireEvent(&quot;beforerowsinserted&quot;, <b>this</b>, firstRow, lastRow);
+            }
+            <b>var</b> s = <b>this</b>.getScrollState();
+            <b>var</b> markup = <b>this</b>.renderRows(firstRow, lastRow);
+            <b>this</b>.bufferRows(markup[0], <b>this</b>.getLockedTable(), firstRow);
+            <b>this</b>.bufferRows(markup[1], <b>this</b>.getBodyTable(), firstRow);
+            <b>this</b>.restoreScroll(s);
+            <b>if</b>(!isUpdate){
+                <b>this</b>.fireEvent(&quot;rowsinserted&quot;, <b>this</b>, firstRow, lastRow);
+                <b>this</b>.syncRowHeights(firstRow, lastRow);
+                <b>this</b>.stripeRows(firstRow);
+                <b>this</b>.layout();
+            }
+        }
+    },
+
+    bufferRows : <b>function</b>(markup, target, index){
+        <b>var</b> before = null, trows = target.rows, tbody = target.tBodies[0];
+        <b>if</b>(index &lt; trows.length){
+            before = trows[index];
+        }
+        <b>var</b> b = document.createElement(&quot;div&quot;);
+        b.innerHTML = &quot;&lt;table&gt;&lt;tbody&gt;&quot;+markup+&quot;&lt;/tbody&gt;&lt;/table&gt;&quot;;
+        <b>var</b> rows = b.firstChild.rows;
+        <b>for</b>(var i = 0, len = rows.length; i &lt; len; i++){
+            <b>if</b>(before){
+                tbody.insertBefore(rows[0], before);
+            }<b>else</b>{
+                tbody.appendChild(rows[0]);
+            }
+        }
+        b.innerHTML = &quot;&quot;;
+        b = null;
+    },
+
+    deleteRows : <b>function</b>(dm, firstRow, lastRow){
+        <b>if</b>(dm.getRowCount()&lt;1){
+            <b>this</b>.fireEvent(&quot;beforerefresh&quot;, <b>this</b>);
+            <b>this</b>.mainBody.update(&quot;&quot;);
+            <b>this</b>.lockedBody.update(&quot;&quot;);
+            <b>this</b>.fireEvent(&quot;refresh&quot;, <b>this</b>);
+        }<b>else</b>{
+            <b>this</b>.fireEvent(&quot;beforerowsdeleted&quot;, <b>this</b>, firstRow, lastRow);
+            <b>var</b> bt = <b>this</b>.getBodyTable();
+            <b>var</b> tbody = bt.firstChild;
+            <b>var</b> rows = bt.rows;
+            <b>for</b>(var rowIndex = firstRow; rowIndex &lt;= lastRow; rowIndex++){
+                tbody.removeChild(rows[firstRow]);
+            }
+            <b>this</b>.stripeRows(firstRow);
+            <b>this</b>.fireEvent(&quot;rowsdeleted&quot;, <b>this</b>, firstRow, lastRow);
+        }
+    },
+
+    updateRows : <b>function</b>(dataSource, firstRow, lastRow){
+        <b>var</b> s = <b>this</b>.getScrollState();
+        <b>this</b>.refresh();
+        <b>this</b>.restoreScroll(s);
+    },
+
+    handleSort : <b>function</b>(dataSource, sortColumnIndex, sortDir, noRefresh){
+        <b>if</b>(!noRefresh){
+           <b>this</b>.refresh();
+        }
+        <b>this</b>.updateHeaderSortState();
+    },
+
+    getScrollState : <b>function</b>(){
+        <b>var</b> sb = <b>this</b>.scroller.dom;
+        <b>return</b> {left: sb.scrollLeft, top: sb.scrollTop};
+    },
+
+    stripeRows : <b>function</b>(startRow){
+        <b>if</b>(!<b>this</b>.grid.stripeRows || <b>this</b>.ds.getCount() &lt; 1){
+            <b>return</b>;
+        }
+        startRow = startRow || 0;
+        <b>var</b> rows = <b>this</b>.getBodyTable().rows;
+        <b>var</b> lrows = <b>this</b>.getLockedTable().rows;
+        <b>var</b> cls = <em>' x-grid-row-alt '</em>;
+        <b>for</b>(var i = startRow, len = rows.length; i &lt; len; i++){
+            <b>var</b> row = rows[i], lrow = lrows[i];
+            <b>var</b> isAlt = ((i+1) % 2 == 0);
+            <b>var</b> hasAlt = (<em>' '</em>+row.className + <em>' '</em>).indexOf(cls) != -1;
+            <b>if</b>(isAlt == hasAlt){
+                <b>continue</b>;
+            }
+            <b>if</b>(isAlt){
+                row.className += &quot; x-grid-row-alt&quot;;
+            }<b>else</b>{
+                row.className = row.className.replace(&quot;x-grid-row-alt&quot;, &quot;&quot;);
+            }
+            <b>if</b>(lrow){
+                lrow.className = row.className;
+            }
+        }
+    },
+
+    restoreScroll : <b>function</b>(state){
+        <b>var</b> sb = <b>this</b>.scroller.dom;
+        sb.scrollLeft = state.left;
+        sb.scrollTop = state.top;
+        <b>this</b>.syncScroll();
+    },
+
+    syncScroll : <b>function</b>(){
+        <b>var</b> sb = <b>this</b>.scroller.dom;
+        <b>var</b> sh = <b>this</b>.mainHd.dom;
+        <b>var</b> bs = <b>this</b>.mainBody.dom;
+        <b>var</b> lv = <b>this</b>.lockedBody.dom;
+        sh.scrollLeft = bs.scrollLeft = sb.scrollLeft;
+        lv.scrollTop = bs.scrollTop = sb.scrollTop;
+    },
+
+    handleScroll : <b>function</b>(e){
+        <b>this</b>.syncScroll();
+        <b>var</b> sb = <b>this</b>.scroller.dom;
+        <b>this</b>.grid.fireEvent(&quot;bodyscroll&quot;, sb.scrollLeft, sb.scrollTop);
+        e.stopEvent();
+    },
+
+    handleWheel : <b>function</b>(e){
+        <b>var</b> d = e.getWheelDelta();
+        <b>this</b>.scroller.dom.scrollTop -= d*22;
+        <i>// set <b>this</b> here to prevent jumpy scrolling on large tables</i>
+        <b>this</b>.lockedBody.dom.scrollTop = <b>this</b>.mainBody.dom.scrollTop = <b>this</b>.scroller.dom.scrollTop;
+        e.stopEvent();
+    },
+
+    renderRows : <b>function</b>(startRow, endRow){
+        <i>// pull <b>in</b> all the crap needed to render rows</i>
+        <b>var</b> g = <b>this</b>.grid, cm = g.colModel, ds = g.dataSource, stripe = g.stripeRows;
+        <b>var</b> colCount = cm.getColumnCount();
+
+        <b>if</b>(ds.getCount() &lt; 1){
+            <b>return</b> [&quot;&quot;, &quot;&quot;];
+        }
+
+        <i>// build a map <b>for</b> all the columns</i>
+        <b>var</b> cs = [];
+        <b>for</b>(var i = 0; i &lt; colCount; i++){
+            <b>var</b> name = cm.getDataIndex(i);
+            cs[i] = {
+                name : <b>typeof</b> name == <em>'undefined'</em> ? ds.fields.get(i).name : name,
+                renderer : cm.getRenderer(i),
+                id : cm.getColumnId(i),
+                locked : cm.isLocked(i)
+            };
+        }
+
+        startRow = startRow || 0;
+        endRow = <b>typeof</b> endRow == &quot;undefined&quot;? ds.getCount()-1 : endRow;
+
+        <i>// records to render</i>
+        <b>var</b> rs = ds.getRange(startRow, endRow);
+
+        <b>return</b> this.doRender(cs, rs, ds, startRow, colCount, stripe);
+    },
+
+    <i>// As much as I hate to duplicate code, <b>this</b> was branched because FireFox really hates</i>
+    <i>// [].join(&quot;&quot;) on strings. The performance difference was substantial enough to</i>
+    <i>// branch <b>this</b> function</i>
+    doRender : Ext.isGecko ?
+            <b>function</b>(cs, rs, ds, startRow, colCount, stripe){
+                <b>var</b> ts = <b>this</b>.templates, ct = ts.cell, rt = ts.row;
+                <i>// buffers</i>
+                <b>var</b> buf = &quot;&quot;, lbuf = &quot;&quot;, cb, lcb, c, p = {}, rp = {}, r, rowIndex;
+                <b>for</b>(var j = 0, len = rs.length; j &lt; len; j++){
+                    r = rs[j]; cb = &quot;&quot;; lcb = &quot;&quot;; rowIndex = (j+startRow);
+                    <b>for</b>(var i = 0; i &lt; colCount; i++){
+                        c = cs[i];
+                        p.cellId = &quot;x-grid-cell-&quot; + rowIndex + &quot;-&quot; + i;
+                        p.id = c.id;
+                        p.css = p.attr = &quot;&quot;;
+                        p.value = c.renderer(r.data[c.name], p, r, rowIndex, i, ds);
+                        <b>if</b>(p.value == undefined || p.value === &quot;&quot;) p.value = &quot;&amp;#160;&quot;;
+                        <b>if</b>(r.dirty &amp;&amp; <b>typeof</b> r.modified[c.name] !== <em>'undefined'</em>){
+                            p.css += p.css ? <em>' x-grid-dirty-cell'</em> : <em>'x-grid-dirty-cell'</em>;
+                        }
+                        <b>var</b> markup = ct.apply(p);
+                        <b>if</b>(!c.locked){
+                            cb+= markup;
+                        }<b>else</b>{
+                            lcb+= markup;
+                        }
+                    }
+                    <b>var</b> alt = [];
+                    <b>if</b>(stripe &amp;&amp; ((rowIndex+1) % 2 == 0)){
+                        alt[0] = &quot;x-grid-row-alt&quot;;
+                    }
+                    <b>if</b>(r.dirty){
+                        alt[1] = &quot; x-grid-dirty-row&quot;;
+                    }
+                    rp.cells = lcb;
+                    <b>if</b>(this.getRowClass){
+                        alt[2] = <b>this</b>.getRowClass(r, rowIndex);
+                    }
+                    rp.alt = alt.join(&quot; &quot;);
+                    lbuf+= rt.apply(rp);
+                    rp.cells = cb;
+                    buf+=  rt.apply(rp);
+                }
+                <b>return</b> [lbuf, buf];
+            } :
+            <b>function</b>(cs, rs, ds, startRow, colCount, stripe){
+                <b>var</b> ts = <b>this</b>.templates, ct = ts.cell, rt = ts.row;
+                <i>// buffers</i>
+                <b>var</b> buf = [], lbuf = [], cb, lcb, c, p = {}, rp = {}, r, rowIndex;
+                <b>for</b>(var j = 0, len = rs.length; j &lt; len; j++){
+                    r = rs[j]; cb = []; lcb = []; rowIndex = (j+startRow);
+                    <b>for</b>(var i = 0; i &lt; colCount; i++){
+                        c = cs[i];
+                        p.cellId = &quot;x-grid-cell-&quot; + rowIndex + &quot;-&quot; + i;
+                        p.id = c.id;
+                        p.css = p.attr = &quot;&quot;;
+                        p.value = c.renderer(r.data[c.name], p, r, rowIndex, i, ds);
+                        <b>if</b>(p.value == undefined || p.value === &quot;&quot;) p.value = &quot;&amp;#160;&quot;;
+                        <b>if</b>(r.dirty &amp;&amp; <b>typeof</b> r.modified[c.name] !== <em>'undefined'</em>){
+                            p.css += p.css ? <em>' x-grid-dirty-cell'</em> : <em>'x-grid-dirty-cell'</em>;
+                        }
+                        <b>var</b> markup = ct.apply(p);
+                        <b>if</b>(!c.locked){
+                            cb[cb.length] = markup;
+                        }<b>else</b>{
+                            lcb[lcb.length] = markup;
+                        }
+                    }
+                    <b>var</b> alt = [];
+                    <b>if</b>(stripe &amp;&amp; ((rowIndex+1) % 2 == 0)){
+                        alt[0] = &quot;x-grid-row-alt&quot;;
+                    }
+                    <b>if</b>(r.dirty){
+                        alt[1] = &quot; x-grid-dirty-row&quot;;
+                    }
+                    rp.cells = lcb;
+                    <b>if</b>(this.getRowClass){
+                        alt[2] = <b>this</b>.getRowClass(r, rowIndex);
+                    }
+                    rp.alt = alt.join(&quot; &quot;);
+                    rp.cells = lcb.join(&quot;&quot;);
+                    lbuf[lbuf.length] = rt.apply(rp);
+                    rp.cells = cb.join(&quot;&quot;);
+                    buf[buf.length] =  rt.apply(rp);
+                }
+                <b>return</b> [lbuf.join(&quot;&quot;), buf.join(&quot;&quot;)];
+            },
+
+    renderBody : <b>function</b>(){
+        <b>var</b> markup = <b>this</b>.renderRows();
+        <b>var</b> bt = <b>this</b>.templates.body;
+        <b>return</b> [bt.apply({rows: markup[0]}), bt.apply({rows: markup[1]})];
+    },
+
+    <i>/**
+     * Refreshes the grid
+     * @param {Boolean} headersToo
+     */</i>
+    refresh : <b>function</b>(headersToo){
+        <b>this</b>.fireEvent(&quot;beforerefresh&quot;, <b>this</b>);
+        <b>this</b>.grid.stopEditing();
+        <b>var</b> result = <b>this</b>.renderBody();
+        <b>this</b>.lockedBody.update(result[0]);
+        <b>this</b>.mainBody.update(result[1]);
+        <b>if</b>(headersToo === true){
+            <b>this</b>.updateHeaders();
+            <b>this</b>.updateColumns();
+            <b>this</b>.updateSplitters();
+            <b>this</b>.updateHeaderSortState();
+        }
+        <b>this</b>.syncRowHeights();
+        <b>this</b>.layout();
+        <b>this</b>.fireEvent(&quot;refresh&quot;, <b>this</b>);
+    },
+
+    handleColumnMove : <b>function</b>(cm, oldIndex, newIndex){
+        <b>this</b>.indexMap = null;
+        <b>var</b> s = <b>this</b>.getScrollState();
+        <b>this</b>.refresh(true);
+        <b>this</b>.restoreScroll(s);
+        <b>this</b>.afterMove(newIndex);
+    },
+
+    afterMove : <b>function</b>(colIndex){
+        <b>if</b>(this.enableMoveAnim &amp;&amp; Ext.enableFx){
+            <b>this</b>.fly(<b>this</b>.getHeaderCell(colIndex).firstChild).highlight(<b>this</b>.hlColor);
+        }
+    },
+
+    updateCell : <b>function</b>(dm, rowIndex, dataIndex){
+        <b>var</b> colIndex = <b>this</b>.getColumnIndexByDataIndex(dataIndex);
+        <b>if</b>(typeof colIndex == &quot;undefined&quot;){ <i>// not present <b>in</b> grid</i>
+            <b>return</b>;
+        }
+        <b>var</b> cm = <b>this</b>.grid.colModel;
+        <b>var</b> cell = <b>this</b>.getCell(rowIndex, colIndex);
+        <b>var</b> cellText = <b>this</b>.getCellText(rowIndex, colIndex);
+
+        <b>var</b> p = {
+            cellId : &quot;x-grid-cell-&quot; + rowIndex + &quot;-&quot; + colIndex,
+            id : cm.getColumnId(colIndex),
+            css: colIndex == cm.getColumnCount()-1 ? &quot;x-grid-col-last&quot; : &quot;&quot;
+        };
+        <b>var</b> renderer = cm.getRenderer(colIndex);
+        <b>var</b> val = renderer(dm.getValueAt(rowIndex, dataIndex), p, rowIndex, colIndex, dm);
+        <b>if</b>(typeof val == &quot;undefined&quot; || val === &quot;&quot;) val = &quot;&amp;#160;&quot;;
+        cellText.innerHTML = val;
+        cell.className = <b>this</b>.cellClass + &quot; &quot; + p.cellId + &quot; &quot; + p.css;
+        <b>this</b>.syncRowHeights(rowIndex, rowIndex);
+    },
+
+    calcColumnWidth : <b>function</b>(colIndex, maxRowsToMeasure){
+        <b>var</b> maxWidth = 0;
+        <b>if</b>(this.grid.autoSizeHeaders){
+            <b>var</b> h = <b>this</b>.getHeaderCellMeasure(colIndex);
+            maxWidth = Math.max(maxWidth, h.scrollWidth);
+        }
+        <b>var</b> tb, index;
+        <b>if</b>(this.cm.isLocked(colIndex)){
+            tb = <b>this</b>.getLockedTable();
+            index = colIndex;
+        }<b>else</b>{
+            tb = <b>this</b>.getBodyTable();
+            index = colIndex - <b>this</b>.cm.getLockedCount();
+        }
+        <b>if</b>(tb &amp;&amp; tb.rows){
+            <b>var</b> rows = tb.rows;
+            <b>var</b> stopIndex = Math.min(maxRowsToMeasure || rows.length, rows.length);
+            <b>for</b>(var i = 0; i &lt; stopIndex; i++){
+                <b>var</b> cell = rows[i].childNodes[index].firstChild;
+                maxWidth = Math.max(maxWidth, cell.scrollWidth);
+            }
+        }
+        <b>return</b> maxWidth + <i>/*margin <b>for</b> error <b>in</b> IE*/</i> 5;
+    },
+    <i>/**
+     * Autofit a column to its content.
+     * @param {Number} colIndex
+     * @param {Boolean} forceMinSize true to force the column to go smaller <b>if</b> possible
+     */</i>
+     autoSizeColumn : <b>function</b>(colIndex, forceMinSize, suppressEvent){
+         <b>if</b>(this.cm.isHidden(colIndex)){
+             <b>return</b>; <i>// can't calc a hidden column</i>
+         }
+        <b>if</b>(forceMinSize){
+            <b>var</b> cid = <b>this</b>.cm.getColumnId(colIndex);
+            <b>this</b>.css.updateRule(<b>this</b>.colSelector + cid, &quot;width&quot;, <b>this</b>.grid.minColumnWidth + &quot;px&quot;);
+           <b>if</b>(this.grid.autoSizeHeaders){
+               <b>this</b>.css.updateRule(<b>this</b>.hdSelector + cid, &quot;width&quot;, <b>this</b>.grid.minColumnWidth + &quot;px&quot;);
+           }
+        }
+        <b>var</b> newWidth = <b>this</b>.calcColumnWidth(colIndex);
+        <b>this</b>.cm.setColumnWidth(colIndex,
+            Math.max(<b>this</b>.grid.minColumnWidth, newWidth), suppressEvent);
+        <b>if</b>(!suppressEvent){
+            <b>this</b>.grid.fireEvent(&quot;columnresize&quot;, colIndex, newWidth);
+        }
+    },
+
+    <i>/**
+     * Autofits all columns to their content and then expands to fit any extra space <b>in</b> the grid
+     */</i>
+     autoSizeColumns : <b>function</b>(){
+        <b>var</b> cm = <b>this</b>.grid.colModel;
+        <b>var</b> colCount = cm.getColumnCount();
+        <b>for</b>(var i = 0; i &lt; colCount; i++){
+            <b>this</b>.autoSizeColumn(i, true, true);
+        }
+        <b>if</b>(cm.getTotalWidth() &lt; <b>this</b>.scroller.dom.clientWidth){
+            <b>this</b>.fitColumns();
+        }<b>else</b>{
+            <b>this</b>.updateColumns();
+            <b>this</b>.layout();
+        }
+    },
+
+    <i>/**
+     * Autofits all columns to the grid's width proportionate <b>with</b> their current size
+     * @param {Boolean} reserveScrollSpace Reserve space <b>for</b> a scrollbar
+     */</i>
+    fitColumns : <b>function</b>(reserveScrollSpace){
+        <b>var</b> cm = <b>this</b>.grid.colModel;
+        <b>var</b> colCount = cm.getColumnCount();
+        <b>var</b> cols = [];
+        <b>var</b> width = 0;
+        <b>var</b> i, w;
+        <b>for</b> (i = 0; i &lt; colCount; i++){
+            <b>if</b>(!cm.isHidden(i) &amp;&amp; !cm.isFixed(i)){
+                w = cm.getColumnWidth(i);
+                cols.push(i);
+                cols.push(w);
+                width += w;
+            }
+        }
+        <b>var</b> avail = Math.min(<b>this</b>.scroller.dom.clientWidth, <b>this</b>.el.getWidth());
+        <b>if</b>(reserveScrollSpace){
+            avail -= 17;
+        }
+        <b>var</b> frac = (avail - cm.getTotalWidth())/width;
+        <b>while</b> (cols.length){
+            w = cols.pop();
+            i = cols.pop();
+            cm.setColumnWidth(i, Math.floor(w + w*frac), true);
+        }
+        <b>this</b>.updateColumns();
+        <b>this</b>.layout();
+    },
+
+    onRowSelect : <b>function</b>(rowIndex){
+        <b>var</b> row = <b>this</b>.getRowComposite(rowIndex);
+        row.addClass(&quot;x-grid-row-selected&quot;);
+    },
+
+    onRowDeselect : <b>function</b>(rowIndex){
+        <b>var</b> row = <b>this</b>.getRowComposite(rowIndex);
+        row.removeClass(&quot;x-grid-row-selected&quot;);
+    },
+
+    onCellSelect : <b>function</b>(row, col){
+        <b>var</b> cell = <b>this</b>.getCell(row, col);
+        <b>if</b>(cell){
+            Ext.fly(cell).addClass(&quot;x-grid-cell-selected&quot;);
+        }
+    },
+
+    onCellDeselect : <b>function</b>(row, col){
+        <b>var</b> cell = <b>this</b>.getCell(row, col);
+        <b>if</b>(cell){
+            Ext.fly(cell).removeClass(&quot;x-grid-cell-selected&quot;);
+        }
+    },
+
+    updateHeaderSortState : <b>function</b>(){
+        <b>var</b> state = <b>this</b>.ds.getSortState();
+        <b>if</b>(!state){
+            <b>return</b>;
+        }
+        <b>this</b>.sortState = state;
+        <b>var</b> sortColumn = <b>this</b>.cm.findColumnIndex(state.field);
+        <b>if</b>(sortColumn != -1){
+            <b>var</b> sortDir = state.direction;
+            <b>var</b> sc = <b>this</b>.sortClasses;
+            <b>var</b> hds = <b>this</b>.el.select(<b>this</b>.headerSelector).removeClass(sc);
+            hds.item(sortColumn).addClass(sc[sortDir == &quot;DESC&quot; ? 1 : 0]);
+        }
+    },
+
+    handleHeaderClick : <b>function</b>(g, index){
+        <b>if</b>(this.headersDisabled){
+            <b>return</b>;
+        }
+        <b>var</b> dm = g.dataSource, cm = g.colModel;
+	    <b>if</b>(!cm.isSortable(index)){
+            <b>return</b>;
+        }
+	    g.stopEditing();
+        dm.sort(cm.getDataIndex(index));
+    },
+
+
+    destroy : <b>function</b>(){
+        <b>if</b>(this.colMenu){
+            <b>this</b>.colMenu.removeAll();
+            Ext.menu.MenuMgr.unregister(<b>this</b>.colMenu);
+            <b>this</b>.colMenu.getEl().remove();
+            <b>delete</b> this.colMenu;
+        }
+        <b>if</b>(this.hmenu){
+            <b>this</b>.hmenu.removeAll();
+            Ext.menu.MenuMgr.unregister(<b>this</b>.hmenu);
+            <b>this</b>.hmenu.getEl().remove();
+            <b>delete</b> this.hmenu;
+        }
+        <b>if</b>(this.grid.enableColumnMove){
+            <b>var</b> dds = Ext.dd.DDM.ids[<em>'gridHeader'</em> + <b>this</b>.grid.getGridEl().id];
+            <b>if</b>(dds){
+                <b>for</b>(var dd <b>in</b> dds){
+                    <b>if</b>(!dds[dd].config.isTarget &amp;&amp; dds[dd].dragElId){
+                        <b>var</b> elid = dds[dd].dragElId;
+                        dds[dd].unreg();
+                        Ext.get(elid).remove();
+                    } <b>else</b> if(dds[dd].config.isTarget){
+                        dds[dd].proxyTop.remove();
+                        dds[dd].proxyBottom.remove();
+                        dds[dd].unreg();
+                    }
+                    <b>if</b>(Ext.dd.DDM.locationCache[dd]){
+                        <b>delete</b> Ext.dd.DDM.locationCache[dd];
+                    }
+                }
+                <b>delete</b> Ext.dd.DDM.ids[<em>'gridHeader'</em> + <b>this</b>.grid.getGridEl().id];
+            }
+        }
+        Ext.util.CSS.removeStyleSheet(<b>this</b>.grid.id + <em>'-cssrules'</em>);
+        <b>this</b>.bind(null, null);
+        Ext.EventManager.removeResizeListener(<b>this</b>.onWindowResize, <b>this</b>);
+    },
+
+    handleLockChange : <b>function</b>(){
+        <b>this</b>.refresh(true);
+    },
+
+    onDenyColumnLock : <b>function</b>(){
+
+    },
+
+    onDenyColumnHide : <b>function</b>(){
+
+    },
+
+    handleHdMenuClick : <b>function</b>(item){
+        <b>var</b> index = <b>this</b>.hdCtxIndex;
+        <b>var</b> cm = <b>this</b>.cm, ds = <b>this</b>.ds;
+        <b>switch</b>(item.id){
+            <b>case</b> &quot;asc&quot;:
+                ds.sort(cm.getDataIndex(index), &quot;ASC&quot;);
+                <b>break</b>;
+            <b>case</b> &quot;desc&quot;:
+                ds.sort(cm.getDataIndex(index), &quot;DESC&quot;);
+                <b>break</b>;
+            <b>case</b> &quot;lock&quot;:
+                <b>var</b> lc = cm.getLockedCount();
+                <b>if</b>(cm.getColumnCount(true) &lt;= lc+1){
+                    <b>this</b>.onDenyColumnLock();
+                    <b>return</b>;
+                }
+                <b>if</b>(lc != index){
+                    cm.setLocked(index, true, true);
+                    cm.moveColumn(index, lc);
+                    <b>this</b>.grid.fireEvent(&quot;columnmove&quot;, index, lc);
+                }<b>else</b>{
+                    cm.setLocked(index, true);
+                }
+            <b>break</b>;
+            <b>case</b> &quot;unlock&quot;:
+                <b>var</b> lc = cm.getLockedCount();
+                <b>if</b>((lc-1) != index){
+                    cm.setLocked(index, false, true);
+                    cm.moveColumn(index, lc-1);
+                    <b>this</b>.grid.fireEvent(&quot;columnmove&quot;, index, lc-1);
+                }<b>else</b>{
+                    cm.setLocked(index, false);
+                }
+            <b>break</b>;
+            <b>default</b>:
+                index = cm.getIndexById(item.id.substr(4));
+                <b>if</b>(index != -1){
+                    <b>if</b>(item.checked &amp;&amp; cm.getColumnCount(true) &lt;= 1){
+                        <b>this</b>.onDenyColumnHide();
+                        <b>return</b> false;
+                    }
+                    cm.setHidden(index, item.checked);
+                }
+        }
+        <b>return</b> true;
+    },
+
+    beforeColMenuShow : <b>function</b>(){
+        <b>var</b> cm = <b>this</b>.cm,  colCount = cm.getColumnCount();
+        <b>this</b>.colMenu.removeAll();
+        <b>for</b>(var i = 0; i &lt; colCount; i++){
+            <b>this</b>.colMenu.add(<b>new</b> Ext.menu.CheckItem({
+                id: &quot;col-&quot;+cm.getColumnId(i),
+                text: cm.getColumnHeader(i),
+                checked: !cm.isHidden(i),
+                hideOnClick:false
+            }));
+        }
+    },
+
+    handleHdCtx : <b>function</b>(g, index, e){
+        e.stopEvent();
+        <b>var</b> hd = <b>this</b>.getHeaderCell(index);
+        <b>this</b>.hdCtxIndex = index;
+        <b>var</b> ms = <b>this</b>.hmenu.items, cm = <b>this</b>.cm;
+        ms.get(&quot;asc&quot;).setDisabled(!cm.isSortable(index));
+        ms.get(&quot;desc&quot;).setDisabled(!cm.isSortable(index));
+        <b>if</b>(this.grid.enableColLock !== false){
+            ms.get(&quot;lock&quot;).setDisabled(cm.isLocked(index));
+            ms.get(&quot;unlock&quot;).setDisabled(!cm.isLocked(index));
+        }
+        <b>this</b>.hmenu.show(hd, &quot;tl-bl&quot;);
+    },
+
+    handleHdOver : <b>function</b>(e){
+        <b>var</b> hd = <b>this</b>.findHeaderCell(e.getTarget());
+        <b>if</b>(hd &amp;&amp; !<b>this</b>.headersDisabled){
+            <b>if</b>(this.grid.colModel.isSortable(<b>this</b>.getCellIndex(hd))){
+               <b>this</b>.fly(hd).addClass(&quot;x-grid-hd-over&quot;);
+            }
+        }
+    },
+
+    handleHdOut : <b>function</b>(e){
+        <b>var</b> hd = <b>this</b>.findHeaderCell(e.getTarget());
+        <b>if</b>(hd){
+            <b>this</b>.fly(hd).removeClass(&quot;x-grid-hd-over&quot;);
+        }
+    },
+
+    handleSplitDblClick : <b>function</b>(e, t){
+        <b>var</b> i = <b>this</b>.getCellIndex(t);
+        <b>if</b>(this.grid.enableColumnResize !== false &amp;&amp; <b>this</b>.cm.isResizable(i) &amp;&amp; !<b>this</b>.cm.isFixed(i)){
+            <b>this</b>.autoSizeColumn(i, true);
+            <b>this</b>.layout();
+        }
+    },
+
+    render : <b>function</b>(){
+
+        <b>var</b> cm = <b>this</b>.cm;
+        <b>var</b> colCount = cm.getColumnCount();
+
+        <b>if</b>(this.grid.monitorWindowResize === true){
+            Ext.EventManager.onWindowResize(<b>this</b>.onWindowResize, <b>this</b>, true);
+        }
+        <b>var</b> header = <b>this</b>.renderHeaders();
+        <b>var</b> body = <b>this</b>.templates.body.apply({rows:&quot;&quot;});
+        <b>var</b> html = <b>this</b>.templates.master.apply({
+            lockedBody: body,
+            body: body,
+            lockedHeader: header[0],
+            header: header[1]
+        });
+
+        <i>//<b>this</b>.updateColumns();</i>
+
+        <b>this</b>.grid.getGridEl().dom.innerHTML = html;
+
+        <b>this</b>.initElements();
+
+        <b>this</b>.scroller.on(&quot;scroll&quot;, <b>this</b>.handleScroll, <b>this</b>);
+        <b>this</b>.lockedBody.on(&quot;mousewheel&quot;, <b>this</b>.handleWheel, <b>this</b>);
+        <b>this</b>.mainBody.on(&quot;mousewheel&quot;, <b>this</b>.handleWheel, <b>this</b>);
+
+        <b>this</b>.mainHd.on(&quot;mouseover&quot;, <b>this</b>.handleHdOver, <b>this</b>);
+        <b>this</b>.mainHd.on(&quot;mouseout&quot;, <b>this</b>.handleHdOut, <b>this</b>);
+        <b>this</b>.mainHd.on(&quot;dblclick&quot;, <b>this</b>.handleSplitDblClick, <b>this</b>,
+                {delegate: &quot;.&quot;+<b>this</b>.splitClass});
+
+        <b>this</b>.lockedHd.on(&quot;mouseover&quot;, <b>this</b>.handleHdOver, <b>this</b>);
+        <b>this</b>.lockedHd.on(&quot;mouseout&quot;, <b>this</b>.handleHdOut, <b>this</b>);
+        <b>this</b>.lockedHd.on(&quot;dblclick&quot;, <b>this</b>.handleSplitDblClick, <b>this</b>,
+                {delegate: &quot;.&quot;+<b>this</b>.splitClass});
+
+        <b>if</b>(this.grid.enableColumnResize !== false &amp;&amp; Ext.grid.SplitDragZone){
+            <b>new</b> Ext.grid.SplitDragZone(<b>this</b>.grid, <b>this</b>.lockedHd.dom, <b>this</b>.mainHd.dom);
+        }
+
+        <b>this</b>.updateSplitters();
+
+        <b>if</b>(this.grid.enableColumnMove &amp;&amp; Ext.grid.HeaderDragZone){
+            <b>new</b> Ext.grid.HeaderDragZone(<b>this</b>.grid, <b>this</b>.lockedHd.dom, <b>this</b>.mainHd.dom);
+            <b>new</b> Ext.grid.HeaderDropZone(<b>this</b>.grid, <b>this</b>.lockedHd.dom, <b>this</b>.mainHd.dom);
+        }
+
+        <b>if</b>(this.grid.enableCtxMenu !== false &amp;&amp; Ext.menu.Menu){
+            <b>this</b>.hmenu = <b>new</b> Ext.menu.Menu({id: <b>this</b>.grid.id + &quot;-hctx&quot;});
+            <b>this</b>.hmenu.add(
+                {id:&quot;asc&quot;, text: <b>this</b>.sortAscText, cls: &quot;xg-hmenu-sort-asc&quot;},
+                {id:&quot;desc&quot;, text: <b>this</b>.sortDescText, cls: &quot;xg-hmenu-sort-desc&quot;}
+            );
+            <b>if</b>(this.grid.enableColLock !== false){
+                <b>this</b>.hmenu.add(<em>'-'</em>,
+                    {id:&quot;lock&quot;, text: <b>this</b>.lockText, cls: &quot;xg-hmenu-lock&quot;},
+                    {id:&quot;unlock&quot;, text: <b>this</b>.unlockText, cls: &quot;xg-hmenu-unlock&quot;}
+                );
+            }
+            <b>if</b>(this.grid.enableColumnHide !== false){
+
+                <b>this</b>.colMenu = <b>new</b> Ext.menu.Menu({id:<b>this</b>.grid.id + &quot;-hcols-menu&quot;});
+                <b>this</b>.colMenu.on(&quot;beforeshow&quot;, <b>this</b>.beforeColMenuShow, <b>this</b>);
+                <b>this</b>.colMenu.on(&quot;itemclick&quot;, <b>this</b>.handleHdMenuClick, <b>this</b>);
+
+                <b>this</b>.hmenu.add(<em>'-'</em>,
+                    {id:&quot;columns&quot;, text: <b>this</b>.columnsText, menu: <b>this</b>.colMenu}
+                );
+            }
+            <b>this</b>.hmenu.on(&quot;itemclick&quot;, <b>this</b>.handleHdMenuClick, <b>this</b>);
+
+            <b>this</b>.grid.on(&quot;headercontextmenu&quot;, <b>this</b>.handleHdCtx, <b>this</b>);
+        }
+
+        <b>if</b>((<b>this</b>.grid.enableDragDrop || <b>this</b>.grid.enableDrag) &amp;&amp; Ext.grid.GridDragZone){
+            <b>this</b>.dd = <b>new</b> Ext.grid.GridDragZone(<b>this</b>.grid, {
+                ddGroup : <b>this</b>.grid.ddGroup || <em>'GridDD'</em>
+            });
+        }
+
+        <i>/*
+        <b>for</b>(var i = 0; i &lt; colCount; i++){
+            <b>if</b>(cm.isHidden(i)){
+                <b>this</b>.hideColumn(i);
+            }
+            <b>if</b>(cm.config[i].align){
+                <b>this</b>.css.updateRule(<b>this</b>.colSelector + i, &quot;textAlign&quot;, cm.config[i].align);
+                <b>this</b>.css.updateRule(<b>this</b>.hdSelector + i, &quot;textAlign&quot;, cm.config[i].align);
+            }
+        }*/</i>
+        
+        <b>this</b>.updateHeaderSortState();
+
+        <b>this</b>.beforeInitialResize();
+        <b>this</b>.layout(true);
+
+        <i>// two part rendering gives faster view to the user</i>
+        <b>this</b>.renderPhase2.defer(1, <b>this</b>);
+    },
+
+    renderPhase2 : <b>function</b>(){
+        <i>// render the rows now</i>
+        <b>this</b>.refresh();
+        <b>if</b>(this.grid.autoSizeColumns){
+            <b>this</b>.autoSizeColumns();
+        }
+    },
+
+    beforeInitialResize : <b>function</b>(){
+
+    },
+
+    onColumnSplitterMoved : <b>function</b>(i, w){
+        <b>this</b>.userResized = true;
+        <b>var</b> cm = <b>this</b>.grid.colModel;
+        cm.setColumnWidth(i, w, true);
+        <b>var</b> cid = cm.getColumnId(i);
+        <b>this</b>.css.updateRule(<b>this</b>.colSelector + cid, &quot;width&quot;, (w-<b>this</b>.borderWidth) + &quot;px&quot;);
+        <b>this</b>.css.updateRule(<b>this</b>.hdSelector + cid, &quot;width&quot;, (w-<b>this</b>.borderWidth) + &quot;px&quot;);
+        <b>this</b>.updateSplitters();
+        <b>this</b>.layout();
+        <b>this</b>.grid.fireEvent(&quot;columnresize&quot;, i, w);
+    },
+
+    syncRowHeights : <b>function</b>(startIndex, endIndex){
+        <b>if</b>(this.grid.enableRowHeightSync === true &amp;&amp; <b>this</b>.cm.getLockedCount() &gt; 0){
+            startIndex = startIndex || 0;
+            <b>var</b> mrows = <b>this</b>.getBodyTable().rows;
+            <b>var</b> lrows = <b>this</b>.getLockedTable().rows;
+            <b>var</b> len = mrows.length-1;
+            endIndex = Math.min(endIndex || len, len);
+            <b>for</b>(var i = startIndex; i &lt;= endIndex; i++){
+                <b>var</b> m = mrows[i], l = lrows[i];
+                <b>var</b> h = Math.max(m.offsetHeight, l.offsetHeight);
+                m.style.height = l.style.height = h + &quot;px&quot;;
+            }
+        }
+    },
+
+    layout : <b>function</b>(initialRender, is2ndPass){
+        <b>var</b> g = <b>this</b>.grid;
+        <b>var</b> auto = g.autoHeight;
+        <b>var</b> scrollOffset = 16;
+        <b>var</b> c = g.getGridEl(), cm = <b>this</b>.cm,
+                expandCol = g.autoExpandColumn,
+                gv = <b>this</b>;
+        <i>//c.beginMeasure();</i>
+
+        <b>if</b>(!c.dom.offsetWidth){ <i>// display:none?</i>
+            <b>if</b>(initialRender){
+                <b>this</b>.lockedWrap.show();
+                <b>this</b>.mainWrap.show();
+            }
+            <b>return</b>;
+        }
+
+        <b>var</b> hasLock = <b>this</b>.cm.isLocked(0);
+
+        <b>var</b> tbh = <b>this</b>.headerPanel.getHeight();
+        <b>var</b> bbh = <b>this</b>.footerPanel.getHeight();
+
+        <b>if</b>(auto){
+            <b>var</b> ch = <b>this</b>.getBodyTable().offsetHeight + tbh + bbh + <b>this</b>.mainHd.getHeight();
+            <b>var</b> newHeight = ch + c.getBorderWidth(&quot;tb&quot;);
+            <b>if</b>(g.maxHeight){
+                newHeight = Math.min(g.maxHeight, newHeight);
+            }
+            c.setHeight(newHeight);
+        }
+
+        <b>if</b>(g.autoWidth){
+            c.setWidth(cm.getTotalWidth()+c.getBorderWidth(<em>'lr'</em>));
+        }
+
+        <b>var</b> s = <b>this</b>.scroller;
+
+        <b>var</b> csize = c.getSize(true);
+
+        <b>this</b>.el.setSize(csize.width, csize.height);
+
+        <b>this</b>.headerPanel.setWidth(csize.width);
+        <b>this</b>.footerPanel.setWidth(csize.width);
+
+        <b>var</b> hdHeight = <b>this</b>.mainHd.getHeight();
+        <b>var</b> vw = csize.width;
+        <b>var</b> vh = csize.height - (tbh + bbh);
+
+        s.setSize(vw, vh);
+
+        <b>var</b> bt = <b>this</b>.getBodyTable();
+        <b>var</b> ltWidth = hasLock ?
+                      Math.max(<b>this</b>.getLockedTable().offsetWidth, <b>this</b>.lockedHd.dom.firstChild.offsetWidth) : 0;
+
+        <b>var</b> scrollHeight = bt.offsetHeight;
+        <b>var</b> scrollWidth = ltWidth + bt.offsetWidth;
+        <b>var</b> vscroll = false, hscroll = false;
+
+        <b>this</b>.scrollSizer.setSize(scrollWidth, scrollHeight+hdHeight);
+
+        <b>var</b> lw = <b>this</b>.lockedWrap, mw = <b>this</b>.mainWrap;
+        <b>var</b> lb = <b>this</b>.lockedBody, mb = <b>this</b>.mainBody;
+
+        setTimeout(<b>function</b>(){
+            <b>var</b> t = s.dom.offsetTop;
+            <b>var</b> w = s.dom.clientWidth,
+                h = s.dom.clientHeight;
+
+            lw.setTop(t);
+            lw.setSize(ltWidth, h);
+
+            mw.setLeftTop(ltWidth, t);
+            mw.setSize(w-ltWidth, h);
+
+            lb.setHeight(h-hdHeight);
+            mb.setHeight(h-hdHeight);
+
+            <b>if</b>(is2ndPass !== true &amp;&amp; !gv.userResized &amp;&amp; expandCol){
+                <i>// high speed resize without full column calculation</i>
+                <b>var</b> ci = cm.getIndexById(expandCol);
+                <b>var</b> tw = cm.getTotalWidth(false);
+                <b>var</b> currentWidth = cm.getColumnWidth(ci);
+                <b>var</b> cw = Math.min(Math.max(((w-tw)+currentWidth-2)-<i>/*scrollbar*/</i>(w &lt;= s.dom.offsetWidth ? 0 : 18), g.autoExpandMin), g.autoExpandMax);
+                <b>if</b>(currentWidth != cw){
+                    cm.setColumnWidth(ci, cw, true);
+                    gv.css.updateRule(gv.colSelector+expandCol, &quot;width&quot;, (cw - gv.borderWidth) + &quot;px&quot;);
+                    gv.css.updateRule(gv.hdSelector+expandCol, &quot;width&quot;, (cw - gv.borderWidth) + &quot;px&quot;);
+                    gv.updateSplitters();
+                    gv.layout(false, true);
+                }
+            }
+
+            <b>if</b>(initialRender){
+                lw.show();
+                mw.show();
+            }
+            <i>//c.endMeasure();</i>
+        }, 10);
+    },
+
+    onWindowResize : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.grid.monitorWindowResize || <b>this</b>.grid.autoHeight){
+            <b>return</b>;
+        }
+        <b>this</b>.layout();
+    },
+
+    appendFooter : <b>function</b>(parentEl){
+        <b>return</b> null;
+    },
+
+    sortAscText : &quot;Sort Ascending&quot;,
+    sortDescText : &quot;Sort Descending&quot;,
+    lockText : &quot;Lock Column&quot;,
+    unlockText : &quot;Unlock Column&quot;,
+    columnsText : &quot;Columns&quot;
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

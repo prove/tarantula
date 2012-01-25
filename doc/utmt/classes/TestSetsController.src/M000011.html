@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>show (TestSetsController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/test_sets_controller.rb, line 68</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">show</span>
+    <span class="ruby-identifier">ret</span> = <span class="ruby-value str">'{ }'</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+      <span class="ruby-ivar">@set</span> = <span class="ruby-constant">TestSet</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+      <span class="ruby-identifier">ret</span> = <span class="ruby-value str">'{&quot;data&quot;:[{&quot;name&quot;:'</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@set</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_json</span> <span class="ruby-operator">+</span> <span class="ruby-value str">', &quot;id&quot;:'</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@set</span>.<span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_json</span> <span class="ruby-operator">+</span> <span class="ruby-value str">',  &quot;cases&quot;: '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@set</span>.<span class="ruby-identifier">cases_test_sets</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span><span class="ruby-identifier">s</span>.<span class="ruby-identifier">test_case</span>}.<span class="ruby-identifier">to_treejson</span>(<span class="ruby-identifier">:title</span>) <span class="ruby-operator">+</span> <span class="ruby-value str">'}]}'</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ret</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

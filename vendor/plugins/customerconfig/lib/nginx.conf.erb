@@ -1,0 +1,80 @@
+
+upstream <%= @app_name %> {
+	<% @app_servers.times do |i| %>
+	server 0.0.0.0:<%= @app_port + i %> max_fails=1 fail_timeout=60s;
+    <% end %>
+    fair;
+}
+
+server {
+	listen       <%= @web_port %>;
+    server_name  <%= CustomerConfig.host %>;
+
+	<% if @ssl %>
+    ssl on;
+    ssl_certificate /opt/testia/nginx/certs/server.crt;
+    ssl_certificate_key /opt/testia/nginx/certs/server.key;
+    <% end %>
+
+    root   <%= File.join(RAILS_ROOT, 'public') %>;
+
+	# Set the max size for file uploads to 50Mb
+	client_max_body_size 50M;
+
+    location / {
+   		# needed to forward user's IP address to rails
+		proxy_set_header  X-Real-IP  $remote_addr;
+
+        <% if @ssl %>
+		proxy_set_header X-FORWARDED_PROTO https;
+        <% end %>
+
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header Host $http_host;
+		proxy_max_temp_file_size 0;
+
+		# If the file exists as a static file serve it directly without
+		# running all the other rewite tests on it
+		if (-f $request_filename) {
+			break;
+		}
+
+		# check for index.html for directory index
+		# if its there on the filesystem then rewite
+		# the url to add /index.html to the end of it
+		# and then break to send it to the next config rules.
+		if (-f $request_filename/index.html) {
+			rewrite (.*) $1/index.html break;
+		}
+
+		# this is the meat of the rails page caching config
+		# it adds .html to the end of the url and then checks
+		# the filesystem for that file. If it exists, then we
+		# rewite the url to have explicit .html on the end
+		# and then send it on its way to the next config rule.
+		# if there is no file on the fs then it sets all the
+		# necessary headers and proxies to our upstream mongrels
+		if (-f $request_filename.html) {
+			rewrite (.*) $1.html break;
+		}
+
+		if (!-f $request_filename) {
+			proxy_pass http://<%= @app_name %>;
+		    break;
+		}
+	}
+
+    location /attachment_files {
+    	root <%= RAILS_ROOT %>;
+		internal;
+	}
+}
+
+<% if not @redirect_port.nil? and @redirect_port > 0 %>
+server {
+    listen      <%= @redirect_port %>;
+    server_name <%= CustomerConfig.host %>;
+    rewrite     ^(.*) https://$server_name<%= @web_port != 443 ? ":#{@web_port}" : "" %>$1 permanent;
+}
+<% end %>

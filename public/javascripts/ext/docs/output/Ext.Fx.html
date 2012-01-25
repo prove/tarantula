@@ -1,0 +1,879 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.Fx</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.Fx.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.Fx</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>Fx</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="Fx.jss.html">Fx.js</a></td></tr>
+        </table>
+        <div class="description">
+            <p>A class to provide basic animation and visual effects support.  <b>Note:</b> This class is automatically applied
+to the <a ext:cls="Ext.Element" href="Ext.Element.html">Ext.Element</a> interface when included, so all effects calls should be performed via Element.
+Conversely, since the effects are not actually defined in Element, Ext.Fx <b>must</b> be included in order for the 
+Element effects to work.</p><br/>
+<p>It is important to note that although the Fx methods and many non-Fx Element methods support "method chaining" in that
+they return the Element object itself as the method return value, it is not always possible to mix the two in a single
+method chain.  The Fx methods use an internal effects queue so that each effect can be properly timed and sequenced.
+Non-Fx methods, on the other hand, have no such internal queueing and will always execute immediately.  For this reason,
+while it may be possible to mix certain Fx and non-Fx method calls in a single chain, it may not always provide the
+expected results and should be done with care.</p><br/>
+<p>Motion effects support 8-way anchoring, meaning that you can choose one of 8 different anchor points on the Element
+that will serve as either the start or end point of the animation.  Following are all of the supported anchor positions:</p>
+<pre>Value  Description
+-----  -----------------------------
+tl     The top left corner
+t      The center of the top edge
+tr     The top right corner
+l      The center of the left edge
+r      The center of the right edge
+bl     The bottom left corner
+b      The center of the bottom edge
+br     The bottom right corner</pre>
+<b>Although some Fx methods accept specific custom config parameters, the ones shown in the Config Options section
+below are common options that can be passed to any Fx method.</b>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fadeIn">fadeIn</a>(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Fade an element in (from transparent to opaque).  The ending opacity can be specified
+using the "endOpacity" config o...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fadeOut">fadeOut</a>(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Fade an element out (from opaque to transparent).  The ending opacity can be specified
+using the "endOpacity" config ...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#frame">frame</a>(&nbsp;<span class="optional" title="Optional">[<code>String color</code>]</span>, <span class="optional" title="Optional">[<code>Number count</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Shows a ripple of exploding, attenuating borders to draw attention to an Element.
+Usage:
+// default: a single light b...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#ghost">ghost</a>(&nbsp;<span class="optional" title="Optional">[<code>String anchor</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Slides the element while fading it out of view.  An anchor point can be optionally passed to set the 
+ending point of...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasActiveFx">hasActiveFx</a>() : Boolean</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns true if the element has any effects actively running or queued, else returns false.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasFxBlock">hasFxBlock</a>() : Boolean</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Returns true if the element is currently blocking so that no other effect can be queued
+until this effect is finished...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#highlight">highlight</a>(&nbsp;<span class="optional" title="Optional">[<code>String color</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Highlights the Element by setting a color (applies to the background-color by default, but can be
+changed using the "...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#pause">pause</a>(&nbsp;<code>Number seconds</code>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Creates a pause before any subsequent queued effects begin.  If there are
+no effects queued after the pause it will h...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#puff">puff</a>(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Fades the element out while slowly expanding it in all directions.  When the effect is completed, the 
+element will b...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#scale">scale</a>(&nbsp;<code>Number width</code>, <code>Number height</code>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Animates the transition of an element's dimensions from a starting height/width
+to an ending height/width.
+Usage:
+// ...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#sequenceFx">sequenceFx</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Ensures that all effects queued after sequenceFx is called on the element are
+run in sequence.  This is the opposite ...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#shift">shift</a>(&nbsp;<code>Object options</code>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Animates the transition of any combination of an element's dimensions, xy position and/or opacity.
+Any of these prope...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#slideIn">slideIn</a>(&nbsp;<span class="optional" title="Optional">[<code>String anchor</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Slides the element into view.  An anchor point can be optionally passed to set the point of
+origin for the slide effe...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#slideOut">slideOut</a>(&nbsp;<span class="optional" title="Optional">[<code>String anchor</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Slides the element out of view.  An anchor point can be optionally passed to set the end point
+for the slide effect. ...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#stopFx">stopFx</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Stops any running effects and clears the element's internal effects queue if it contains
+any additional effects that ...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#switchOff">switchOff</a>(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Blinks the element as if it was clicked and then collapses on its center (similar to switching off a television).
+Whe...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#syncFx">syncFx</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Ensures that all effects queued after syncFx is called on the element are
+run concurrently.  This is the opposite of ...</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-afterCls">afterCls</a> : String</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">A css class to apply after the effect</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-afterStyle">afterStyle</a> : String/Object/Function</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">A style specification string, e.g. "width:100px", or an object in the form {width:"100px"}, or a function which retur...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-block">block</a> : Boolean</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Whether the effect should block other effects from queueing while it runs</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-callback">callback</a> : Function</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">A function called when the effect is finished</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-concurrent">concurrent</a> : Boolean</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Whether to allow subsequently-queued effects to run at the same time as the current effect, or to ensure that they ru...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-duration">duration</a> : Number</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The length of time (in seconds) that the effect should last</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-easing">easing</a> : String</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">A valid Easing value for the effect</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-remove">remove</a> : Boolean</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Whether the Element should be removed from the DOM and destroyed after the effect finishes</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-scope">scope</a> : Object</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The scope of the effect function</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-stopFx">stopFx</a> : Boolean</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Whether subsequent effects should be stopped and removed after the current effect finishes</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-useDisplay">useDisplay</a> : Boolean</td>
+        <td class="msource" rowspan="2">Fx</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Whether to use the display CSS property instead of visibility when hiding Elements (only applies to effects that end ...</td>
+    </tr>
+            </table>
+                
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="fadeIn"></a>
+                <div class="mdetail">
+                <h3>fadeIn</i></h3>
+                <code>public function fadeIn(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fade an element in (from transparent to opaque).  The ending opacity can be specified
+using the "endOpacity" config option.
+Usage:
+<pre><code><i>// <b>default</b>: fade <b>in</b> from opacity 0 to 100%</i>
+el.fadeIn();
+
+<i>// custom: fade <b>in</b> from opacity 0 to 75% over 2 seconds</i>
+el.fadeIn({ endOpacity: .75, duration: 2});
+
+<i>// common config options shown <b>with</b> default values</i>
+el.fadeIn({
+    endOpacity: 1, <i>//can be any value between 0 and 1 (e.g. .5)</i>
+    easing: <em>'easeOut'</em>,
+    duration: .5
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="fadeOut"></a>
+                <div class="mdetail alt">
+                <h3>fadeOut</i></h3>
+                <code>public function fadeOut(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fade an element out (from opaque to transparent).  The ending opacity can be specified
+using the "endOpacity" config option.
+Usage:
+<pre><code><i>// <b>default</b>: fade out from the element's current opacity to 0</i>
+el.fadeOut();
+
+<i>// custom: fade out from the element's current opacity to 25% over 2 seconds</i>
+el.fadeOut({ endOpacity: .25, duration: 2});
+
+<i>// common config options shown <b>with</b> default values</i>
+el.fadeOut({
+    endOpacity: 0, <i>//can be any value between 0 and 1 (e.g. .5)</i>
+    easing: <em>'easeOut'</em>,
+    duration: .5
+    remove: false,
+    useDisplay: false
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="frame"></a>
+                <div class="mdetail">
+                <h3>frame</i></h3>
+                <code>public function frame(&nbsp;<span class="optional" title="Optional">[<code>String color</code>]</span>, <span class="optional" title="Optional">[<code>Number count</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Shows a ripple of exploding, attenuating borders to draw attention to an Element.
+Usage:
+<pre><code><i>// <b>default</b>: a single light blue ripple</i>
+el.frame();
+
+<i>// custom: 3 red ripples lasting 3 seconds total</i>
+el.frame(<em>"ff0000"</em>, 3, { duration: 3 });
+
+<i>// common config options shown <b>with</b> default values</i>
+el.frame(<em>"C3DAF9"</em>, 1, {
+    duration: 1 <i>//duration of entire animation (not each individual ripple)</i>
+    <i>// Note: Easing is not configurable and will be ignored <b>if</b> included</i>
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>color</code> : String<div class="sub-desc">(optional) The color of the border. Should be a 6 char hex color without the leading # (defaults to light blue: 'C3DAF9').</div></li><li><code>count</code> : Number<div class="sub-desc">(optional) The number of ripples to display (defaults to 1)</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="ghost"></a>
+                <div class="mdetail alt">
+                <h3>ghost</i></h3>
+                <code>public function ghost(&nbsp;<span class="optional" title="Optional">[<code>String anchor</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Slides the element while fading it out of view.  An anchor point can be optionally passed to set the 
+ending point of the effect.
+Usage:
+<pre><code><i>// <b>default</b>: slide the element downward <b>while</b> fading out</i>
+el.ghost();
+
+<i>// custom: slide the element out to the right <b>with</b> a 2-second duration</i>
+el.ghost(<em>'r'</em>, { duration: 2 });
+
+<i>// common config options shown <b>with</b> default values</i>
+el.ghost(<em>'b'</em>, {
+    easing: <em>'easeOut'</em>,
+    duration: .5
+    remove: false,
+    useDisplay: false
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>anchor</code> : String<div class="sub-desc">(optional) One of the valid Fx anchor positions (defaults to bottom: 'b')</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="hasActiveFx"></a>
+                <div class="mdetail">
+                <h3>hasActiveFx</i></h3>
+                <code>public function hasActiveFx()</code>
+                <div class="mdetail-desc">
+                    Returns true if the element has any effects actively running or queued, else returns false.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if element has active effects, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="hasFxBlock"></a>
+                <div class="mdetail alt">
+                <h3>hasFxBlock</i></h3>
+                <code>public function hasFxBlock()</code>
+                <div class="mdetail-desc">
+                    Returns true if the element is currently blocking so that no other effect can be queued
+until this effect is finished, else returns false if blocking is not set.  This is commonly
+used to ensure that an effect initiated by a user action runs to completion prior to the
+same effect being restarted (e.g., firing only one effect even if the user clicks several times).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if blocking, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="highlight"></a>
+                <div class="mdetail">
+                <h3>highlight</i></h3>
+                <code>public function highlight(&nbsp;<span class="optional" title="Optional">[<code>String color</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Highlights the Element by setting a color (applies to the background-color by default, but can be
+changed using the "attr" config option) and then fading back to the original color. If no original
+color is available, you should provide the "endColor" config option which will be cleared after the animation.
+Usage:
+<pre><code><i>// <b>default</b>: highlight background to yellow</i>
+el.highlight();
+
+<i>// custom: highlight foreground text to blue <b>for</b> 2 seconds</i>
+el.highlight(<em>"0000ff"</em>, { attr: <em>'color'</em>, duration: 2 });
+
+<i>// common config options shown <b>with</b> default values</i>
+el.highlight(<em>"ffff9c"</em>, {
+    attr: <em>"background-color"</em>, <i>//can be any valid CSS property (attribute) that supports a color value</i>
+    endColor: (current color) or <em>"ffffff"</em>,
+    easing: <em>'easeIn'</em>,
+    duration: 1
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>color</code> : String<div class="sub-desc">(optional) The highlight color. Should be a 6 char hex color without the leading # (defaults to yellow: 'ffff9c')</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="pause"></a>
+                <div class="mdetail alt">
+                <h3>pause</i></h3>
+                <code>public function pause(&nbsp;<code>Number seconds</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates a pause before any subsequent queued effects begin.  If there are
+no effects queued after the pause it will have no effect.
+Usage:
+<pre><code>el.pause(1);</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>seconds</code> : Number<div class="sub-desc">The length of time to pause (in seconds)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="puff"></a>
+                <div class="mdetail">
+                <h3>puff</i></h3>
+                <code>public function puff(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fades the element out while slowly expanding it in all directions.  When the effect is completed, the 
+element will be hidden (visibility = 'hidden') but block elements will still take up space in the document. 
+The element must be removed from the DOM using the 'remove' config option if desired.
+Usage:
+<pre><code><i>// <b>default</b></i>
+el.puff();
+
+<i>// common config options shown <b>with</b> default values</i>
+el.puff({
+    easing: <em>'easeOut'</em>,
+    duration: .5,
+    remove: false,
+    useDisplay: false
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="scale"></a>
+                <div class="mdetail alt">
+                <h3>scale</i></h3>
+                <code>public function scale(&nbsp;<code>Number width</code>, <code>Number height</code>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Animates the transition of an element's dimensions from a starting height/width
+to an ending height/width.
+Usage:
+<pre><code><i>// change height and width to 100x100 pixels</i>
+el.scale(100, 100);
+
+<i>// common config options shown <b>with</b> default values.  The height and width will <b>default</b> to</i>
+<i>// the element's existing values <b>if</b> passed as null.</i>
+el.scale(
+    [element's width],
+    [element's height], {
+    easing: <em>'easeOut'</em>,
+    duration: .35
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>width</code> : Number<div class="sub-desc">The new width (pass undefined to keep the original width)</div></li><li><code>height</code> : Number<div class="sub-desc">The new height (pass undefined to keep the original height)</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="sequenceFx"></a>
+                <div class="mdetail">
+                <h3>sequenceFx</i></h3>
+                <code>public function sequenceFx()</code>
+                <div class="mdetail-desc">
+                    Ensures that all effects queued after sequenceFx is called on the element are
+run in sequence.  This is the opposite of <a ext:cls="Ext.Fx" ext:member="syncFx" href="Ext.Fx.html#syncFx">syncFx</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="shift"></a>
+                <div class="mdetail alt">
+                <h3>shift</i></h3>
+                <code>public function shift(&nbsp;<code>Object options</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Animates the transition of any combination of an element's dimensions, xy position and/or opacity.
+Any of these properties not specified in the config object will not be changed.  This effect 
+requires that at least one new dimension, position or opacity setting must be passed in on
+the config object in order for the function to have any effect.
+Usage:
+<pre><code><i>// slide the element horizontally to x position 200 <b>while</b> changing the height and opacity</i>
+el.shift({ x: 200, height: 50, opacity: .8 });
+
+<i>// common config options shown <b>with</b> default values.</i>
+el.shift({
+    width: [element's width],
+    height: [element's height],
+    x: [element's x position],
+    y: [element's y position],
+    opacity: [element's opacity],
+    easing: <em>'easeOut'</em>,
+    duration: .35
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="slideIn"></a>
+                <div class="mdetail">
+                <h3>slideIn</i></h3>
+                <code>public function slideIn(&nbsp;<span class="optional" title="Optional">[<code>String anchor</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Slides the element into view.  An anchor point can be optionally passed to set the point of
+origin for the slide effect.  This function automatically handles wrapping the element with
+a fixed-size container if needed.  See the Fx class overview for valid anchor point options.
+Usage:
+<pre><code><i>// <b>default</b>: slide the element <b>in</b> from the top</i>
+el.slideIn();
+
+<i>// custom: slide the element <b>in</b> from the right <b>with</b> a 2-second duration</i>
+el.slideIn(<em>'r'</em>, { duration: 2 });
+
+<i>// common config options shown <b>with</b> default values</i>
+el.slideIn(<em>'t'</em>, {
+    easing: <em>'easeOut'</em>,
+    duration: .5
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>anchor</code> : String<div class="sub-desc">(optional) One of the valid Fx anchor positions (defaults to top: 't')</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="slideOut"></a>
+                <div class="mdetail alt">
+                <h3>slideOut</i></h3>
+                <code>public function slideOut(&nbsp;<span class="optional" title="Optional">[<code>String anchor</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Slides the element out of view.  An anchor point can be optionally passed to set the end point
+for the slide effect.  When the effect is completed, the element will be hidden (visibility = 
+'hidden') but block elements will still take up space in the document.  The element must be removed
+from the DOM using the 'remove' config option if desired.  This function automatically handles 
+wrapping the element with a fixed-size container if needed.  See the Fx class overview for valid anchor point options.
+Usage:
+<pre><code><i>// <b>default</b>: slide the element out to the top</i>
+el.slideOut();
+
+<i>// custom: slide the element out to the right <b>with</b> a 2-second duration</i>
+el.slideOut(<em>'r'</em>, { duration: 2 });
+
+<i>// common config options shown <b>with</b> default values</i>
+el.slideOut(<em>'t'</em>, {
+    easing: <em>'easeOut'</em>,
+    duration: .5,
+    remove: false,
+    useDisplay: false
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>anchor</code> : String<div class="sub-desc">(optional) One of the valid Fx anchor positions (defaults to top: 't')</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="stopFx"></a>
+                <div class="mdetail">
+                <h3>stopFx</i></h3>
+                <code>public function stopFx()</code>
+                <div class="mdetail-desc">
+                    Stops any running effects and clears the element's internal effects queue if it contains
+any additional effects that haven't started yet.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="switchOff"></a>
+                <div class="mdetail alt">
+                <h3>switchOff</i></h3>
+                <code>public function switchOff(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Blinks the element as if it was clicked and then collapses on its center (similar to switching off a television).
+When the effect is completed, the element will be hidden (visibility = 'hidden') but block elements will still 
+take up space in the document. The element must be removed from the DOM using the 'remove' config option if desired.
+Usage:
+<pre><code><i>// <b>default</b></i>
+el.switchOff();
+
+<i>// all config options shown <b>with</b> default values</i>
+el.switchOff({
+    easing: <em>'easeIn'</em>,
+    duration: .3,
+    remove: false,
+    useDisplay: false
+});</code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">(optional) Object literal with any of the Fx config options</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                            <a name="syncFx"></a>
+                <div class="mdetail">
+                <h3>syncFx</i></h3>
+                <code>public function syncFx()</code>
+                <div class="mdetail-desc">
+                    Ensures that all effects queued after syncFx is called on the element are
+run concurrently.  This is the opposite of <a ext:cls="Ext.Fx" ext:member="sequenceFx" href="Ext.Fx.html#sequenceFx">sequenceFx</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Fx.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-afterCls"></a>
+                <div class="mdetail">
+                <h3>afterCls</i></h3>
+                <code>afterCls : String</code>
+                <div class="mdetail-desc">
+                    A css class to apply after the effect                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-afterStyle"></a>
+                <div class="mdetail alt">
+                <h3>afterStyle</i></h3>
+                <code>afterStyle : String/Object/Function</code>
+                <div class="mdetail-desc">
+                    A style specification string, e.g. "width:100px", or an object in the form {width:"100px"}, or a function which returns such a specification that will be applied to the Element after the effect finishes                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-block"></a>
+                <div class="mdetail">
+                <h3>block</i></h3>
+                <code>block : Boolean</code>
+                <div class="mdetail-desc">
+                    Whether the effect should block other effects from queueing while it runs                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-callback"></a>
+                <div class="mdetail alt">
+                <h3>callback</i></h3>
+                <code>callback : Function</code>
+                <div class="mdetail-desc">
+                    A function called when the effect is finished                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-concurrent"></a>
+                <div class="mdetail">
+                <h3>concurrent</i></h3>
+                <code>concurrent : Boolean</code>
+                <div class="mdetail-desc">
+                    Whether to allow subsequently-queued effects to run at the same time as the current effect, or to ensure that they run in sequence                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-duration"></a>
+                <div class="mdetail alt">
+                <h3>duration</i></h3>
+                <code>duration : Number</code>
+                <div class="mdetail-desc">
+                    The length of time (in seconds) that the effect should last                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-easing"></a>
+                <div class="mdetail">
+                <h3>easing</i></h3>
+                <code>easing : String</code>
+                <div class="mdetail-desc">
+                    A valid Easing value for the effect                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-remove"></a>
+                <div class="mdetail alt">
+                <h3>remove</i></h3>
+                <code>remove : Boolean</code>
+                <div class="mdetail-desc">
+                    Whether the Element should be removed from the DOM and destroyed after the effect finishes                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-scope"></a>
+                <div class="mdetail">
+                <h3>scope</i></h3>
+                <code>scope : Object</code>
+                <div class="mdetail-desc">
+                    The scope of the effect function                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-stopFx"></a>
+                <div class="mdetail alt">
+                <h3>stopFx</i></h3>
+                <code>stopFx : Boolean</code>
+                <div class="mdetail-desc">
+                    Whether subsequent effects should be stopped and removed after the current effect finishes                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                            <a name="config-useDisplay"></a>
+                <div class="mdetail">
+                <h3>useDisplay</i></h3>
+                <code>useDisplay : Boolean</code>
+                <div class="mdetail-desc">
+                    Whether to use the <i>display</i> CSS property instead of <i>visibility</i> when hiding Elements (only applies to effects that end with the element being visually hidden, ignored otherwise)                </div>
+                <div class="mdetail-def">This config option is defined by Fx.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

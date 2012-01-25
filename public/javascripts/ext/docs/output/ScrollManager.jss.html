@@ -1,0 +1,171 @@
+<html><head><title>ScrollManager.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ScrollManager.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.dd.ScrollManager
+ * Provides automatic scrolling of overflow regions <b>in</b> the page during drag operations.&lt;br&gt;&lt;br&gt;
+ * &lt;b&gt;Note: This class uses &quot;Point Mode&quot; and is untested <b>in</b> &quot;Intersect Mode&quot;.&lt;/b&gt;
+ * @singleton
+ */</i>
+Ext.dd.ScrollManager = <b>function</b>(){
+    <b>var</b> ddm = Ext.dd.DragDropMgr;
+    <b>var</b> els = {};
+    <b>var</b> dragEl = null;
+    <b>var</b> proc = {};
+    
+    <b>var</b> onStop = <b>function</b>(e){
+        dragEl = null;
+        clearProc();
+    };
+    
+    <b>var</b> triggerRefresh = <b>function</b>(){
+        <b>if</b>(ddm.dragCurrent){
+             ddm.refreshCache(ddm.dragCurrent.groups);
+        }
+    };
+    
+    <b>var</b> doScroll = <b>function</b>(){
+        <b>if</b>(ddm.dragCurrent){
+            <b>var</b> dds = Ext.dd.ScrollManager;
+            <b>if</b>(!dds.animate){
+                <b>if</b>(proc.el.scroll(proc.dir, dds.increment)){
+                    triggerRefresh();
+                }
+            }<b>else</b>{
+                proc.el.scroll(proc.dir, dds.increment, true, dds.animDuration, triggerRefresh);
+            }
+        }
+    };
+    
+    <b>var</b> clearProc = <b>function</b>(){
+        <b>if</b>(proc.id){
+            clearInterval(proc.id);
+        }
+        proc.id = 0;
+        proc.el = null;
+        proc.dir = &quot;&quot;;
+    };
+    
+    <b>var</b> startProc = <b>function</b>(el, dir){
+        clearProc();
+        proc.el = el;
+        proc.dir = dir;
+        proc.id = setInterval(doScroll, Ext.dd.ScrollManager.frequency);
+    };
+    
+    <b>var</b> onFire = <b>function</b>(e, isDrop){
+        <b>if</b>(isDrop || !ddm.dragCurrent){ <b>return</b>; }
+        <b>var</b> dds = Ext.dd.ScrollManager;
+        <b>if</b>(!dragEl || dragEl != ddm.dragCurrent){
+            dragEl = ddm.dragCurrent;
+            <i>// refresh regions on drag start</i>
+            dds.refreshCache();
+        }
+        
+        <b>var</b> xy = Ext.lib.Event.getXY(e);
+        <b>var</b> pt = <b>new</b> Ext.lib.Point(xy[0], xy[1]);
+        <b>for</b>(var id <b>in</b> els){
+            <b>var</b> el = els[id], r = el._region;
+            <b>if</b>(r &amp;&amp; r.contains(pt) &amp;&amp; el.isScrollable()){
+                <b>if</b>(r.bottom - pt.y &lt;= dds.thresh){
+                    <b>if</b>(proc.el != el){
+                        startProc(el, &quot;down&quot;);
+                    }
+                    <b>return</b>;
+                }<b>else</b> if(r.right - pt.x &lt;= dds.thresh){
+                    <b>if</b>(proc.el != el){
+                        startProc(el, &quot;left&quot;);
+                    }
+                    <b>return</b>;
+                }<b>else</b> if(pt.y - r.top &lt;= dds.thresh){
+                    <b>if</b>(proc.el != el){
+                        startProc(el, &quot;up&quot;);
+                    }
+                    <b>return</b>;
+                }<b>else</b> if(pt.x - r.left &lt;= dds.thresh){
+                    <b>if</b>(proc.el != el){
+                        startProc(el, &quot;right&quot;);
+                    }
+                    <b>return</b>;
+                }
+            }
+        }
+        clearProc();
+    };
+    
+    ddm.fireEvents = ddm.fireEvents.createSequence(onFire, ddm);
+    ddm.stopDrag = ddm.stopDrag.createSequence(onStop, ddm);
+    
+    <b>return</b> {
+        <i>/**
+         * Registers <b>new</b> overflow element(s) to auto scroll
+         * @param {String/HTMLElement/Element/Array} el The id of or the element to be scrolled or an array of either
+         */</i>
+        register : <b>function</b>(el){
+            <b>if</b>(el instanceof Array){
+                <b>for</b>(var i = 0, len = el.length; i &lt; len; i++) {
+                	<b>this</b>.register(el[i]);
+                }
+            }<b>else</b>{
+                el = Ext.get(el);
+                els[el.id] = el;
+            }
+        },
+        
+        <i>/**
+         * Unregisters overflow element(s) so they are no longer scrolled
+         * @param {String/HTMLElement/Element/Array} el The id of or the element to be removed or an array of either
+         */</i>
+        unregister : <b>function</b>(el){
+            <b>if</b>(el instanceof Array){
+                <b>for</b>(var i = 0, len = el.length; i &lt; len; i++) {
+                	<b>this</b>.unregister(el[i]);
+                }
+            }<b>else</b>{
+                el = Ext.get(el);
+                <b>delete</b> els[el.id];
+            }
+        },
+        
+        <i>/**
+         * The number of pixels from the edge of a container the pointer needs to be to 
+         * trigger scrolling (defaults to 25)
+         * @type Number
+         */</i>
+        thresh : 25,
+        
+        <i>/**
+         * The number of pixels to scroll <b>in</b> each scroll increment (defaults to 50)
+         * @type Number
+         */</i>
+        increment : 100,
+        
+        <i>/**
+         * The frequency of scrolls <b>in</b> milliseconds (defaults to 500)
+         * @type Number
+         */</i>
+        frequency : 500,
+        
+        <i>/**
+         * True to animate the scroll (defaults to true)
+         * @type Boolean
+         */</i>
+        animate: true,
+        
+        <i>/**
+         * The animation duration <b>in</b> seconds - 
+         * MUST BE less than Ext.dd.ScrollManager.frequency! (defaults to .4)
+         * @type Number
+         */</i>
+        animDuration: .4,
+        
+        <i>/**
+         * Manually trigger a cache refresh.
+         */</i>
+        refreshCache : <b>function</b>(){
+            <b>for</b>(var id <b>in</b> els){
+                <b>if</b>(typeof els[id] == <em>'object'</em>){ <i>// <b>for</b> people extending the object prototype</i>
+                    els[id]._region = els[id].getRegion();
+                }
+            }
+        }
+    };
+}();</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

@@ -1,0 +1,1300 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.grid.ColumnModel</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.grid.ColumnModel.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.grid.ColumnModel</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.grid</td></tr>
+            <tr><td class="label">Class:</td><td>ColumnModel</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.util.Observable" ext:member="" href="Ext.util.Observable.html">Observable</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="ColumnModel.jss.html">ColumnModel.js</a></td></tr>
+        </table>
+        <div class="description">
+            This is the default implementation of a ColumnModel used by the Grid. It defines
+the columns in the grid.
+<br>Usage:<br>
+ <pre><code>var colModel = <b>new</b> Ext.grid.ColumnModel([
+	{header: <em>"Ticker"</em>, width: 60, sortable: true, locked: true},
+	{header: <em>"Company Name"</em>, width: 150, sortable: true},
+	{header: <em>"Market Cap."</em>, width: 100, sortable: true},
+	{header: <em>"$ Sales"</em>, width: 100, sortable: true, renderer: money},
+	{header: <em>"Employees"</em>, width: 100, sortable: true, resizable: false}
+ ]);</code></pre>
+<p>
+The config options listed for this class are options which may appear in each
+individual column definition.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config">config</a> : Object</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The config passed into the constructor</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#defaultSortable">defaultSortable</a> : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Default sortable of columns which have no sortable specified (defaults to false)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#defaultWidth">defaultWidth</a> : Number</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The width of columns which have no width specified (defaults to 100)</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>ColumnModel</b>(&nbsp;<code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getCellEditor">getCellEditor</a>(&nbsp;<code>Number colIndex</code>, <code>Number rowIndex</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the editor defined for the cell/column.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getColumnById">getColumnById</a>(&nbsp;<code>String id</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the column for a specified id.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getColumnCount">getColumnCount</a>() : Number</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the number of columns.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getColumnHeader">getColumnHeader</a>(&nbsp;<code>Number col</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the header for the specified column.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getColumnId">getColumnId</a>(&nbsp;<code>Number index</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">
+Returns the id of the column at the specified index.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getColumnTooltip">getColumnTooltip</a>(&nbsp;<code>Number col</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the tooltip for the specified column.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getColumnWidth">getColumnWidth</a>(&nbsp;<code>Number col</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the width for the specified column.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getColumnsBy">getColumnsBy</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Array</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the column configs that return true by the passed function that is called with (columnConfig, index)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getDataIndex">getDataIndex</a>(&nbsp;<code>Number col</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the dataIndex for the specified column.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getIndexById">getIndexById</a>(&nbsp;<code>String id</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the index for a specified column id.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getRenderer">getRenderer</a>(&nbsp;<code>Number col</code>&nbsp;) : Function</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the rendering (formatting) function defined for the column.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTotalWidth">getTotalWidth</a>(&nbsp;<code>Boolean includeHidden</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the total width of all columns.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isCellEditable">isCellEditable</a>(&nbsp;<code>Number colIndex</code>, <code>Number rowIndex</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns true if the cell is editable.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isFixed">isFixed</a>() : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns true if the column width cannot be changed</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isHidden">isHidden</a>(&nbsp;<code>Number colIndex</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns true if the column is hidden.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isResizable">isResizable</a>() : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns true if the column can be resized</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isSortable">isSortable</a>(&nbsp;<code>Number col</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns true if the specified column is sortable.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setColumnHeader">setColumnHeader</a>(&nbsp;<code>Number col</code>, <code>String header</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Sets the header for a column.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setColumnTooltip">setColumnTooltip</a>(&nbsp;<code>Number col</code>, <code>String tooltip</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Sets the tooltip for a column.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setColumnWidth">setColumnWidth</a>(&nbsp;<code>Number col</code>, <code>Number width</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Sets the width for a column.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setDataIndex">setDataIndex</a>(&nbsp;<code>Number col</code>, <code>Number dataIndex</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Sets the dataIndex for a column.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setEditable">setEditable</a>(&nbsp;<code>Number col</code>, <code>Boolean editable</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Sets if a column is editable.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setEditor">setEditor</a>(&nbsp;<code>Number col</code>, <code>Object editor</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Sets the editor for a column.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setHidden">setHidden</a>(&nbsp;<code>Number colIndex</code>, <code>Boolean hidden</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Sets if a column is hidden.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setRenderer">setRenderer</a>(&nbsp;<code>Number col</code>, <code>Function fn</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Sets the rendering (formatting) function for a column.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-columlockchange">columlockchange</a> : (&nbsp;<code>ColumnModel this</code>, <code>Number colIndex</code>, <code>Boolean locked</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when a column's locked state is changed</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-columnmoved">columnmoved</a> : (&nbsp;<code>ColumnModel this</code>, <code>Number oldIndex</code>, <code>Number newIndex</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when a column is moved.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-headerchange">headerchange</a> : (&nbsp;<code>ColumnModel this</code>, <code>Number columnIndex</code>, <code>Number newText</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when the text of a header changes.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-hiddenchange">hiddenchange</a> : (&nbsp;<code>ColumnModel this</code>, <code>Number columnIndex</code>, <code>Boolean hidden</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when a column is hidden or "unhidden".</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-widthchange">widthchange</a> : (&nbsp;<code>ColumnModel this</code>, <code>Number columnIndex</code>, <code>Number newWidth</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when the width of a column changes.</td>
+    </tr>
+            </table>
+                        <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-align">align</a> : String</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">(Optional) Set the CSS text-align property of the column. Defaults to undefined.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-dataIndex">dataIndex</a> : String</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">(Optional) The name of the field in the grid's Ext.data.Store's Ext.data.Record definition from which to draw the col...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-header">header</a> : String</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The header text to display in the Grid view.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hidden">hidden</a> : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">(Optional) True to hide the column. Defaults to false.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-locked">locked</a> : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">(Optional) True to lock the column in place while scrolling the Grid. Defaults to false.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-renderer">renderer</a> : Function</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">(Optional) A function used to generate HTML markup for a cell given the cell's data value. See setRenderer. If not sp...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-resizable">resizable</a> : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">(Optional) False to disable column resizing. Defaults to true.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-sortable">sortable</a> : Boolean</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">(Optional) True if sorting is to be allowed on this column. Defaults to true. Whether local/remote sorting is used is...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-width">width</a> : Number</td>
+        <td class="msource" rowspan="2">ColumnModel</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">(Optional) The initial width in pixels of the column. Using this instead of Ext.grid.Grid.autoSizeColumns is more eff...</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="config"></a>
+                <div class="mdetail">
+                <h3>config</i></h3>
+                <code>public Object config</code>
+                <div class="mdetail-desc">
+                    The config passed into the constructor                </div>
+                <div class="mdetail-def">This property is defined by ColumnModel.</div>
+                </div>
+                            <a name="defaultSortable"></a>
+                <div class="mdetail alt">
+                <h3>defaultSortable</i></h3>
+                <code>public Boolean defaultSortable</code>
+                <div class="mdetail-desc">
+                    Default sortable of columns which have no sortable specified (defaults to false)                </div>
+                <div class="mdetail-def">This property is defined by ColumnModel.</div>
+                </div>
+                            <a name="defaultWidth"></a>
+                <div class="mdetail">
+                <h3>defaultWidth</i></h3>
+                <code>public Number defaultWidth</code>
+                <div class="mdetail-desc">
+                    The width of columns which have no width specified (defaults to 100)                </div>
+                <div class="mdetail-def">This property is defined by ColumnModel.</div>
+                </div>
+                        </div>
+        
+                    <a name="ColumnModel"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>ColumnModel</i></h3>
+                <code>public function ColumnModel(&nbsp;<code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object<div class="sub-desc">An Array of column config objects. See this class's
+config objects for details.</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="addEvents"></a>
+                <div class="mdetail">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail alt">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="getCellEditor"></a>
+                <div class="mdetail alt">
+                <h3>getCellEditor</i></h3>
+                <code>public function getCellEditor(&nbsp;<code>Number colIndex</code>, <code>Number rowIndex</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the editor defined for the cell/column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>colIndex</code> : Number<div class="sub-desc">The column index</div></li><li><code>rowIndex</code> : Number<div class="sub-desc">The row index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getColumnById"></a>
+                <div class="mdetail">
+                <h3>getColumnById</i></h3>
+                <code>public function getColumnById(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the column for a specified id.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">The column id</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">the column</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getColumnCount"></a>
+                <div class="mdetail alt">
+                <h3>getColumnCount</i></h3>
+                <code>public function getColumnCount()</code>
+                <div class="mdetail-desc">
+                    Returns the number of columns.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getColumnHeader"></a>
+                <div class="mdetail">
+                <h3>getColumnHeader</i></h3>
+                <code>public function getColumnHeader(&nbsp;<code>Number col</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the header for the specified column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getColumnId"></a>
+                <div class="mdetail alt">
+                <h3>getColumnId</i></h3>
+                <code>public function getColumnId(&nbsp;<code>Number index</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    
+Returns the id of the column at the specified index.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>index</code> : Number<div class="sub-desc">The column index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">the id</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getColumnTooltip"></a>
+                <div class="mdetail">
+                <h3>getColumnTooltip</i></h3>
+                <code>public function getColumnTooltip(&nbsp;<code>Number col</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the tooltip for the specified column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getColumnWidth"></a>
+                <div class="mdetail alt">
+                <h3>getColumnWidth</i></h3>
+                <code>public function getColumnWidth(&nbsp;<code>Number col</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the width for the specified column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getColumnsBy"></a>
+                <div class="mdetail">
+                <h3>getColumnsBy</i></h3>
+                <code>public function getColumnsBy(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the column configs that return true by the passed function that is called with (columnConfig, index)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code><div class="sub-desc">result</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getDataIndex"></a>
+                <div class="mdetail alt">
+                <h3>getDataIndex</i></h3>
+                <code>public function getDataIndex(&nbsp;<code>Number col</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the dataIndex for the specified column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getIndexById"></a>
+                <div class="mdetail">
+                <h3>getIndexById</i></h3>
+                <code>public function getIndexById(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the index for a specified column id.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">The column id</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">the index, or -1 if not found</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getRenderer"></a>
+                <div class="mdetail alt">
+                <h3>getRenderer</i></h3>
+                <code>public function getRenderer(&nbsp;<code>Number col</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the rendering (formatting) function defined for the column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Function</code><div class="sub-desc">The function used to render the cell. See {@link #setRenderer}.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="getTotalWidth"></a>
+                <div class="mdetail">
+                <h3>getTotalWidth</i></h3>
+                <code>public function getTotalWidth(&nbsp;<code>Boolean includeHidden</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the total width of all columns.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>includeHidden</code> : Boolean<div class="sub-desc">True to include hidden column widths</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail alt">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="isCellEditable"></a>
+                <div class="mdetail">
+                <h3>isCellEditable</i></h3>
+                <code>public function isCellEditable(&nbsp;<code>Number colIndex</code>, <code>Number rowIndex</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if the cell is editable.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>colIndex</code> : Number<div class="sub-desc">The column index</div></li><li><code>rowIndex</code> : Number<div class="sub-desc">The row index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="isFixed"></a>
+                <div class="mdetail alt">
+                <h3>isFixed</i></h3>
+                <code>public function isFixed()</code>
+                <div class="mdetail-desc">
+                    Returns true if the column width cannot be changed
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="isHidden"></a>
+                <div class="mdetail">
+                <h3>isHidden</i></h3>
+                <code>public function isHidden(&nbsp;<code>Number colIndex</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if the column is hidden.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>colIndex</code> : Number<div class="sub-desc">The column index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="isResizable"></a>
+                <div class="mdetail alt">
+                <h3>isResizable</i></h3>
+                <code>public function isResizable()</code>
+                <div class="mdetail-desc">
+                    Returns true if the column can be resized
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="isSortable"></a>
+                <div class="mdetail">
+                <h3>isSortable</i></h3>
+                <code>public function isSortable(&nbsp;<code>Number col</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if the specified column is sortable.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail alt">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail alt">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="setColumnHeader"></a>
+                <div class="mdetail">
+                <h3>setColumnHeader</i></h3>
+                <code>public function setColumnHeader(&nbsp;<code>Number col</code>, <code>String header</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the header for a column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li><li><code>header</code> : String<div class="sub-desc">The new header</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="setColumnTooltip"></a>
+                <div class="mdetail alt">
+                <h3>setColumnTooltip</i></h3>
+                <code>public function setColumnTooltip(&nbsp;<code>Number col</code>, <code>String tooltip</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the tooltip for a column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li><li><code>tooltip</code> : String<div class="sub-desc">The new tooltip</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="setColumnWidth"></a>
+                <div class="mdetail">
+                <h3>setColumnWidth</i></h3>
+                <code>public function setColumnWidth(&nbsp;<code>Number col</code>, <code>Number width</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the width for a column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li><li><code>width</code> : Number<div class="sub-desc">The new width</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="setDataIndex"></a>
+                <div class="mdetail alt">
+                <h3>setDataIndex</i></h3>
+                <code>public function setDataIndex(&nbsp;<code>Number col</code>, <code>Number dataIndex</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the dataIndex for a column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li><li><code>dataIndex</code> : Number<div class="sub-desc">The new dataIndex</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="setEditable"></a>
+                <div class="mdetail">
+                <h3>setEditable</i></h3>
+                <code>public function setEditable(&nbsp;<code>Number col</code>, <code>Boolean editable</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets if a column is editable.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li><li><code>editable</code> : Boolean<div class="sub-desc">True if the column is editable</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="setEditor"></a>
+                <div class="mdetail alt">
+                <h3>setEditor</i></h3>
+                <code>public function setEditor(&nbsp;<code>Number col</code>, <code>Object editor</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the editor for a column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li><li><code>editor</code> : Object<div class="sub-desc">The editor object</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="setHidden"></a>
+                <div class="mdetail">
+                <h3>setHidden</i></h3>
+                <code>public function setHidden(&nbsp;<code>Number colIndex</code>, <code>Boolean hidden</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets if a column is hidden.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>colIndex</code> : Number<div class="sub-desc">The column index</div></li><li><code>hidden</code> : Boolean<div class="sub-desc">True if the column is hidden</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="setRenderer"></a>
+                <div class="mdetail alt">
+                <h3>setRenderer</i></h3>
+                <code>public function setRenderer(&nbsp;<code>Number col</code>, <code>Function fn</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the rendering (formatting) function for a column.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>col</code> : Number<div class="sub-desc">The column index</div></li><li><code>fn</code> : Function<div class="sub-desc">The function to use to process the cell's raw data
+to return HTML markup for the grid view. The render function is called with
+the following parameters:<ul>
+<li>Data value.</li>
+<li>Cell metadata. An object in which you may set the following attributes:<ul>
+<li>css A CSS style string to apply to the table cell.</li>
+<li>attr An HTML attribute definition string to apply to the data container element <i>within</i> the table cell.</li></ul>
+<li>The <a ext:cls="Ext.data.Record" href="Ext.data.Record.html">Ext.data.Record</a> from which the data was extracted.</li>
+<li>Row index</li>
+<li>Column index</li>
+<li>The <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a> object from which the Record was extracted</li></ul></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ColumnModel.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-columlockchange"></a>
+                <div class="mdetail">
+                <h3>columlockchange</i></h3>
+                <code>public event columlockchange</code>
+                <div class="mdetail-desc">
+                Fires when a column's locked state is changed
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : ColumnModel<div class="sub-desc"></div></li><li><code>colIndex</code> : Number<div class="sub-desc"></div></li><li><code>locked</code> : Boolean<div class="sub-desc">true if locked</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ColumnModel.</div>
+                </div>
+                            <a name="event-columnmoved"></a>
+                <div class="mdetail alt">
+                <h3>columnmoved</i></h3>
+                <code>public event columnmoved</code>
+                <div class="mdetail-desc">
+                Fires when a column is moved.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : ColumnModel<div class="sub-desc"></div></li><li><code>oldIndex</code> : Number<div class="sub-desc"></div></li><li><code>newIndex</code> : Number<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ColumnModel.</div>
+                </div>
+                            <a name="event-headerchange"></a>
+                <div class="mdetail">
+                <h3>headerchange</i></h3>
+                <code>public event headerchange</code>
+                <div class="mdetail-desc">
+                Fires when the text of a header changes.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : ColumnModel<div class="sub-desc"></div></li><li><code>columnIndex</code> : Number<div class="sub-desc">The column index</div></li><li><code>newText</code> : Number<div class="sub-desc">The new header text</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ColumnModel.</div>
+                </div>
+                            <a name="event-hiddenchange"></a>
+                <div class="mdetail alt">
+                <h3>hiddenchange</i></h3>
+                <code>public event hiddenchange</code>
+                <div class="mdetail-desc">
+                Fires when a column is hidden or "unhidden".
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : ColumnModel<div class="sub-desc"></div></li><li><code>columnIndex</code> : Number<div class="sub-desc">The column index</div></li><li><code>hidden</code> : Boolean<div class="sub-desc">true if hidden, false otherwise</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ColumnModel.</div>
+                </div>
+                            <a name="event-widthchange"></a>
+                <div class="mdetail">
+                <h3>widthchange</i></h3>
+                <code>public event widthchange</code>
+                <div class="mdetail-desc">
+                Fires when the width of a column changes.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : ColumnModel<div class="sub-desc"></div></li><li><code>columnIndex</code> : Number<div class="sub-desc">The column index</div></li><li><code>newWidth</code> : Number<div class="sub-desc">The new width</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ColumnModel.</div>
+                </div>
+                        </div>
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-align"></a>
+                <div class="mdetail">
+                <h3>align</i></h3>
+                <code>align : String</code>
+                <div class="mdetail-desc">
+                    (Optional) Set the CSS text-align property of the column. Defaults to undefined.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                            <a name="config-dataIndex"></a>
+                <div class="mdetail alt">
+                <h3>dataIndex</i></h3>
+                <code>dataIndex : String</code>
+                <div class="mdetail-desc">
+                    (Optional) The name of the field in the grid's <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a>'s <a ext:cls="Ext.data.Record" href="Ext.data.Record.html">Ext.data.Record</a> definition from which to draw the column's value. If not specified, the column's index is used as an index into the Record's data Array.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                            <a name="config-header"></a>
+                <div class="mdetail">
+                <h3>header</i></h3>
+                <code>header : String</code>
+                <div class="mdetail-desc">
+                    The header text to display in the Grid view.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                            <a name="config-hidden"></a>
+                <div class="mdetail alt">
+                <h3>hidden</i></h3>
+                <code>hidden : Boolean</code>
+                <div class="mdetail-desc">
+                    (Optional) True to hide the column. Defaults to false.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                            <a name="config-locked"></a>
+                <div class="mdetail">
+                <h3>locked</i></h3>
+                <code>locked : Boolean</code>
+                <div class="mdetail-desc">
+                    (Optional) True to lock the column in place while scrolling the Grid. Defaults to false.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                            <a name="config-renderer"></a>
+                <div class="mdetail alt">
+                <h3>renderer</i></h3>
+                <code>renderer : Function</code>
+                <div class="mdetail-desc">
+                    (Optional) A function used to generate HTML markup for a cell given the cell's data value. See <a ext:cls="Ext.grid.ColumnModel" ext:member="setRenderer" href="Ext.grid.ColumnModel.html#setRenderer">setRenderer</a>. If not specified, the default renderer uses the raw data value.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                            <a name="config-resizable"></a>
+                <div class="mdetail">
+                <h3>resizable</i></h3>
+                <code>resizable : Boolean</code>
+                <div class="mdetail-desc">
+                    (Optional) False to disable column resizing. Defaults to true.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                            <a name="config-sortable"></a>
+                <div class="mdetail alt">
+                <h3>sortable</i></h3>
+                <code>sortable : Boolean</code>
+                <div class="mdetail-desc">
+                    (Optional) True if sorting is to be allowed on this column. Defaults to true. Whether local/remote sorting is used is specified in <a ext:cls="Ext.data.Store" ext:member="remoteSort" href="Ext.data.Store.html#remoteSort">Ext.data.Store.remoteSort</a>.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                            <a name="config-width"></a>
+                <div class="mdetail">
+                <h3>width</i></h3>
+                <code>width : Number</code>
+                <div class="mdetail-desc">
+                    (Optional) The initial width in pixels of the column. Using this instead of <a ext:cls="Ext.grid.Grid" ext:member="autoSizeColumns" href="Ext.grid.Grid.html#autoSizeColumns">Ext.grid.Grid.autoSizeColumns</a> is more efficient.                </div>
+                <div class="mdetail-def">This config option is defined by ColumnModel.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

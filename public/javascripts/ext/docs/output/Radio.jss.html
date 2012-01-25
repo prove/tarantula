@@ -1,0 +1,24 @@
+<html><head><title>Radio.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Radio.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.form.Radio
+ * @extends Ext.form.Checkbox
+ * Single radio field.  Same as Checkbox, but provided as a convenience <b>for</b> automatically setting the input type.
+ * Radio grouping is handled automatically by the browser <b>if</b> you give each radio <b>in</b> a group the same name.
+ * @constructor
+ * Creates a <b>new</b> Radio
+ * @param {Object} config Configuration options
+ */</i>
+Ext.form.Radio = <b>function</b>(){
+    Ext.form.Radio.superclass.constructor.apply(<b>this</b>, arguments);
+};
+Ext.extend(Ext.form.Radio, Ext.form.Checkbox, {
+    inputType: <em>'radio'</em>,
+
+    <i>/**
+     * If <b>this</b> radio is part of a group, it will <b>return</b> the selected value
+     * @<b>return</b> {String}
+     */</i>
+    getGroupValue : <b>function</b>(){
+        <b>return</b> this.el.up(<em>'form'</em>).child(<em>'input[name='</em>+<b>this</b>.el.dom.name+<em>']:checked'</em>, true).value;
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

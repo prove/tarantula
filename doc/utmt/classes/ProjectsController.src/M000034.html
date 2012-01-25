@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>index (ProjectsController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/projects_controller.rb, line 18</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">index</span>
+    <span class="ruby-identifier">projects</span> = []
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>] = <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">latest_project_id</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:user_id</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'current'</span>)
+      <span class="ruby-identifier">projects</span> = <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">projects</span>
+    <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:user_id</span>] <span class="ruby-keyword kw">and</span> ((<span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:user_id</span>]) <span class="ruby-keyword kw">or</span>
+      <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">admin</span>))
+      <span class="ruby-identifier">user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:user_id</span>])
+      <span class="ruby-identifier">projects</span> = <span class="ruby-identifier">user</span>.<span class="ruby-identifier">projects</span>
+    <span class="ruby-keyword kw">elsif</span> (<span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">admin</span>)
+      <span class="ruby-identifier">projects</span> = <span class="ruby-constant">Project</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># Jos url muotoa /projects.tree tulostetaan json joka kelpaa puun </span>
+    <span class="ruby-comment cmt"># sisällöksi</span>
+    <span class="ruby-identifier">ret</span> = <span class="ruby-value str">''</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:format</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'tree'</span>)
+      <span class="ruby-identifier">ret</span> = <span class="ruby-value str">'['</span>
+      <span class="ruby-identifier">comma</span> = <span class="ruby-value str">''</span>
+      <span class="ruby-identifier">projects</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
+        <span class="ruby-comment cmt"># TODO: Voisiko toteuttaa jotenkin fiksummin to_json metodin avulla.</span>
+        <span class="ruby-comment cmt">#   - ongelma: joudutaan käyttämään eri nimisiä kenttiä puuta varten</span>
+        <span class="ruby-comment cmt">#     kuin modelissa on.</span>
+        <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">comma</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'{&quot;text&quot;:&quot;'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'&quot;, &quot;id&quot;:&quot;project'</span> <span class="ruby-operator">+</span>
+          <span class="ruby-identifier">p</span>.<span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'&quot;, &quot;leaf&quot;:true'</span>
+        <span class="ruby-comment cmt"># Jotta voidaan paneelin yläreunassa heti aluksi ilmaista</span>
+        <span class="ruby-comment cmt"># käyttäjälle missä projektissa ollaan.  </span>
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">p</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>])
+          <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">', &quot;selected&quot;:true}'</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">', &quot;selected&quot;:false}'</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">comma</span> = <span class="ruby-value str">','</span>
+      }
+      <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">']'</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">ret</span> = <span class="ruby-value str">'&quot;projects&quot;:'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">projects</span>.<span class="ruby-identifier">to_json</span>(<span class="ruby-identifier">:methods</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">:managers</span>])
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ret</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

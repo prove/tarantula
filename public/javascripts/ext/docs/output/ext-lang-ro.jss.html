@@ -1,0 +1,170 @@
+<html><head><title>ext-lang-ro.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-ro.js</h1><pre class="highlighted"><code><i>/**
+ * Translation by Lucian Lature 04-24-2007
+ * Romanian Translations
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;&Atilde;Žnc&Auml;ƒrcare...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} r&Atilde;&cent;nd(uri) selectate&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;&Atilde;Žnchide acest tab&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;Valoarea acestui c&Atilde;&cent;mp este invalid&Auml;ƒ&quot;;
+}
+
+<b>if</b>(Ext.LoadMask){
+    Ext.LoadMask.prototype.msg = &quot;&Atilde;Žnc&Auml;ƒrcare...&quot;;
+}
+
+Date.monthNames = [
+   &quot;Ianuarie&quot;,
+   &quot;Februarie&quot;,
+   &quot;Martie&quot;,
+   &quot;Aprilie&quot;,
+   &quot;Mai&quot;,
+   &quot;Iunie&quot;,
+   &quot;Iulie&quot;,
+   &quot;August&quot;,
+   &quot;Septembrie&quot;,
+   &quot;Octombrie&quot;,
+   &quot;Noiembrie&quot;,
+   &quot;Decembrie&quot;
+];
+
+Date.dayNames = [
+   &quot;Duminic&Auml;ƒ&quot;,
+   &quot;Luni&quot;,
+   &quot;Mar&Aring;&pound;i&quot;,
+   &quot;Miercuri&quot;,
+   &quot;Joi&quot;,
+   &quot;Vineri&quot;,
+   &quot;S&Atilde;&cent;mb&Auml;ƒt&Auml;ƒ&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;OK&quot;,
+      cancel : &quot;Renun&Aring;&pound;&Auml;ƒ&quot;,
+      yes    : &quot;Da&quot;,
+      no     : &quot;Nu&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;d-m-Y&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;Ast&Auml;ƒzi&quot;,
+      minText           : &quot;Aceast&Auml;ƒ zi este &Atilde;&reg;naintea datei de &Atilde;&reg;nceput&quot;,
+      maxText           : &quot;Aceast&Auml;ƒ zi este dup&Auml;ƒ ultimul termen&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames	: Date.monthNames,
+      dayNames		: Date.dayNames,
+      nextText          : <em>'Urm&Auml;ƒtoarea lun&Auml;ƒ (Control+Right)'</em>,
+      prevText          : <em>'Luna anterioar&Auml;ƒ (Control+Left)'</em>,
+      monthYearText     : <em>'Alege o lun&Auml;ƒ (Control+Up/Down pentru a parcurge anii)'</em>,
+      todayTip          : &quot;{0} (Spacebar)&quot;,
+      format            : &quot;d-m-y&quot;
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;Pagina&quot;,
+      afterPageText  : &quot;din {0}&quot;,
+      firstText      : &quot;Prima pagin&Auml;ƒ&quot;,
+      prevText       : &quot;Pagina precedent&Auml;ƒ&quot;,
+      nextText       : &quot;Urm&Auml;ƒtoarea pagin&Auml;ƒ&quot;,
+      lastText       : &quot;Ultima pagin&Auml;ƒ&quot;,
+      refreshText    : &quot;Re&Atilde;&reg;mprosp&Auml;ƒtare&quot;,
+      displayMsg     : &quot;Afi&Aring;Ÿeaz&Auml;ƒ {0} - {1} din {2}&quot;,
+      emptyMsg       : <em>'Nu sunt date de afi&Aring;Ÿat'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;Lungimea minim&Auml;ƒ pentru acest c&Atilde;&cent;mp este de {0}&quot;,
+      maxLengthText : &quot;Lungimea maxim&Auml;ƒ pentru acest c&Atilde;&cent;mp este {0}&quot;,
+      blankText     : &quot;Acest c&Atilde;&cent;mp este obligatoriu&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;Valoarea minim&Auml;ƒ permis&Auml;ƒ a acestui c&Atilde;&cent;mp este {0}&quot;,
+      maxText : &quot;Valaorea maxim&Auml;ƒ permis&Auml;ƒ a acestui c&Atilde;&cent;mp este {0}&quot;,
+      nanText : &quot;{0} nu este un num&Auml;ƒr valid&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;Inactiv&quot;,
+      disabledDatesText : &quot;Inactiv&quot;,
+      minText           : &quot;Data acestui c&Atilde;&cent;mp trebuie s&Auml;ƒ fie dup&Auml;ƒ {0}&quot;,
+      maxText           : &quot;Data acestui c&Atilde;&cent;mp trebuie sa fie &Atilde;&reg;nainte de {0}&quot;,
+      invalidText       : &quot;{0} nu este o dat&Auml;ƒ valid&Auml;ƒ - trebuie s&Auml;ƒ fie &Atilde;&reg;n formatul {1}&quot;,
+      format            : &quot;d-m-y&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;&Atilde;Žnc&Auml;ƒrcare...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'Acest c&Atilde;&cent;mp trebuie s&Auml;ƒ con&Aring;&pound;<b>in</b>&Auml;ƒ o adres&Auml;ƒ de e-mail &Atilde;&reg;n formatul &quot;user@domain.com&quot;'</em>,
+      urlText      : <em>'Acest c&Atilde;&cent;mp trebuie s&Auml;ƒ con&Aring;&pound;<b>in</b>&Auml;ƒ o adres&Auml;ƒ URL &Atilde;&reg;n formatul &quot;http:/'</em>+<em>'/www.domain.com&quot;'</em>,
+      alphaText    : <em>'Acest c&Atilde;&cent;mp trebuie s&Auml;ƒ con&Aring;&pound;<b>in</b>&Auml;ƒ doar litere &Aring;Ÿi _'</em>,
+      alphanumText : <em>'Acest c&Atilde;&cent;mp trebuie s&Auml;ƒ con&Aring;&pound;<b>in</b>&Auml;ƒ doar litere, cifre &Aring;Ÿi _'</em>
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;Sortare ascendent&Auml;ƒ&quot;,
+      sortDescText : &quot;Sortare descendent&Auml;ƒ&quot;,
+      lockText     : &quot;Blocheaz&Auml;ƒ coloana&quot;,
+      unlockText   : &quot;Deblocheaz&Auml;ƒ coloana&quot;,
+      columnsText  : &quot;Coloane&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;Nume&quot;,
+      valueText  : &quot;Valoare&quot;,
+      dateFormat : &quot;m/j/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;Trage pentru redimensionare.&quot;,
+      collapsibleSplitTip : &quot;Trage pentru redimensionare. Dublu-click pentru ascundere.&quot;
+   });
+}</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

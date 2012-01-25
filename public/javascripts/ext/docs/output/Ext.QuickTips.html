@@ -1,0 +1,460 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.QuickTips</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.QuickTips.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.QuickTips</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>QuickTips</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="QuickTips.jss.html">QuickTips.js</a></td></tr>
+        </table>
+        <div class="description">
+            Provides attractive and customizable tooltips for any element.<br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disable">disable</a>() : void</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Disable this quick tip.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#enable">enable</a>() : void</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Enable this quick tip.</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#init">init</a>() : void</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">
+Initialize and enable QuickTips for first use.  This should be called once before the first attempt to access
+or dis...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isEnabled">isEnabled</a>() : void</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns true if the quick tip is enabled, else false.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#register">register</a>(&nbsp;<code>Object config</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Configures a new quick tip instance and assigns it to a target element (should be passed as config.target).</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#unregister">unregister</a>(&nbsp;<code>String/HTMLElement/Element el</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Removes this quick tip from its element and destroys it.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-Delay">Delay</a> : Number</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">in milliseconds before the quick tip hides when autoDismiss = true (defaults to 5000)</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-True">True</a> : Boolean</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">to automatically hide the quick tip after a set period of time, regardless of the user's actions (defaults to true). ...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-animate">animate</a> : Boolean</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True to turn on fade animation. Defaults to false (ClearType/scrollbar flicker issues in IE7).</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-autoHide">autoHide</a> : Boolean</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">True to automatically hide the quick tip after the mouse exits the target element (defaults to true). Used in conjunc...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-cls">cls</a> : String</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">A CSS class to apply to the base quick tip element (defaults to '').</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hideDelay">hideDelay</a> : Number</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Delay in milliseconds before the quick tip hides when autoHide = true (defaults to 200)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hideOnClick">hideOnClick</a> : Boolean</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True to hide the quick tip if the user clicks anywhere in the document (defaults to true)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-interceptTitles">interceptTitles</a> : Boolean</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True to automatically use the element's DOM title value if available (defaults to false)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-maxWidth">maxWidth</a> : Number</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The maximum width of the quick tip (defaults to 300)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minWidth">minWidth</a> : Number</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The minimum width of the quick tip (defaults to 40)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-showDelay">showDelay</a> : Number</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Delay in milliseconds before the quick tip displays after the mouse enters the target element (defaults to 500)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-text">text</a> : String</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Body text to display (defaults to ''). This can be any valid HTML markup.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-title">title</a> : String</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Title text to display (defaults to ''). This can be any valid HTML markup.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-trackMouse">trackMouse</a> : Boolean</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True to have the quick tip follow the mouse as it moves over the target element (defaults to false)</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-width">width</a> : Number</td>
+        <td class="msource" rowspan="2">QuickTips</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Width in pixels of the quick tip (defaults to auto). Width will be ignored if it exceeds the bounds of minWidth or ma...</td>
+    </tr>
+            </table>
+                
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="disable"></a>
+                <div class="mdetail">
+                <h3>disable</i></h3>
+                <code>public function disable()</code>
+                <div class="mdetail-desc">
+                    Disable this quick tip.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by QuickTips.</div>
+                </div>
+                            <a name="enable"></a>
+                <div class="mdetail alt">
+                <h3>enable</i></h3>
+                <code>public function enable()</code>
+                <div class="mdetail-desc">
+                    Enable this quick tip.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by QuickTips.</div>
+                </div>
+                            <a name="init"></a>
+                <div class="mdetail">
+                <h3>init</i></h3>
+                <code>public function init()</code>
+                <div class="mdetail-desc">
+                    
+Initialize and enable QuickTips for first use.  This should be called once before the first attempt to access
+or display QuickTips in a page.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by QuickTips.</div>
+                </div>
+                            <a name="isEnabled"></a>
+                <div class="mdetail alt">
+                <h3>isEnabled</i></h3>
+                <code>public function isEnabled()</code>
+                <div class="mdetail-desc">
+                    Returns true if the quick tip is enabled, else false.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by QuickTips.</div>
+                </div>
+                            <a name="register"></a>
+                <div class="mdetail">
+                <h3>register</i></h3>
+                <code>public function register(&nbsp;<code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Configures a new quick tip instance and assigns it to a target element (should be passed as config.target).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object<div class="sub-desc">The config object</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by QuickTips.</div>
+                </div>
+                            <a name="unregister"></a>
+                <div class="mdetail alt">
+                <h3>unregister</i></h3>
+                <code>public function unregister(&nbsp;<code>String/HTMLElement/Element el</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes this quick tip from its element and destroys it.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The element from which the quick tip is to be removed.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by QuickTips.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-Delay"></a>
+                <div class="mdetail">
+                <h3>Delay</i></h3>
+                <code>Delay : Number</code>
+                <div class="mdetail-desc">
+                    in milliseconds before the quick tip hides when autoDismiss = true (defaults to 5000)                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-True"></a>
+                <div class="mdetail alt">
+                <h3>True</i></h3>
+                <code>True : Boolean</code>
+                <div class="mdetail-desc">
+                    to automatically hide the quick tip after a set period of time, regardless of the user's actions (defaults to true). Used in conjunction with autoDismissDelay.                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-animate"></a>
+                <div class="mdetail">
+                <h3>animate</i></h3>
+                <code>animate : Boolean</code>
+                <div class="mdetail-desc">
+                    True to turn on fade animation. Defaults to false (ClearType/scrollbar flicker issues in IE7).                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-autoHide"></a>
+                <div class="mdetail alt">
+                <h3>autoHide</i></h3>
+                <code>autoHide : Boolean</code>
+                <div class="mdetail-desc">
+                    True to automatically hide the quick tip after the mouse exits the target element (defaults to true). Used in conjunction with hideDelay.                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-cls"></a>
+                <div class="mdetail">
+                <h3>cls</i></h3>
+                <code>cls : String</code>
+                <div class="mdetail-desc">
+                    A CSS class to apply to the base quick tip element (defaults to '').                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-hideDelay"></a>
+                <div class="mdetail alt">
+                <h3>hideDelay</i></h3>
+                <code>hideDelay : Number</code>
+                <div class="mdetail-desc">
+                    Delay in milliseconds before the quick tip hides when autoHide = true (defaults to 200)                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-hideOnClick"></a>
+                <div class="mdetail">
+                <h3>hideOnClick</i></h3>
+                <code>hideOnClick : Boolean</code>
+                <div class="mdetail-desc">
+                    True to hide the quick tip if the user clicks anywhere in the document (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-interceptTitles"></a>
+                <div class="mdetail alt">
+                <h3>interceptTitles</i></h3>
+                <code>interceptTitles : Boolean</code>
+                <div class="mdetail-desc">
+                    True to automatically use the element's DOM title value if available (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-maxWidth"></a>
+                <div class="mdetail">
+                <h3>maxWidth</i></h3>
+                <code>maxWidth : Number</code>
+                <div class="mdetail-desc">
+                    The maximum width of the quick tip (defaults to 300)                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-minWidth"></a>
+                <div class="mdetail alt">
+                <h3>minWidth</i></h3>
+                <code>minWidth : Number</code>
+                <div class="mdetail-desc">
+                    The minimum width of the quick tip (defaults to 40)                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-showDelay"></a>
+                <div class="mdetail">
+                <h3>showDelay</i></h3>
+                <code>showDelay : Number</code>
+                <div class="mdetail-desc">
+                    Delay in milliseconds before the quick tip displays after the mouse enters the target element (defaults to 500)                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-text"></a>
+                <div class="mdetail alt">
+                <h3>text</i></h3>
+                <code>text : String</code>
+                <div class="mdetail-desc">
+                    Body text to display (defaults to ''). This can be any valid HTML markup.                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-title"></a>
+                <div class="mdetail">
+                <h3>title</i></h3>
+                <code>title : String</code>
+                <div class="mdetail-desc">
+                    Title text to display (defaults to ''). This can be any valid HTML markup.                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-trackMouse"></a>
+                <div class="mdetail alt">
+                <h3>trackMouse</i></h3>
+                <code>trackMouse : Boolean</code>
+                <div class="mdetail-desc">
+                    True to have the quick tip follow the mouse as it moves over the target element (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                            <a name="config-width"></a>
+                <div class="mdetail">
+                <h3>width</i></h3>
+                <code>width : Number</code>
+                <div class="mdetail-desc">
+                    Width in pixels of the quick tip (defaults to auto). Width will be ignored if it exceeds the bounds of minWidth or maxWidth.                </div>
+                <div class="mdetail-def">This config option is defined by QuickTips.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

@@ -1,0 +1,136 @@
+<html><head><title>LayoutManager.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>LayoutManager.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.LayoutManager
+ * @extends Ext.util.Observable
+ * Base class <b>for</b> layout managers.
+ */</i>
+Ext.LayoutManager = <b>function</b>(container, config){
+    Ext.LayoutManager.superclass.constructor.call(<b>this</b>);
+    <b>this</b>.el = Ext.get(container);
+    <i>// ie scrollbar fix</i>
+    <b>if</b>(this.el.dom == document.body &amp;&amp; Ext.isIE &amp;&amp; !config.allowScroll){
+        document.body.scroll = &quot;no&quot;;
+    }<b>else</b> if(<b>this</b>.el.dom != document.body &amp;&amp; <b>this</b>.el.getStyle(<em>'position'</em>) == <em>'static'</em>){
+        <b>this</b>.el.position(<em>'relative'</em>);
+    }
+    <b>this</b>.id = <b>this</b>.el.id;
+    <b>this</b>.el.addClass(&quot;x-layout-container&quot;);
+    <i>/** false to disable window resize monitoring @type Boolean */</i>
+    <b>this</b>.monitorWindowResize = true;
+    <b>this</b>.regions = {};
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event layout
+         * Fires when a layout is performed. 
+         * @param {Ext.LayoutManager} <b>this</b>
+         */</i>
+        &quot;layout&quot; : true,
+        <i>/**
+         * @event regionresized
+         * Fires when the user resizes a region. 
+         * @param {Ext.LayoutRegion} region The resized region
+         * @param {Number} newSize The <b>new</b> size (width <b>for</b> east/west, height <b>for</b> north/south)
+         */</i>
+        &quot;regionresized&quot; : true,
+        <i>/**
+         * @event regioncollapsed
+         * Fires when a region is collapsed. 
+         * @param {Ext.LayoutRegion} region The collapsed region
+         */</i>
+        &quot;regioncollapsed&quot; : true,
+        <i>/**
+         * @event regionexpanded
+         * Fires when a region is expanded.  
+         * @param {Ext.LayoutRegion} region The expanded region
+         */</i>
+        &quot;regionexpanded&quot; : true
+    });
+    <b>this</b>.updating = false;
+    Ext.EventManager.onWindowResize(<b>this</b>.onWindowResize, <b>this</b>, true);
+};
+
+Ext.extend(Ext.LayoutManager, Ext.util.Observable, {
+    <i>/**
+     * Returns true <b>if</b> this layout is currently being updated
+     * @<b>return</b> {Boolean}
+     */</i>
+    isUpdating : <b>function</b>(){
+        <b>return</b> this.updating; 
+    },
+    
+    <i>/**
+     * Suspend the LayoutManager from doing auto-layouts <b>while</b>
+     * making multiple add or remove calls
+     */</i>
+    beginUpdate : <b>function</b>(){
+        <b>this</b>.updating = true;    
+    },
+    
+    <i>/**
+     * Restore auto-layouts and optionally disable the manager from performing a layout
+     * @param {Boolean} noLayout true to disable a layout update 
+     */</i>
+    endUpdate : <b>function</b>(noLayout){
+        <b>this</b>.updating = false;
+        <b>if</b>(!noLayout){
+            <b>this</b>.layout();
+        }    
+    },
+    
+    layout: <b>function</b>(){
+        
+    },
+    
+    onRegionResized : <b>function</b>(region, newSize){
+        <b>this</b>.fireEvent(&quot;regionresized&quot;, region, newSize);
+        <b>this</b>.layout();
+    },
+    
+    onRegionCollapsed : <b>function</b>(region){
+        <b>this</b>.fireEvent(&quot;regioncollapsed&quot;, region);
+    },
+    
+    onRegionExpanded : <b>function</b>(region){
+        <b>this</b>.fireEvent(&quot;regionexpanded&quot;, region);
+    },
+        
+    <i>/**
+     * Returns the size of the current view. This method normalizes document.body and element embedded layouts and
+     * performs box-model adjustments.
+     * @<b>return</b> {Object} The size as an object {width: (the width), height: (the height)}
+     */</i>
+    getViewSize : <b>function</b>(){
+        <b>var</b> size;
+        <b>if</b>(this.el.dom != document.body){
+            size = <b>this</b>.el.getSize();
+        }<b>else</b>{
+            size = {width: Ext.lib.Dom.getViewWidth(), height: Ext.lib.Dom.getViewHeight()};
+        }
+        size.width -= <b>this</b>.el.getBorderWidth(&quot;lr&quot;)-<b>this</b>.el.getPadding(&quot;lr&quot;);
+        size.height -= <b>this</b>.el.getBorderWidth(&quot;tb&quot;)-<b>this</b>.el.getPadding(&quot;tb&quot;);
+        <b>return</b> size;
+    },
+    
+    <i>/**
+     * Returns the Element <b>this</b> layout is bound to.
+     * @<b>return</b> {Ext.Element}
+     */</i>
+    getEl : <b>function</b>(){
+        <b>return</b> this.el;
+    },
+    
+    <i>/**
+     * Returns the specified region.
+     * @param {String} target The region key (<em>'center'</em>, <em>'north'</em>, <em>'south'</em>, <em>'east'</em> or <em>'west'</em>)
+     * @<b>return</b> {Ext.LayoutRegion}
+     */</i>
+    getRegion : <b>function</b>(target){
+        <b>return</b> this.regions[target.toLowerCase()];
+    },
+    
+    onWindowResize : <b>function</b>(){
+        <b>if</b>(this.monitorWindowResize){
+            <b>this</b>.layout();
+        }
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

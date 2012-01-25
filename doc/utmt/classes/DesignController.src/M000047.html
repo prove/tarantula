@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>executions_tree (DesignController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/design_controller.rb, line 83</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">executions_tree</span>
+    <span class="ruby-identifier">ret</span> = <span class="ruby-value str">'['</span>
+    <span class="ruby-identifier">comma</span> = <span class="ruby-value str">''</span>
+    <span class="ruby-ivar">@current_project</span>.<span class="ruby-identifier">executions</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">comma</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'{&quot;text&quot;:&quot;'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">test_set</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">+</span> <span class="ruby-value str">': '</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">+</span> 
+        <span class="ruby-value str">'&quot;, &quot;id&quot;:&quot;'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'&quot;, &quot;leaf&quot;:true}'</span>
+      <span class="ruby-identifier">comma</span> = <span class="ruby-value str">', '</span>  
+    }
+    <span class="ruby-identifier">ret</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">']'</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ret</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

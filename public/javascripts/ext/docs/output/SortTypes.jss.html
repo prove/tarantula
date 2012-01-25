@@ -1,0 +1,88 @@
+<html><head><title>SortTypes.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>SortTypes.js</h1><pre class="highlighted"><code>
+<i>/**
+ * @class Ext.data.SortTypes
+ * @singleton
+ * Defines the <b>default</b> sorting (casting?) comparison functions used when sorting data.
+ */</i>
+Ext.data.SortTypes = {
+    <i>/**
+     * Default sort that does nothing
+     * @param {Mixed} s The value being converted
+     * @<b>return</b> {Mixed} The comparison value
+     */</i>
+    none : <b>function</b>(s){
+        <b>return</b> s;
+    },
+    
+    <i>/**
+     * The regular expression used to strip tags
+     * @type {RegExp}
+     * @property
+     */</i>
+    stripTagsRE : /&lt;\/?[^&gt;]+&gt;/gi,
+    
+    <i>/**
+     * Strips all HTML tags to sort on text only
+     * @param {Mixed} s The value being converted
+     * @<b>return</b> {String} The comparison value
+     */</i>
+    asText : <b>function</b>(s){
+        <b>return</b> String(s).replace(<b>this</b>.stripTagsRE, &quot;&quot;);
+    },
+    
+    <i>/**
+     * Strips all HTML tags to sort on text only - Case insensitive
+     * @param {Mixed} s The value being converted
+     * @<b>return</b> {String} The comparison value
+     */</i>
+    asUCText : <b>function</b>(s){
+        <b>return</b> String(s).toUpperCase().replace(<b>this</b>.stripTagsRE, &quot;&quot;);
+    },
+    
+    <i>/**
+     * Case insensitive string
+     * @param {Mixed} s The value being converted
+     * @<b>return</b> {String} The comparison value
+     */</i>
+    asUCString : <b>function</b>(s) {
+    	<b>return</b> String(s).toUpperCase();
+    },
+    
+    <i>/**
+     * Date sorting
+     * @param {Mixed} s The value being converted
+     * @<b>return</b> {Number} The comparison value
+     */</i>
+    asDate : <b>function</b>(s) {
+        <b>if</b>(!s){
+            <b>return</b> 0;
+        }
+        <b>if</b>(s instanceof Date){
+            <b>return</b> s.getTime();
+        }
+    	<b>return</b> Date.parse(String(s));
+    },
+    
+    <i>/**
+     * Float sorting
+     * @param {Mixed} s The value being converted
+     * @<b>return</b> {Float} The comparison value
+     */</i>
+    asFloat : <b>function</b>(s) {
+    	<b>var</b> val = parseFloat(String(s).replace(/,/g, &quot;&quot;));
+        <b>if</b>(isNaN(val)) val = 0;
+    	<b>return</b> val;
+    },
+    
+    <i>/**
+     * Integer sorting
+     * @param {Mixed} s The value being converted
+     * @<b>return</b> {Number} The comparison value
+     */</i>
+    asInt : <b>function</b>(s) {
+        <b>var</b> val = parseInt(String(s).replace(/,/g, &quot;&quot;));
+        <b>if</b>(isNaN(val)) val = 0;
+    	<b>return</b> val;
+    }
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

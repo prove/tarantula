@@ -1,0 +1,200 @@
+<html><head><title>Action.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Action.js</h1><pre class="highlighted"><code><i>// define the action interface</i>
+Ext.form.Action = <b>function</b>(form, options){
+    <b>this</b>.form = form;
+    <b>this</b>.options = options || {};
+};
+
+Ext.form.Action.CLIENT_INVALID = <em>'client'</em>;
+Ext.form.Action.SERVER_INVALID = <em>'server'</em>;
+Ext.form.Action.CONNECT_FAILURE = <em>'connect'</em>;
+Ext.form.Action.LOAD_FAILURE = <em>'load'</em>;
+
+Ext.form.Action.prototype = {
+    type : <em>'<b>default</b>'</em>,
+    failureType : undefined,
+    response : undefined,
+    result : undefined,
+
+    <i>// interface method</i>
+    run : <b>function</b>(options){
+
+    },
+
+    <i>// interface method</i>
+    success : <b>function</b>(response){
+
+    },
+
+    <i>// interface method</i>
+    handleResponse : <b>function</b>(response){
+
+    },
+
+    <i>// <b>default</b> connection failure</i>
+    failure : <b>function</b>(response){
+        <b>this</b>.response = response;
+        <b>this</b>.failureType = Ext.form.Action.CONNECT_FAILURE;
+        <b>this</b>.form.afterAction(<b>this</b>, false);
+    },
+
+    processResponse : <b>function</b>(response){
+        <b>this</b>.response = response;
+        <b>if</b>(!response.responseText){
+            <b>return</b> true;
+        }
+        <b>this</b>.result = <b>this</b>.handleResponse(response);
+        <b>return</b> this.result;
+    },
+
+    <i>// utility functions used internally</i>
+    getUrl : <b>function</b>(appendParams){
+        <b>var</b> url = <b>this</b>.options.url || <b>this</b>.form.url || <b>this</b>.form.el.dom.action;
+        <b>if</b>(appendParams){
+            <b>var</b> p = <b>this</b>.getParams();
+            <b>if</b>(p){
+                url += (url.indexOf(<em>'?'</em>) != -1 ? <em>'&amp;'</em> : <em>'?'</em>) + p;
+            }
+        }
+        <b>return</b> url;
+    },
+
+    getMethod : <b>function</b>(){
+        <b>return</b> (<b>this</b>.options.method || <b>this</b>.form.method || <b>this</b>.form.el.dom.method || <em>'POST'</em>).toUpperCase();
+    },
+
+    getParams : <b>function</b>(){
+        <b>var</b> bp = <b>this</b>.form.baseParams;
+        <b>var</b> p = <b>this</b>.options.params;
+        <b>if</b>(p){
+            <b>if</b>(typeof p == &quot;object&quot;){
+                p = Ext.urlEncode(Ext.applyIf(p, bp));
+            }<b>else</b> if(<b>typeof</b> p == <em>'string'</em> &amp;&amp; bp){
+                p += <em>'&amp;'</em> + Ext.urlEncode(bp);
+            }
+        }<b>else</b> if(bp){
+            p = Ext.urlEncode(bp);
+        }
+        <b>return</b> p;
+    },
+
+    createCallback : <b>function</b>(){
+        <b>return</b> {
+            success: <b>this</b>.success,
+            failure: <b>this</b>.failure,
+            scope: <b>this</b>,
+            timeout: (<b>this</b>.form.timeout*1000),
+            upload: <b>this</b>.form.fileUpload ? <b>this</b>.success : undefined
+        };
+    }
+};
+
+Ext.form.Action.Submit = <b>function</b>(form, options){
+    Ext.form.Action.Submit.superclass.constructor.call(<b>this</b>, form, options);
+};
+
+Ext.extend(Ext.form.Action.Submit, Ext.form.Action, {
+    type : <em>'submit'</em>,
+
+    run : <b>function</b>(){
+        <b>var</b> o = <b>this</b>.options;
+        <b>var</b> method = <b>this</b>.getMethod();
+        <b>var</b> isPost = method == <em>'POST'</em>;
+        <b>if</b>(o.clientValidation === false || <b>this</b>.form.isValid()){
+            Ext.Ajax.request(Ext.apply(<b>this</b>.createCallback(), {
+                form:<b>this</b>.form.el.dom,
+                url:<b>this</b>.getUrl(!isPost),
+                method: method,
+                params:isPost ? <b>this</b>.getParams() : null,
+                isUpload: <b>this</b>.form.fileUpload
+            }));
+
+        }<b>else</b> if (o.clientValidation !== false){ <i>// client validation failed</i>
+            <b>this</b>.failureType = Ext.form.Action.CLIENT_INVALID;
+            <b>this</b>.form.afterAction(<b>this</b>, false);
+        }
+    },
+
+    success : <b>function</b>(response){
+        <b>var</b> result = <b>this</b>.processResponse(response);
+        <b>if</b>(result === true || result.success){
+            <b>this</b>.form.afterAction(<b>this</b>, true);
+            <b>return</b>;
+        }
+        <b>if</b>(result.errors){
+            <b>this</b>.form.markInvalid(result.errors);
+            <b>this</b>.failureType = Ext.form.Action.SERVER_INVALID;
+        }
+        <b>this</b>.form.afterAction(<b>this</b>, false);
+    },
+
+    handleResponse : <b>function</b>(response){
+        <b>if</b>(this.form.errorReader){
+            <b>var</b> rs = <b>this</b>.form.errorReader.read(response);
+            <b>var</b> errors = [];
+            <b>if</b>(rs.records){
+                <b>for</b>(var i = 0, len = rs.records.length; i &lt; len; i++) {
+                    <b>var</b> r = rs.records[i];
+                    errors[i] = r.data;
+                }
+            }
+            <b>if</b>(errors.length &lt; 1){
+                errors = null;
+            }
+            <b>return</b> {
+                success : rs.success,
+                errors : errors
+            };
+        }
+        <b>return</b> Ext.decode(response.responseText);
+    }
+});
+
+
+Ext.form.Action.Load = <b>function</b>(form, options){
+    Ext.form.Action.Load.superclass.constructor.call(<b>this</b>, form, options);
+    <b>this</b>.reader = <b>this</b>.form.reader;
+};
+
+Ext.extend(Ext.form.Action.Load, Ext.form.Action, {
+    type : <em>'load'</em>,
+
+    run : <b>function</b>(){
+        Ext.Ajax.request(Ext.apply(
+                <b>this</b>.createCallback(), {
+                    method:<b>this</b>.getMethod(),
+                    url:<b>this</b>.getUrl(false),
+                    params:<b>this</b>.getParams()
+        }));
+    },
+
+    success : <b>function</b>(response){
+        <b>var</b> result = <b>this</b>.processResponse(response);
+        <b>if</b>(result === true || !result.success || !result.data){
+            <b>this</b>.failureType = Ext.form.Action.LOAD_FAILURE;
+            <b>this</b>.form.afterAction(<b>this</b>, false);
+            <b>return</b>;
+        }
+        <b>this</b>.form.clearInvalid();
+        <b>this</b>.form.setValues(result.data);
+        <b>this</b>.form.afterAction(<b>this</b>, true);
+    },
+
+    handleResponse : <b>function</b>(response){
+        <b>if</b>(this.form.reader){
+            <b>var</b> rs = <b>this</b>.form.reader.read(response);
+            <b>var</b> data = rs.records &amp;&amp; rs.records[0] ? rs.records[0].data : null;
+            <b>return</b> {
+                success : rs.success,
+                data : data
+            };
+        }
+        <b>return</b> Ext.decode(response.responseText);
+    }
+});
+
+Ext.form.Action.ACTION_TYPES = {
+    <em>'load'</em> : Ext.form.Action.Load,
+    <em>'submit'</em> : Ext.form.Action.Submit
+};
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

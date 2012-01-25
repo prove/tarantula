@@ -1,0 +1,231 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.util.CSS</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.util.CSS.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.util.CSS</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.util</td></tr>
+            <tr><td class="label">Class:</td><td>CSS</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="CSS.jss.html">CSS.js</a></td></tr>
+        </table>
+        <div class="description">
+            Utility class for manipulating CSS rules<br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#createStyleSheet">createStyleSheet</a>(&nbsp;<code>String cssText</code>, <code>String id</code>&nbsp;) : StyleSheet</td>
+        <td class="msource" rowspan="2">CSS</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Very simple dynamic creation of stylesheets from a text blob of rules.  The text will wrapped in a style
+tag and appe...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getRule">getRule</a>(&nbsp;<code>String/Array selector</code>, <code>Boolean refreshCache</code>&nbsp;) : CSSRule</td>
+        <td class="msource" rowspan="2">CSS</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Gets an an individual CSS rule by selector(s)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getRules">getRules</a>(&nbsp;<code>Boolean refreshCache</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">CSS</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Gets all css rules for the document</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#refreshCache">refreshCache</a>() : Object</td>
+        <td class="msource" rowspan="2">CSS</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Refresh the rule cache if you have dynamically added stylesheets</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeStyleSheet">removeStyleSheet</a>(&nbsp;<code>String id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">CSS</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Removes a style or link tag by id</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#swapStyleSheet">swapStyleSheet</a>(&nbsp;<code>String id</code>, <code>String url</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">CSS</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Dynamically swaps an existing stylesheet reference for a new one</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#updateRule">updateRule</a>(&nbsp;<code>String/Array selector</code>, <code>String property</code>, <code>String value</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">CSS</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Updates a rule property</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="createStyleSheet"></a>
+                <div class="mdetail">
+                <h3>createStyleSheet</i></h3>
+                <code>public function createStyleSheet(&nbsp;<code>String cssText</code>, <code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Very simple dynamic creation of stylesheets from a text blob of rules.  The text will wrapped in a style
+tag and appended to the HEAD of the document.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>cssText</code> : String<div class="sub-desc">The text containing the css rules</div></li><li><code>id</code> : String<div class="sub-desc">An id to add to the stylesheet for later removal</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>StyleSheet</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by CSS.</div>
+                </div>
+                            <a name="getRule"></a>
+                <div class="mdetail alt">
+                <h3>getRule</i></h3>
+                <code>public function getRule(&nbsp;<code>String/Array selector</code>, <code>Boolean refreshCache</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Gets an an individual CSS rule by selector(s)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selector</code> : String/Array<div class="sub-desc">The CSS selector or an array of selectors to try. The first selector that is found is returned.</div></li><li><code>refreshCache</code> : Boolean<div class="sub-desc">true to refresh the internal cache if you have recently updated any rules or added styles dynamically</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>CSSRule</code><div class="sub-desc">The CSS rule or null if one is not found</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by CSS.</div>
+                </div>
+                            <a name="getRules"></a>
+                <div class="mdetail">
+                <h3>getRules</i></h3>
+                <code>public function getRules(&nbsp;<code>Boolean refreshCache</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Gets all css rules for the document
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>refreshCache</code> : Boolean<div class="sub-desc">true to refresh the internal cache</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">An object (hash) of rules indexed by selector</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by CSS.</div>
+                </div>
+                            <a name="refreshCache"></a>
+                <div class="mdetail alt">
+                <h3>refreshCache</i></h3>
+                <code>public function refreshCache()</code>
+                <div class="mdetail-desc">
+                    Refresh the rule cache if you have dynamically added stylesheets
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">An object (hash) of rules indexed by selector</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by CSS.</div>
+                </div>
+                            <a name="removeStyleSheet"></a>
+                <div class="mdetail">
+                <h3>removeStyleSheet</i></h3>
+                <code>public function removeStyleSheet(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a style or link tag by id
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">The id of the tag</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by CSS.</div>
+                </div>
+                            <a name="swapStyleSheet"></a>
+                <div class="mdetail alt">
+                <h3>swapStyleSheet</i></h3>
+                <code>public function swapStyleSheet(&nbsp;<code>String id</code>, <code>String url</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Dynamically swaps an existing stylesheet reference for a new one
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">The id of an existing link tag to remove</div></li><li><code>url</code> : String<div class="sub-desc">The href of the new stylesheet to include</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by CSS.</div>
+                </div>
+                            <a name="updateRule"></a>
+                <div class="mdetail">
+                <h3>updateRule</i></h3>
+                <code>public function updateRule(&nbsp;<code>String/Array selector</code>, <code>String property</code>, <code>String value</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Updates a rule property
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selector</code> : String/Array<div class="sub-desc">If it's an array it tries each selector until it finds one. Stops immediately once one is found.</div></li><li><code>property</code> : String<div class="sub-desc">The css property</div></li><li><code>value</code> : String<div class="sub-desc">The new value for the property</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">true If a rule was found and updated</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by CSS.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

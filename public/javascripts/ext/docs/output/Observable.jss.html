@@ -1,0 +1,337 @@
+<html><head><title>Observable.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Observable.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.util.Observable
+ * Abstract base class that provides a common interface <b>for</b> publishing events. Subclasses are expected to
+ * to have a property &quot;events&quot; <b>with</b> all the events defined.&lt;br&gt;
+ * For example:
+ * &lt;pre&gt;&lt;code&gt;
+ Employee = <b>function</b>(name){
+    <b>this</b>.name = name;
+    <b>this</b>.addEvents({
+        &quot;fired&quot; : true,
+        &quot;quit&quot; : true
+    });
+ }
+ Ext.extend(Employee, Ext.util.Observable);
+&lt;/code&gt;&lt;/pre&gt;
+ */</i>
+Ext.util.Observable = <b>function</b>(){
+    <b>if</b>(this.listeners){
+        <b>this</b>.on(<b>this</b>.listeners);
+        <b>delete</b> this.listeners;
+    }
+};
+Ext.util.Observable.prototype = {
+    <i>/**
+     * Fires the specified event <b>with</b> the passed parameters (minus the event name).
+     * @param {String} eventName
+     * @param {Object...} args Variable number of parameters are passed to handlers
+     * @<b>return</b> {Boolean} returns false <b>if</b> any of the handlers <b>return</b> false otherwise it returns true
+     */</i>
+    fireEvent : <b>function</b>(){
+        <b>var</b> ce = <b>this</b>.events[arguments[0].toLowerCase()];
+        <b>if</b>(typeof ce == &quot;object&quot;){
+            <b>return</b> ce.fire.apply(ce, Array.prototype.slice.call(arguments, 1));
+        }<b>else</b>{
+            <b>return</b> true;
+        }
+    },
+
+    <i>// private</i>
+    filterOptRe : /^(?:scope|delay|buffer|single)$/,
+
+    <i>/**
+     * Appends an event handler to <b>this</b> component
+     * @param {String}   eventName The type of event to listen <b>for</b>
+     * @param {Function} handler The method the event invokes
+     * @param {Object}   scope (optional) The scope <b>in</b> which to execute the handler
+     * <b>function</b>. The handler <b>function</b>'s &quot;<b>this</b>&quot; context.
+     * @param {Object}   options (optional) An object containing handler configuration
+     * properties. This may contain any of the following properties:&lt;ul&gt;
+     * &lt;li&gt;scope {Object} The scope <b>in</b> which to execute the handler <b>function</b>. The handler <b>function</b>'s &quot;<b>this</b>&quot; context.&lt;/li&gt;
+     * &lt;li&gt;delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.&lt;/li&gt;
+     * &lt;li&gt;single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.&lt;/li&gt;
+     * &lt;li&gt;buffer {Number} Causes the handler to be scheduled to run <b>in</b> an {@link Ext.util.DelayedTask} delayed
+     * by the specified number of milliseconds. If the event fires again within that time, the original
+     * handler is &lt;em&gt;not&lt;/em&gt; invoked, but the <b>new</b> handler is scheduled <b>in</b> its place.&lt;/li&gt;
+     * &lt;/ul&gt;&lt;br&gt;
+     * &lt;p&gt;
+     * &lt;b&gt;Combining Options&lt;/b&gt;&lt;br&gt;
+     * Using the options argument, it is possible to combine different types of listeners:&lt;br&gt;
+     * &lt;br&gt;
+     * A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		&lt;pre&gt;&lt;code&gt;
+		el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});
+		&lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;
+     * &lt;b&gt;Attaching multiple handlers <b>in</b> 1 call&lt;/b&gt;&lt;br&gt;
+     * The method also allows <b>for</b> a single argument to be passed which is a config object containing properties
+     * which specify multiple handlers.
+     * &lt;pre&gt;&lt;code&gt;
+		el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});
+		&lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;
+     * Or a shorthand syntax which passes the same scope object to all handlers:
+     	&lt;pre&gt;&lt;code&gt;
+		el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});
+		&lt;/code&gt;&lt;/pre&gt;
+     */</i>
+    addListener : <b>function</b>(eventName, fn, scope, o){
+        <b>if</b>(typeof eventName == &quot;object&quot;){
+            o = eventName;
+            <b>for</b>(var e <b>in</b> o){
+                <b>if</b>(this.filterOptRe.test(e)){
+                    <b>continue</b>;
+                }
+                <b>if</b>(typeof o[e] == &quot;<b>function</b>&quot;){
+                    <i>// shared options</i>
+                    <b>this</b>.addListener(e, o[e], o.scope,  o);
+                }<b>else</b>{
+                    <i>// individual options</i>
+                    <b>this</b>.addListener(e, o[e].fn, o[e].scope, o[e]);
+                }
+            }
+            <b>return</b>;
+        }
+        o = (!o || <b>typeof</b> o == &quot;boolean&quot;) ? {} : o;
+        eventName = eventName.toLowerCase();
+        <b>var</b> ce = <b>this</b>.events[eventName] || true;
+        <b>if</b>(typeof ce == &quot;boolean&quot;){
+            ce = <b>new</b> Ext.util.Event(<b>this</b>, eventName);
+            <b>this</b>.events[eventName] = ce;
+        }
+        ce.addListener(fn, scope, o);
+    },
+
+    <i>/**
+     * Removes a listener
+     * @param {String}   eventName     The type of event to listen <b>for</b>
+     * @param {Function} handler        The handler to remove
+     * @param {Object}   scope  (optional) The scope (<b>this</b> object) <b>for</b> the handler
+     */</i>
+    removeListener : <b>function</b>(eventName, fn, scope){
+        <b>var</b> ce = <b>this</b>.events[eventName.toLowerCase()];
+        <b>if</b>(typeof ce == &quot;object&quot;){
+            ce.removeListener(fn, scope);
+        }
+    },
+
+    <i>/**
+     * Removes all listeners <b>for</b> this object
+     */</i>
+    purgeListeners : <b>function</b>(){
+        <b>for</b>(var evt <b>in</b> this.events){
+            <b>if</b>(typeof <b>this</b>.events[evt] == &quot;object&quot;){
+                 <b>this</b>.events[evt].clearListeners();
+            }
+        }
+    },
+
+    relayEvents : <b>function</b>(o, events){
+        <b>var</b> createHandler = <b>function</b>(ename){
+            <b>return</b> function(){
+                <b>return</b> this.fireEvent.apply(<b>this</b>, Ext.combine(ename, Array.prototype.slice.call(arguments, 0)));
+            };
+        };
+        <b>for</b>(var i = 0, len = events.length; i &lt; len; i++){
+            <b>var</b> ename = events[i];
+            <b>if</b>(!<b>this</b>.events[ename]){ <b>this</b>.events[ename] = true; };
+            o.on(ename, createHandler(ename), <b>this</b>);
+        }
+    },
+
+    <i>/**
+     * Used to define events on <b>this</b> Observable
+     * @param {Object} object The object <b>with</b> the events defined
+     */</i>
+    addEvents : <b>function</b>(o){
+        <b>if</b>(!<b>this</b>.events){
+            <b>this</b>.events = {};
+        }
+        Ext.applyIf(<b>this</b>.events, o);
+    },
+
+    <i>/**
+     * Checks to see <b>if</b> this object has any listeners <b>for</b> a specified event
+     * @param {String} eventName The name of the event to check <b>for</b>
+     * @<b>return</b> {Boolean} True <b>if</b> the event is being listened <b>for</b>, <b>else</b> false
+     */</i>
+    hasListener : <b>function</b>(eventName){
+        <b>var</b> e = <b>this</b>.events[eventName];
+        <b>return</b> typeof e == &quot;object&quot; &amp;&amp; e.listeners.length &gt; 0;
+    }
+};
+<i>/**
+ * Appends an event handler to <b>this</b> element (shorthand <b>for</b> addListener)
+ * @param {String}   eventName     The type of event to listen <b>for</b>
+ * @param {Function} handler        The method the event invokes
+ * @param {Object}   scope (optional) The scope <b>in</b> which to execute the handler
+ * <b>function</b>. The handler <b>function</b>'s &quot;<b>this</b>&quot; context.
+ * @param {Object}   options  (optional)
+ * @method
+ */</i>
+Ext.util.Observable.prototype.on = Ext.util.Observable.prototype.addListener;
+<i>/**
+ * Removes a listener (shorthand <b>for</b> removeListener)
+ * @param {String}   eventName     The type of event to listen <b>for</b>
+ * @param {Function} handler        The handler to remove
+ * @param {Object}   scope  (optional) The scope (<b>this</b> object) <b>for</b> the handler
+ * @method
+ */</i>
+Ext.util.Observable.prototype.un = Ext.util.Observable.prototype.removeListener;
+
+<i>/**
+ * Starts capture on the specified Observable. All events will be passed
+ * to the supplied <b>function</b> with the event name + standard signature of the event
+ * &lt;b&gt;before&lt;/b&gt; the event is fired. If the supplied <b>function</b> returns false,
+ * the event will not fire.
+ * @param {Observable} o The Observable to capture
+ * @param {Function} fn The <b>function</b> to call
+ * @param {Object} scope (optional) The scope (<b>this</b> object) <b>for</b> the fn
+ * @static
+ */</i>
+Ext.util.Observable.capture = <b>function</b>(o, fn, scope){
+    o.fireEvent = o.fireEvent.createInterceptor(fn, scope);
+};
+
+<i>/**
+ * Removes &lt;b&gt;all&lt;/b&gt; added captures from the Observable.
+ * @param {Observable} o The Observable to release
+ * @static
+ */</i>
+Ext.util.Observable.releaseCapture = <b>function</b>(o){
+    o.fireEvent = Ext.util.Observable.prototype.fireEvent;
+};
+
+(<b>function</b>(){
+
+    <b>var</b> createBuffered = <b>function</b>(h, o, scope){
+        <b>var</b> task = <b>new</b> Ext.util.DelayedTask();
+        <b>return</b> function(){
+            task.delay(o.buffer, h, scope, Array.prototype.slice.call(arguments, 0));
+        };
+    };
+
+    <b>var</b> createSingle = <b>function</b>(h, e, fn, scope){
+        <b>return</b> function(){
+            e.removeListener(fn, scope);
+            <b>return</b> h.apply(scope, arguments);
+        };
+    };
+
+    <b>var</b> createDelayed = <b>function</b>(h, o, scope){
+        <b>return</b> function(){
+            <b>var</b> args = Array.prototype.slice.call(arguments, 0);
+            setTimeout(<b>function</b>(){
+                h.apply(scope, args);
+            }, o.delay || 10);
+        };
+    };
+
+    Ext.util.Event = <b>function</b>(obj, name){
+        <b>this</b>.name = name;
+        <b>this</b>.obj = obj;
+        <b>this</b>.listeners = [];
+    };
+
+    Ext.util.Event.prototype = {
+        addListener : <b>function</b>(fn, scope, options){
+            <b>var</b> o = options || {};
+            scope = scope || <b>this</b>.obj;
+            <b>if</b>(!<b>this</b>.isListening(fn, scope)){
+                <b>var</b> l = {fn: fn, scope: scope, options: o};
+                <b>var</b> h = fn;
+                <b>if</b>(o.delay){
+                    h = createDelayed(h, o, scope);
+                }
+                <b>if</b>(o.single){
+                    h = createSingle(h, <b>this</b>, fn, scope);
+                }
+                <b>if</b>(o.buffer){
+                    h = createBuffered(h, o, scope);
+                }
+                l.fireFn = h;
+                <b>if</b>(!<b>this</b>.firing){ <i>// <b>if</b> we are currently firing <b>this</b> event, don't disturb the listener loop</i>
+                    <b>this</b>.listeners.push(l);
+                }<b>else</b>{
+                    <b>this</b>.listeners = <b>this</b>.listeners.slice(0);
+                    <b>this</b>.listeners.push(l);
+                }
+            }
+        },
+
+        findListener : <b>function</b>(fn, scope){
+            scope = scope || <b>this</b>.obj;
+            <b>var</b> ls = <b>this</b>.listeners;
+            <b>for</b>(var i = 0, len = ls.length; i &lt; len; i++){
+                <b>var</b> l = ls[i];
+                <b>if</b>(l.fn == fn &amp;&amp; l.scope == scope){
+                    <b>return</b> i;
+                }
+            }
+            <b>return</b> -1;
+        },
+
+        isListening : <b>function</b>(fn, scope){
+            <b>return</b> this.findListener(fn, scope) != -1;
+        },
+
+        removeListener : <b>function</b>(fn, scope){
+            <b>var</b> index;
+            <b>if</b>((index = <b>this</b>.findListener(fn, scope)) != -1){
+                <b>if</b>(!<b>this</b>.firing){
+                    <b>this</b>.listeners.splice(index, 1);
+                }<b>else</b>{
+                    <b>this</b>.listeners = <b>this</b>.listeners.slice(0);
+                    <b>this</b>.listeners.splice(index, 1);
+                }
+                <b>return</b> true;
+            }
+            <b>return</b> false;
+        },
+
+        clearListeners : <b>function</b>(){
+            <b>this</b>.listeners = [];
+        },
+
+        fire : <b>function</b>(){
+            <b>var</b> ls = <b>this</b>.listeners, scope, len = ls.length;
+            <b>if</b>(len &gt; 0){
+                <b>this</b>.firing = true;
+                <b>var</b> args = Array.prototype.slice.call(arguments, 0);
+                <b>for</b>(var i = 0; i &lt; len; i++){
+                    <b>var</b> l = ls[i];
+                    <b>if</b>(l.fireFn.apply(l.scope||<b>this</b>.obj||window, arguments) === false){
+                        <b>this</b>.firing = false;
+                        <b>return</b> false;
+                    }
+                }
+                <b>this</b>.firing = false;
+            }
+            <b>return</b> true;
+        }
+    };
+})();</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

@@ -1,0 +1,44 @@
+<html><head><title>DataProxy.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>DataProxy.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.DataProxy
+ * This class is an abstract base class <b>for</b> implementations which provide retrieval of
+ * unformatted data objects.&lt;br&gt;
+ * &lt;p&gt;
+ * DataProxy implementations are usually used <b>in</b> conjunction <b>with</b> an implementation of Ext.data.DataReader
+ * (of the appropriate type which knows how to parse the data object) to provide a block of
+ * {@link Ext.data.Records} to an {@link Ext.data.Store}.&lt;br&gt;
+ * &lt;p&gt;
+ * Custom implementations must implement the load method as described <b>in</b>
+ * {@link Ext.data.HttpProxy#load}.
+ */</i>
+Ext.data.DataProxy = <b>function</b>(){
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event beforeload
+         * Fires before a network request is made to retrieve a data object.
+         * @param {Object} This DataProxy object.
+         * @param {Object} params The params parameter to the load <b>function</b>.
+         */</i>
+        beforeload : true,
+        <i>/**
+         * @event load
+         * Fires before the load method's callback is called.
+         * @param {Object} This DataProxy object.
+         * @param {Object} o The data object.
+         * @param {Object} arg The callback argument object passed to the load <b>function</b>.
+         */</i>
+        load : true,
+        <i>/**
+         * @event loadexception
+         * Fires <b>if</b> an Exception occurs during data retrieval.
+         * @param {Object} This DataProxy object.
+         * @param {Object} o The data object.
+         * @param {Object} arg The callback argument object passed to the load <b>function</b>.
+         * @param {Object} e The Exception.
+         */</i>
+        loadexception : true
+    });
+    Ext.data.DataProxy.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.data.DataProxy, Ext.util.Observable);</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

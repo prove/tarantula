@@ -1,0 +1,143 @@
+<html><head><title>NumberField.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>NumberField.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.form.NumberField
+ * @extends Ext.form.TextField
+ * Numeric text field that provides automatic keystroke filtering and numeric validation.
+ * @constructor
+ * Creates a <b>new</b> NumberField
+ * @param {Object} config Configuration options
+ */</i>
+Ext.form.NumberField = <b>function</b>(config){
+    Ext.form.NumberField.superclass.constructor.call(<b>this</b>, config);
+};
+
+Ext.extend(Ext.form.NumberField, Ext.form.TextField,  {
+    <i>/**
+     * @cfg {String} fieldClass The <b>default</b> CSS class <b>for</b> the field (defaults to &quot;x-form-field x-form-num-field&quot;)
+     */</i>
+    fieldClass: &quot;x-form-field x-form-num-field&quot;,
+    <i>/**
+     * @cfg {Boolean} allowDecimals False to disallow decimal values (defaults to true)
+     */</i>
+    allowDecimals : true,
+    <i>/**
+     * @cfg {String} decimalSeparator Character(s) to allow as the decimal separator (defaults to <em>'.'</em>)
+     */</i>
+    decimalSeparator : &quot;.&quot;,
+    <i>/**
+     * @cfg {Number} decimalPrecision The maximum precision to display after the decimal separator (defaults to 2)
+     */</i>
+    decimalPrecision : 2,
+    <i>/**
+     * @cfg {Boolean} allowNegative False to prevent entering a negative sign (defaults to true)
+     */</i>
+    allowNegative : true,
+    <i>/**
+     * @cfg {Number} minValue The minimum allowed value (defaults to Number.NEGATIVE_INFINITY)
+     */</i>
+    minValue : Number.NEGATIVE_INFINITY,
+    <i>/**
+     * @cfg {Number} maxValue The maximum allowed value (defaults to Number.MAX_VALUE)
+     */</i>
+    maxValue : Number.MAX_VALUE,
+    <i>/**
+     * @cfg {String} minText Error text to display <b>if</b> the minimum value validation fails (defaults to &quot;The minimum value <b>for</b> this field is {minValue}&quot;)
+     */</i>
+    minText : &quot;The minimum value <b>for</b> this field is {0}&quot;,
+    <i>/**
+     * @cfg {String} maxText Error text to display <b>if</b> the maximum value validation fails (defaults to &quot;The maximum value <b>for</b> this field is {maxValue}&quot;)
+     */</i>
+    maxText : &quot;The maximum value <b>for</b> this field is {0}&quot;,
+    <i>/**
+     * @cfg {String} nanText Error text to display <b>if</b> the value is not a valid number.  For example, <b>this</b> can happen
+     * <b>if</b> a valid character like <em>'.'</em> or <em>'-'</em> is left <b>in</b> the field <b>with</b> no number (defaults to &quot;{value} is not a valid number&quot;)
+     */</i>
+    nanText : &quot;{0} is not a valid number&quot;,
+
+    <i>// private</i>
+    initEvents : <b>function</b>(){
+        Ext.form.NumberField.superclass.initEvents.call(<b>this</b>);
+        <b>var</b> allowed = &quot;0123456789&quot;;
+        <b>if</b>(this.allowDecimals){
+            allowed += <b>this</b>.decimalSeparator;
+        }
+        <b>if</b>(this.allowNegative){
+            allowed += &quot;-&quot;;
+        }
+        <b>this</b>.stripCharsRe = <b>new</b> RegExp(<em>'[^'</em>+allowed+<em>']'</em>, <em>'gi'</em>);
+        <b>var</b> keyPress = <b>function</b>(e){
+            <b>var</b> k = e.getKey();
+            <b>if</b>(!Ext.isIE &amp;&amp; (e.isSpecialKey() || k == e.BACKSPACE || k == e.DELETE)){
+                <b>return</b>;
+            }
+            <b>var</b> c = e.getCharCode();
+            <b>if</b>(allowed.indexOf(String.fromCharCode(c)) === -1){
+                e.stopEvent();
+            }
+        };
+        <b>this</b>.el.on(&quot;keypress&quot;, keyPress, <b>this</b>);
+    },
+
+    <i>// private</i>
+    validateValue : <b>function</b>(value){
+        <b>if</b>(!Ext.form.NumberField.superclass.validateValue.call(<b>this</b>, value)){
+            <b>return</b> false;
+        }
+        <b>if</b>(value.length &lt; 1){ <i>// <b>if</b> it<em>'s blank and textfield didn'</em>t flag it then it's valid</i>
+             <b>return</b> true;
+        }
+        <b>var</b> num = <b>this</b>.parseValue(value);
+        <b>if</b>(isNaN(num)){
+            <b>this</b>.markInvalid(String.format(<b>this</b>.nanText, value));
+            <b>return</b> false;
+        }
+        <b>if</b>(num &lt; <b>this</b>.minValue){
+            <b>this</b>.markInvalid(String.format(<b>this</b>.minText, <b>this</b>.minValue));
+            <b>return</b> false;
+        }
+        <b>if</b>(num &gt; <b>this</b>.maxValue){
+            <b>this</b>.markInvalid(String.format(<b>this</b>.maxText, <b>this</b>.maxValue));
+            <b>return</b> false;
+        }
+        <b>return</b> true;
+    },
+
+    getValue : <b>function</b>(){
+        <b>return</b> this.fixPrecision(<b>this</b>.parseValue(Ext.form.NumberField.superclass.getValue.call(<b>this</b>)));
+    },
+
+    <i>// private</i>
+    parseValue : <b>function</b>(value){
+        <b>return</b> parseFloat(String(value).replace(<b>this</b>.decimalSeparator, &quot;.&quot;)) || <em>''</em>;
+    },
+
+    <i>// private</i>
+    fixPrecision : <b>function</b>(value){
+        <b>var</b> nan = isNaN(value);
+        <b>if</b>(!<b>this</b>.allowDecimals || <b>this</b>.decimalPrecision == -1 || nan || !value){
+           <b>return</b> nan ? <em>''</em> : value;
+       }
+       <i>// <b>this</b> should work but doesn't due to precision error <b>in</b> JS</i>
+       <i>// <b>var</b> scale = Math.pow(10, <b>this</b>.decimalPrecision);</i>
+       <i>// <b>var</b> fixed = <b>this</b>.decimalPrecisionFcn(value * scale);</i>
+       <i>// <b>return</b> fixed / scale;</i>
+       <i>//</i>
+       <i>// so here's our workaround:</i>
+       <b>var</b> scale = Math.pow(10, <b>this</b>.decimalPrecision+1);
+       <b>var</b> fixed = <b>this</b>.decimalPrecisionFcn(value * scale);
+       fixed = <b>this</b>.decimalPrecisionFcn(fixed/10);
+       <b>return</b> fixed / (scale/10);
+    },
+
+    <i>// private</i>
+    decimalPrecisionFcn : <b>function</b>(v){
+        <b>return</b> Math.floor(v);
+    },
+
+    beforeBlur : <b>function</b>(){
+        <b>var</b> v = <b>this</b>.parseValue(<b>this</b>.getRawValue());
+        <b>if</b>(v){
+            <b>this</b>.setValue(<b>this</b>.fixPrecision(v));
+        }
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

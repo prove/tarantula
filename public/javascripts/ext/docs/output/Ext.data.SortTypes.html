@@ -1,0 +1,254 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.data.SortTypes</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.data.SortTypes.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.data.SortTypes</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.data</td></tr>
+            <tr><td class="label">Class:</td><td>SortTypes</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="SortTypes.jss.html">SortTypes.js</a></td></tr>
+        </table>
+        <div class="description">
+            <br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#stripTagsRE">stripTagsRE</a> : RegExp</td>
+        <td class="msource" rowspan="2">SortTypes</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The regular expression used to strip tags</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#asDate">asDate</a>(&nbsp;<code>Mixed s</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">SortTypes</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Date sorting</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#asFloat">asFloat</a>(&nbsp;<code>Mixed s</code>&nbsp;) : Float</td>
+        <td class="msource" rowspan="2">SortTypes</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Float sorting</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#asInt">asInt</a>(&nbsp;<code>Mixed s</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">SortTypes</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Integer sorting</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#asText">asText</a>(&nbsp;<code>Mixed s</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">SortTypes</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Strips all HTML tags to sort on text only</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#asUCString">asUCString</a>(&nbsp;<code>Mixed s</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">SortTypes</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Case insensitive string</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#asUCText">asUCText</a>(&nbsp;<code>Mixed s</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">SortTypes</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Strips all HTML tags to sort on text only - Case insensitive</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#none">none</a>(&nbsp;<code>Mixed s</code>&nbsp;) : Mixed</td>
+        <td class="msource" rowspan="2">SortTypes</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Default sort that does nothing</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="stripTagsRE"></a>
+                <div class="mdetail">
+                <h3>stripTagsRE</i></h3>
+                <code>public RegExp stripTagsRE</code>
+                <div class="mdetail-desc">
+                    The regular expression used to strip tags                </div>
+                <div class="mdetail-def">This property is defined by SortTypes.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="asDate"></a>
+                <div class="mdetail">
+                <h3>asDate</i></h3>
+                <code>public function asDate(&nbsp;<code>Mixed s</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Date sorting
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>s</code> : Mixed<div class="sub-desc">The value being converted</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The comparison value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by SortTypes.</div>
+                </div>
+                            <a name="asFloat"></a>
+                <div class="mdetail alt">
+                <h3>asFloat</i></h3>
+                <code>public function asFloat(&nbsp;<code>Mixed s</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Float sorting
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>s</code> : Mixed<div class="sub-desc">The value being converted</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Float</code><div class="sub-desc">The comparison value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by SortTypes.</div>
+                </div>
+                            <a name="asInt"></a>
+                <div class="mdetail">
+                <h3>asInt</i></h3>
+                <code>public function asInt(&nbsp;<code>Mixed s</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Integer sorting
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>s</code> : Mixed<div class="sub-desc">The value being converted</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The comparison value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by SortTypes.</div>
+                </div>
+                            <a name="asText"></a>
+                <div class="mdetail alt">
+                <h3>asText</i></h3>
+                <code>public function asText(&nbsp;<code>Mixed s</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Strips all HTML tags to sort on text only
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>s</code> : Mixed<div class="sub-desc">The value being converted</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">The comparison value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by SortTypes.</div>
+                </div>
+                            <a name="asUCString"></a>
+                <div class="mdetail">
+                <h3>asUCString</i></h3>
+                <code>public function asUCString(&nbsp;<code>Mixed s</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Case insensitive string
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>s</code> : Mixed<div class="sub-desc">The value being converted</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">The comparison value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by SortTypes.</div>
+                </div>
+                            <a name="asUCText"></a>
+                <div class="mdetail alt">
+                <h3>asUCText</i></h3>
+                <code>public function asUCText(&nbsp;<code>Mixed s</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Strips all HTML tags to sort on text only - Case insensitive
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>s</code> : Mixed<div class="sub-desc">The value being converted</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">The comparison value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by SortTypes.</div>
+                </div>
+                            <a name="none"></a>
+                <div class="mdetail">
+                <h3>none</i></h3>
+                <code>public function none(&nbsp;<code>Mixed s</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Default sort that does nothing
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>s</code> : Mixed<div class="sub-desc">The value being converted</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Mixed</code><div class="sub-desc">The comparison value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by SortTypes.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

@@ -1,0 +1,166 @@
+<html><head><title>ext-lang-no.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-no.js</h1><pre class="highlighted"><code><i>/*
+ * Norwegian translation
+ * By grEvenX 16-April-2007
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;Laster...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} markerte rader&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;Lukk denne fanen&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;Verdien i dette felter er ugyldig&quot;;
+}
+
+<b>if</b>(Ext.LoadMask){
+    Ext.LoadMask.prototype.msg = &quot;Laster...&quot;;
+}
+
+Date.monthNames = [
+   &quot;Januar&quot;,
+   &quot;Februar&quot;,
+   &quot;Mars&quot;,
+   &quot;April&quot;,
+   &quot;Mai&quot;,
+   &quot;Juni&quot;,
+   &quot;Juli&quot;,
+   &quot;August&quot;,
+   &quot;September&quot;,
+   &quot;Oktober&quot;,
+   &quot;November&quot;,
+   &quot;Desember&quot;
+];
+
+Date.dayNames = [
+   &quot;S&Atilde;&cedil;ndag&quot;,
+   &quot;Mandag&quot;,
+   &quot;Tirsdag&quot;,
+   &quot;Onsdag&quot;,
+   &quot;Torsdag&quot;,
+   &quot;Fredag&quot;,
+   &quot;L&Atilde;&cedil;rdag&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;OK&quot;,
+      cancel : &quot;Avbryt&quot;,
+      yes    : &quot;Ja&quot;,
+      no     : &quot;Nei&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;d/m/Y&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;I dag&quot;,
+      minText           : &quot;Denne datoen er tidligere enn den tidligste tillatte&quot;,
+      maxText           : &quot;Denne datoen er senere enn den seneste tillatte&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames	: Date.monthNames,
+      dayNames		: Date.dayNames,
+      nextText          : <em>'Neste m&Atilde;&yen;ned (Control+Pil H&Atilde;&cedil;yre)'</em>,
+      prevText          : <em>'Forrige m&Atilde;&yen;ned (Control+Pil Venstre)'</em>,
+      monthYearText     : <em>'Velg en m&Atilde;&yen;ned (Control+Pil Opp/Ned <b>for</b> &Atilde;&yen; skifte &Atilde;&yen;r)'</em>,
+      todayTip          : &quot;{0} (mellomrom)&quot;,
+      format            : &quot;d/m/y&quot;
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;Side&quot;,
+      afterPageText  : &quot;av {0}&quot;,
+      firstText      : &quot;F&Atilde;&cedil;rste side&quot;,
+      prevText       : &quot;Forrige side&quot;,
+      nextText       : &quot;Neste side&quot;,
+      lastText       : &quot;Siste side&quot;,
+      refreshText    : &quot;Oppdater&quot;,
+      displayMsg     : &quot;Viser {0} - {1} of {2}&quot;,
+      emptyMsg       : <em>'Ingen data &Atilde;&yen; vise'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;Den minste lengden <b>for</b> dette feltet er {0}&quot;,
+      maxLengthText : &quot;Den st&Atilde;&cedil;rste lengden <b>for</b> dette feltet er {0}&quot;,
+      blankText     : &quot;Dette feltet er p&Atilde;&yen;krevd&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;Den minste verdien <b>for</b> dette feltet er {0}&quot;,
+      maxText : &quot;Den st&Atilde;&cedil;rste verdien <b>for</b> dette feltet er {0}&quot;,
+      nanText : &quot;{0} er ikke et gyldig nummer&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;Deaktivert&quot;,
+      disabledDatesText : &quot;Deaktivert&quot;,
+      minText           : &quot;Datoen i dette feltet m&Atilde;&yen; v&Atilde;&brvbar;re etter {0}&quot;,
+      maxText           : &quot;Datoen i dette feltet m&Atilde;&yen; v&Atilde;&brvbar;re f&Atilde;&cedil;r {0}&quot;,
+      invalidText       : &quot;{0} is not a valid date - it must be <b>in</b> the format {1}&quot;,
+      format            : &quot;m/d/y&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;Laster...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'Dette feltet skal v&Atilde;&brvbar;re en epost adresse i formatet &quot;user@domain.com&quot;'</em>,
+      urlText      : <em>'Dette feltet skal v&Atilde;&brvbar;re en link (URL) i formatet &quot;http:/'</em>+<em>'/www.domain.com&quot;'</em>,
+      alphaText    : <em>'Dette feltet skal kun inneholde bokstaver og _'</em>,
+      alphanumText : <em>'Dette feltet skal kun inneholde bokstaver, tall og _'</em>
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;Sorter stigende&quot;,
+      sortDescText : &quot;Sorter synkende&quot;,
+      lockText     : &quot;L&Atilde;&yen;s kolonne&quot;,
+      unlockText   : &quot;L&Atilde;&yen;s opp kolonne&quot;,
+      columnsText  : &quot;Kolonner&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;Navn&quot;,
+      valueText  : &quot;Verdi&quot;,
+      dateFormat : &quot;d/m/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;Dra <b>for</b> &Atilde;&yen; endre st&Atilde;&cedil;rrelse.&quot;,
+      collapsibleSplitTip : &quot;Dra <b>for</b> &Atilde;&yen; endre st&Atilde;&cedil;rrelse, dobbelklikk <b>for</b> &Atilde;&yen; skjule.&quot;
+   });
+}</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

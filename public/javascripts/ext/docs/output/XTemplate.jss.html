@@ -1,0 +1,140 @@
+<html><head><title>XTemplate.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>XTemplate.js</h1><pre class="highlighted"><code>
+Ext.XTemplate = <b>function</b>(){
+    Ext.XTemplate.superclass.constructor.apply(<b>this</b>, arguments);
+    <b>var</b> s = <b>this</b>.html;
+
+    s = [<em>'&lt;tpl&gt;'</em>, s, <em>'&lt;/tpl&gt;'</em>].join(<em>''</em>);
+
+    <b>var</b> re = /&lt;tpl\b[^&gt;]*&gt;((?:(?=([^&lt;]+))\2|&lt;(?!tpl\b[^&gt;]*&gt;))*?)&lt;\/tpl&gt;/;
+
+    <b>var</b> nameRe = /^&lt;tpl\b[^&gt;]*?<b>for</b>=&quot;(.*?)&quot;/;
+    <b>var</b> ifRe = /^&lt;tpl\b[^&gt;]*?<b>if</b>=&quot;(.*?)&quot;/;
+    <b>var</b> execRe = /^&lt;tpl\b[^&gt;]*?exec=&quot;(.*?)&quot;/;
+    <b>var</b> m, id = 0;
+    <b>var</b> tpls = [];
+
+    <b>while</b>(m = s.match(re)){
+       <b>var</b> m2 = m[0].match(nameRe);
+       <b>var</b> m3 = m[0].match(ifRe);
+       <b>var</b> m4 = m[0].match(execRe);
+       <b>var</b> exp = null, fn = null, exec = null;
+       <b>var</b> name = m2 &amp;&amp; m2[1] ? m2[1] : <em>''</em>;
+       <b>if</b>(m3){
+           exp = m3 &amp;&amp; m3[1] ? m3[1] : null;
+           <b>if</b>(exp){
+               fn = <b>new</b> Function(<em>'values'</em>, <em>'parent'</em>, <em>'<b>with</b>(values){ <b>return</b> '</em>+(Ext.util.Format.htmlDecode(exp))+<em>'; }'</em>);
+           }
+       }
+       <b>if</b>(m4){
+           exp = m4 &amp;&amp; m4[1] ? m4[1] : null;
+           <b>if</b>(exp){
+               exec = <b>new</b> Function(<em>'values'</em>, <em>'parent'</em>, <em>'<b>with</b>(values){ '</em>+(Ext.util.Format.htmlDecode(exp))+<em>'; }'</em>);
+           }
+       }
+       <b>if</b>(name){
+           <b>switch</b>(name){
+               <b>case</b> <em>'.'</em>: name = <b>new</b> Function(<em>'values'</em>, <em>'parent'</em>, <em>'<b>with</b>(values){ <b>return</b> values; }'</em>); <b>break</b>;
+               <b>case</b> <em>'..'</em>: name = <b>new</b> Function(<em>'values'</em>, <em>'parent'</em>, <em>'<b>with</b>(values){ <b>return</b> parent; }'</em>); <b>break</b>;
+               <b>default</b>: name = <b>new</b> Function(<em>'values'</em>, <em>'parent'</em>, <em>'<b>with</b>(values){ <b>return</b> '</em>+name+<em>'; }'</em>);
+           }
+       }
+       tpls.push({
+            id: id,
+            target: name,
+            exec: exec,
+            test: fn,
+            body: m[1]||<em>''</em>
+        });
+       s = s.replace(m[0], <em>'{xtpl'</em>+ id + <em>'}'</em>);
+       ++id;
+    }
+    <b>for</b>(var i = tpls.length-1; i &gt;= 0; --i){
+        <b>this</b>.compileTpl(tpls[i]);
+    }
+    <b>this</b>.master = tpls[tpls.length-1];
+    <b>this</b>.tpls = tpls;
+};
+Ext.extend(Ext.XTemplate, Ext.Template, {
+
+    re : /\{([\w-\.]+)(?:\:([\w\.]*)(?:\((.*?)?\))?)?\}/g,
+
+    applySubTemplate : <b>function</b>(id, values, parent){
+        <b>var</b> t = <b>this</b>.tpls[id];
+        <b>if</b>(t.test &amp;&amp; !t.test.call(<b>this</b>, values, parent)){
+            <b>return</b> <em>''</em>;
+        }
+        <b>if</b>(t.exec &amp;&amp; t.exec.call(<b>this</b>, values, parent)){
+            <b>return</b> <em>''</em>;
+        }
+        <b>var</b> vs = t.target ? t.target.call(<b>this</b>, values, parent) : values;
+        parent = t.target ? values : parent;
+        <b>if</b>(t.target &amp;&amp; vs instanceof Array){
+            <b>var</b> buf = [];
+            <b>for</b>(var i = 0, len = vs.length; i &lt; len; i++){
+                buf[buf.length] = t.compiled.call(<b>this</b>, vs[i], parent);
+            }
+            <b>return</b> buf.join(<em>''</em>);
+        }
+        <b>return</b> t.compiled.call(<b>this</b>, vs, parent);
+    },
+
+    compileTpl : <b>function</b>(tpl){
+        <b>var</b> fm = Ext.util.Format;
+        <b>var</b> useF = <b>this</b>.disableFormats !== true;
+        <b>var</b> sep = Ext.isGecko ? &quot;+&quot; : &quot;,&quot;;
+        <b>var</b> fn = <b>function</b>(m, name, format, args){
+            <b>if</b>(name.substr(0, 4) == <em>'xtpl'</em>){
+                <b>return</b> &quot;<em>'&quot;+ sep +'</em><b>this</b>.applySubTemplate(<em>'+name.substr(4)+'</em>, values, parent)<em>'+sep+&quot;'</em>&quot;;
+            }
+            <b>var</b> v;
+            <b>if</b>(name.indexOf(<em>'.'</em>) != -1){
+                v = name;
+            }<b>else</b>{
+                v = &quot;values[<em>'&quot; + name + &quot;'</em>]&quot;;
+            }
+            <b>if</b>(format &amp;&amp; useF){
+                args = args ? <em>','</em> + args : &quot;&quot;;
+                <b>if</b>(format.substr(0, 5) != &quot;<b>this</b>.&quot;){
+                    format = &quot;fm.&quot; + format + <em>'('</em>;
+                }<b>else</b>{
+                    format = <em>'<b>this</b>.call(&quot;'</em>+ format.substr(5) + <em>'&quot;, '</em>;
+                    args = &quot;, values&quot;;
+                }
+            }<b>else</b>{
+                args= <em>''</em>; format = &quot;(&quot;+v+&quot; === undefined ? <em>''</em> : &quot;;
+            }
+            <b>return</b> &quot;<em>'&quot;+ sep + format + v + args + &quot;)&quot;+sep+&quot;'</em>&quot;;
+        };
+        <b>var</b> body;
+        <i>// branched to use + <b>in</b> gecko and [].join() <b>in</b> others</i>
+        <b>if</b>(Ext.isGecko){
+            body = &quot;tpl.compiled = <b>function</b>(values, parent){ <b>return</b> '&quot; +
+                   tpl.body.replace(/(\r\n|\n)/g, <em>'\\n'</em>).replace(/<em>'/g, &quot;\\'</em>&quot;).replace(<b>this</b>.re, fn) +
+                    &quot;';};&quot;;
+        }<b>else</b>{
+            body = [&quot;tpl.compiled = <b>function</b>(values, parent){ <b>return</b> ['&quot;];
+            body.push(tpl.body.replace(/(\r\n|\n)/g, <em>'\\n'</em>).replace(/<em>'/g, &quot;\\'</em>&quot;).replace(<b>this</b>.re, fn));
+            body.push(&quot;<em>'].join('</em>');};&quot;);
+            body = body.join(<em>''</em>);
+        }
+        eval(body);
+        <b>return</b> this;
+    },
+
+    applyTemplate : <b>function</b>(values){
+        <b>return</b> this.master.compiled.call(<b>this</b>, values, {});
+        <b>var</b> s = <b>this</b>.subs;
+    },
+
+    apply : <b>function</b>(){
+        <b>return</b> this.applyTemplate.apply(<b>this</b>, arguments);
+    },
+
+    compile : <b>function</b>(){<b>return</b> this;}
+});
+
+Ext.XTemplate.from = <b>function</b>(el){
+    el = Ext.getDom(el);
+    <b>return</b> new Ext.XTemplate(el.value || el.innerHTML);
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

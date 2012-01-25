@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>create (CasesController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/cases_controller.rb, line 62</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create</span>
+    <span class="ruby-ivar">@case</span> = <span class="ruby-constant">Case</span>.<span class="ruby-identifier">new</span>
+
+    <span class="ruby-comment cmt"># Filter out non-attributes from incoming data.</span>
+
+    <span class="ruby-comment cmt"># Create copy of parameters hash.</span>
+    <span class="ruby-identifier">params_to_set</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">params_to_set</span>.<span class="ruby-identifier">replace</span>( <span class="ruby-identifier">params</span>)  
+
+    <span class="ruby-comment cmt"># Remove all which are not attributes of target object.</span>
+    <span class="ruby-identifier">params_to_set</span>.<span class="ruby-identifier">delete_if</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@case</span>.<span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">has_key?</span>( <span class="ruby-identifier">key</span>)}
+
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:steps</span>])
+      <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:steps</span>].<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">step</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">ts</span> = <span class="ruby-keyword kw">nil</span>
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">step</span>[<span class="ruby-identifier">:id</span>][<span class="ruby-regexp re">/[0-9]+/</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+          <span class="ruby-identifier">ts</span> = <span class="ruby-constant">Step</span>.<span class="ruby-identifier">new</span>
+          <span class="ruby-ivar">@case</span>.<span class="ruby-identifier">steps</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">ts</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">ts</span> = <span class="ruby-constant">Step</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">step</span>[<span class="ruby-identifier">:id</span>])
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">ts</span>.<span class="ruby-identifier">order</span> = <span class="ruby-identifier">step</span>[<span class="ruby-identifier">:order</span>]
+        <span class="ruby-identifier">ts</span>.<span class="ruby-identifier">action</span> = <span class="ruby-constant">URI</span>.<span class="ruby-identifier">unescape</span>(<span class="ruby-identifier">step</span>[<span class="ruby-identifier">:action</span>])
+        <span class="ruby-identifier">ts</span>.<span class="ruby-identifier">result</span> = <span class="ruby-constant">URI</span>.<span class="ruby-identifier">unescape</span>(<span class="ruby-identifier">step</span>[<span class="ruby-identifier">:result</span>])
+        <span class="ruby-identifier">ts</span>.<span class="ruby-identifier">save</span>
+      }
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params_to_set</span>[<span class="ruby-identifier">:project_id</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">params_to_set</span>[<span class="ruby-identifier">:project_id</span>] = <span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>]
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># Set attributes.</span>
+    <span class="ruby-ivar">@case</span>.<span class="ruby-identifier">update_attributes</span>( <span class="ruby-identifier">params_to_set</span>)
+
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@case</span>.<span class="ruby-identifier">save</span>)
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'{&quot;status&quot;:true, &quot;id&quot;:'</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@case</span>.<span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_json</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'}'</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'{&quot;status&quot;:false}'</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

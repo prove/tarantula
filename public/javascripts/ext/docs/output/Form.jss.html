@@ -1,0 +1,293 @@
+<html><head><title>Form.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Form.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.form.Form
+ * @extends Ext.form.BasicForm
+ * Adds the ability to dynamically render forms <b>with</b> JavaScript to {@link Ext.form.BasicForm}.
+ * @constructor
+ * @param {Object} config Configuration options
+ */</i>
+Ext.form.Form = <b>function</b>(config){
+    Ext.form.Form.superclass.constructor.call(<b>this</b>, null, config);
+    <b>this</b>.url = <b>this</b>.url || <b>this</b>.action;
+    <b>if</b>(!<b>this</b>.root){
+        <b>this</b>.root = <b>new</b> Ext.form.Layout(Ext.applyIf({
+            id: Ext.id()
+        }, config));
+    }
+    <b>this</b>.active = <b>this</b>.root;
+    <i>/**
+     * Array of all the buttons that have been added to <b>this</b> form via {@link addButton}
+     * @type Array
+     */</i>
+    <b>this</b>.buttons = [];
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event clientvalidation
+         * If the monitorValid config option is true, <b>this</b> event fires repetitively to notify of valid state
+         * @param {Form} <b>this</b>
+         * @param {Boolean} valid true <b>if</b> the form has passed client-side validation
+         */</i>
+        clientvalidation: true
+    });
+};
+
+Ext.extend(Ext.form.Form, Ext.form.BasicForm, {
+    <i>/**
+     * @cfg {Number} labelWidth The width of labels. This property cascades to child containers.
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} itemCls A css class to apply to the x-form-item of fields. This property cascades to child containers.
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} buttonAlign Valid values are &quot;left,&quot; &quot;center&quot; and &quot;right&quot; (defaults to &quot;center&quot;)
+     */</i>
+    buttonAlign:<em>'center'</em>,
+
+    <i>/**
+     * @cfg {Number} minButtonWidth Minimum width of all buttons <b>in</b> pixels (defaults to 75)
+     */</i>
+    minButtonWidth:75,
+
+    <i>/**
+     * @cfg {String} labelAlign Valid values are &quot;left,&quot; &quot;top&quot; and &quot;right&quot; (defaults to &quot;left&quot;).
+     * This property cascades to child containers <b>if</b> not set.
+     */</i>
+    labelAlign:<em>'left'</em>,
+
+    <i>/**
+     * @cfg {Boolean} monitorValid If true the form monitors its valid state &lt;b&gt;client-side&lt;/b&gt; and
+     * fires a looping event <b>with</b> that state. This is required to bind buttons to the valid
+     * state using the config value formBind:true on the button.
+     */</i>
+    monitorValid : false,
+
+    <i>/**
+     * @cfg {Number} monitorPoll The milliseconds to poll valid state, ignored <b>if</b> monitorValid is not true (defaults to 200)
+     */</i>
+    monitorPoll : 200,
+
+    <i>/**
+     * Opens a <b>new</b> {@link Ext.form.Column} container <b>in</b> the layout stack. If fields are passed after the config, the
+     * fields are added and the column is closed. If no fields are passed the column remains open
+     * until end() is called.
+     * @param {Object} config The config to pass to the column
+     * @param {Field} field1 (optional)
+     * @param {Field} field2 (optional)
+     * @param {Field} etc (optional)
+     * @<b>return</b> Column The column container object
+     */</i>
+    column : <b>function</b>(c){
+        <b>var</b> col = <b>new</b> Ext.form.Column(c);
+        <b>this</b>.start(col);
+        <b>if</b>(arguments.length &gt; 1){ <i>// duplicate code required because of Opera</i>
+            <b>this</b>.add.apply(<b>this</b>, Array.prototype.slice.call(arguments, 1));
+            <b>this</b>.end();
+        }
+        <b>return</b> col;
+    },
+
+    <i>/**
+     * Opens a <b>new</b> {@link Ext.form.FieldSet} container <b>in</b> the layout stack. If fields are passed after the config, the
+     * fields are added and the fieldset is closed. If no fields are passed the fieldset remains open
+     * until end() is called.
+     * @param {Object} config The config to pass to the fieldset
+     * @param {Field} field1 (optional)
+     * @param {Field} field2 (optional)
+     * @param {Field} etc (optional)
+     * @<b>return</b> FieldSet The fieldset container object
+     */</i>
+    fieldset : <b>function</b>(c){
+        <b>var</b> fs = <b>new</b> Ext.form.FieldSet(c);
+        <b>this</b>.start(fs);
+        <b>if</b>(arguments.length &gt; 1){ <i>// duplicate code required because of Opera</i>
+            <b>this</b>.add.apply(<b>this</b>, Array.prototype.slice.call(arguments, 1));
+            <b>this</b>.end();
+        }
+        <b>return</b> fs;
+    },
+
+    <i>/**
+     * Opens a <b>new</b> {@link Ext.form.Layout} container <b>in</b> the layout stack. If fields are passed after the config, the
+     * fields are added and the container is closed. If no fields are passed the container remains open
+     * until end() is called.
+     * @param {Object} config The config to pass to the Layout
+     * @param {Field} field1 (optional)
+     * @param {Field} field2 (optional)
+     * @param {Field} etc (optional)
+     * @<b>return</b> Layout The container object
+     */</i>
+    container : <b>function</b>(c){
+        <b>var</b> l = <b>new</b> Ext.form.Layout(c);
+        <b>this</b>.start(l);
+        <b>if</b>(arguments.length &gt; 1){ <i>// duplicate code required because of Opera</i>
+            <b>this</b>.add.apply(<b>this</b>, Array.prototype.slice.call(arguments, 1));
+            <b>this</b>.end();
+        }
+        <b>return</b> l;
+    },
+
+    <i>/**
+     * Opens the passed container <b>in</b> the layout stack. The container can be any {@link Ext.form.Layout} or subclass.
+     * @param {Object} container A Ext.form.Layout or subclass of Layout
+     * @<b>return</b> {Form} <b>this</b>
+     */</i>
+    start : <b>function</b>(c){
+        <i>// cascade label info</i>
+        Ext.applyIf(c, {<em>'labelAlign'</em>: <b>this</b>.active.labelAlign, <em>'labelWidth'</em>: <b>this</b>.active.labelWidth, <em>'itemCls'</em>: <b>this</b>.active.itemCls});
+        <b>this</b>.active.stack.push(c);
+        c.ownerCt = <b>this</b>.active;
+        <b>this</b>.active = c;
+        <b>return</b> this;
+    },
+
+    <i>/**
+     * Closes the current open container
+     * @<b>return</b> {Form} <b>this</b>
+     */</i>
+    end : <b>function</b>(){
+        <b>if</b>(this.active == <b>this</b>.root){
+            <b>return</b> this;
+        }
+        <b>this</b>.active = <b>this</b>.active.ownerCt;
+        <b>return</b> this;
+    },
+
+    <i>/**
+     * Add Ext.form components to the current open container (e.g. column, fieldset, etc.).  Fields added via <b>this</b> method
+     * can also be passed <b>with</b> an additional property of fieldLabel, which <b>if</b> supplied, will provide the text to display
+     * as the label of the field.
+     * @param {Field} field1
+     * @param {Field} field2 (optional)
+     * @param {Field} etc. (optional)
+     * @<b>return</b> {Form} <b>this</b>
+     */</i>
+    add : <b>function</b>(){
+        <b>this</b>.active.stack.push.apply(<b>this</b>.active.stack, arguments);
+        <b>var</b> r = [];
+        <b>for</b>(var i = 0, a = arguments, len = a.length; i &lt; len; i++) {
+            <b>if</b>(a[i].isFormField){
+                r.push(a[i]);
+            }
+        }
+        <b>if</b>(r.length &gt; 0){
+            Ext.form.Form.superclass.add.apply(<b>this</b>, r);
+        }
+        <b>return</b> this;
+    },
+
+    <i>/**
+     * Render <b>this</b> form into the passed container. This should only be called once!
+     * @param {String/HTMLElement/Element} container The element <b>this</b> component should be rendered into
+     * @<b>return</b> {Form} <b>this</b>
+     */</i>
+    render : <b>function</b>(ct){
+        ct = Ext.get(ct);
+        <b>var</b> o = <b>this</b>.autoCreate || {
+            tag: <em>'form'</em>,
+            method : <b>this</b>.method || <em>'POST'</em>,
+            id : <b>this</b>.id || Ext.id()
+        };
+        <b>this</b>.initEl(ct.createChild(o));
+
+        <b>this</b>.root.render(<b>this</b>.el);
+
+        <b>this</b>.items.each(<b>function</b>(f){
+            f.render(<em>'x-form-el-'</em>+f.id);
+        });
+
+        <b>if</b>(this.buttons.length &gt; 0){
+            <i>// tables are required to maintain order and <b>for</b> correct IE layout</i>
+            <b>var</b> tb = <b>this</b>.el.createChild({cls:<em>'x-form-btns-ct'</em>, cn: {
+                cls:&quot;x-form-btns x-form-btns-&quot;+<b>this</b>.buttonAlign,
+                html:<em>'&lt;table cellspacing=&quot;0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;div class=&quot;x-clear&quot;&gt;&lt;/div&gt;'</em>
+            }}, null, true);
+            <b>var</b> tr = tb.getElementsByTagName(<em>'tr'</em>)[0];
+            <b>for</b>(var i = 0, len = <b>this</b>.buttons.length; i &lt; len; i++) {
+                <b>var</b> b = <b>this</b>.buttons[i];
+                <b>var</b> td = document.createElement(<em>'td'</em>);
+                td.className = <em>'x-form-btn-td'</em>;
+                b.render(tr.appendChild(td));
+            }
+        }
+        <b>if</b>(this.monitorValid){ <i>// initialize after render</i>
+            <b>this</b>.startMonitoring();
+        }
+        <b>return</b> this;
+    },
+
+    <i>/**
+     * Adds a button to the footer of the form - <b>this</b> &lt;b&gt;must&lt;/b&gt; be called before the form is rendered.
+     * @param {String/Object} config A string becomes the button text, an object can either be a Button config
+     * object or a valid Ext.DomHelper element config
+     * @param {Function} handler The <b>function</b> called when the button is clicked
+     * @param {Object} scope (optional) The scope of the handler <b>function</b>
+     * @<b>return</b> {Ext.Button}
+     */</i>
+    addButton : <b>function</b>(config, handler, scope){
+        <b>var</b> bc = {
+            handler: handler,
+            scope: scope,
+            minWidth: <b>this</b>.minButtonWidth,
+            hideParent:true
+        };
+        <b>if</b>(typeof config == &quot;string&quot;){
+            bc.text = config;
+        }<b>else</b>{
+            Ext.apply(bc, config);
+        }
+        <b>var</b> btn = <b>new</b> Ext.Button(null, bc);
+        <b>this</b>.buttons.push(btn);
+        <b>return</b> btn;
+    },
+
+    <i>/**
+     * Starts monitoring of the valid state of <b>this</b> form. Usually <b>this</b> is done by passing the config
+     * option &quot;monitorValid&quot;
+     */</i>
+    startMonitoring : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.bound){
+            <b>this</b>.bound = true;
+            Ext.TaskMgr.start({
+                run : <b>this</b>.bindHandler,
+                interval : <b>this</b>.monitorPoll || 200,
+                scope: <b>this</b>
+            });
+        }
+    },
+
+    <i>/**
+     * Stops monitoring of the valid state of <b>this</b> form
+     */</i>
+    stopMonitoring : <b>function</b>(){
+        <b>this</b>.bound = false;
+    },
+
+    <i>// private</i>
+    bindHandler : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.bound){
+            <b>return</b> false; <i>// stops binding</i>
+        }
+        <b>var</b> valid = true;
+        <b>this</b>.items.each(<b>function</b>(f){
+            <b>if</b>(!f.isValid(true)){
+                valid = false;
+                <b>return</b> false;
+            }
+        });
+        <b>for</b>(var i = 0, len = <b>this</b>.buttons.length; i &lt; len; i++){
+            <b>var</b> btn = <b>this</b>.buttons[i];
+            <b>if</b>(btn.formBind === true &amp;&amp; btn.disabled === valid){
+                btn.setDisabled(!valid);
+            }
+        }
+        <b>this</b>.fireEvent(<em>'clientvalidation'</em>, <b>this</b>, valid);
+    }
+});
+
+
+<i>// back compat</i>
+Ext.Form = Ext.form.Form;
+
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

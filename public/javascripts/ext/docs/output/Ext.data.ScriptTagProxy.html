@@ -1,0 +1,242 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.data.ScriptTagProxy</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.data.ScriptTagProxy.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.data.ScriptTagProxy</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.data</td></tr>
+            <tr><td class="label">Class:</td><td>ScriptTagProxy</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="ScriptTagProxy.jss.html">ScriptTagProxy.js</a></td></tr>
+        </table>
+        <div class="description">
+            An implementation of Ext.data.DataProxy that reads a data object from a URL which may be in a domain
+other than the originating domain of the running page.<br><br>
+<p>
+<em>Note that if you are retrieving data from a page that is in a domain that is NOT the same as the originating domain
+of the running page, you must use this class, rather than DataProxy.</em><br><br>
+<p>
+The content passed back from a server resource requested by a ScriptTagProxy is executable JavaScript
+source code that is used as the source inside a &lt;script> tag.<br><br>
+<p>
+In order for the browser to process the returned data, the server must wrap the data object
+with a call to a callback function, the name of which is passed as a parameter by the ScriptTagProxy.
+Below is a Java example for a servlet which returns data for either a ScriptTagProxy, or an HttpProxy
+depending on whether the callback name was passed:
+<p>
+<pre><code>
+boolean scriptTag = false;
+String cb = request.getParameter("callback");
+if (cb != null) {
+    scriptTag = true;
+    response.setContentType("text/javascript");
+} else {
+    response.setContentType("application/x-json");
+}
+Writer out = response.getWriter();
+if (scriptTag) {
+    out.write(cb + "(");
+}
+out.print(dataBlock.toJsonString());
+if (scriptTag) {
+    out.write(");");
+}</pre></code>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>ScriptTagProxy</b>(&nbsp;<code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ScriptTagProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#abort">abort</a>() : void</td>
+        <td class="msource" rowspan="2">ScriptTagProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Abort the current server request.</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#load">load</a>(&nbsp;<code>Object params</code>, <code>Ext.data.DataReader reader</code>, <code>Function callback</code>, <code>Object scope</code>, <code>Object arg</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ScriptTagProxy</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Load data from the configured URL, read the data object into
+a block of Ext.data.Records using the passed Ext.data.Da...</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-callbackParam">callbackParam</a> : String</td>
+        <td class="msource" rowspan="2">ScriptTagProxy</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">(Optional) The name of the parameter to pass to the server which tells the server the name of the callback function s...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-nocache">nocache</a> : Boolean</td>
+        <td class="msource" rowspan="2">ScriptTagProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">(Optional) Defaults to true. Disable cacheing by adding a unique parameter name to the request.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-timeout">timeout</a> : Number</td>
+        <td class="msource" rowspan="2">ScriptTagProxy</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">(Optional) The number of milliseconds to wait for a response. Defaults to 30 seconds.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-url">url</a> : String</td>
+        <td class="msource" rowspan="2">ScriptTagProxy</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The URL from which to request the data object.</td>
+    </tr>
+            </table>
+                
+                    <a name="ScriptTagProxy"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>ScriptTagProxy</i></h3>
+                <code>public function ScriptTagProxy(&nbsp;<code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object<div class="sub-desc">A configuration object.</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="abort"></a>
+                <div class="mdetail">
+                <h3>abort</i></h3>
+                <code>public function abort()</code>
+                <div class="mdetail-desc">
+                    Abort the current server request.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ScriptTagProxy.</div>
+                </div>
+                            <a name="load"></a>
+                <div class="mdetail alt">
+                <h3>load</i></h3>
+                <code>public function load(&nbsp;<code>Object params</code>, <code>Ext.data.DataReader reader</code>, <code>Function callback</code>, <code>Object scope</code>, <code>Object arg</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Load data from the configured URL, read the data object into
+a block of Ext.data.Records using the passed Ext.data.DataReader implementation, and
+process that block using the passed callback.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>params</code> : Object<div class="sub-desc">An object containing properties which are to be used as HTTP parameters
+for the request to the remote server.</div></li><li><code>reader</code> : Ext.data.DataReader<div class="sub-desc">The Reader object which converts the data
+object into a block of Ext.data.Records.</div></li><li><code>callback</code> : Function<div class="sub-desc">The function into which to pass the block of Ext.data.Records.
+The function must be passed <ul>
+<li>The Record block object</li>
+<li>The "arg" argument from the load function</li>
+<li>A boolean success indicator</li>
+</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">The scope in which to call the callback</div></li><li><code>arg</code> : Object<div class="sub-desc">An optional argument which is passed to the callback as its second parameter.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ScriptTagProxy.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-callbackParam"></a>
+                <div class="mdetail">
+                <h3>callbackParam</i></h3>
+                <code>callbackParam : String</code>
+                <div class="mdetail-desc">
+                    (Optional) The name of the parameter to pass to the server which tells the server the name of the callback function set up by the load call to process the returned data object. Defaults to "callback".<p>The server-side processing must read this parameter value, and generate javascript output which calls this named function passing the data object as its only parameter.                </div>
+                <div class="mdetail-def">This config option is defined by ScriptTagProxy.</div>
+                </div>
+                            <a name="config-nocache"></a>
+                <div class="mdetail alt">
+                <h3>nocache</i></h3>
+                <code>nocache : Boolean</code>
+                <div class="mdetail-desc">
+                    (Optional) Defaults to true. Disable cacheing by adding a unique parameter name to the request.                </div>
+                <div class="mdetail-def">This config option is defined by ScriptTagProxy.</div>
+                </div>
+                            <a name="config-timeout"></a>
+                <div class="mdetail">
+                <h3>timeout</i></h3>
+                <code>timeout : Number</code>
+                <div class="mdetail-desc">
+                    (Optional) The number of milliseconds to wait for a response. Defaults to 30 seconds.                </div>
+                <div class="mdetail-def">This config option is defined by ScriptTagProxy.</div>
+                </div>
+                            <a name="config-url"></a>
+                <div class="mdetail alt">
+                <h3>url</i></h3>
+                <code>url : String</code>
+                <div class="mdetail-desc">
+                    The URL from which to request the data object.                </div>
+                <div class="mdetail-def">This config option is defined by ScriptTagProxy.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

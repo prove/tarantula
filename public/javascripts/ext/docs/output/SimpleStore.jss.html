@@ -1,0 +1,23 @@
+<html><head><title>SimpleStore.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>SimpleStore.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.SimpleStore
+ * @extends Ext.data.Store
+ * Small helper class to make creating Stores from Array data easier.
+ * @cfg {Number} id The array index of the record id. Leave blank to auto generate ids.
+ * @cfg {Array} fields An array of field definition objects, or field name strings.
+ * @cfg {Array} data The multi-dimensional array of data
+ * @constructor
+ * @param {Object} config
+ */</i>
+Ext.data.SimpleStore = <b>function</b>(config){
+    Ext.data.SimpleStore.superclass.constructor.call(<b>this</b>, {
+        reader: <b>new</b> Ext.data.ArrayReader({
+                id: config.id
+            },
+            Ext.data.Record.create(config.fields)
+        ),
+        proxy : <b>new</b> Ext.data.MemoryProxy(config.data)
+    });
+    <b>this</b>.load();
+};
+Ext.extend(Ext.data.SimpleStore, Ext.data.Store);</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

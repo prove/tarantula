@@ -1,0 +1,29 @@
+<h1>Customer Configuration</h1>
+
+<table>
+  <tr>
+    <th>Setting</th>
+    <th>Value</th>
+  </tr>
+
+<% @customer_configs.each do |cc| %>
+  <tr>
+    <td><%=h cc.name %></td>
+    <td><%=h YAML::dump( cc.value) %></td>
+    <td><%= link_to 'Edit', edit_customer_config_path(cc) %></td>
+    <td><%= link_to 'Destroy', cc, :confirm => 'Are you sure?',
+:method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Config', new_customer_config_path %>
+<br />
+<br />
+<%= link_to 'Restart Servers', :controller =>'customer_configs', :action => 'restart' %>
+<br />
+<br />
+
+<%= link_to 'Back to Application', '/' %>

@@ -1,0 +1,350 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.DomQuery</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.DomQuery.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.DomQuery</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>DomQuery</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="DomQuery.jss.html">DomQuery.js</a></td></tr>
+        </table>
+        <div class="description">
+            *
+Provides high performance selector/xpath processing by compiling queries into reusable functions. New pseudo classes and matchers can be plugged. It works on HTML and XML documents (if a content node is passed in).
+<p>
+DomQuery supports most of the <a href="http://www.w3.org/TR/2005/WD-css3-selectors-20051215/">CSS3 selectors spec</a>, along with some custom selectors and basic XPath.</p>
+
+<p>
+All selectors, attribute filters and pseudos below can be combined infinitely in any order. For example "div.foo:nth-child(odd)[@foo=bar].bar:first" would be a perfectly valid selector. Node filters are processed in the order in which they appear, which allows you to optimize your queries for your document structure.
+</p>
+<h4>Element Selectors:</h4>
+<ul class="list">
+    <li> <b>*</b> any element</li>
+    <li> <b>E</b> an element with the tag E</li>
+    <li> <b>E F</b> All descendent elements of E that have the tag F</li>
+    <li> <b>E > F</b> or <b>E/F</b> all direct children elements of E that have the tag F</li>
+    <li> <b>E + F</b> all elements with the tag F that are immediately preceded by an element with the tag E</li>
+    <li> <b>E ~ F</b> all elements with the tag F that are preceded by a sibling element with the tag E</li>
+</ul>
+<h4>Attribute Selectors:</h4>
+<p>The use of @ and quotes are optional. For example, div[@foo='bar'] is also a valid attribute selector.</p>
+<ul class="list">
+    <li> <b>E[foo]</b> has an attribute "foo"</li>
+    <li> <b>E[foo=bar]</b> has an attribute "foo" that equals "bar"</li>
+    <li> <b>E[foo^=bar]</b> has an attribute "foo" that starts with "bar"</li>
+    <li> <b>E[foo$=bar]</b> has an attribute "foo" that ends with "bar"</li>
+    <li> <b>E[foo*=bar]</b> has an attribute "foo" that contains the substring "bar"</li>
+    <li> <b>E[foo%=2]</b> has an attribute "foo" that is evenly divisible by 2</li>
+    <li> <b>E[foo!=bar]</b> has an attribute "foo" that does not equal "bar"</li>
+</ul>
+<h4>Pseudo Classes:</h4>
+<ul class="list">
+    <li> <b>E:first-child</b> E is the first child of its parent</li>
+    <li> <b>E:last-child</b> E is the last child of its parent</li>
+    <li> <b>E:nth-child(<i>n</i>)</b> E is the <i>n</i>th child of its parent (1 based as per the spec)</li>
+    <li> <b>E:nth-child(odd)</b> E is an odd child of its parent</li>
+    <li> <b>E:nth-child(even)</b> E is an even child of its parent</li>
+    <li> <b>E:only-child</b> E is the only child of its parent</li>
+    <li> <b>E:checked</b> E is an element that is has a checked attribute that is true (e.g. a radio or checkbox) </li>
+    <li> <b>E:first</b> the first E in the resultset</li>
+    <li> <b>E:last</b> the last E in the resultset</li>
+    <li> <b>E:nth(<i>n</i>)</b> the <i>n</i>th E in the resultset (1 based)</li>
+    <li> <b>E:odd</b> shortcut for :nth-child(odd)</li>
+    <li> <b>E:even</b> shortcut for :nth-child(even)</li>
+    <li> <b>E:contains(foo)</b> E's innerHTML contains the substring "foo"</li>
+    <li> <b>E:nodeValue(foo)</b> E contains a textNode with a nodeValue that equals "foo"</li>
+    <li> <b>E:not(S)</b> an E element that does not match simple selector S</li>
+    <li> <b>E:has(S)</b> an E element that has a descendent that matches simple selector S</li>
+    <li> <b>E:next(S)</b> an E element whose next sibling matches simple selector S</li>
+    <li> <b>E:prev(S)</b> an E element whose previous sibling matches simple selector S</li>
+</ul>
+<h4>CSS Value Selectors:</h4>
+<ul class="list">
+    <li> <b>E{display=none}</b> css value "display" that equals "none"</li>
+    <li> <b>E{display^=none}</b> css value "display" that starts with "none"</li>
+    <li> <b>E{display$=none}</b> css value "display" that ends with "none"</li>
+    <li> <b>E{display*=none}</b> css value "display" that contains the substring "none"</li>
+    <li> <b>E{display%=2}</b> css value "display" that is evenly divisible by 2</li>
+    <li> <b>E{display!=none}</b> css value "display" that does not equal "none"</li>
+</ul><br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#matchers">matchers</a> : Object</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Collection of matching regular expressions and code snippets.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#operators">operators</a> : Object</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Collection of operator comparison functions. The default operators are =, !=, ^=, $=, *= and %=.
+New operators can be...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#pseudos">pseudos</a> : Object</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Collection of "pseudo class" processors. Each processor is passed the current nodeset (array)
+and the argument (if an...</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#compile">compile</a>(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>String type</code>]</span>&nbsp;) : Function</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Compiles a selector/xpath query into a reusable function. The returned function
+takes one parameter "root" (optional)...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#filter">filter</a>(&nbsp;<code>Array el</code>, <code>String selector</code>, <code>Boolean nonMatches</code>&nbsp;) : Array</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Filters an array of elements to only include matches of a simple selector (e.g. div.some-class or span:first-child)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#is">is</a>(&nbsp;<code>String/HTMLElement/Array el</code>, <code>String selector</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns true if the passed element(s) match the passed simple selector (e.g. div.some-class or span:first-child)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#select">select</a>(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>&nbsp;) : Array</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Selects a group of elements.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#selectNode">selectNode</a>(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>&nbsp;) : Element</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Selects a single element.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#selectNumber">selectNumber</a>(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>, <code>Number defaultValue</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Selects the value of a node, parsing integers and floats.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#selectValue">selectValue</a>(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>, <code>String defaultValue</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DomQuery</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Selects the value of a node, optionally replacing null with the defaultValue.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="matchers"></a>
+                <div class="mdetail">
+                <h3>matchers</i></h3>
+                <code>public Object matchers</code>
+                <div class="mdetail-desc">
+                    Collection of matching regular expressions and code snippets.                </div>
+                <div class="mdetail-def">This property is defined by DomQuery.</div>
+                </div>
+                            <a name="operators"></a>
+                <div class="mdetail alt">
+                <h3>operators</i></h3>
+                <code>public Object operators</code>
+                <div class="mdetail-desc">
+                    Collection of operator comparison functions. The default operators are =, !=, ^=, $=, *= and %=.
+New operators can be added as long as the match the format <i>c</i>= where <i>c</i> is any character other than space, &gt; &lt;.                </div>
+                <div class="mdetail-def">This property is defined by DomQuery.</div>
+                </div>
+                            <a name="pseudos"></a>
+                <div class="mdetail">
+                <h3>pseudos</i></h3>
+                <code>public Object pseudos</code>
+                <div class="mdetail-desc">
+                    Collection of "pseudo class" processors. Each processor is passed the current nodeset (array)
+and the argument (if any) supplied in the selector.                </div>
+                <div class="mdetail-def">This property is defined by DomQuery.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="compile"></a>
+                <div class="mdetail">
+                <h3>compile</i></h3>
+                <code>public function compile(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>String type</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Compiles a selector/xpath query into a reusable function. The returned function
+takes one parameter "root" (optional), which is the context node from where the query should start.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selector</code> : String<div class="sub-desc">The selector/xpath query</div></li><li><code>type</code> : String<div class="sub-desc">(optional) Either "select" (the default) or "simple" for a simple selector match</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Function</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomQuery.</div>
+                </div>
+                            <a name="filter"></a>
+                <div class="mdetail alt">
+                <h3>filter</i></h3>
+                <code>public function filter(&nbsp;<code>Array el</code>, <code>String selector</code>, <code>Boolean nonMatches</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Filters an array of elements to only include matches of a simple selector (e.g. div.some-class or span:first-child)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : Array<div class="sub-desc">An array of elements to filter</div></li><li><code>selector</code> : String<div class="sub-desc">The simple selector to test</div></li><li><code>nonMatches</code> : Boolean<div class="sub-desc">If true, it returns the elements that DON'T match
+the selector instead of the ones that match</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomQuery.</div>
+                </div>
+                            <a name="is"></a>
+                <div class="mdetail">
+                <h3>is</i></h3>
+                <code>public function is(&nbsp;<code>String/HTMLElement/Array el</code>, <code>String selector</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if the passed element(s) match the passed simple selector (e.g. div.some-class or span:first-child)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Array<div class="sub-desc">An element id, element or array of elements</div></li><li><code>selector</code> : String<div class="sub-desc">The simple selector to test</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomQuery.</div>
+                </div>
+                            <a name="select"></a>
+                <div class="mdetail alt">
+                <h3>select</i></h3>
+                <code>public function select(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Selects a group of elements.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selector</code> : String<div class="sub-desc">The selector/xpath query (can be a comma separated list of selectors)</div></li><li><code>root</code> : Node<div class="sub-desc">(optional) The start of the query (defaults to document).</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomQuery.</div>
+                </div>
+                            <a name="selectNode"></a>
+                <div class="mdetail">
+                <h3>selectNode</i></h3>
+                <code>public function selectNode(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Selects a single element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selector</code> : String<div class="sub-desc">The selector/xpath query</div></li><li><code>root</code> : Node<div class="sub-desc">(optional) The start of the query (defaults to document).</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Element</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomQuery.</div>
+                </div>
+                            <a name="selectNumber"></a>
+                <div class="mdetail alt">
+                <h3>selectNumber</i></h3>
+                <code>public function selectNumber(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>, <code>Number defaultValue</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Selects the value of a node, parsing integers and floats.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selector</code> : String<div class="sub-desc">The selector/xpath query</div></li><li><code>root</code> : Node<div class="sub-desc">(optional) The start of the query (defaults to document).</div></li><li><code>defaultValue</code> : Number<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomQuery.</div>
+                </div>
+                            <a name="selectValue"></a>
+                <div class="mdetail">
+                <h3>selectValue</i></h3>
+                <code>public function selectValue(&nbsp;<code>String selector</code>, <span class="optional" title="Optional">[<code>Node root</code>]</span>, <code>String defaultValue</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Selects the value of a node, optionally replacing null with the defaultValue.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selector</code> : String<div class="sub-desc">The selector/xpath query</div></li><li><code>root</code> : Node<div class="sub-desc">(optional) The start of the query (defaults to document).</div></li><li><code>defaultValue</code> : String<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DomQuery.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

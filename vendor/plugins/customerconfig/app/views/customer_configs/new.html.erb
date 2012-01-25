@@ -1,0 +1,18 @@
+<h1>Customer Configuration</h1>
+
+<% form_for(@customer_config) do |f| %>
+  <%= f.error_messages %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_area :value %>
+  </div>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', @customer_config_path %>

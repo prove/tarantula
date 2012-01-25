@@ -1,0 +1,869 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.TabPanel</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.TabPanel.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.TabPanel</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>TabPanel</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.util.Observable" ext:member="" href="Ext.util.Observable.html">Observable</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="TabPanel.jss.html">TabPanel.js</a></td></tr>
+        </table>
+        <div class="description">
+            Creates a lightweight TabPanel component using Yahoo! UI.
+<br><br>
+Usage:
+<pre><code><font color=<em>"#008000"</em>><i>// basic tabs 1, built from existing content</font></i>
+<b>var</b> tabs = <b>new</b> Ext.TabPanel(<em>"tabs1"</em>);
+tabs.addTab(<em>"script"</em>, <em>"View Script"</em>);
+tabs.addTab(<em>"markup"</em>, <em>"View Markup"</em>);
+tabs.activate(<em>"script"</em>);
+
+<font color=<em>"#008000"</em>><i>// more advanced tabs, built from javascript</font></i>
+<b>var</b> jtabs = <b>new</b> Ext.TabPanel(<em>"jtabs"</em>);
+jtabs.addTab(<em>"jtabs-1"</em>, <em>"Normal Tab"</em>, <em>"My content was added during construction."</em>);
+
+<font color=<em>"#008000"</em>><i>// set up the UpdateManager</font></i>
+<b>var</b> tab2 = jtabs.addTab(<em>"jtabs-2"</em>, <em>"Ajax Tab 1"</em>);
+<b>var</b> updater = tab2.getUpdateManager();
+updater.setDefaultUrl(<em>"ajax1.htm"</em>);
+tab2.on(<em>'activate'</em>, updater.refresh, updater, true);
+
+<font color=<em>"#008000"</em>><i>// Use setUrl <b>for</b> Ajax loading</font></i>
+<b>var</b> tab3 = jtabs.addTab(<em>"jtabs-3"</em>, <em>"Ajax Tab 2"</em>);
+tab3.setUrl(<em>"ajax2.htm"</em>, null, true);
+
+<font color=<em>"#008000"</em>><i>// Disabled tab</font></i>
+<b>var</b> tab4 = jtabs.addTab(<em>"tabs1-5"</em>, <em>"Disabled Tab"</em>, <em>"Can't see me cause I'm disabled"</em>);
+tab4.disable();
+
+jtabs.activate(<em>"jtabs-1"</em>);</code></pre>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#bodyEl">bodyEl</a> : Ext.Element</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The body element that contains <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> bodies.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#el">el</a> : Ext.Element</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The container element for this TabPanel.</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>TabPanel</b>(&nbsp;<code>String/HTMLElement/Ext.Element container</code>, <code>Object/Boolean config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new TabPanel.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#activate">activate</a>(&nbsp;<code>String/Number id</code>&nbsp;) : Ext.TabPanelItem</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Activates a <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>. The currently active one will be deactivated.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addTab">addTab</a>(&nbsp;<code>String id</code>, <code>String text</code>, <span class="optional" title="Optional">[<code>String content</code>]</span>, <span class="optional" title="Optional">[<code>Boolean closable</code>]</span>&nbsp;) : Ext.TabPanelItem</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Creates a new Ext.TabPanelItem by looking for an existing element with the provided id -- if it's not found it create...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addTabItem">addTabItem</a>(&nbsp;<code>Ext.TabPanelItem item</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Adds an existing <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#autoSizeTabs">autoSizeTabs</a>() : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Manual call to resize the tabs (if <a ext:cls="Ext.TabPanel" ext:member="resizeTabs" href="Ext.TabPanel.html#resizeTabs">resizeTabs</a> is false this does nothing)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#beginUpdate">beginUpdate</a>() : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Disables tab resizing while tabs are being added (if <a ext:cls="Ext.TabPanel" ext:member="resizeTabs" href="Ext.TabPanel.html#resizeTabs">resizeTabs</a> is false this does nothing)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#destroy">destroy</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean removeEl</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Destroys this TabPanel</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disableTab">disableTab</a>(&nbsp;<code>String/Number id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Disables a <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>. It cannot be the active tab, if it is this call is ignored.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#enableTab">enableTab</a>(&nbsp;<code>String/Number id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Enables a <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> that is disabled.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#endUpdate">endUpdate</a>() : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Stops an update and resizes the tabs (if <a ext:cls="Ext.TabPanel" ext:member="resizeTabs" href="Ext.TabPanel.html#resizeTabs">resizeTabs</a> is false this does nothing)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getActiveTab">getActiveTab</a>() : Ext.TabPanelItem</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Gets the active <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getCount">getCount</a>() : Number</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the number of tabs in this TabPanel.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTab">getTab</a>(&nbsp;<code>String/Number id</code>&nbsp;) : Ext.TabPanelItem</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> with the specified id/index</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hideTab">hideTab</a>(&nbsp;<code>String/Number id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Hides the <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> with the specified id/index</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeTab">removeTab</a>(&nbsp;<code>String/Number id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Removes a <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setTabWidth">setTabWidth</a>(&nbsp;<code>Number The</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Resizes all the tabs to the passed width</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#syncHeight">syncHeight</a>(&nbsp;<span class="optional" title="Optional">[<code>Number targetHeight</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Updates the tab body element to fit the height of the container element
+for overflow scrolling</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#unhideTab">unhideTab</a>(&nbsp;<code>String/Number id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">"Unhides" the <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> with the specified id/index.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforetabchange">beforetabchange</a> : (&nbsp;<code>Ext.TabPanel this</code>, <code>Object e</code>, <code>Ext.TabPanelItem tab</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires before the active tab changes, set cancel to true on the "e" parameter to cancel the change</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-tabchange">tabchange</a> : (&nbsp;<code>Ext.TabPanel this</code>, <code>Ext.TabPanelItem activePanel</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">TabPanel</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when the active tab changes</td>
+    </tr>
+            </table>
+                                    <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="bodyEl"></a>
+                <div class="mdetail">
+                <h3>bodyEl</i></h3>
+                <code>public Ext.Element bodyEl</code>
+                <div class="mdetail-desc">
+                    The body element that contains <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> bodies.                </div>
+                <div class="mdetail-def">This property is defined by TabPanel.</div>
+                </div>
+                            <a name="el"></a>
+                <div class="mdetail alt">
+                <h3>el</i></h3>
+                <code>public Ext.Element el</code>
+                <div class="mdetail-desc">
+                    The container element for this TabPanel.                </div>
+                <div class="mdetail-def">This property is defined by TabPanel.</div>
+                </div>
+                        </div>
+        
+                    <a name="TabPanel"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>TabPanel</i></h3>
+                <code>public function TabPanel(&nbsp;<code>String/HTMLElement/Ext.Element container</code>, <code>Object/Boolean config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new TabPanel.                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>container</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The id, DOM element or Ext.Element container where this TabPanel is to be rendered.</div></li><li><code>config</code> : Object/Boolean<div class="sub-desc">Config object to set any properties for this TabPanel, or true to render the tabs on the bottom.</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="activate"></a>
+                <div class="mdetail">
+                <h3>activate</i></h3>
+                <code>public function activate(&nbsp;<code>String/Number id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Activates a <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>. The currently active one will be deactivated.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String/Number<div class="sub-desc">The id or index of the TabPanelItem to activate.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.TabPanelItem</code><div class="sub-desc">The TabPanelItem.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="addEvents"></a>
+                <div class="mdetail alt">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="addTab"></a>
+                <div class="mdetail alt">
+                <h3>addTab</i></h3>
+                <code>public function addTab(&nbsp;<code>String id</code>, <code>String text</code>, <span class="optional" title="Optional">[<code>String content</code>]</span>, <span class="optional" title="Optional">[<code>Boolean closable</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates a new <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> by looking for an existing element with the provided id -- if it's not found it creates one.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">The id of the div to use <b>or create</b></div></li><li><code>text</code> : String<div class="sub-desc">The text for the tab</div></li><li><code>content</code> : String<div class="sub-desc">(optional) Content to put in the TabPanelItem body</div></li><li><code>closable</code> : Boolean<div class="sub-desc">(optional) True to create a close icon on the tab</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.TabPanelItem</code><div class="sub-desc">The created TabPanelItem</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="addTabItem"></a>
+                <div class="mdetail">
+                <h3>addTabItem</i></h3>
+                <code>public function addTabItem(&nbsp;<code>Ext.TabPanelItem item</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds an existing <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>item</code> : Ext.TabPanelItem<div class="sub-desc">The TabPanelItem to add</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="autoSizeTabs"></a>
+                <div class="mdetail alt">
+                <h3>autoSizeTabs</i></h3>
+                <code>public function autoSizeTabs()</code>
+                <div class="mdetail-desc">
+                    Manual call to resize the tabs (if <a ext:cls="Ext.TabPanel" ext:member="resizeTabs" href="Ext.TabPanel.html#resizeTabs">resizeTabs</a> is false this does nothing)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="beginUpdate"></a>
+                <div class="mdetail">
+                <h3>beginUpdate</i></h3>
+                <code>public function beginUpdate()</code>
+                <div class="mdetail-desc">
+                    Disables tab resizing while tabs are being added (if <a ext:cls="Ext.TabPanel" ext:member="resizeTabs" href="Ext.TabPanel.html#resizeTabs">resizeTabs</a> is false this does nothing)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="destroy"></a>
+                <div class="mdetail alt">
+                <h3>destroy</i></h3>
+                <code>public function destroy(&nbsp;<span class="optional" title="Optional">[<code>Boolean removeEl</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Destroys this TabPanel
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>removeEl</code> : Boolean<div class="sub-desc">(optional) True to remove the element from the DOM as well (defaults to undefined)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="disableTab"></a>
+                <div class="mdetail">
+                <h3>disableTab</i></h3>
+                <code>public function disableTab(&nbsp;<code>String/Number id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Disables a <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>. It cannot be the active tab, if it is this call is ignored.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String/Number<div class="sub-desc">The id or index of the TabPanelItem to disable.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="enableTab"></a>
+                <div class="mdetail alt">
+                <h3>enableTab</i></h3>
+                <code>public function enableTab(&nbsp;<code>String/Number id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Enables a <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> that is disabled.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String/Number<div class="sub-desc">The id or index of the TabPanelItem to enable.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="endUpdate"></a>
+                <div class="mdetail">
+                <h3>endUpdate</i></h3>
+                <code>public function endUpdate()</code>
+                <div class="mdetail-desc">
+                    Stops an update and resizes the tabs (if <a ext:cls="Ext.TabPanel" ext:member="resizeTabs" href="Ext.TabPanel.html#resizeTabs">resizeTabs</a> is false this does nothing)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail alt">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="getActiveTab"></a>
+                <div class="mdetail">
+                <h3>getActiveTab</i></h3>
+                <code>public function getActiveTab()</code>
+                <div class="mdetail-desc">
+                    Gets the active <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.TabPanelItem</code><div class="sub-desc">The active TabPanelItem or null if none are active.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="getCount"></a>
+                <div class="mdetail alt">
+                <h3>getCount</i></h3>
+                <code>public function getCount()</code>
+                <div class="mdetail-desc">
+                    Returns the number of tabs in this TabPanel.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="getTab"></a>
+                <div class="mdetail">
+                <h3>getTab</i></h3>
+                <code>public function getTab(&nbsp;<code>String/Number id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> with the specified id/index
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String/Number<div class="sub-desc">The id or index of the TabPanelItem to fetch.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.TabPanelItem</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail alt">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="hideTab"></a>
+                <div class="mdetail">
+                <h3>hideTab</i></h3>
+                <code>public function hideTab(&nbsp;<code>String/Number id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Hides the <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> with the specified id/index
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String/Number<div class="sub-desc">The id or index of the TabPanelItem to hide.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail alt">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail alt">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="removeTab"></a>
+                <div class="mdetail">
+                <h3>removeTab</i></h3>
+                <code>public function removeTab(&nbsp;<code>String/Number id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String/Number<div class="sub-desc">The id or index of the TabPanelItem to remove.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="setTabWidth"></a>
+                <div class="mdetail alt">
+                <h3>setTabWidth</i></h3>
+                <code>public function setTabWidth(&nbsp;<code>Number The</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Resizes all the tabs to the passed width
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>The</code> : Number<div class="sub-desc">new width</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="syncHeight"></a>
+                <div class="mdetail">
+                <h3>syncHeight</i></h3>
+                <code>public function syncHeight(&nbsp;<span class="optional" title="Optional">[<code>Number targetHeight</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Updates the tab body element to fit the height of the container element
+for overflow scrolling
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>targetHeight</code> : Number<div class="sub-desc">(optional) Override the starting height from the elements height</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail alt">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                            <a name="unhideTab"></a>
+                <div class="mdetail">
+                <h3>unhideTab</i></h3>
+                <code>public function unhideTab(&nbsp;<code>String/Number id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    "Unhides" the <a ext:cls="Ext.TabPanelItem" href="Ext.TabPanelItem.html">Ext.TabPanelItem</a> with the specified id/index.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String/Number<div class="sub-desc">The id or index of the TabPanelItem to unhide.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TabPanel.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-beforetabchange"></a>
+                <div class="mdetail">
+                <h3>beforetabchange</i></h3>
+                <code>public event beforetabchange</code>
+                <div class="mdetail-desc">
+                Fires before the active tab changes, set cancel to true on the "e" parameter to cancel the change
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.TabPanel<div class="sub-desc"></div></li><li><code>e</code> : Object<div class="sub-desc">Set cancel to true on this object to cancel the tab change</div></li><li><code>tab</code> : Ext.TabPanelItem<div class="sub-desc">The tab being changed to</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TabPanel.</div>
+                </div>
+                            <a name="event-tabchange"></a>
+                <div class="mdetail alt">
+                <h3>tabchange</i></h3>
+                <code>public event tabchange</code>
+                <div class="mdetail-desc">
+                Fires when the active tab changes
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.TabPanel<div class="sub-desc"></div></li><li><code>activePanel</code> : Ext.TabPanelItem<div class="sub-desc">The new active tab</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by TabPanel.</div>
+                </div>
+                        </div>
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

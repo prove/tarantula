@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>require_permission (ApplicationController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/application.rb, line 15</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">require_permission</span>(<span class="ruby-identifier">allowed_groups</span> = <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>] = <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">latest_project</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">projects</span>.<span class="ruby-identifier">first</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">admin</span> <span class="ruby-keyword kw">or</span> <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">allowed_in_project?</span>(<span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>],<span class="ruby-identifier">allowed_groups</span>))
+      <span class="ruby-keyword kw">return</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># Jos ei päästä mihinkään, niin tästä HTTP 403</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">xhr?</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">true</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;&lt;h2&gt;Forbidden&lt;/h2&gt;\n&lt;p&gt;Current user is not authorized to access this feature.&lt;/p&gt;&quot;</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:error</span>] = <span class="ruby-value str">&quot;Current user is not authorized to access this feature.&quot;</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;application&quot;</span>, <span class="ruby-identifier">:template</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;errors/403&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt">#render :xml =&gt; &quot;&lt;errors&gt;&lt;error&gt;Forbidden&lt;/error&gt;&lt;/errors&gt;&quot;, :status =&gt; :forbidden</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

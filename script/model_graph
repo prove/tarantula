@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+
+require 'config/environment.rb'
+
+Dir.glob("app/models/*rb") { |f|
+  if (f != "app/models/user.rb")
+    require f
+  end
+}
+
+class DotOutput
+  def puts_node(model)
+    ids = []
+    timestamps = []
+    lines = []
+    model.attributes.each{|k,v|
+      if (k != 'id')
+        if ( k[/_?id/] || k[/_by/] )
+          ids.push("#{k}: #{v}")
+        elsif (v.class == Time)
+          timestamps.push("#{k}: #{v}")
+        else
+          if (v.class == String)
+            v = v.gsub(/\n/,'\l')
+          end
+          lines.push("#{k}: #{v}")
+        end
+      end
+    }
+    puts "\t#{model.class.to_s.gsub(/:/,'')}#{model.id} [\n\t\tlabel = \"{#{model.class.to_s.gsub(/:/,'')}|id: #{model.id}\\l#{if (ids.size > 0): '|' + ids.join('\l') end}\\l#{if (timestamps.size > 0): "|" + timestamps.join('\l') end}\\l|#{lines.join('\l')}\\l}\"\n\t]\n"
+  end
+end
+
+printer = DotOutput.new
+
+puts "digraph G {\n\tsplines\n\toverlap = false\n\tfontname = \"Bitstream Vera Sans\"\n\tfontsize = 8\n\tnode [\n\t\tfontname = \"Bitstream Vera Sans\"\n\t\tfontsize = 8\n\t\tshape = \"record\"\n\t]\n\tedge [\n\t\tfontname = \"Bitstream Vera Sans\"\n\t\tfontsize = 8\n\t]\n"
+
+klass = Kernel.const_get ARGV[0]
+
+record = klass.find(ARGV[1])
+
+printer.puts_node(record)
+
+record.class.reflect_on_all_associations.each{|a|
+  c = record.send(a.name.to_s)
+  begin
+    printer.puts_node(c)
+    puts "\t#{record.class.to_s.gsub(/:/,'')}#{record.id} -> #{c.class.to_s.gsub(/:/,'')}#{c.id}"
+  rescue
+    if (c != nil)
+      c.each{|n|
+        printer.puts_node(n)
+        puts "\t#{record.class.to_s.gsub(/:/,'')}#{record.id} -> #{n.class.to_s.gsub(/:/,'')}#{n.id}"
+      }
+    end
+  end
+}
+
+puts "}"
+
+

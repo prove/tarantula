@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>update (UsersController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/users_controller.rb, line 92</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update</span>
+  <span class="ruby-comment cmt"># TODO: Joku seuraavista ehdoista pitää täyttyä:</span>
+  <span class="ruby-comment cmt">#   1. @current_user = käyttäjä jonka tietoja muokataan</span>
+  <span class="ruby-comment cmt">#   2. @current_user on manager projektissa, johon muokkauksen kohteena</span>
+  <span class="ruby-comment cmt">#      oleva käyttäjä kuuluu</span>
+  <span class="ruby-comment cmt">#   3. @current_user = superuser</span>
+  <span class="ruby-comment cmt"># TODO: Kirjoita onnistuvat ja epäonnistuvat testit yo. tapauksille</span>
+    <span class="ruby-identifier">ok</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-keyword kw">if</span> ((<span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>].<span class="ruby-identifier">to_i</span>) <span class="ruby-keyword kw">or</span> (<span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">admin</span>))
+      <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+      <span class="ruby-comment cmt"># Filter out non-attributes from incoming data.</span>
+      <span class="ruby-comment cmt"># Create copy of parameters hash.</span>
+      <span class="ruby-identifier">params_to_set</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">params_to_set</span>.<span class="ruby-identifier">replace</span>( <span class="ruby-identifier">params</span>)  
+      <span class="ruby-comment cmt"># Remove all which are not attributes of target object.</span>
+      <span class="ruby-identifier">params_to_set</span>.<span class="ruby-identifier">delete_if</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">has_key?</span>( <span class="ruby-identifier">key</span>)}
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:password</span>])
+        <span class="ruby-identifier">params_to_set</span>[<span class="ruby-identifier">:password</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:password</span>]
+        <span class="ruby-identifier">params_to_set</span>[<span class="ruby-identifier">:password_confirmation</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:password_confirmation</span>]
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-comment cmt"># Set attributes.</span>
+      <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">update_attributes</span>( <span class="ruby-identifier">params_to_set</span>)
+
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@user</span>.<span class="ruby-identifier">save</span>)
+        <span class="ruby-identifier">ok</span> = <span class="ruby-keyword kw">true</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;{\&quot;status\&quot;:#{ok}}&quot;</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

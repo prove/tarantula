@@ -1,0 +1,90 @@
+<html><head><title>AbstractGridView.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>AbstractGridView.js</h1><pre class="highlighted"><code>Ext.grid.AbstractGridView = <b>function</b>(){
+	<b>this</b>.grid = null;
+	
+	<b>this</b>.events = {
+	    &quot;beforerowremoved&quot; : true,
+	    &quot;beforerowsinserted&quot; : true,
+	    &quot;beforerefresh&quot; : true,
+	    &quot;rowremoved&quot; : true,
+	    &quot;rowsinserted&quot; : true,
+	    &quot;rowupdated&quot; : true,
+	    &quot;refresh&quot; : true
+	};
+    Ext.grid.AbstractGridView.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.grid.AbstractGridView, Ext.util.Observable, {
+    rowClass : &quot;x-grid-row&quot;,
+    cellClass : &quot;x-grid-cell&quot;,
+    tdClass : &quot;x-grid-td&quot;,
+    hdClass : &quot;x-grid-hd&quot;,
+    splitClass : &quot;x-grid-hd-split&quot;,
+    
+	init: <b>function</b>(grid){
+        <b>this</b>.grid = grid;
+		<b>var</b> cid = <b>this</b>.grid.getGridEl().id;
+        <b>this</b>.colSelector = &quot;#&quot; + cid + &quot; .&quot; + <b>this</b>.cellClass + &quot;-&quot;;
+        <b>this</b>.tdSelector = &quot;#&quot; + cid + &quot; .&quot; + <b>this</b>.tdClass + &quot;-&quot;;
+        <b>this</b>.hdSelector = &quot;#&quot; + cid + &quot; .&quot; + <b>this</b>.hdClass + &quot;-&quot;;
+        <b>this</b>.splitSelector = &quot;#&quot; + cid + &quot; .&quot; + <b>this</b>.splitClass + &quot;-&quot;;
+	},
+	
+	getColumnRenderers : <b>function</b>(){
+    	<b>var</b> renderers = [];
+    	<b>var</b> cm = <b>this</b>.grid.colModel;
+        <b>var</b> colCount = cm.getColumnCount();
+        <b>for</b>(var i = 0; i &lt; colCount; i++){
+            renderers[i] = cm.getRenderer(i);
+        }
+        <b>return</b> renderers;
+    },
+    
+    getColumnIds : <b>function</b>(){
+    	<b>var</b> ids = [];
+    	<b>var</b> cm = <b>this</b>.grid.colModel;
+        <b>var</b> colCount = cm.getColumnCount();
+        <b>for</b>(var i = 0; i &lt; colCount; i++){
+            ids[i] = cm.getColumnId(i);
+        }
+        <b>return</b> ids;
+    },
+    
+    getDataIndexes : <b>function</b>(){
+    	<b>if</b>(!<b>this</b>.indexMap){
+            <b>this</b>.indexMap = <b>this</b>.buildIndexMap();
+        }
+        <b>return</b> this.indexMap.colToData;
+    },
+    
+    getColumnIndexByDataIndex : <b>function</b>(dataIndex){
+        <b>if</b>(!<b>this</b>.indexMap){
+            <b>this</b>.indexMap = <b>this</b>.buildIndexMap();
+        }
+    	<b>return</b> this.indexMap.dataToCol[dataIndex];
+    },
+    
+    <i>/**
+     * Set a css style <b>for</b> a column dynamically. 
+     * @param {Number} colIndex The index of the column
+     * @param {String} name The css property name
+     * @param {String} value The css value
+     */</i>
+    setCSSStyle : <b>function</b>(colIndex, name, value){
+        <b>var</b> selector = &quot;#&quot; + <b>this</b>.grid.id + &quot; .x-grid-col-&quot; + colIndex;
+        Ext.util.CSS.updateRule(selector, name, value);
+    },
+    
+    generateRules : <b>function</b>(cm){
+        <b>var</b> ruleBuf = [], rulesId = <b>this</b>.grid.id + <em>'-cssrules'</em>;
+        Ext.util.CSS.removeStyleSheet(rulesId);
+        <b>for</b>(var i = 0, len = cm.getColumnCount(); i &lt; len; i++){
+            <b>var</b> cid = cm.getColumnId(i);
+            ruleBuf.push(<b>this</b>.colSelector, cid, &quot; {\n&quot;, cm.config[i].css, &quot;}\n&quot;,
+                         <b>this</b>.tdSelector, cid, &quot; {\n}\n&quot;,
+                         <b>this</b>.hdSelector, cid, &quot; {\n}\n&quot;,
+                         <b>this</b>.splitSelector, cid, &quot; {\n}\n&quot;);
+        }
+        <b>return</b> Ext.util.CSS.createStyleSheet(ruleBuf.join(&quot;&quot;), rulesId);
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

@@ -1,0 +1,584 @@
+<html><head><title>LayoutRegion.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>LayoutRegion.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.LayoutRegion
+ * @extends Ext.BasicLayoutRegion
+ * This class represents a region <b>in</b> a layout manager.
+ * @cfg {Boolean} collapsible False to disable collapsing (defaults to true)
+ * @cfg {Boolean} collapsed True to set the initial display to collapsed (defaults to false)
+ * @cfg {Boolean} floatable False to disable floating (defaults to true)
+ * @cfg {Object} margins Margins <b>for</b> the element (defaults to {top: 0, left: 0, right:0, bottom: 0})
+ * @cfg {Object} cmargins Margins <b>for</b> the element when collapsed (defaults to: north/south {top: 2, left: 0, right:0, bottom: 2} or east/west {top: 0, left: 2, right:2, bottom: 0})
+ * @cfg {String} tabPosition &quot;top&quot; or &quot;bottom&quot; (defaults to &quot;bottom&quot;)
+ * @cfg {String} collapsedTitle Optional string message to display <b>in</b> the collapsed block of a north or south region
+ * @cfg {Boolean} alwaysShowTabs True to always display tabs even when there is only 1 panel (defaults to false)
+ * @cfg {Boolean} autoScroll True to enable overflow scrolling (defaults to false)
+ * @cfg {Boolean} titlebar True to display a title bar (defaults to true)
+ * @cfg {String} title The title <b>for</b> the region (overrides panel titles)
+ * @cfg {Boolean} animate True to animate expand/collapse (defaults to false)
+ * @cfg {Boolean} autoHide False to disable auto hiding when the mouse leaves the &quot;floated&quot; region (defaults to true)
+ * @cfg {Boolean} preservePanels True to preserve removed panels so they can be readded later (defaults to false)
+ * @cfg {Boolean} closeOnTab True to place the close icon on the tabs instead of the region titlebar (defaults to false)
+ * @cfg {Boolean} hideTabs True to hide the tab strip (defaults to false)
+ * @cfg {Boolean} resizeTabs True to enable automatic tab resizing. This will resize the tabs so they are all the same size and fit within
+ * the space available, similar to FireFox 1.5 tabs (defaults to false)
+ * @cfg {Number} minTabWidth The minimum tab width (defaults to 40)
+ * @cfg {Number} preferredTabWidth The preferred tab width (defaults to 150)
+ * @cfg {Boolean} showPin True to show a pin button
+* @cfg {Boolean} hidden True to start the region hidden (defaults to false)
+* @cfg {Boolean} hideWhenEmpty True to hide the region when it has no panels
+* @cfg {Boolean} disableTabTips True to disable tab tooltips
+ */</i>
+Ext.LayoutRegion = <b>function</b>(mgr, config, pos){
+    Ext.LayoutRegion.superclass.constructor.call(<b>this</b>, mgr, config, pos, true);
+    <b>var</b> dh = Ext.DomHelper;
+    <i>/** This region's container element @type Ext.Element */</i>
+    <b>this</b>.el = dh.append(mgr.el.dom, {tag: &quot;div&quot;, cls: &quot;x-layout-panel x-layout-panel-&quot; + <b>this</b>.position}, true);
+    <i>/** This region's title element @type Ext.Element */</i>
+
+    <b>this</b>.titleEl = dh.append(<b>this</b>.el.dom, {tag: &quot;div&quot;, unselectable: &quot;on&quot;, cls: &quot;x-unselectable x-layout-panel-hd x-layout-title-&quot;+<b>this</b>.position, children:[
+        {tag: &quot;span&quot;, cls: &quot;x-unselectable x-layout-panel-hd-text&quot;, unselectable: &quot;on&quot;, html: &quot;&amp;#160;&quot;},
+        {tag: &quot;div&quot;, cls: &quot;x-unselectable x-layout-panel-hd-tools&quot;, unselectable: &quot;on&quot;}
+    ]}, true);
+    <b>this</b>.titleEl.enableDisplayMode();
+    <i>/** This region's title text element @type HTMLElement */</i>
+    <b>this</b>.titleTextEl = <b>this</b>.titleEl.dom.firstChild;
+    <b>this</b>.tools = Ext.get(<b>this</b>.titleEl.dom.childNodes[1], true);
+    <b>this</b>.closeBtn = <b>this</b>.createTool(<b>this</b>.tools.dom, &quot;x-layout-close&quot;);
+    <b>this</b>.closeBtn.enableDisplayMode();
+    <b>this</b>.closeBtn.on(&quot;click&quot;, <b>this</b>.closeClicked, <b>this</b>);
+    <b>this</b>.closeBtn.hide();
+
+    <b>this</b>.createBody(config);
+    <b>this</b>.visible = true;
+    <b>this</b>.collapsed = false;
+
+    <b>if</b>(config.hideWhenEmpty){
+        <b>this</b>.hide();
+        <b>this</b>.on(&quot;paneladded&quot;, <b>this</b>.validateVisibility, <b>this</b>);
+        <b>this</b>.on(&quot;panelremoved&quot;, <b>this</b>.validateVisibility, <b>this</b>);
+    }
+    <b>this</b>.applyConfig(config);
+};
+
+Ext.extend(Ext.LayoutRegion, Ext.BasicLayoutRegion, {
+
+    createBody : <b>function</b>(){
+        <i>/** This region's body element @type Ext.Element */</i>
+        <b>this</b>.bodyEl = <b>this</b>.el.createChild({tag: &quot;div&quot;, cls: &quot;x-layout-panel-body&quot;});
+    },
+
+    applyConfig : <b>function</b>(c){
+        <b>if</b>(c.collapsible &amp;&amp; <b>this</b>.position != &quot;center&quot; &amp;&amp; !<b>this</b>.collapsedEl){
+            <b>var</b> dh = Ext.DomHelper;
+            <b>if</b>(c.titlebar !== false){
+                <b>this</b>.collapseBtn = <b>this</b>.createTool(<b>this</b>.tools.dom, &quot;x-layout-collapse-&quot;+<b>this</b>.position);
+                <b>this</b>.collapseBtn.on(&quot;click&quot;, <b>this</b>.collapse, <b>this</b>);
+                <b>this</b>.collapseBtn.enableDisplayMode();
+
+                <b>if</b>(c.showPin === true || <b>this</b>.showPin){
+                    <b>this</b>.stickBtn = <b>this</b>.createTool(<b>this</b>.tools.dom, &quot;x-layout-stick&quot;);
+                    <b>this</b>.stickBtn.enableDisplayMode();
+                    <b>this</b>.stickBtn.on(&quot;click&quot;, <b>this</b>.expand, <b>this</b>);
+                    <b>this</b>.stickBtn.hide();
+                }
+            }
+            <i>/** This region's collapsed element @type Ext.Element */</i>
+            <b>this</b>.collapsedEl = dh.append(<b>this</b>.mgr.el.dom, {cls: &quot;x-layout-collapsed x-layout-collapsed-&quot;+<b>this</b>.position, children:[
+                {cls: &quot;x-layout-collapsed-tools&quot;, children:[{cls: &quot;x-layout-ctools-inner&quot;}]}
+            ]}, true);
+            <b>if</b>(c.floatable !== false){
+               <b>this</b>.collapsedEl.addClassOnOver(&quot;x-layout-collapsed-over&quot;);
+               <b>this</b>.collapsedEl.on(&quot;click&quot;, <b>this</b>.collapseClick, <b>this</b>);
+            }
+
+            <b>if</b>(c.collapsedTitle &amp;&amp; (<b>this</b>.position == &quot;north&quot; || <b>this</b>.position== &quot;south&quot;)) {
+                <b>this</b>.collapsedTitleTextEl = dh.append(<b>this</b>.collapsedEl.dom, {tag: &quot;div&quot;, cls: &quot;x-unselectable x-layout-panel-hd-text&quot;,
+                   id: &quot;message&quot;, unselectable: &quot;on&quot;, style:{&quot;float&quot;:&quot;left&quot;}});
+               <b>this</b>.collapsedTitleTextEl.innerHTML = c.collapsedTitle;
+             }
+            <b>this</b>.expandBtn = <b>this</b>.createTool(<b>this</b>.collapsedEl.dom.firstChild.firstChild, &quot;x-layout-expand-&quot;+<b>this</b>.position);
+            <b>this</b>.expandBtn.on(&quot;click&quot;, <b>this</b>.expand, <b>this</b>);
+        }
+        <b>if</b>(this.collapseBtn){
+            <b>this</b>.collapseBtn.setVisible(c.collapsible == true);
+        }
+        <b>this</b>.cmargins = c.cmargins || <b>this</b>.cmargins ||
+                         (<b>this</b>.position == &quot;west&quot; || <b>this</b>.position == &quot;east&quot; ?
+                             {top: 0, left: 2, right:2, bottom: 0} :
+                             {top: 2, left: 0, right:0, bottom: 2});
+        <b>this</b>.margins = c.margins || <b>this</b>.margins || {top: 0, left: 0, right:0, bottom: 0};
+        <b>this</b>.bottomTabs = c.tabPosition != &quot;top&quot;;
+        <b>this</b>.autoScroll = c.autoScroll || false;
+        <b>if</b>(this.autoScroll){
+            <b>this</b>.bodyEl.setStyle(&quot;overflow&quot;, &quot;auto&quot;);
+        }<b>else</b>{
+            <b>this</b>.bodyEl.setStyle(&quot;overflow&quot;, &quot;hidden&quot;);
+        }
+        <i>//<b>if</b>(c.titlebar !== false){</i>
+            <b>if</b>((!c.titlebar &amp;&amp; !c.title) || c.titlebar === false){
+                <b>this</b>.titleEl.hide();
+            }<b>else</b>{
+                <b>this</b>.titleEl.show();
+                <b>if</b>(c.title){
+                    <b>this</b>.titleTextEl.innerHTML = c.title;
+                }
+            }
+        <i>//}</i>
+        <b>this</b>.duration = c.duration || .30;
+        <b>this</b>.slideDuration = c.slideDuration || .45;
+        <b>this</b>.config = c;
+        <b>if</b>(c.collapsed){
+            <b>this</b>.collapse(true);
+        }
+        <b>if</b>(c.hidden){
+            <b>this</b>.hide();
+        }
+    },
+    <i>/**
+     * Returns true <b>if</b> this region is currently visible.
+     * @<b>return</b> {Boolean}
+     */</i>
+    isVisible : <b>function</b>(){
+        <b>return</b> this.visible;
+    },
+
+    <i>/**
+     * Updates the title <b>for</b> collapsed north/south regions (used <b>with</b> {@link #collapsedTitle} config option)
+     * @param {String} title (optional) The title text (accepts HTML markup, defaults to the numeric character reference <b>for</b> a non-breaking space, &quot;&amp;amp;#160;&quot;)
+     */</i>
+    setCollapsedTitle : <b>function</b>(title){
+        title = title || &quot;&amp;#160;&quot;;
+        <b>if</b>(this.collapsedTitleTextEl){
+            <b>this</b>.collapsedTitleTextEl.innerHTML = title;
+        }
+    },
+
+    getBox : <b>function</b>(){
+        <b>var</b> b;
+        <b>if</b>(!<b>this</b>.collapsed){
+            b = <b>this</b>.el.getBox(false, true);
+        }<b>else</b>{
+            b = <b>this</b>.collapsedEl.getBox(false, true);
+        }
+        <b>return</b> b;
+    },
+
+    getMargins : <b>function</b>(){
+        <b>return</b> this.collapsed ? <b>this</b>.cmargins : <b>this</b>.margins;
+    },
+
+    highlight : <b>function</b>(){
+        <b>this</b>.el.addClass(&quot;x-layout-panel-dragover&quot;);
+    },
+
+    unhighlight : <b>function</b>(){
+        <b>this</b>.el.removeClass(&quot;x-layout-panel-dragover&quot;);
+    },
+
+    updateBox : <b>function</b>(box){
+        <b>this</b>.box = box;
+        <b>if</b>(!<b>this</b>.collapsed){
+            <b>this</b>.el.dom.style.left = box.x + &quot;px&quot;;
+            <b>this</b>.el.dom.style.top = box.y + &quot;px&quot;;
+            <b>this</b>.updateBody(box.width, box.height);
+        }<b>else</b>{
+            <b>this</b>.collapsedEl.dom.style.left = box.x + &quot;px&quot;;
+            <b>this</b>.collapsedEl.dom.style.top = box.y + &quot;px&quot;;
+            <b>this</b>.collapsedEl.setSize(box.width, box.height);
+        }
+        <b>if</b>(this.tabs){
+            <b>this</b>.tabs.autoSizeTabs();
+        }
+    },
+
+    updateBody : <b>function</b>(w, h){
+        <b>if</b>(w !== null){
+            <b>this</b>.el.setWidth(w);
+            w -= <b>this</b>.el.getBorderWidth(&quot;rl&quot;);
+            <b>if</b>(this.config.adjustments){
+                w += <b>this</b>.config.adjustments[0];
+            }
+        }
+        <b>if</b>(h !== null){
+            <b>this</b>.el.setHeight(h);
+            h = <b>this</b>.titleEl &amp;&amp; <b>this</b>.titleEl.isDisplayed() ? h - (<b>this</b>.titleEl.getHeight()||0) : h;
+            h -= <b>this</b>.el.getBorderWidth(&quot;tb&quot;);
+            <b>if</b>(this.config.adjustments){
+                h += <b>this</b>.config.adjustments[1];
+            }
+            <b>this</b>.bodyEl.setHeight(h);
+            <b>if</b>(this.tabs){
+                h = <b>this</b>.tabs.syncHeight(h);
+            }
+        }
+        <b>if</b>(this.panelSize){
+            w = w !== null ? w : <b>this</b>.panelSize.width;
+            h = h !== null ? h : <b>this</b>.panelSize.height;
+        }
+        <b>if</b>(this.activePanel){
+            <b>var</b> el = <b>this</b>.activePanel.getEl();
+            w = w !== null ? w : el.getWidth();
+            h = h !== null ? h : el.getHeight();
+            <b>this</b>.panelSize = {width: w, height: h};
+            <b>this</b>.activePanel.setSize(w, h);
+        }
+        <b>if</b>(Ext.isIE &amp;&amp; <b>this</b>.tabs){
+            <b>this</b>.tabs.el.repaint();
+        }
+    },
+
+    <i>/**
+     * Returns the container element <b>for</b> this region.
+     * @<b>return</b> {Ext.Element}
+     */</i>
+    getEl : <b>function</b>(){
+        <b>return</b> this.el;
+    },
+
+    <i>/**
+     * Hides <b>this</b> region.
+     */</i>
+    hide : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.collapsed){
+            <b>this</b>.el.dom.style.left = &quot;-2000px&quot;;
+            <b>this</b>.el.hide();
+        }<b>else</b>{
+            <b>this</b>.collapsedEl.dom.style.left = &quot;-2000px&quot;;
+            <b>this</b>.collapsedEl.hide();
+        }
+        <b>this</b>.visible = false;
+        <b>this</b>.fireEvent(&quot;visibilitychange&quot;, <b>this</b>, false);
+    },
+
+    <i>/**
+     * Shows <b>this</b> region <b>if</b> it was previously hidden.
+     */</i>
+    show : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.collapsed){
+            <b>this</b>.el.show();
+        }<b>else</b>{
+            <b>this</b>.collapsedEl.show();
+        }
+        <b>this</b>.visible = true;
+        <b>this</b>.fireEvent(&quot;visibilitychange&quot;, <b>this</b>, true);
+    },
+
+    closeClicked : <b>function</b>(){
+        <b>if</b>(this.activePanel){
+            <b>this</b>.remove(<b>this</b>.activePanel);
+        }
+    },
+
+    collapseClick : <b>function</b>(e){
+        <b>if</b>(this.isSlid){
+           e.stopPropagation();
+           <b>this</b>.slideIn();
+        }<b>else</b>{
+           e.stopPropagation();
+           <b>this</b>.slideOut();
+        }
+    },
+
+    <i>/**
+     * Collapses <b>this</b> region.
+     * @param {Boolean} skipAnim (optional) true to collapse the element without animation (<b>if</b> animate is true)
+     */</i>
+    collapse : <b>function</b>(skipAnim){
+        <b>if</b>(this.collapsed) <b>return</b>;
+        <b>this</b>.collapsed = true;
+        <b>if</b>(this.split){
+            <b>this</b>.split.el.hide();
+        }
+        <b>if</b>(this.config.animate &amp;&amp; skipAnim !== true){
+            <b>this</b>.fireEvent(&quot;invalidated&quot;, <b>this</b>);
+            <b>this</b>.animateCollapse();
+        }<b>else</b>{
+            <b>this</b>.el.setLocation(-20000,-20000);
+            <b>this</b>.el.hide();
+            <b>this</b>.collapsedEl.show();
+            <b>this</b>.fireEvent(&quot;collapsed&quot;, <b>this</b>);
+            <b>this</b>.fireEvent(&quot;invalidated&quot;, <b>this</b>);
+        }
+    },
+
+    animateCollapse : <b>function</b>(){
+        <i>// overridden</i>
+    },
+
+    <i>/**
+     * Expands <b>this</b> region <b>if</b> it was previously collapsed.
+     * @param {Ext.EventObject} e The event that triggered the expand (or null <b>if</b> calling manually)
+     * @param {Boolean} skipAnim (optional) true to expand the element without animation (<b>if</b> animate is true)
+     */</i>
+    expand : <b>function</b>(e, skipAnim){
+        <b>if</b>(e) e.stopPropagation();
+        <b>if</b>(!<b>this</b>.collapsed || <b>this</b>.el.hasActiveFx()) <b>return</b>;
+        <b>if</b>(this.isSlid){
+            <b>this</b>.afterSlideIn();
+            skipAnim = true;
+        }
+        <b>this</b>.collapsed = false;
+        <b>if</b>(this.config.animate &amp;&amp; skipAnim !== true){
+            <b>this</b>.animateExpand();
+        }<b>else</b>{
+            <b>this</b>.el.show();
+            <b>if</b>(this.split){
+                <b>this</b>.split.el.show();
+            }
+            <b>this</b>.collapsedEl.setLocation(-2000,-2000);
+            <b>this</b>.collapsedEl.hide();
+            <b>this</b>.fireEvent(&quot;invalidated&quot;, <b>this</b>);
+            <b>this</b>.fireEvent(&quot;expanded&quot;, <b>this</b>);
+        }
+    },
+
+    animateExpand : <b>function</b>(){
+        <i>// overridden</i>
+    },
+
+    initTabs : <b>function</b>(){
+        <b>this</b>.bodyEl.setStyle(&quot;overflow&quot;, &quot;hidden&quot;);
+        <b>var</b> ts = <b>new</b> Ext.TabPanel(<b>this</b>.bodyEl.dom, {
+            tabPosition: <b>this</b>.bottomTabs ? <em>'bottom'</em> : <em>'top'</em>,
+            disableTooltips: <b>this</b>.config.disableTabTips
+        });
+        <b>if</b>(this.config.hideTabs){
+            ts.stripWrap.setDisplayed(false);
+        }
+        <b>this</b>.tabs = ts;
+        ts.resizeTabs = <b>this</b>.config.resizeTabs === true;
+        ts.minTabWidth = <b>this</b>.config.minTabWidth || 40;
+        ts.maxTabWidth = <b>this</b>.config.maxTabWidth || 250;
+        ts.preferredTabWidth = <b>this</b>.config.preferredTabWidth || 150;
+        ts.monitorResize = false;
+        ts.bodyEl.setStyle(&quot;overflow&quot;, <b>this</b>.config.autoScroll ? &quot;auto&quot; : &quot;hidden&quot;);
+        ts.bodyEl.addClass(<em>'x-layout-tabs-body'</em>);
+        <b>this</b>.panels.each(<b>this</b>.initPanelAsTab, <b>this</b>);
+    },
+
+    initPanelAsTab : <b>function</b>(panel){
+        <b>var</b> ti = <b>this</b>.tabs.addTab(panel.getEl().id, panel.getTitle(), null,
+                    <b>this</b>.config.closeOnTab &amp;&amp; panel.isClosable());
+        <b>if</b>(panel.tabTip !== undefined){
+            ti.setTooltip(panel.tabTip);
+        }
+        ti.on(&quot;activate&quot;, <b>function</b>(){
+              <b>this</b>.setActivePanel(panel);
+        }, <b>this</b>);
+        <b>if</b>(this.config.closeOnTab){
+            ti.on(&quot;beforeclose&quot;, <b>function</b>(t, e){
+                e.cancel = true;
+                <b>this</b>.remove(panel);
+            }, <b>this</b>);
+        }
+        <b>return</b> ti;
+    },
+
+    updatePanelTitle : <b>function</b>(panel, title){
+        <b>if</b>(this.activePanel == panel){
+            <b>this</b>.updateTitle(title);
+        }
+        <b>if</b>(this.tabs){
+            <b>var</b> ti = <b>this</b>.tabs.getTab(panel.getEl().id);
+            ti.setText(title);
+            <b>if</b>(panel.tabTip !== undefined){
+                ti.setTooltip(panel.tabTip);
+            }
+        }
+    },
+
+    updateTitle : <b>function</b>(title){
+        <b>if</b>(this.titleTextEl &amp;&amp; !<b>this</b>.config.title){
+            <b>this</b>.titleTextEl.innerHTML = (<b>typeof</b> title != &quot;undefined&quot; &amp;&amp; title.length &gt; 0 ? title : &quot;&amp;#160;&quot;);
+        }
+    },
+
+    setActivePanel : <b>function</b>(panel){
+        panel = <b>this</b>.getPanel(panel);
+        <b>if</b>(this.activePanel &amp;&amp; <b>this</b>.activePanel != panel){
+            <b>this</b>.activePanel.setActiveState(false);
+        }
+        <b>this</b>.activePanel = panel;
+        panel.setActiveState(true);
+        <b>if</b>(this.panelSize){
+            panel.setSize(<b>this</b>.panelSize.width, <b>this</b>.panelSize.height);
+        }
+        <b>if</b>(this.closeBtn){
+            <b>this</b>.closeBtn.setVisible(!<b>this</b>.config.closeOnTab &amp;&amp; !<b>this</b>.isSlid &amp;&amp; panel.isClosable());
+        }
+        <b>this</b>.updateTitle(panel.getTitle());
+        <b>if</b>(this.tabs){
+            <b>this</b>.fireEvent(&quot;invalidated&quot;, <b>this</b>);
+        }
+        <b>this</b>.fireEvent(&quot;panelactivated&quot;, <b>this</b>, panel);
+    },
+
+    <i>/**
+     * Shows the specified panel.
+     * @param {Number/String/ContentPanel} panelId The panel's index, id or the panel itself
+     * @<b>return</b> {Ext.ContentPanel} The shown panel, or null <b>if</b> a panel could not be found from panelId
+     */</i>
+    showPanel : <b>function</b>(panel){
+        <b>if</b>(panel = <b>this</b>.getPanel(panel)){
+            <b>if</b>(this.tabs){
+                <b>var</b> tab = <b>this</b>.tabs.getTab(panel.getEl().id);
+                <b>if</b>(tab.isHidden()){
+                    <b>this</b>.tabs.unhideTab(tab.id);
+                }
+                tab.activate();
+            }<b>else</b>{
+                <b>this</b>.setActivePanel(panel);
+            }
+        }
+        <b>return</b> panel;
+    },
+
+    <i>/**
+     * Get the active panel <b>for</b> this region.
+     * @<b>return</b> {Ext.ContentPanel} The active panel or null
+     */</i>
+    getActivePanel : <b>function</b>(){
+        <b>return</b> this.activePanel;
+    },
+
+    validateVisibility : <b>function</b>(){
+        <b>if</b>(this.panels.getCount() &lt; 1){
+            <b>this</b>.updateTitle(&quot;&amp;#160;&quot;);
+            <b>this</b>.closeBtn.hide();
+            <b>this</b>.hide();
+        }<b>else</b>{
+            <b>if</b>(!<b>this</b>.isVisible()){
+                <b>this</b>.show();
+            }
+        }
+    },
+
+    <i>/**
+     * Adds the passed ContentPanel(s) to <b>this</b> region.
+     * @param {ContentPanel...} panel The ContentPanel(s) to add (you can pass more than one)
+     * @<b>return</b> {Ext.ContentPanel} The panel added (<b>if</b> only one was added; null otherwise)
+     */</i>
+    add : <b>function</b>(panel){
+        <b>if</b>(arguments.length &gt; 1){
+            <b>for</b>(var i = 0, len = arguments.length; i &lt; len; i++) {
+                <b>this</b>.add(arguments[i]);
+            }
+            <b>return</b> null;
+        }
+        <b>if</b>(this.hasPanel(panel)){
+            <b>this</b>.showPanel(panel);
+            <b>return</b> panel;
+        }
+        panel.setRegion(<b>this</b>);
+        <b>this</b>.panels.add(panel);
+        <b>if</b>(this.panels.getCount() == 1 &amp;&amp; !<b>this</b>.config.alwaysShowTabs){
+            <b>this</b>.bodyEl.dom.appendChild(panel.getEl().dom);
+            <b>if</b>(panel.background !== true){
+                <b>this</b>.setActivePanel(panel);
+            }
+            <b>this</b>.fireEvent(&quot;paneladded&quot;, <b>this</b>, panel);
+            <b>return</b> panel;
+        }
+        <b>if</b>(!<b>this</b>.tabs){
+            <b>this</b>.initTabs();
+        }<b>else</b>{
+            <b>this</b>.initPanelAsTab(panel);
+        }
+        <b>if</b>(panel.background !== true){
+            <b>this</b>.tabs.activate(panel.getEl().id);
+        }
+        <b>this</b>.fireEvent(&quot;paneladded&quot;, <b>this</b>, panel);
+        <b>return</b> panel;
+    },
+
+    <i>/**
+     * Hides the tab <b>for</b> the specified panel.
+     * @param {Number/String/ContentPanel} panel The panel's index, id or the panel itself
+     */</i>
+    hidePanel : <b>function</b>(panel){
+        <b>if</b>(this.tabs &amp;&amp; (panel = <b>this</b>.getPanel(panel))){
+            <b>this</b>.tabs.hideTab(panel.getEl().id);
+        }
+    },
+
+    <i>/**
+     * Unhides the tab <b>for</b> a previously hidden panel.
+     * @param {Number/String/ContentPanel} panel The panel's index, id or the panel itself
+     */</i>
+    unhidePanel : <b>function</b>(panel){
+        <b>if</b>(this.tabs &amp;&amp; (panel = <b>this</b>.getPanel(panel))){
+            <b>this</b>.tabs.unhideTab(panel.getEl().id);
+        }
+    },
+
+    clearPanels : <b>function</b>(){
+        <b>while</b>(this.panels.getCount() &gt; 0){
+             <b>this</b>.remove(<b>this</b>.panels.first());
+        }
+    },
+
+    <i>/**
+     * Removes the specified panel. If preservePanel is not true (either here or <b>in</b> the config), the panel is destroyed.
+     * @param {Number/String/ContentPanel} panel The panel's index, id or the panel itself
+     * @param {Boolean} preservePanel Overrides the config preservePanel option
+     * @<b>return</b> {Ext.ContentPanel} The panel that was removed
+     */</i>
+    remove : <b>function</b>(panel, preservePanel){
+        panel = <b>this</b>.getPanel(panel);
+        <b>if</b>(!panel){
+            <b>return</b> null;
+        }
+        <b>var</b> e = {};
+        <b>this</b>.fireEvent(&quot;beforeremove&quot;, <b>this</b>, panel, e);
+        <b>if</b>(e.cancel === true){
+            <b>return</b> null;
+        }
+        preservePanel = (<b>typeof</b> preservePanel != &quot;undefined&quot; ? preservePanel : (<b>this</b>.config.preservePanels === true || panel.preserve === true));
+        <b>var</b> panelId = panel.getId();
+        <b>this</b>.panels.removeKey(panelId);
+        <b>if</b>(preservePanel){
+            document.body.appendChild(panel.getEl().dom);
+        }
+        <b>if</b>(this.tabs){
+            <b>this</b>.tabs.removeTab(panel.getEl().id);
+        }<b>else</b> if (!preservePanel){
+            <b>this</b>.bodyEl.dom.removeChild(panel.getEl().dom);
+        }
+        <b>if</b>(this.panels.getCount() == 1 &amp;&amp; <b>this</b>.tabs &amp;&amp; !<b>this</b>.config.alwaysShowTabs){
+            <b>var</b> p = <b>this</b>.panels.first();
+            <b>var</b> tempEl = document.createElement(&quot;div&quot;); <i>// temp holder to keep IE from deleting the node</i>
+            tempEl.appendChild(p.getEl().dom);
+            <b>this</b>.bodyEl.update(&quot;&quot;);
+            <b>this</b>.bodyEl.dom.appendChild(p.getEl().dom);
+            tempEl = null;
+            <b>this</b>.updateTitle(p.getTitle());
+            <b>this</b>.tabs = null;
+            <b>this</b>.bodyEl.setStyle(&quot;overflow&quot;, <b>this</b>.config.autoScroll ? &quot;auto&quot; : &quot;hidden&quot;);
+            <b>this</b>.setActivePanel(p);
+        }
+        panel.setRegion(null);
+        <b>if</b>(this.activePanel == panel){
+            <b>this</b>.activePanel = null;
+        }
+        <b>if</b>(this.config.autoDestroy !== false &amp;&amp; preservePanel !== true){
+            try{panel.destroy();}catch(e){}
+        }
+        <b>this</b>.fireEvent(&quot;panelremoved&quot;, <b>this</b>, panel);
+        <b>return</b> panel;
+    },
+
+    <i>/**
+     * Returns the TabPanel component used by <b>this</b> region
+     * @<b>return</b> {Ext.TabPanel}
+     */</i>
+    getTabs : <b>function</b>(){
+        <b>return</b> this.tabs;
+    },
+
+    createTool : <b>function</b>(parentEl, className){
+        <b>var</b> btn = Ext.DomHelper.append(parentEl, {tag: &quot;div&quot;, cls: &quot;x-layout-tools-button&quot;,
+            children: [{tag: &quot;div&quot;, cls: &quot;x-layout-tools-button-inner &quot; + className, html: &quot;&amp;#160;&quot;}]}, true);
+        btn.addClassOnOver(&quot;x-layout-tools-button-over&quot;);
+        <b>return</b> btn;
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

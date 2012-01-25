@@ -1,0 +1,27 @@
+#! /bin/bash
+# chkconfig: 2345 80 05
+# description: Tarantula Delayed Job
+
+case "$1" in
+  start)
+       echo -n "Starting delayed job.."
+       cd /opt/tarantula/rails && RAILS_ENV=production bundle exec rake jobs:work &
+       ;;
+  stop)
+       echo -n "Stopping delayed job.."
+       pkill -f jobs:work
+       ;;
+
+  restart|force-reload)
+       echo -n "Restarting delayed job.."
+       pkill -f jobs:work
+       cd /opt/tarantula/rails && RAILS_ENV=production bundle exec rake jobs:work &
+       ;;
+  *)
+	N=/etc/init.d/delayed_job
+	echo "Usage: $N {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

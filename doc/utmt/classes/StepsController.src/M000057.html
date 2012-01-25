@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>execution (StepsController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/steps_controller.rb, line 42</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execution</span>
+    <span class="ruby-identifier">ok</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+      <span class="ruby-identifier">ts</span> = <span class="ruby-constant">Step</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+      <span class="ruby-identifier">exec</span> = <span class="ruby-constant">Execution</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:execution_id</span>])
+      <span class="ruby-identifier">ce</span> = <span class="ruby-identifier">exec</span>.<span class="ruby-identifier">case_execution_by_case</span>(<span class="ruby-identifier">ts</span>.<span class="ruby-identifier">test_case</span>)
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">ce</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+        <span class="ruby-identifier">ce</span> = <span class="ruby-constant">CaseExecution</span>.<span class="ruby-identifier">new</span>
+        <span class="ruby-identifier">exec</span>.<span class="ruby-identifier">case_executions</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">ce</span>
+        <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">test_case</span> = <span class="ruby-identifier">ts</span>.<span class="ruby-identifier">test_case</span>
+        <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">reload</span>
+      <span class="ruby-identifier">te</span> = <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">step_exec_by_step</span>(<span class="ruby-identifier">ts</span>)
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">te</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+        <span class="ruby-identifier">te</span> = <span class="ruby-constant">StepExecution</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">te</span>.<span class="ruby-identifier">result</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:result</span>]
+      <span class="ruby-identifier">te</span>.<span class="ruby-identifier">step_id</span> = <span class="ruby-identifier">ts</span>.<span class="ruby-identifier">id</span>
+      <span class="ruby-identifier">te</span>.<span class="ruby-identifier">case_execution_id</span> = <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">id</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">te</span>.<span class="ruby-identifier">save</span>)
+        <span class="ruby-identifier">ok</span> = <span class="ruby-keyword kw">true</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">ok</span>)
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'{&quot;status&quot;:true}'</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'{&quot;status&quot;:false}'</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.tree.TreeFilter</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.tree.TreeFilter.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.tree.TreeFilter</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.tree</td></tr>
+            <tr><td class="label">Class:</td><td>TreeFilter</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="TreeFilter.jss.html">TreeFilter.js</a></td></tr>
+        </table>
+        <div class="description">
+            Note this class is experimental and doesn't update the indent (lines) or expand collapse icons of the nodes        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clear">clear</a>() : void</td>
+        <td class="msource" rowspan="2">TreeFilter</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Clears the current filter. Note: with the "remove" option
+set a filter cannot be cleared.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#filter">filter</a>(&nbsp;<code>String/RegExp value</code>, <span class="optional" title="Optional">[<code>String attr</code>]</span>, <span class="optional" title="Optional">[<code>TreeNode startNode</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TreeFilter</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Filter the data by a specific attribute.</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#filterBy">filterBy</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">TreeFilter</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Filter by a function. The passed function will be called with each
+node in the tree (or from the startNode). If the f...</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="clear"></a>
+                <div class="mdetail">
+                <h3>clear</i></h3>
+                <code>public function clear()</code>
+                <div class="mdetail-desc">
+                    Clears the current filter. Note: with the "remove" option
+set a filter cannot be cleared.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeFilter.</div>
+                </div>
+                            <a name="filter"></a>
+                <div class="mdetail alt">
+                <h3>filter</i></h3>
+                <code>public function filter(&nbsp;<code>String/RegExp value</code>, <span class="optional" title="Optional">[<code>String attr</code>]</span>, <span class="optional" title="Optional">[<code>TreeNode startNode</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Filter the data by a specific attribute.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>value</code> : String/RegExp<div class="sub-desc">Either string that the attribute value
+should start with or a RegExp to test against the attribute</div></li><li><code>attr</code> : String<div class="sub-desc">(optional) The attribute passed in your node's attributes collection. Defaults to "text".</div></li><li><code>startNode</code> : TreeNode<div class="sub-desc">(optional) The node to start the filter at.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeFilter.</div>
+                </div>
+                            <a name="filterBy"></a>
+                <div class="mdetail">
+                <h3>filterBy</i></h3>
+                <code>public function filterBy(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Filter by a function. The passed function will be called with each
+node in the tree (or from the startNode). If the function returns true, the node is kept
+otherwise it is filtered. If a node is filtered, its children are also filtered.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The filter function</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to the current node)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by TreeFilter.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

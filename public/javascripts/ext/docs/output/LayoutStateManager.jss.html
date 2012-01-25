@@ -1,0 +1,69 @@
+<html><head><title>LayoutStateManager.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>LayoutStateManager.js</h1><pre class="highlighted"><code><i>/*
+ * Private internal class <b>for</b> reading and applying state
+ */</i>
+Ext.LayoutStateManager = <b>function</b>(layout){
+     <i>// <b>default</b> empty state</i>
+     <b>this</b>.state = {
+        north: {},
+        south: {},
+        east: {},
+        west: {}       
+    };
+};
+
+Ext.LayoutStateManager.prototype = {
+    init : <b>function</b>(layout, provider){
+        <b>this</b>.provider = provider;
+        <b>var</b> state = provider.get(layout.id+&quot;-layout-state&quot;);
+        <b>if</b>(state){
+            <b>var</b> wasUpdating = layout.isUpdating();
+            <b>if</b>(!wasUpdating){
+                layout.beginUpdate();
+            }
+            <b>for</b>(var key <b>in</b> state){
+                <b>if</b>(typeof state[key] != &quot;<b>function</b>&quot;){
+                    <b>var</b> rstate = state[key];
+                    <b>var</b> r = layout.getRegion(key);
+                    <b>if</b>(r &amp;&amp; rstate){
+                        <b>if</b>(rstate.size){
+                            r.resizeTo(rstate.size);
+                        }
+                        <b>if</b>(rstate.collapsed == true){
+                            r.collapse(true);
+                        }<b>else</b>{
+                            r.expand(null, true);
+                        }
+                    }
+                }
+            }
+            <b>if</b>(!wasUpdating){
+                layout.endUpdate();
+            }
+            <b>this</b>.state = state; 
+        }
+        <b>this</b>.layout = layout;
+        layout.on(&quot;regionresized&quot;, <b>this</b>.onRegionResized, <b>this</b>);
+        layout.on(&quot;regioncollapsed&quot;, <b>this</b>.onRegionCollapsed, <b>this</b>);
+        layout.on(&quot;regionexpanded&quot;, <b>this</b>.onRegionExpanded, <b>this</b>);
+    },
+    
+    storeState : <b>function</b>(){
+        <b>this</b>.provider.set(<b>this</b>.layout.id+&quot;-layout-state&quot;, <b>this</b>.state);
+    },
+    
+    onRegionResized : <b>function</b>(region, newSize){
+        <b>this</b>.state[region.getPosition()].size = newSize;
+        <b>this</b>.storeState();
+    },
+    
+    onRegionCollapsed : <b>function</b>(region){
+        <b>this</b>.state[region.getPosition()].collapsed = true;
+        <b>this</b>.storeState();
+    },
+    
+    onRegionExpanded : <b>function</b>(region){
+        <b>this</b>.state[region.getPosition()].collapsed = false;
+        <b>this</b>.storeState();
+    }
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

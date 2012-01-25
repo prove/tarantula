@@ -1,0 +1,613 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.PagingToolbar</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.PagingToolbar.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.PagingToolbar</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>PagingToolbar</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.Toolbar" ext:member="" href="Ext.Toolbar.html">Toolbar</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="PagingToolbar.jss.html">PagingToolbar.js</a></td></tr>
+        </table>
+        <div class="description">
+            A specialized toolbar that is bound to a <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a> and provides automatic paging controls.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#afterPageText">afterPageText</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Customizable piece of the default paging text (defaults to "of %0")</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#beforePageText">beforePageText</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Customizable piece of the default paging text (defaults to "Page")</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#firstText">firstText</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Customizable piece of the default paging text (defaults to "First Page")</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#lastText">lastText</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Customizable piece of the default paging text (defaults to "Last Page")</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#nextText">nextText</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Customizable piece of the default paging text (defaults to "Next Page")</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#prevText">prevText</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Customizable piece of the default paging text (defaults to "Previous Page")</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#refreshText">refreshText</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Customizable piece of the default paging text (defaults to "Refresh")</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>PagingToolbar</b>(&nbsp;<code>String/HTMLElement/Element container</code>, <code>Ext.data.Store store</code>, <code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new PagingToolbar</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#add">add</a>(&nbsp;<code>Mixed arg1</code>, <code>Mixed arg2</code>, <code>Mixed etc</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#add" href="Ext.Toolbar.html#add">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Adds element(s) to the toolbar -- this function takes a variable number of 
+arguments of mixed type and adds them to ...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addButton">addButton</a>(&nbsp;<code>Object/Array config</code>&nbsp;) : Ext.Toolbar.Button/Array</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addButton" href="Ext.Toolbar.html#addButton">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Adds a button (or buttons). See <a ext:cls="Ext.Toolbar.Button" href="Ext.Toolbar.Button.html">Ext.Toolbar.Button</a> for more info on the config.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addDom">addDom</a>(&nbsp;<code>Object config</code>&nbsp;) : Ext.Toolbar.Item</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addDom" href="Ext.Toolbar.html#addDom">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Adds a new element to the toolbar from the passed <a ext:cls="Ext.DomHelper" href="Ext.DomHelper.html">Ext.DomHelper</a> config.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addElement">addElement</a>(&nbsp;<code>String/HTMLElement/Element el</code>&nbsp;) : Ext.Toolbar.Item</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addElement" href="Ext.Toolbar.html#addElement">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Adds any standard HTML element to the toolbar</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addField">addField</a>(&nbsp;<code>Ext.form.Field field</code>&nbsp;) : Ext.ToolbarItem</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addField" href="Ext.Toolbar.html#addField">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Adds a dynamically rendered Ext.form field (TextField, ComboBox, etc). Note: the field should not have
+been rendered ...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addFill">addFill</a>() : Ext.Toolbar.Fill</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addFill" href="Ext.Toolbar.html#addFill">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Adds a fill element that forces subsequent additions to the right side of the toolbar</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addItem">addItem</a>(&nbsp;<code>Toolbar.Item item</code>&nbsp;) : Ext.Toolbar.Item</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addItem" href="Ext.Toolbar.html#addItem">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Adds any Toolbar.Item or subclass</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addSeparator">addSeparator</a>() : Ext.Toolbar.Item</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addSeparator" href="Ext.Toolbar.html#addSeparator">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Adds a separator</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addSpacer">addSpacer</a>() : Ext.Toolbar.Spacer</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addSpacer" href="Ext.Toolbar.html#addSpacer">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Adds a spacer element</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addText">addText</a>(&nbsp;<code>String text</code>&nbsp;) : Ext.Toolbar.Item</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#addText" href="Ext.Toolbar.html#addText">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Adds text to the toolbar</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#bind">bind</a>(&nbsp;<code>Ext.data.Store store</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Binds the paging toolbar to the specified <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a></td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getEl">getEl</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#getEl" href="Ext.Toolbar.html#getEl">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns the Element for this toolbar.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertButton">insertButton</a>(&nbsp;<code>Number index</code>, <code>Object/Ext.Toolbar.Item/Ext.Toolbar.Button (may</code>&nbsp;) : Ext.Toolbar.Button/Item</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Toolbar" ext:member="#insertButton" href="Ext.Toolbar.html#insertButton">Toolbar</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Inserts any <a ext:cls="Ext.Toolbar.Item" href="Ext.Toolbar.Item.html">Ext.Toolbar.Item</a>/<a ext:cls="Ext.Toolbar.Button" href="Ext.Toolbar.Button.html">Ext.Toolbar.Button</a> at the specified index.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#unbind">unbind</a>(&nbsp;<code>Ext.data.Store store</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Unbinds the paging toolbar from the specified <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a></td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-displayMsg">displayMsg</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The paging status message to display (defaults to "Displaying {start} - {end} of {total}")</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-emptyMsg">emptyMsg</a> : String</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The message to display when no records are found (defaults to "No data to display")</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-pageSize">pageSize</a> : Number</td>
+        <td class="msource" rowspan="2">PagingToolbar</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The number of records to display per page (defaults to 20)</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="afterPageText"></a>
+                <div class="mdetail">
+                <h3>afterPageText</i></h3>
+                <code>public String afterPageText</code>
+                <div class="mdetail-desc">
+                    Customizable piece of the default paging text (defaults to "of %0")                </div>
+                <div class="mdetail-def">This property is defined by PagingToolbar.</div>
+                </div>
+                            <a name="beforePageText"></a>
+                <div class="mdetail alt">
+                <h3>beforePageText</i></h3>
+                <code>public String beforePageText</code>
+                <div class="mdetail-desc">
+                    Customizable piece of the default paging text (defaults to "Page")                </div>
+                <div class="mdetail-def">This property is defined by PagingToolbar.</div>
+                </div>
+                            <a name="firstText"></a>
+                <div class="mdetail">
+                <h3>firstText</i></h3>
+                <code>public String firstText</code>
+                <div class="mdetail-desc">
+                    Customizable piece of the default paging text (defaults to "First Page")                </div>
+                <div class="mdetail-def">This property is defined by PagingToolbar.</div>
+                </div>
+                            <a name="lastText"></a>
+                <div class="mdetail alt">
+                <h3>lastText</i></h3>
+                <code>public String lastText</code>
+                <div class="mdetail-desc">
+                    Customizable piece of the default paging text (defaults to "Last Page")                </div>
+                <div class="mdetail-def">This property is defined by PagingToolbar.</div>
+                </div>
+                            <a name="nextText"></a>
+                <div class="mdetail">
+                <h3>nextText</i></h3>
+                <code>public String nextText</code>
+                <div class="mdetail-desc">
+                    Customizable piece of the default paging text (defaults to "Next Page")                </div>
+                <div class="mdetail-def">This property is defined by PagingToolbar.</div>
+                </div>
+                            <a name="prevText"></a>
+                <div class="mdetail alt">
+                <h3>prevText</i></h3>
+                <code>public String prevText</code>
+                <div class="mdetail-desc">
+                    Customizable piece of the default paging text (defaults to "Previous Page")                </div>
+                <div class="mdetail-def">This property is defined by PagingToolbar.</div>
+                </div>
+                            <a name="refreshText"></a>
+                <div class="mdetail">
+                <h3>refreshText</i></h3>
+                <code>public String refreshText</code>
+                <div class="mdetail-desc">
+                    Customizable piece of the default paging text (defaults to "Refresh")                </div>
+                <div class="mdetail-def">This property is defined by PagingToolbar.</div>
+                </div>
+                        </div>
+        
+                    <a name="PagingToolbar"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>PagingToolbar</i></h3>
+                <code>public function PagingToolbar(&nbsp;<code>String/HTMLElement/Element container</code>, <code>Ext.data.Store store</code>, <code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new PagingToolbar                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>container</code> : String/HTMLElement/Element<div class="sub-desc">The id or element that will contain the toolbar</div></li><li><code>store</code> : Ext.data.Store<div class="sub-desc">The underlying data store providing the paged data</div></li><li><code>config</code> : Object<div class="sub-desc">The config object</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="add"></a>
+                <div class="mdetail">
+                <h3>add</i></h3>
+                <code>public function add(&nbsp;<code>Mixed arg1</code>, <code>Mixed arg2</code>, <code>Mixed etc</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds element(s) to the toolbar -- this function takes a variable number of 
+arguments of mixed type and adds them to the toolbar.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>arg1</code> : Mixed<div class="sub-desc">If arg is a Toolbar.Button, it is added. If arg is a string, it is wrapped 
+in a ytb-text element and added unless the text is "separator" in which case a separator
+is added. Otherwise, it is assumed the element is an HTMLElement and it is added directly.</div></li><li><code>arg2</code> : Mixed<div class="sub-desc"></div></li><li><code>etc</code> : Mixed<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#add" href="Ext.Toolbar.html#add">Toolbar</a>.</div>
+                </div>
+                            <a name="addButton"></a>
+                <div class="mdetail alt">
+                <h3>addButton</i></h3>
+                <code>public function addButton(&nbsp;<code>Object/Array config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds a button (or buttons). See <a ext:cls="Ext.Toolbar.Button" href="Ext.Toolbar.Button.html">Ext.Toolbar.Button</a> for more info on the config.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object/Array<div class="sub-desc">A button config or array of configs</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Button/Array</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addButton" href="Ext.Toolbar.html#addButton">Toolbar</a>.</div>
+                </div>
+                            <a name="addDom"></a>
+                <div class="mdetail">
+                <h3>addDom</i></h3>
+                <code>public function addDom(&nbsp;<code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds a new element to the toolbar from the passed <a ext:cls="Ext.DomHelper" href="Ext.DomHelper.html">Ext.DomHelper</a> config.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Item</code><div class="sub-desc">The element's item</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addDom" href="Ext.Toolbar.html#addDom">Toolbar</a>.</div>
+                </div>
+                            <a name="addElement"></a>
+                <div class="mdetail alt">
+                <h3>addElement</i></h3>
+                <code>public function addElement(&nbsp;<code>String/HTMLElement/Element el</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds any standard HTML element to the toolbar
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The element or id of the element to add</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Item</code><div class="sub-desc">The element's item</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addElement" href="Ext.Toolbar.html#addElement">Toolbar</a>.</div>
+                </div>
+                            <a name="addField"></a>
+                <div class="mdetail">
+                <h3>addField</i></h3>
+                <code>public function addField(&nbsp;<code>Ext.form.Field field</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds a dynamically rendered Ext.form field (TextField, ComboBox, etc). Note: the field should not have
+been rendered yet. For a field that has already been rendered, use <a ext:cls="Ext.Toolbar" ext:member="addElement" href="Ext.Toolbar.html#addElement">addElement</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>field</code> : Ext.form.Field<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.ToolbarItem</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addField" href="Ext.Toolbar.html#addField">Toolbar</a>.</div>
+                </div>
+                            <a name="addFill"></a>
+                <div class="mdetail alt">
+                <h3>addFill</i></h3>
+                <code>public function addFill()</code>
+                <div class="mdetail-desc">
+                    Adds a fill element that forces subsequent additions to the right side of the toolbar
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Fill</code><div class="sub-desc">The fill item</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addFill" href="Ext.Toolbar.html#addFill">Toolbar</a>.</div>
+                </div>
+                            <a name="addItem"></a>
+                <div class="mdetail">
+                <h3>addItem</i></h3>
+                <code>public function addItem(&nbsp;<code>Toolbar.Item item</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds any Toolbar.Item or subclass
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>item</code> : Toolbar.Item<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Item</code><div class="sub-desc">The item</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addItem" href="Ext.Toolbar.html#addItem">Toolbar</a>.</div>
+                </div>
+                            <a name="addSeparator"></a>
+                <div class="mdetail alt">
+                <h3>addSeparator</i></h3>
+                <code>public function addSeparator()</code>
+                <div class="mdetail-desc">
+                    Adds a separator
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Item</code><div class="sub-desc">The separator item</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addSeparator" href="Ext.Toolbar.html#addSeparator">Toolbar</a>.</div>
+                </div>
+                            <a name="addSpacer"></a>
+                <div class="mdetail">
+                <h3>addSpacer</i></h3>
+                <code>public function addSpacer()</code>
+                <div class="mdetail-desc">
+                    Adds a spacer element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Spacer</code><div class="sub-desc">The spacer item</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addSpacer" href="Ext.Toolbar.html#addSpacer">Toolbar</a>.</div>
+                </div>
+                            <a name="addText"></a>
+                <div class="mdetail alt">
+                <h3>addText</i></h3>
+                <code>public function addText(&nbsp;<code>String text</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Adds text to the toolbar
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>text</code> : String<div class="sub-desc">The text to add</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Item</code><div class="sub-desc">The element's item</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#addText" href="Ext.Toolbar.html#addText">Toolbar</a>.</div>
+                </div>
+                            <a name="bind"></a>
+                <div class="mdetail">
+                <h3>bind</i></h3>
+                <code>public function bind(&nbsp;<code>Ext.data.Store store</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Binds the paging toolbar to the specified <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>store</code> : Ext.data.Store<div class="sub-desc">The data store to bind</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by PagingToolbar.</div>
+                </div>
+                            <a name="getEl"></a>
+                <div class="mdetail alt">
+                <h3>getEl</i></h3>
+                <code>public function getEl()</code>
+                <div class="mdetail-desc">
+                    Returns the Element for this toolbar.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#getEl" href="Ext.Toolbar.html#getEl">Toolbar</a>.</div>
+                </div>
+                            <a name="insertButton"></a>
+                <div class="mdetail">
+                <h3>insertButton</i></h3>
+                <code>public function insertButton(&nbsp;<code>Number index</code>, <code>Object/Ext.Toolbar.Item/Ext.Toolbar.Button (may</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Inserts any <a ext:cls="Ext.Toolbar.Item" href="Ext.Toolbar.Item.html">Ext.Toolbar.Item</a>/<a ext:cls="Ext.Toolbar.Button" href="Ext.Toolbar.Button.html">Ext.Toolbar.Button</a> at the specified index.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>index</code> : Number<div class="sub-desc">The index where the item is to be inserted</div></li><li><code>(may</code> : Object/Ext.Toolbar.Item/Ext.Toolbar.Button<div class="sub-desc">be Array)} item The button, or button config object to be inserted.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Toolbar.Button/Item</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Toolbar" ext:member="#insertButton" href="Ext.Toolbar.html#insertButton">Toolbar</a>.</div>
+                </div>
+                            <a name="unbind"></a>
+                <div class="mdetail alt">
+                <h3>unbind</i></h3>
+                <code>public function unbind(&nbsp;<code>Ext.data.Store store</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Unbinds the paging toolbar from the specified <a ext:cls="Ext.data.Store" href="Ext.data.Store.html">Ext.data.Store</a>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>store</code> : Ext.data.Store<div class="sub-desc">The data store to unbind</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by PagingToolbar.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-displayMsg"></a>
+                <div class="mdetail">
+                <h3>displayMsg</i></h3>
+                <code>displayMsg : String</code>
+                <div class="mdetail-desc">
+                    The paging status message to display (defaults to "Displaying {start} - {end} of {total}")                </div>
+                <div class="mdetail-def">This config option is defined by PagingToolbar.</div>
+                </div>
+                            <a name="config-emptyMsg"></a>
+                <div class="mdetail alt">
+                <h3>emptyMsg</i></h3>
+                <code>emptyMsg : String</code>
+                <div class="mdetail-desc">
+                    The message to display when no records are found (defaults to "No data to display")                </div>
+                <div class="mdetail-def">This config option is defined by PagingToolbar.</div>
+                </div>
+                            <a name="config-pageSize"></a>
+                <div class="mdetail">
+                <h3>pageSize</i></h3>
+                <code>pageSize : Number</code>
+                <div class="mdetail-desc">
+                    The number of records to display per page (defaults to 20)                </div>
+                <div class="mdetail-def">This config option is defined by PagingToolbar.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

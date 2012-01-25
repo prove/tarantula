@@ -1,0 +1,126 @@
+<html><head><title>KeyNav.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>KeyNav.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.KeyNav
+ * Provides a convenient wrapper <b>for</b> normalized keyboard navigation.  KeyNav allows you to bind
+ * navigation keys to <b>function</b> calls that will get called when the keys are pressed.
+ * &lt;br /&gt;Usage:
+ &lt;pre&gt;&lt;code&gt;
+<b>var</b> nav = <b>new</b> Ext.KeyNav(&quot;my-element&quot;, {
+    &quot;left&quot; : <b>function</b>(e){
+        <b>this</b>.moveLeft(e.ctrlKey);
+    },
+    &quot;right&quot; : <b>function</b>(e){
+        <b>this</b>.moveRight(e.ctrlKey);
+    },
+    &quot;enter&quot; : <b>function</b>(e){
+        <b>this</b>.save();
+    },
+    scope : <b>this</b>
+});
+&lt;/code&gt;&lt;/pre&gt;
+ * @constructor
+ * @param {String/HTMLElement/Ext.Element} el The element to bind to
+ * @param {Object} config The config
+ */</i>
+Ext.KeyNav = <b>function</b>(el, config){
+    <b>this</b>.el = Ext.get(el);
+    Ext.apply(<b>this</b>, config);
+    <b>if</b>(!<b>this</b>.disabled){
+        <b>this</b>.disabled = true;
+        <b>this</b>.enable();
+    }
+};
+
+Ext.KeyNav.prototype = {
+    disabled : false,
+    defaultEventAction: &quot;stopEvent&quot;,
+
+    forceKeyDown : false,
+
+    prepareEvent : <b>function</b>(e){
+        <b>var</b> k = e.getKey();
+        <b>var</b> h = <b>this</b>.keyToHandler[k];
+        <i>//<b>if</b>(h &amp;&amp; <b>this</b>[h]){</i>
+        <i>//    e.stopPropagation();</i>
+        <i>//}</i>
+        <b>if</b>(Ext.isSafari &amp;&amp; h &amp;&amp; k &gt;= 37 &amp;&amp; k &lt;= 40){
+            e.stopEvent();
+        }
+    },
+
+    relay : <b>function</b>(e){
+        <b>var</b> k = e.getKey();
+        <b>var</b> h = <b>this</b>.keyToHandler[k];
+        <b>if</b>(h &amp;&amp; <b>this</b>[h]){
+            <b>if</b>(this.doRelay(e, <b>this</b>[h], h) !== true){
+                e[<b>this</b>.defaultEventAction]();
+            }
+        }
+    },
+
+    doRelay : <b>function</b>(e, h, hname){
+        <b>return</b> h.call(<b>this</b>.scope || <b>this</b>, e);
+    },
+
+    <i>// possible handlers</i>
+    enter : false,
+    left : false,
+    right : false,
+    up : false,
+    down : false,
+    tab : false,
+    esc : false,
+    pageUp : false,
+    pageDown : false,
+    del : false,
+    home : false,
+    end : false,
+
+    <i>// quick lookup hash</i>
+    keyToHandler : {
+        37 : &quot;left&quot;,
+        39 : &quot;right&quot;,
+        38 : &quot;up&quot;,
+        40 : &quot;down&quot;,
+        33 : &quot;pageUp&quot;,
+        34 : &quot;pageDown&quot;,
+        46 : &quot;del&quot;,
+        36 : &quot;home&quot;,
+        35 : &quot;end&quot;,
+        13 : &quot;enter&quot;,
+        27 : &quot;esc&quot;,
+        9  : &quot;tab&quot;
+    },
+
+	<i>/**
+	 * Enable <b>this</b> KeyNav
+	 */</i>
+	enable: <b>function</b>(){
+		<b>if</b>(this.disabled){
+            <i>// ie won't <b>do</b> special keys on keypress, no one <b>else</b> will repeat keys <b>with</b> keydown</i>
+            <i>// the EventObject will normalize Safari automatically</i>
+            <b>if</b>(this.forceKeyDown || Ext.isIE || Ext.isAir){
+                <b>this</b>.el.on(&quot;keydown&quot;, <b>this</b>.relay,  <b>this</b>);
+            }<b>else</b>{
+                <b>this</b>.el.on(&quot;keydown&quot;, <b>this</b>.prepareEvent,  <b>this</b>);
+                <b>this</b>.el.on(&quot;keypress&quot;, <b>this</b>.relay,  <b>this</b>);
+            }
+		    <b>this</b>.disabled = false;
+		}
+	},
+
+	<i>/**
+	 * Disable <b>this</b> KeyNav
+	 */</i>
+	disable: <b>function</b>(){
+		<b>if</b>(!<b>this</b>.disabled){
+		    <b>if</b>(this.forceKeyDown || Ext.isIE || Ext.isAir){
+                <b>this</b>.el.un(&quot;keydown&quot;, <b>this</b>.relay);
+            }<b>else</b>{
+                <b>this</b>.el.un(&quot;keydown&quot;, <b>this</b>.prepareEvent);
+                <b>this</b>.el.un(&quot;keypress&quot;, <b>this</b>.relay);
+            }
+		    <b>this</b>.disabled = true;
+		}
+	}
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

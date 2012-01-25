@@ -1,0 +1,954 @@
+<html><head><title>HtmlEditor.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>HtmlEditor.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.form.HtmlEditor
+ * @extends Ext.form.Field
+ * Provides a lightweight HTML Editor component.
+ * &lt;br&gt;&lt;br&gt;&lt;b&gt;Note: The focus/blur and validation marking functionality inherited from Ext.form.Field is NOT
+ * supported by <b>this</b> editor.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;
+ * An Editor is a sensitive component that can't be used <b>in</b> all spots standard fields can be used. Putting an Editor within
+ * any element that has display set to <em>'none'</em> can cause problems <b>in</b> Safari and Firefox.
+ */</i>
+
+Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
+    <i>/**
+     * @cfg {Boolean} enableFormat Enable the bold, italic and underline buttons (defaults to true)
+     */</i>
+    enableFormat : true,
+    <i>/**
+     * @cfg {Boolean} enableFontSize Enable the increase/decrease font size buttons (defaults to true)
+     */</i>
+    enableFontSize : true,
+    <i>/**
+     * @cfg {Boolean} enableColors Enable the fore/highlight color buttons (defaults to true)
+     */</i>
+    enableColors : true,
+    <i>/**
+     * @cfg {Boolean} enableAlignments Enable the left, center, right alignment buttons (defaults to true)
+     */</i>
+    enableAlignments : true,
+    <i>/**
+     * @cfg {Boolean} enableLists Enable the bullet and numbered list buttons. Not available <b>in</b> Safari. (defaults to true)
+     */</i>
+    enableLists : true,
+    <i>/**
+     * @cfg {Boolean} enableSourceEdit Enable the <b>switch</b> to source edit button. Not available <b>in</b> Safari. (defaults to true)
+     */</i>
+    enableSourceEdit : true,
+    <i>/**
+     * @cfg {Boolean} enableLinks Enable the create link button. Not available <b>in</b> Safari. (defaults to true)
+     */</i>
+    enableLinks : true,
+    <i>/**
+     * @cfg {Boolean} enableFont Enable font selection. Not available <b>in</b> Safari. (defaults to true)
+     */</i>
+    enableFont : true,
+    <i>/**
+     * @cfg {String} createLinkText The <b>default</b> text <b>for</b> the create link prompt
+     */</i>
+    createLinkText : <em>'Please enter the URL <b>for</b> the link:'</em>,
+    <i>/**
+     * @cfg {String} defaultLinkValue The <b>default</b> value <b>for</b> the create link prompt (defaults to http:/ /)
+     */</i>
+    defaultLinkValue : <em>'http:/'</em>+<em>'/'</em>,
+    <i>/**
+     * @cfg {Array} fontFamilies An array of available font families
+     */</i>
+    fontFamilies : [
+        <em>'Arial'</em>,
+        <em>'Courier New'</em>,
+        <em>'Tahoma'</em>,
+        <em>'Times New Roman'</em>,
+        <em>'Verdana'</em>
+    ],
+    defaultFont: <em>'tahoma'</em>,
+
+    <i>// private properties</i>
+    validationEvent : false,
+    deferHeight: true,
+    initialized : false,
+    activated : false,
+    sourceEditMode : false,
+    onFocus : Ext.emptyFn,
+    iframePad:3,
+    hideMode:<em>'offsets'</em>,
+    defaultAutoCreate : {
+        tag: &quot;textarea&quot;,
+        style:&quot;width:500px;height:300px;&quot;,
+        autocomplete: &quot;off&quot;
+    },
+
+    <i>// private</i>
+    initComponent : <b>function</b>(){
+        <b>this</b>.addEvents({
+            <i>/**
+             * @event initialize
+             * Fires when the editor is fully initialized (including the iframe)
+             * @param {HtmlEditor} <b>this</b>
+             */</i>
+            initialize: true,
+            <i>/**
+             * @event activate
+             * Fires when the editor is first receives the focus. Any insertion must wait
+             * until after <b>this</b> event.
+             * @param {HtmlEditor} <b>this</b>
+             */</i>
+            activate: true,
+             <i>/**
+             * @event beforesync
+             * Fires before the textarea is updated <b>with</b> content from the editor iframe. Return false
+             * to cancel the sync.
+             * @param {HtmlEditor} <b>this</b>
+             * @param {String} html
+             */</i>
+            beforesync: true,
+             <i>/**
+             * @event beforepush
+             * Fires before the iframe editor is updated <b>with</b> content from the textarea. Return false
+             * to cancel the push.
+             * @param {HtmlEditor} <b>this</b>
+             * @param {String} html
+             */</i>
+            beforepush: true,
+             <i>/**
+             * @event sync
+             * Fires when the textarea is updated <b>with</b> content from the editor iframe.
+             * @param {HtmlEditor} <b>this</b>
+             * @param {String} html
+             */</i>
+            sync: true,
+             <i>/**
+             * @event push
+             * Fires when the iframe editor is updated <b>with</b> content from the textarea.
+             * @param {HtmlEditor} <b>this</b>
+             * @param {String} html
+             */</i>
+            push: true,
+             <i>/**
+             * @event editmodechange
+             * Fires when the editor switches edit modes
+             * @param {HtmlEditor} <b>this</b>
+             * @param {Boolean} sourceEdit True <b>if</b> source edit, false <b>if</b> standard editing.
+             */</i>
+            editmodechange: true
+        })
+    },
+
+    createFontOptions : <b>function</b>(){
+        <b>var</b> buf = [], fs = <b>this</b>.fontFamilies, ff, lc;
+        <b>for</b>(var i = 0, len = fs.length; i&lt; len; i++){
+            ff = fs[i];
+            lc = ff.toLowerCase();
+            buf.push(
+                <em>'&lt;option value=&quot;'</em>,lc,<em>'&quot; style=&quot;font-family:'</em>,ff,<em>';&quot;'</em>,
+                    (<b>this</b>.defaultFont == lc ? <em>' selected=&quot;true&quot;&gt;'</em> : <em>'&gt;'</em>),
+                    ff,
+                <em>'&lt;/option&gt;'</em>
+            );
+        }
+        <b>return</b> buf.join(<em>''</em>);
+    },
+    <i>/**
+     * Protected method that will not generally be called directly. It
+     * is called when the editor creates its toolbar. Override <b>this</b> method <b>if</b> you need to
+     * add custom toolbar buttons.
+     * @param {HtmlEditor} editor
+     */</i>
+    createToolbar : <b>function</b>(editor){
+
+        <b>function</b> btn(id, toggle, handler){
+            <b>return</b> {
+                id : id,
+                cls : <em>'x-btn-icon x-edit-'</em>+id,
+                enableToggle:toggle !== false,
+                scope: editor,
+                handler:handler||editor.relayBtnCmd,
+                clickEvent:<em>'mousedown'</em>,
+                tooltip: editor.buttonTips[id] || undefined,
+                tabIndex:-1
+            };
+        }
+
+        <i>// build the toolbar</i>
+        <b>var</b> tb = <b>new</b> Ext.Toolbar(<b>this</b>.wrap.dom.firstChild);
+
+        <i>// stop form submits</i>
+        tb.el.on(<em>'click'</em>, <b>function</b>(e){
+            e.preventDefault();
+        });
+
+        <b>if</b>(this.enableFont &amp;&amp; !Ext.isSafari){
+            <b>this</b>.fontSelect = tb.el.createChild({
+                tag:<em>'select'</em>,
+                tabIndex: -1,
+                cls:<em>'x-font-select'</em>,
+                html: <b>this</b>.createFontOptions()
+            });
+            <b>this</b>.fontSelect.on(<em>'change'</em>, <b>function</b>(){
+                <b>var</b> font = <b>this</b>.fontSelect.dom.value;
+                <b>this</b>.relayCmd(<em>'fontname'</em>, font);
+                <b>this</b>.deferFocus();
+            }, <b>this</b>);
+            tb.add(
+                <b>this</b>.fontSelect.dom,
+                <em>'-'</em>
+            );
+        };
+
+        <b>if</b>(this.enableFormat){
+            tb.add(
+                btn(<em>'bold'</em>),
+                btn(<em>'italic'</em>),
+                btn(<em>'underline'</em>)
+            );
+        };
+
+        <b>if</b>(this.enableFontSize){
+            tb.add(
+                <em>'-'</em>,
+                btn(<em>'increasefontsize'</em>, false, <b>this</b>.adjustFont),
+                btn(<em>'decreasefontsize'</em>, false, <b>this</b>.adjustFont)
+            );
+        };
+
+        <b>if</b>(this.enableColors){
+            tb.add(
+                <em>'-'</em>, {
+                    id:<em>'forecolor'</em>,
+                    cls:<em>'x-btn-icon x-edit-forecolor'</em>,
+                    clickEvent:<em>'mousedown'</em>,
+                    tooltip: editor.buttonTips[<em>'forecolor'</em>] || undefined,
+                    tabIndex:-1,
+                    menu : <b>new</b> Ext.menu.ColorMenu({
+                        allowReselect: true,
+                        focus: Ext.emptyFn,
+                        value:<em>'000000'</em>,
+                        plain:true,
+                        selectHandler: <b>function</b>(cp, color){
+                            <b>this</b>.execCmd(<em>'forecolor'</em>, Ext.isSafari || Ext.isIE ? <em>'#'</em>+color : color);
+                            <b>this</b>.deferFocus();
+                        },
+                        scope: <b>this</b>,
+                        clickEvent:<em>'mousedown'</em>
+                    })
+                }, {
+                    id:<em>'backcolor'</em>,
+                    cls:<em>'x-btn-icon x-edit-backcolor'</em>,
+                    clickEvent:<em>'mousedown'</em>,
+                    tooltip: editor.buttonTips[<em>'backcolor'</em>] || undefined,
+                    tabIndex:-1,
+                    menu : <b>new</b> Ext.menu.ColorMenu({
+                        focus: Ext.emptyFn,
+                        value:<em>'FFFFFF'</em>,
+                        plain:true,
+                        allowReselect: true,
+                        selectHandler: <b>function</b>(cp, color){
+                            <b>if</b>(Ext.isGecko){
+                                <b>this</b>.execCmd(<em>'useCSS'</em>, false);
+                                <b>this</b>.execCmd(<em>'hilitecolor'</em>, color);
+                                <b>this</b>.execCmd(<em>'useCSS'</em>, true);
+                                <b>this</b>.deferFocus();
+                            }<b>else</b>{
+                                <b>this</b>.execCmd(Ext.isOpera ? <em>'hilitecolor'</em> : <em>'backcolor'</em>, Ext.isSafari || Ext.isIE ? <em>'#'</em>+color : color);
+                                <b>this</b>.deferFocus();
+                            }
+                        },
+                        scope:<b>this</b>,
+                        clickEvent:<em>'mousedown'</em>
+                    })
+                }
+            );
+        };
+
+        <b>if</b>(this.enableAlignments){
+            tb.add(
+                <em>'-'</em>,
+                btn(<em>'justifyleft'</em>),
+                btn(<em>'justifycenter'</em>),
+                btn(<em>'justifyright'</em>)
+            );
+        };
+
+        <b>if</b>(!Ext.isSafari){
+            <b>if</b>(this.enableLinks){
+                tb.add(
+                    <em>'-'</em>,
+                    btn(<em>'createlink'</em>, false, <b>this</b>.createLink)
+                );
+            };
+
+            <b>if</b>(this.enableLists){
+                tb.add(
+                    <em>'-'</em>,
+                    btn(<em>'insertorderedlist'</em>),
+                    btn(<em>'insertunorderedlist'</em>)
+                );
+            }
+            <b>if</b>(this.enableSourceEdit){
+                tb.add(
+                    <em>'-'</em>,
+                    btn(<em>'sourceedit'</em>, true, <b>function</b>(btn){
+                        <b>this</b>.toggleSourceEdit(btn.pressed);
+                    })
+                );
+            }
+        }
+
+        <b>this</b>.tb = tb;
+    },
+
+    <i>/**
+     * Protected method that will not generally be called directly. It
+     * is called when the editor initializes the iframe <b>with</b> HTML contents. Override <b>this</b> method <b>if</b> you
+     * want to change the initialization markup of the iframe (e.g. to add stylesheets).
+     */</i>
+    getDocMarkup : <b>function</b>(){
+        <b>return</b> <em>'&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;body{border:0;margin:0;padding:3px;height:98%;cursor:text;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;'</em>;
+    },
+
+    <i>// private</i>
+    onRender : <b>function</b>(ct, position){
+        Ext.form.HtmlEditor.superclass.onRender.call(<b>this</b>, ct, position);
+        <b>this</b>.el.dom.style.border = <em>'0 none'</em>;
+        <b>this</b>.el.dom.setAttribute(<em>'tabIndex'</em>, -1);
+        <b>this</b>.el.addClass(<em>'x-hidden'</em>);
+        <b>if</b>(Ext.isIE){ <i>// fix IE 1px bogus margin</i>
+            <b>this</b>.el.applyStyles(<em>'margin-top:-1px;margin-bottom:-1px;'</em>)
+        }
+        <b>this</b>.wrap = <b>this</b>.el.wrap({
+            cls:<em>'x-html-editor-wrap'</em>, cn:{cls:<em>'x-html-editor-tb'</em>}
+        });
+
+
+        <b>this</b>.createToolbar(<b>this</b>);
+
+        <b>this</b>.tb.items.each(<b>function</b>(item){
+           <b>if</b>(item.id != <em>'sourceedit'</em>){
+                item.disable();
+            }
+        });
+
+        <b>var</b> iframe = document.createElement(<em>'iframe'</em>);
+        iframe.name = Ext.id();
+        iframe.frameBorder = <em>'no'</em>;
+
+        iframe.src=&quot;javascript:false&quot;;
+
+        <b>this</b>.wrap.dom.appendChild(iframe);
+
+        <b>this</b>.iframe = iframe;
+
+        <b>if</b>(Ext.isIE){
+            <b>this</b>.doc = iframe.contentWindow.document;
+            <b>this</b>.win = iframe.contentWindow;
+        } <b>else</b> {
+            <b>this</b>.doc = (iframe.contentDocument || window.frames[iframe.name].document);
+            <b>this</b>.win = window.frames[iframe.name];
+        }
+        <b>this</b>.doc.designMode = <em>'on'</em>;
+        <b>this</b>.doc.open();
+        <b>this</b>.doc.write(<b>this</b>.getDocMarkup())
+        <b>this</b>.doc.close();
+
+        <b>var</b> task = { <i>// must defer to wait <b>for</b> browser to be ready</i>
+            run : <b>function</b>(){
+                <b>if</b>(this.doc.body || <b>this</b>.doc.readyState == <em>'complete'</em>){
+                    <b>this</b>.doc.designMode=&quot;on&quot;;
+                    Ext.TaskMgr.stop(task);
+                    <b>this</b>.initEditor.defer(10, <b>this</b>);
+                }
+            },
+            interval : 10,
+            duration:10000,
+            scope: <b>this</b>
+        };
+        Ext.TaskMgr.start(task);
+
+        <b>if</b>(!<b>this</b>.width){
+            <b>this</b>.setSize(<b>this</b>.el.getSize());
+        }
+    },
+
+    <i>// private</i>
+    onResize : <b>function</b>(w, h){
+        Ext.form.HtmlEditor.superclass.onResize.apply(<b>this</b>, arguments);
+        <b>if</b>(this.el &amp;&amp; <b>this</b>.iframe){
+            <b>if</b>(typeof w == <em>'number'</em>){
+                <b>var</b> aw = w - <b>this</b>.wrap.getFrameWidth(<em>'lr'</em>);
+                <b>this</b>.el.setWidth(<b>this</b>.adjustWidth(<em>'textarea'</em>, aw));
+                <b>this</b>.iframe.style.width = aw + <em>'px'</em>;
+            }
+            <b>if</b>(typeof h == <em>'number'</em>){
+                <b>var</b> ah = h - <b>this</b>.wrap.getFrameWidth(<em>'tb'</em>) - <b>this</b>.tb.el.getHeight();
+                <b>this</b>.el.setHeight(<b>this</b>.adjustWidth(<em>'textarea'</em>, ah));
+                <b>this</b>.iframe.style.height = ah + <em>'px'</em>;
+                <b>if</b>(this.doc){
+                    (<b>this</b>.doc.body || <b>this</b>.doc.documentElement).style.height = (ah - (<b>this</b>.iframePad*2)) + <em>'px'</em>;
+                }
+            }
+        }
+    },
+
+    <i>/**
+     * Toggles the editor between standard and source edit mode.
+     * @param {Boolean} sourceEdit (optional) True <b>for</b> source edit, false <b>for</b> standard
+     */</i>
+    toggleSourceEdit : <b>function</b>(sourceEditMode){
+        <b>if</b>(sourceEditMode === undefined){
+            sourceEditMode = !<b>this</b>.sourceEditMode;
+        }
+        <b>this</b>.sourceEditMode = sourceEditMode === true;
+        <b>var</b> btn = <b>this</b>.tb.items.get(<em>'sourceedit'</em>);
+        <b>if</b>(btn.pressed !== <b>this</b>.sourceEditMode){
+            btn.toggle(<b>this</b>.sourceEditMode);
+            <b>return</b>;
+        }
+        <b>if</b>(this.sourceEditMode){
+            <b>this</b>.tb.items.each(<b>function</b>(item){
+                <b>if</b>(item.id != <em>'sourceedit'</em>){
+                    item.disable();
+                }
+            });
+            <b>this</b>.syncValue();
+            <b>this</b>.iframe.className = <em>'x-hidden'</em>;
+            <b>this</b>.el.removeClass(<em>'x-hidden'</em>);
+            <b>this</b>.el.dom.removeAttribute(<em>'tabIndex'</em>);
+            <b>this</b>.el.focus();
+        }<b>else</b>{
+            <b>if</b>(this.initialized){
+                <b>this</b>.tb.items.each(<b>function</b>(item){
+                    item.enable();
+                });
+            }
+            <b>this</b>.pushValue();
+            <b>this</b>.iframe.className = <em>''</em>;
+            <b>this</b>.el.addClass(<em>'x-hidden'</em>);
+            <b>this</b>.el.dom.setAttribute(<em>'tabIndex'</em>, -1);
+            <b>this</b>.deferFocus();
+        }
+        <b>this</b>.setSize(<b>this</b>.wrap.getSize());
+        <b>this</b>.fireEvent(<em>'editmodechange'</em>, <b>this</b>, <b>this</b>.sourceEditMode);
+    },
+
+    <i>// private used internally</i>
+    createLink : <b>function</b>(){
+        <b>var</b> url = prompt(<b>this</b>.createLinkText, <b>this</b>.defaultLinkValue);
+        <b>if</b>(url &amp;&amp; url != <em>'http:/'</em>+<em>'/'</em>){
+            <b>this</b>.relayCmd(<em>'createlink'</em>, url);
+        }
+    },
+
+    <i>// private (<b>for</b> BoxComponent)</i>
+    adjustSize : Ext.BoxComponent.prototype.adjustSize,
+
+    <i>// private (<b>for</b> BoxComponent)</i>
+    getResizeEl : <b>function</b>(){
+        <b>return</b> this.wrap;
+    },
+
+    <i>// private (<b>for</b> BoxComponent)</i>
+    getPositionEl : <b>function</b>(){
+        <b>return</b> this.wrap;
+    },
+
+    <i>// private</i>
+    initEvents : <b>function</b>(){
+        <b>this</b>.originalValue = <b>this</b>.getValue();
+    },
+
+    <i>/**
+     * Overridden and disabled. The editor element does not support standard valid/invalid marking. @hide
+     * @method
+     */</i>
+    markInvalid : Ext.emptyFn,
+    <i>/**
+     * Overridden and disabled. The editor element does not support standard valid/invalid marking. @hide
+     * @method
+     */</i>
+    clearInvalid : Ext.emptyFn,
+
+    setValue : <b>function</b>(v){
+        Ext.form.HtmlEditor.superclass.setValue.call(<b>this</b>, v);
+        <b>this</b>.pushValue();
+    },
+
+    <i>/**
+     * Protected method that will not generally be called directly. If you need/want
+     * custom HTML cleanup, <b>this</b> is the method you should override.
+     * @param {String} html The HTML to be cleaned
+     * <b>return</b> {String} The cleaned HTML
+     */</i>
+    cleanHtml : <b>function</b>(html){
+        html = String(html);
+        <b>if</b>(html.length &gt; 5){
+            <b>if</b>(Ext.isSafari){ <i>// strip safari nonsense</i>
+                html = html.replace(/\sclass=&quot;(?:Apple-style-span|khtml-block-placeholder)&quot;/gi, <em>''</em>);
+            }
+        }
+        <b>if</b>(html == <em>'&amp;nbsp;'</em>){
+            html = <em>''</em>;
+        }
+        <b>return</b> html;
+    },
+
+    <i>/**
+     * Protected method that will not generally be called directly. Syncs the contents
+     * of the editor iframe <b>with</b> the textarea.
+     */</i>
+    syncValue : <b>function</b>(){
+        <b>if</b>(this.initialized){
+            <b>var</b> bd = (<b>this</b>.doc.body || <b>this</b>.doc.documentElement);
+            <b>var</b> html = bd.innerHTML;
+            <b>if</b>(Ext.isSafari){
+                <b>var</b> bs = bd.getAttribute(<em>'style'</em>); <i>// Safari puts text-align styles on the body element!</i>
+                <b>var</b> m = bs.match(/text-align:(.*?);/i);
+                <b>if</b>(m &amp;&amp; m[1]){
+                    html = <em>'&lt;div style=&quot;'</em>+m[0]+<em>'&quot;&gt;'</em> + html + <em>'&lt;/div&gt;'</em>;
+                }
+            }
+            html = <b>this</b>.cleanHtml(html);
+            <b>if</b>(this.fireEvent(<em>'beforesync'</em>, <b>this</b>, html) !== false){
+                <b>this</b>.el.dom.value = html;
+                <b>this</b>.fireEvent(<em>'sync'</em>, <b>this</b>, html);
+            }
+        }
+    },
+
+    <i>/**
+     * Protected method that will not generally be called directly. Pushes the value of the textarea
+     * into the iframe editor.
+     */</i>
+    pushValue : <b>function</b>(){
+        <b>if</b>(this.initialized){
+            <b>var</b> v = <b>this</b>.el.dom.value;
+            <b>if</b>(v.length &lt; 1){
+                v = <em>'&amp;nbsp;'</em>;
+            }
+            <b>if</b>(this.fireEvent(<em>'beforepush'</em>, <b>this</b>, v) !== false){
+                (<b>this</b>.doc.body || <b>this</b>.doc.documentElement).innerHTML = v;
+                <b>this</b>.fireEvent(<em>'push'</em>, <b>this</b>, v);
+            }
+        }
+    },
+
+    <i>// private</i>
+    deferFocus : <b>function</b>(){
+        <b>this</b>.focus.defer(10, <b>this</b>);
+    },
+
+    <i>// doc'ed <b>in</b> Field</i>
+    focus : <b>function</b>(){
+        <b>if</b>(this.win &amp;&amp; !<b>this</b>.sourceEditMode){
+            <b>this</b>.win.focus();
+        }<b>else</b>{
+            <b>this</b>.el.focus();
+        }
+    },
+
+    <i>// private</i>
+    initEditor : <b>function</b>(){
+        <b>var</b> dbody = (<b>this</b>.doc.body || <b>this</b>.doc.documentElement);
+        <b>var</b> ss = <b>this</b>.el.getStyles(<em>'font-size'</em>, <em>'font-family'</em>, <em>'background-image'</em>, <em>'background-repeat'</em>);
+        ss[<em>'background-attachment'</em>] = <em>'fixed'</em>; <i>// w3c</i>
+        dbody.bgProperties = <em>'fixed'</em>; <i>// ie</i>
+        Ext.DomHelper.applyStyles(dbody, ss);
+        Ext.EventManager.on(<b>this</b>.doc, {
+            <em>'mousedown'</em>: <b>this</b>.onEditorEvent,
+            <em>'dblclick'</em>: <b>this</b>.onEditorEvent,
+            <em>'click'</em>: <b>this</b>.onEditorEvent,
+            <em>'keyup'</em>: <b>this</b>.onEditorEvent,
+            buffer:100,
+            scope: <b>this</b>
+        });
+        <b>if</b>(Ext.isGecko){
+            Ext.EventManager.on(<b>this</b>.doc, <em>'keypress'</em>, <b>this</b>.applyCommand, <b>this</b>);
+        }
+        <b>if</b>(Ext.isIE || Ext.isSafari || Ext.isOpera){
+            Ext.EventManager.on(<b>this</b>.doc, <em>'keydown'</em>, <b>this</b>.fixKeys, <b>this</b>);
+        }
+        <b>this</b>.initialized = true;
+
+        <b>this</b>.fireEvent(<em>'initialize'</em>, <b>this</b>);
+        <b>this</b>.pushValue();
+    },
+
+    <i>// private</i>
+    onDestroy : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>this</b>.tb.items.each(<b>function</b>(item){
+                <b>if</b>(item.menu){
+                    item.menu.removeAll();
+                    <b>if</b>(item.menu.el){
+                        item.menu.el.destroy();
+                    }
+                }
+                item.destroy();
+            });
+            <b>this</b>.wrap.dom.innerHTML = <em>''</em>;
+            <b>this</b>.wrap.remove();
+        }
+    },
+
+    <i>// private</i>
+    onFirstFocus : <b>function</b>(){
+        <b>this</b>.activated = true;
+        <b>this</b>.tb.items.each(<b>function</b>(item){
+           item.enable();
+        });
+        <b>if</b>(Ext.isGecko){ <i>// prevent silly gecko errors</i>
+            <b>this</b>.win.focus();
+            <b>var</b> s = <b>this</b>.win.getSelection();
+            <b>if</b>(!s.focusNode || s.focusNode.nodeType != 3){
+                <b>var</b> r = s.getRangeAt(0);
+                r.selectNodeContents((<b>this</b>.doc.body || <b>this</b>.doc.documentElement));
+                r.collapse(true);
+                <b>this</b>.deferFocus();
+            }
+            try{
+                <b>this</b>.execCmd(<em>'useCSS'</em>, true);
+                <b>this</b>.execCmd(<em>'styleWithCSS'</em>, false);
+            }catch(e){}
+        }
+        <b>this</b>.fireEvent(<em>'activate'</em>, <b>this</b>);
+    },
+
+    <i>// private</i>
+    adjustFont: <b>function</b>(btn){
+        <b>var</b> adjust = btn.id == <em>'increasefontsize'</em> ? 1 : -1;
+        <b>if</b>(Ext.isSafari){ <i>// safari</i>
+            adjust *= 2;
+        }
+        <b>var</b> v = parseInt(<b>this</b>.doc.queryCommandValue(<em>'FontSize'</em>)|| 3, 10);
+        v = Math.max(1, v+adjust);
+        <b>this</b>.execCmd(<em>'FontSize'</em>, v + (Ext.isSafari ? <em>'px'</em> : 0));
+    },
+
+    onEditorEvent : <b>function</b>(e){
+        <b>this</b>.updateToolbar();
+    },
+
+
+    <i>/**
+     * Protected method that will not generally be called directly. It triggers
+     * a toolbar update by reading the markup state of the current selection <b>in</b> the editor.
+     */</i>
+    updateToolbar: <b>function</b>(){
+
+        <b>if</b>(!<b>this</b>.activated){
+            <b>this</b>.onFirstFocus();
+            <b>return</b>;
+        }
+
+        <b>var</b> btns = <b>this</b>.tb.items.map, doc = <b>this</b>.doc;
+
+        <b>if</b>(this.enableFont &amp;&amp; !Ext.isSafari){
+            <b>var</b> name = (<b>this</b>.doc.queryCommandValue(<em>'FontName'</em>)||<b>this</b>.defaultFont).toLowerCase();
+            <b>if</b>(name != <b>this</b>.fontSelect.dom.value){
+                <b>this</b>.fontSelect.dom.value = name;
+            }
+        }
+        <b>if</b>(this.enableFormat){
+            btns.bold.toggle(doc.queryCommandState(<em>'bold'</em>));
+            btns.italic.toggle(doc.queryCommandState(<em>'italic'</em>));
+            btns.underline.toggle(doc.queryCommandState(<em>'underline'</em>));
+        }
+        <b>if</b>(this.enableAlignments){
+            btns.justifyleft.toggle(doc.queryCommandState(<em>'justifyleft'</em>));
+            btns.justifycenter.toggle(doc.queryCommandState(<em>'justifycenter'</em>));
+            btns.justifyright.toggle(doc.queryCommandState(<em>'justifyright'</em>));
+        }
+        <b>if</b>(!Ext.isSafari &amp;&amp; <b>this</b>.enableLists){
+            btns.insertorderedlist.toggle(doc.queryCommandState(<em>'insertorderedlist'</em>));
+            btns.insertunorderedlist.toggle(doc.queryCommandState(<em>'insertunorderedlist'</em>));
+        }
+        Ext.menu.MenuMgr.hideAll();
+
+        <b>this</b>.syncValue();
+    },
+
+    <i>// private</i>
+    relayBtnCmd : <b>function</b>(btn){
+        <b>this</b>.relayCmd(btn.id);
+    },
+
+    <i>/**
+     * Executes a Midas editor command on the editor document and performs necessary focus and
+     * toolbar updates. &lt;b&gt;This should only be called after the editor is initialized.&lt;/b&gt;
+     * @param {String} cmd The Midas command
+     * @param {String/Boolean} value (optional) The value to pass to the command (defaults to null)
+     */</i>
+    relayCmd : <b>function</b>(cmd, value){
+        <b>this</b>.win.focus();
+        <b>this</b>.execCmd(cmd, value);
+        <b>this</b>.updateToolbar();
+        <b>this</b>.deferFocus();
+    },
+
+    <i>/**
+     * Executes a Midas editor command directly on the editor document.
+     * For visual commands, you should use {@link #relayCmd} instead.
+     * &lt;b&gt;This should only be called after the editor is initialized.&lt;/b&gt;
+     * @param {String} cmd The Midas command
+     * @param {String/Boolean} value (optional) The value to pass to the command (defaults to null)
+     */</i>
+    execCmd : <b>function</b>(cmd, value){
+        <b>this</b>.doc.execCommand(cmd, false, value === undefined ? null : value);
+        <b>this</b>.syncValue();
+    },
+
+    <i>// private</i>
+    applyCommand : <b>function</b>(e){
+        <b>if</b>(e.ctrlKey){
+            <b>var</b> c = e.getCharCode(), cmd;
+            <b>if</b>(c &gt; 0){
+                c = String.fromCharCode(c);
+                <b>switch</b>(c){
+                    <b>case</b> <em>'b'</em>:
+                        cmd = <em>'bold'</em>;
+                    <b>break</b>;
+                    <b>case</b> <em>'i'</em>:
+                        cmd = <em>'italic'</em>;
+                    <b>break</b>;
+                    <b>case</b> <em>'u'</em>:
+                        cmd = <em>'underline'</em>;
+                    <b>break</b>;
+                }
+                <b>if</b>(cmd){
+                    <b>this</b>.win.focus();
+                    <b>this</b>.execCmd(cmd);
+                    <b>this</b>.deferFocus();
+                    e.preventDefault();
+                }
+            }
+        }
+    },
+
+    <i>/**
+     * Inserts the passed text at the current cursor position. Note: the editor must be initialized and activated
+     * to insert text.
+     * @param {String} text
+     */</i>
+    insertAtCursor : <b>function</b>(text){
+        <b>if</b>(!<b>this</b>.activated){
+            <b>return</b>;
+        }
+        <b>if</b>(Ext.isIE){
+            <b>this</b>.win.focus();
+            <b>var</b> r = <b>this</b>.doc.selection.createRange();
+            <b>if</b>(r){
+                r.collapse(true);
+                r.pasteHTML(text);
+                <b>this</b>.syncValue();
+                <b>this</b>.deferFocus();
+            }
+        }<b>else</b> if(Ext.isGecko || Ext.isOpera){
+            <b>this</b>.win.focus();
+            <b>this</b>.execCmd(<em>'InsertHTML'</em>, text);
+            <b>this</b>.deferFocus();
+        }<b>else</b> if(Ext.isSafari){
+            <b>this</b>.execCmd(<em>'InsertText'</em>, text);
+            <b>this</b>.deferFocus();
+        }
+    },
+
+    <i>// private</i>
+    fixKeys : <b>function</b>(){ <i>// load time branching <b>for</b> fastest keydown performance</i>
+        <b>if</b>(Ext.isIE){
+            <b>return</b> function(e){
+                <b>var</b> k = e.getKey(), r;
+                <b>if</b>(k == e.TAB){
+                    e.stopEvent();
+                    r = <b>this</b>.doc.selection.createRange();
+                    <b>if</b>(r){
+                        r.collapse(true);
+                        r.pasteHTML(<em>'&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;'</em>);
+                        <b>this</b>.deferFocus();
+                    }
+                }<b>else</b> if(k == e.ENTER){
+                    r = <b>this</b>.doc.selection.createRange();
+                    <b>if</b>(r){
+                        <b>var</b> target = r.parentElement();
+                        <b>if</b>(!target || target.tagName.toLowerCase() != <em>'li'</em>){
+                            e.stopEvent();
+                            r.pasteHTML(<em>'&lt;br /&gt;'</em>);
+                            r.collapse(false);
+                            r.select();
+                        }
+                    }
+                }
+            };
+        }<b>else</b> if(Ext.isOpera){
+            <b>return</b> function(e){
+                <b>var</b> k = e.getKey();
+                <b>if</b>(k == e.TAB){
+                    e.stopEvent();
+                    <b>this</b>.win.focus();
+                    <b>this</b>.execCmd(<em>'InsertHTML'</em>,<em>'&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;'</em>);
+                    <b>this</b>.deferFocus();
+                }
+            };
+        }<b>else</b> if(Ext.isSafari){
+            <b>return</b> function(e){
+                <b>var</b> k = e.getKey();
+                <b>if</b>(k == e.TAB){
+                    e.stopEvent();
+                    <b>this</b>.execCmd(<em>'InsertText'</em>,<em>'\t'</em>);
+                    <b>this</b>.deferFocus();
+                }
+             };
+        }
+    }(),
+
+    <i>/**
+     * Returns the editor's toolbar. &lt;b&gt;This is only available after the editor has been rendered.&lt;/b&gt;
+     * @<b>return</b> {Ext.Toolbar}
+     */</i>
+    getToolbar : <b>function</b>(){
+        <b>return</b> this.tb;
+    },
+
+    <i>/**
+     * Object collection of toolbar tooltips <b>for</b> the buttons <b>in</b> the editor. The key
+     * is the command id associated <b>with</b> that button and the value is a valid QuickTips object.
+     * For example:
+&lt;pre&gt;&lt;code&gt;
+{
+    bold : {
+        title: <em>'Bold (Ctrl+B)'</em>,
+        text: <em>'Make the selected text bold.'</em>,
+        cls: <em>'x-html-editor-tip'</em>
+    },
+    italic : {
+        title: <em>'Italic (Ctrl+I)'</em>,
+        text: <em>'Make the selected text italic.'</em>,
+        cls: <em>'x-html-editor-tip'</em>
+    },
+    ...
+&lt;/code&gt;&lt;/pre&gt;
+    * @type Object
+     */</i>
+    buttonTips : {
+        bold : {
+            title: <em>'Bold (Ctrl+B)'</em>,
+            text: <em>'Make the selected text bold.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        italic : {
+            title: <em>'Italic (Ctrl+I)'</em>,
+            text: <em>'Make the selected text italic.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        underline : {
+            title: <em>'Underline (Ctrl+U)'</em>,
+            text: <em>'Underline the selected text.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        increasefontsize : {
+            title: <em>'Grow Text'</em>,
+            text: <em>'Increase the font size.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        decreasefontsize : {
+            title: <em>'Shrink Text'</em>,
+            text: <em>'Decrease the font size.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        backcolor : {
+            title: <em>'Text Highlight Color'</em>,
+            text: <em>'Change the background color of the selected text.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        forecolor : {
+            title: <em>'Font Color'</em>,
+            text: <em>'Change the color of the selected text.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        justifyleft : {
+            title: <em>'Align Text Left'</em>,
+            text: <em>'Align text to the left.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        justifycenter : {
+            title: <em>'Center Text'</em>,
+            text: <em>'Center text <b>in</b> the editor.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        justifyright : {
+            title: <em>'Align Text Right'</em>,
+            text: <em>'Align text to the right.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        insertunorderedlist : {
+            title: <em>'Bullet List'</em>,
+            text: <em>'Start a bulleted list.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        insertorderedlist : {
+            title: <em>'Numbered List'</em>,
+            text: <em>'Start a numbered list.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        createlink : {
+            title: <em>'Hyperlink'</em>,
+            text: <em>'Make the selected text a hyperlink.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        },
+        sourceedit : {
+            title: <em>'Source Edit'</em>,
+            text: <em>'Switch to source editing mode.'</em>,
+            cls: <em>'x-html-editor-tip'</em>
+        }
+    }
+
+    <i>// hide stuff that is not compatible</i>
+    <i>/**
+     * @event blur
+     * @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @event change
+     * @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @event focus
+     * @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @event specialkey
+     * @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} fieldClass @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} focusClass @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} autoCreate @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} inputType @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} invalidClass @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} invalidText @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} msgFx @hide
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} validateOnBlur @hide
+     */</i>
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

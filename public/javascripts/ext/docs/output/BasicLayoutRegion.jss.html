@@ -1,0 +1,285 @@
+<html><head><title>BasicLayoutRegion.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>BasicLayoutRegion.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.BasicLayoutRegion
+ * @extends Ext.util.Observable
+ * This class represents a lightweight region <b>in</b> a layout manager. This region does not move dom nodes
+ * and does not have a titlebar, tabs or any other features. All it does is size and position 
+ * panels. To create a BasicLayoutRegion, add lightweight:true or basic:true to your regions config.
+ */</i>
+Ext.BasicLayoutRegion = <b>function</b>(mgr, config, pos, skipConfig){
+    <b>this</b>.mgr = mgr;
+    <b>this</b>.position  = pos;
+    <b>this</b>.events = {
+        <i>/**
+         * @event beforeremove
+         * Fires before a panel is removed (or closed). To cancel the removal set &quot;e.cancel = true&quot; on the event argument.
+         * @param {Ext.LayoutRegion} <b>this</b>
+         * @param {Ext.ContentPanel} panel The panel
+         * @param {Object} e The cancel event object
+         */</i>
+        &quot;beforeremove&quot; : true,
+        <i>/**
+         * @event invalidated
+         * Fires when the layout <b>for</b> this region is changed.
+         * @param {Ext.LayoutRegion} <b>this</b>
+         */</i>
+        &quot;invalidated&quot; : true,
+        <i>/**
+         * @event visibilitychange
+         * Fires when <b>this</b> region is shown or hidden 
+         * @param {Ext.LayoutRegion} <b>this</b>
+         * @param {Boolean} visibility true or false
+         */</i>
+        &quot;visibilitychange&quot; : true,
+        <i>/**
+         * @event paneladded
+         * Fires when a panel is added. 
+         * @param {Ext.LayoutRegion} <b>this</b>
+         * @param {Ext.ContentPanel} panel The panel
+         */</i>
+        &quot;paneladded&quot; : true,
+        <i>/**
+         * @event panelremoved
+         * Fires when a panel is removed. 
+         * @param {Ext.LayoutRegion} <b>this</b>
+         * @param {Ext.ContentPanel} panel The panel
+         */</i>
+        &quot;panelremoved&quot; : true,
+        <i>/**
+         * @event collapsed
+         * Fires when <b>this</b> region is collapsed.
+         * @param {Ext.LayoutRegion} <b>this</b>
+         */</i>
+        &quot;collapsed&quot; : true,
+        <i>/**
+         * @event expanded
+         * Fires when <b>this</b> region is expanded.
+         * @param {Ext.LayoutRegion} <b>this</b>
+         */</i>
+        &quot;expanded&quot; : true,
+        <i>/**
+         * @event slideshow
+         * Fires when <b>this</b> region is slid into view.
+         * @param {Ext.LayoutRegion} <b>this</b>
+         */</i>
+        &quot;slideshow&quot; : true,
+        <i>/**
+         * @event slidehide
+         * Fires when <b>this</b> region slides out of view. 
+         * @param {Ext.LayoutRegion} <b>this</b>
+         */</i>
+        &quot;slidehide&quot; : true,
+        <i>/**
+         * @event panelactivated
+         * Fires when a panel is activated. 
+         * @param {Ext.LayoutRegion} <b>this</b>
+         * @param {Ext.ContentPanel} panel The activated panel
+         */</i>
+        &quot;panelactivated&quot; : true,
+        <i>/**
+         * @event resized
+         * Fires when the user resizes <b>this</b> region. 
+         * @param {Ext.LayoutRegion} <b>this</b>
+         * @param {Number} newSize The <b>new</b> size (width <b>for</b> east/west, height <b>for</b> north/south)
+         */</i>
+        &quot;resized&quot; : true
+    };
+    <i>/** A collection of panels <b>in</b> this region. @type Ext.util.MixedCollection */</i>
+    <b>this</b>.panels = <b>new</b> Ext.util.MixedCollection();
+    <b>this</b>.panels.getKey = <b>this</b>.getPanelId.createDelegate(<b>this</b>);
+    <b>this</b>.box = null;
+    <b>this</b>.activePanel = null;
+    <b>if</b>(skipConfig !== true){
+        <b>this</b>.applyConfig(config);
+    }
+};
+
+Ext.extend(Ext.BasicLayoutRegion, Ext.util.Observable, {
+    getPanelId : <b>function</b>(p){
+        <b>return</b> p.getId();
+    },
+    
+    applyConfig : <b>function</b>(config){
+        <b>this</b>.margins = config.margins || <b>this</b>.margins || {top: 0, left: 0, right:0, bottom: 0};
+        <b>this</b>.config = config;
+    },
+    
+    <i>/**
+     * Resizes the region to the specified size. For vertical regions (west, east) <b>this</b> adjusts 
+     * the width, <b>for</b> horizontal (north, south) the height.
+     * @param {Number} newSize The <b>new</b> width or height
+     */</i>
+    resizeTo : <b>function</b>(newSize){
+        <b>var</b> el = <b>this</b>.el ? <b>this</b>.el :
+                 (<b>this</b>.activePanel ? <b>this</b>.activePanel.getEl() : null);
+        <b>if</b>(el){
+            <b>switch</b>(this.position){
+                <b>case</b> &quot;east&quot;:
+                <b>case</b> &quot;west&quot;:
+                    el.setWidth(newSize);
+                    <b>this</b>.fireEvent(&quot;resized&quot;, <b>this</b>, newSize);
+                <b>break</b>;
+                <b>case</b> &quot;north&quot;:
+                <b>case</b> &quot;south&quot;:
+                    el.setHeight(newSize);
+                    <b>this</b>.fireEvent(&quot;resized&quot;, <b>this</b>, newSize);
+                <b>break</b>;                
+            }
+        }
+    },
+    
+    getBox : <b>function</b>(){
+        <b>return</b> this.activePanel ? <b>this</b>.activePanel.getEl().getBox(false, true) : null;
+    },
+    
+    getMargins : <b>function</b>(){
+        <b>return</b> this.margins;
+    },
+    
+    updateBox : <b>function</b>(box){
+        <b>this</b>.box = box;
+        <b>var</b> el = <b>this</b>.activePanel.getEl();
+        el.dom.style.left = box.x + &quot;px&quot;;
+        el.dom.style.top = box.y + &quot;px&quot;;
+        <b>this</b>.activePanel.setSize(box.width, box.height);
+    },
+    
+    <i>/**
+     * Returns the container element <b>for</b> this region.
+     * @<b>return</b> {Ext.Element}
+     */</i>
+    getEl : <b>function</b>(){
+        <b>return</b> this.activePanel;
+    },
+    
+    <i>/**
+     * Returns true <b>if</b> this region is currently visible.
+     * @<b>return</b> {Boolean}
+     */</i>
+    isVisible : <b>function</b>(){
+        <b>return</b> this.activePanel ? true : false;
+    },
+    
+    setActivePanel : <b>function</b>(panel){
+        panel = <b>this</b>.getPanel(panel);
+        <b>if</b>(this.activePanel &amp;&amp; <b>this</b>.activePanel != panel){
+            <b>this</b>.activePanel.setActiveState(false);
+            <b>this</b>.activePanel.getEl().setLeftTop(-10000,-10000);
+        }
+        <b>this</b>.activePanel = panel;
+        panel.setActiveState(true);
+        <b>if</b>(this.box){
+            panel.setSize(<b>this</b>.box.width, <b>this</b>.box.height);
+        }
+        <b>this</b>.fireEvent(&quot;panelactivated&quot;, <b>this</b>, panel);
+        <b>this</b>.fireEvent(&quot;invalidated&quot;);
+    },
+    
+    <i>/**
+     * Show the specified panel.
+     * @param {Number/String/ContentPanel} panelId The panels index, id or the panel itself
+     * @<b>return</b> {Ext.ContentPanel} The shown panel or null
+     */</i>
+    showPanel : <b>function</b>(panel){
+        <b>if</b>(panel = <b>this</b>.getPanel(panel)){
+            <b>this</b>.setActivePanel(panel);
+        }
+        <b>return</b> panel;
+    },
+    
+    <i>/**
+     * Get the active panel <b>for</b> this region.
+     * @<b>return</b> {Ext.ContentPanel} The active panel or null
+     */</i>
+    getActivePanel : <b>function</b>(){
+        <b>return</b> this.activePanel;
+    },
+    
+    <i>/**
+     * Add the passed ContentPanel(s)
+     * @param {ContentPanel...} panel The ContentPanel(s) to add (you can pass more than one)
+     * @<b>return</b> {Ext.ContentPanel} The panel added (<b>if</b> only one was added)
+     */</i>
+    add : <b>function</b>(panel){
+        <b>if</b>(arguments.length &gt; 1){
+            <b>for</b>(var i = 0, len = arguments.length; i &lt; len; i++) {
+            	<b>this</b>.add(arguments[i]);
+            }
+            <b>return</b> null;
+        }
+        <b>if</b>(this.hasPanel(panel)){
+            <b>this</b>.showPanel(panel);
+            <b>return</b> panel;
+        }
+        <b>var</b> el = panel.getEl();
+        <b>if</b>(el.dom.parentNode != <b>this</b>.mgr.el.dom){
+            <b>this</b>.mgr.el.dom.appendChild(el.dom);
+        }
+        <b>if</b>(panel.setRegion){
+            panel.setRegion(<b>this</b>);
+        }
+        <b>this</b>.panels.add(panel);
+        el.setStyle(&quot;position&quot;, &quot;absolute&quot;);
+        <b>if</b>(!panel.background){
+            <b>this</b>.setActivePanel(panel);
+            <b>if</b>(this.config.initialSize &amp;&amp; <b>this</b>.panels.getCount()==1){
+                <b>this</b>.resizeTo(<b>this</b>.config.initialSize);
+            }
+        }
+        <b>this</b>.fireEvent(&quot;paneladded&quot;, <b>this</b>, panel);
+        <b>return</b> panel;
+    },
+    
+    <i>/**
+     * Returns true <b>if</b> the panel is <b>in</b> this region.
+     * @param {Number/String/ContentPanel} panel The panels index, id or the panel itself
+     * @<b>return</b> {Boolean}
+     */</i>
+    hasPanel : <b>function</b>(panel){
+        <b>if</b>(typeof panel == &quot;object&quot;){ <i>// must be panel obj</i>
+            panel = panel.getId();
+        }
+        <b>return</b> this.getPanel(panel) ? true : false;
+    },
+    
+    <i>/**
+     * Removes the specified panel. If preservePanel is not true (either here or <b>in</b> the config), the panel is destroyed.
+     * @param {Number/String/ContentPanel} panel The panels index, id or the panel itself
+     * @param {Boolean} preservePanel Overrides the config preservePanel option
+     * @<b>return</b> {Ext.ContentPanel} The panel that was removed
+     */</i>
+    remove : <b>function</b>(panel, preservePanel){
+        panel = <b>this</b>.getPanel(panel);
+        <b>if</b>(!panel){
+            <b>return</b> null;
+        }
+        <b>var</b> e = {};
+        <b>this</b>.fireEvent(&quot;beforeremove&quot;, <b>this</b>, panel, e);
+        <b>if</b>(e.cancel === true){
+            <b>return</b> null;
+        }
+        <b>var</b> panelId = panel.getId();
+        <b>this</b>.panels.removeKey(panelId);
+        <b>return</b> panel;
+    },
+    
+    <i>/**
+     * Returns the panel specified or null <b>if</b> it's not <b>in</b> this region.
+     * @param {Number/String/ContentPanel} panel The panels index, id or the panel itself
+     * @<b>return</b> {Ext.ContentPanel}
+     */</i>
+    getPanel : <b>function</b>(id){
+        <b>if</b>(typeof id == &quot;object&quot;){ <i>// must be panel obj</i>
+            <b>return</b> id;
+        }
+        <b>return</b> this.panels.get(id);
+    },
+    
+    <i>/**
+     * Returns <b>this</b> regions position (north/south/east/west/center).
+     * @<b>return</b> {String} 
+     */</i>
+    getPosition: <b>function</b>(){
+        <b>return</b> this.position;    
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

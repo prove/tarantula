@@ -1,0 +1,87 @@
+<html><head><title>TaskMgr.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>TaskMgr.js</h1><pre class="highlighted"><code>Ext.util.TaskRunner = <b>function</b>(interval){
+    interval = interval || 10;
+    <b>var</b> tasks = [], removeQueue = [];
+    <b>var</b> id = 0;
+    <b>var</b> running = false;
+
+    <b>var</b> stopThread = <b>function</b>(){
+        running = false;
+        clearInterval(id);
+        id = 0;
+    };
+
+    <b>var</b> startThread = <b>function</b>(){
+        <b>if</b>(!running){
+            running = true;
+            id = setInterval(runTasks, interval);
+        }
+    };
+
+    <b>var</b> removeTask = <b>function</b>(task){
+        removeQueue.push(task);
+        <b>if</b>(task.onStop){
+            task.onStop();
+        }
+    };
+
+    <b>var</b> runTasks = <b>function</b>(){
+        <b>if</b>(removeQueue.length &gt; 0){
+            <b>for</b>(var i = 0, len = removeQueue.length; i &lt; len; i++){
+                tasks.remove(removeQueue[i]);
+            }
+            removeQueue = [];
+            <b>if</b>(tasks.length &lt; 1){
+                stopThread();
+                <b>return</b>;
+            }
+        }
+        <b>var</b> now = <b>new</b> Date().getTime();
+        <b>for</b>(var i = 0, len = tasks.length; i &lt; len; ++i){
+            <b>var</b> t = tasks[i];
+            <b>var</b> itime = now - t.taskRunTime;
+            <b>if</b>(t.interval &lt;= itime){
+                <b>var</b> rt = t.run.apply(t.scope || t, t.args || [++t.taskRunCount]);
+                t.taskRunTime = now;
+                <b>if</b>(rt === false || t.taskRunCount === t.repeat){
+                    removeTask(t);
+                    <b>return</b>;
+                }
+            }
+            <b>if</b>(t.duration &amp;&amp; t.duration &lt;= (now - t.taskStartTime)){
+                removeTask(t);
+            }
+        }
+    };
+
+    <i>/**
+     * Queues a <b>new</b> task.
+     * @param {Object} task
+     */</i>
+    <b>this</b>.start = <b>function</b>(task){
+        tasks.push(task);
+        task.taskStartTime = <b>new</b> Date().getTime();
+        task.taskRunTime = 0;
+        task.taskRunCount = 0;
+        startThread();
+        <b>return</b> task;
+    };
+
+    <b>this</b>.stop = <b>function</b>(task){
+        removeTask(task);
+        <b>return</b> task;
+    };
+
+    <b>this</b>.stopAll = <b>function</b>(){
+        stopThread();
+        <b>for</b>(var i = 0, len = tasks.length; i &lt; len; i++){
+            <b>if</b>(tasks[i].onStop){
+                tasks[i].onStop();
+            }
+        }
+        tasks = [];
+        removeQueue = [];
+    };
+};
+
+Ext.TaskMgr = <b>new</b> Ext.util.TaskRunner();</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

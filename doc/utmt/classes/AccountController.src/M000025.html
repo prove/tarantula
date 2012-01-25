@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>signup (AccountController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/account_controller.rb, line 23</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">signup</span>
+    <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:user</span>])
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@user</span>.<span class="ruby-identifier">password</span>.<span class="ruby-identifier">blank?</span>)
+      <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">new_random_password</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">post?</span>
+    <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">save!</span>
+    <span class="ruby-comment cmt"># Kommentoitu osuus vaihtaisi kirjautuneen käyttäjän välittömästi vasta</span>
+    <span class="ruby-comment cmt"># luotuun. Tämä ei käy päinsä, joten ohjataan onnistunut rekisteröinti/</span>
+    <span class="ruby-comment cmt"># käyttäjänluonti sisäänkirjausruutuun, mikäli operaatiota ei suoritettu</span>
+    <span class="ruby-comment cmt"># xml http requestilla</span>
+    <span class="ruby-comment cmt">#self.current_user = @user</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">xhr?</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">false</span>
+      <span class="ruby-identifier">redirect_to</span>(<span class="ruby-identifier">:controller</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'/account'</span>, <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'login'</span>)
+      <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-value str">&quot;Thanks for signing up!&quot;</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'{true}'</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordInvalid</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'signup'</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

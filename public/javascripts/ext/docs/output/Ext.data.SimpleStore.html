@@ -1,0 +1,1442 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.data.SimpleStore</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.data.SimpleStore.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.data.SimpleStore</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.data</td></tr>
+            <tr><td class="label">Class:</td><td>SimpleStore</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.data.Store" ext:member="" href="Ext.data.Store.html">Store</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="SimpleStore.jss.html">SimpleStore.js</a></td></tr>
+        </table>
+        <div class="description">
+            Small helper class to make creating Stores from Array data easier.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>SimpleStore</b>(&nbsp;<code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">SimpleStore</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#add">add</a>(&nbsp;<code>Ext.data.Record[] records</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#add" href="Ext.data.Store.html#add">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Add Records to the Store and fires the add event.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearFilter">clearFilter</a>(&nbsp;<code>Boolean suppressEvent</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#clearFilter" href="Ext.data.Store.html#clearFilter">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Revert to a view of the Record cache with no filtering applied.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#collect">collect</a>(&nbsp;<code>String dataIndex</code>, <span class="optional" title="Optional">[<code>Boolean allowNull</code>]</span>, <span class="optional" title="Optional">[<code>Boolean bypassFilter</code>]</span>&nbsp;) : Array</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#collect" href="Ext.data.Store.html#collect">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Collects unique values for a particular dataIndex from this store.</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#commitChanges">commitChanges</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#commitChanges" href="Ext.data.Store.html#commitChanges">Store</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Commit all Records with outstanding changes. To handle updates for changes, subscribe to the
+Store's "update" event, ...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#each">each</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#each" href="Ext.data.Store.html#each">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Calls the specified function for each of the Records in the cache.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#filter">filter</a>(&nbsp;<code>String field</code>, <code>String/RegExp value</code>, <code>Boolean anyMatch</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#filter" href="Ext.data.Store.html#filter">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Filter the records by a specified property.</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#filterBy">filterBy</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#filterBy" href="Ext.data.Store.html#filterBy">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Filter by a function. The specified function will be called with each
+record in this data source. If the function ret...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getAt">getAt</a>(&nbsp;<code>Number index</code>&nbsp;) : Ext.data.Record</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#getAt" href="Ext.data.Store.html#getAt">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Get the Record at the specified index.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getById">getById</a>(&nbsp;<code>String id</code>&nbsp;) : Ext.data.Record</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#getById" href="Ext.data.Store.html#getById">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Get the Record with the specified id.</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getCount">getCount</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#getCount" href="Ext.data.Store.html#getCount">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Gets the number of cached records.
+
+If using paging, this may not be the total size of the dataset. If the data objec...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getModifiedRecords">getModifiedRecords</a>() : Ext.data.Record[]</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#getModifiedRecords" href="Ext.data.Store.html#getModifiedRecords">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Get all records modified since the last load, or since the last commit.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getRange">getRange</a>(&nbsp;<span class="optional" title="Optional">[<code>Number startIndex</code>]</span>, <span class="optional" title="Optional">[<code>Number endIndex</code>]</span>&nbsp;) : Ext.data.Record[]</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#getRange" href="Ext.data.Store.html#getRange">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns a range of Records between specified indices.</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getSortState">getSortState</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#getSortState" href="Ext.data.Store.html#getSortState">Store</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Returns the sort state of the Store as an object with two properties:
+field {String} The name of the field by which t...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTotalCount">getTotalCount</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#getTotalCount" href="Ext.data.Store.html#getTotalCount">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Gets the total number of records in the dataset.
+
+If using paging, for this to be accurate, the data object used by t...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#indexOf">indexOf</a>(&nbsp;<code>Ext.data.Record record</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#indexOf" href="Ext.data.Store.html#indexOf">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Get the index within the cache of the passed Record.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#indexOfId">indexOfId</a>(&nbsp;<code>String id</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#indexOfId" href="Ext.data.Store.html#indexOfId">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Get the index within the cache of the Record with the passed id.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insert">insert</a>(&nbsp;<code>Number index</code>, <code>Ext.data.Record[] records</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#insert" href="Ext.data.Store.html#insert">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Inserts Records to the Store at the given index and fires the add event.</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#load">load</a>(&nbsp;<code>Object options</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#load" href="Ext.data.Store.html#load">Store</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Loads the Record cache from the configured Proxy using the configured Reader.
+
+If using remote paging, then the first...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#loadData">loadData</a>(&nbsp;<code>Object data</code>, <span class="optional" title="Optional">[<code>Boolean append</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#loadData" href="Ext.data.Store.html#loadData">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Loads data from a passed data block. A Reader which understands the format of the data
+must have been configured in t...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#query">query</a>(&nbsp;<code>String field</code>, <code>String/RegExp value</code>, <code>Boolean anyMatch</code>&nbsp;) : MixedCollection</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#query" href="Ext.data.Store.html#query">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Query the records by a specified property.</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#queryBy">queryBy</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : MixedCollection</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#queryBy" href="Ext.data.Store.html#queryBy">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Query by a function. The specified function will be called with each
+record in this data source. If the function retu...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#rejectChanges">rejectChanges</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#rejectChanges" href="Ext.data.Store.html#rejectChanges">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Cancel outstanding changes on all changed records.</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#reload">reload</a>(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#reload" href="Ext.data.Store.html#reload">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Reloads the Record cache from the configured Proxy using the configured Reader and
+the options from the last load ope...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#remove">remove</a>(&nbsp;<code>Ext.data.Record record</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#remove" href="Ext.data.Store.html#remove">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Remove a Record from the Store and fires the remove event.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeAll">removeAll</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#removeAll" href="Ext.data.Store.html#removeAll">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Remove all Records from the Store and fires the clear event.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setDefaultSort">setDefaultSort</a>(&nbsp;<code>String fieldName</code>, <span class="optional" title="Optional">[<code>String dir</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#setDefaultSort" href="Ext.data.Store.html#setDefaultSort">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Sets the default sort column and order to be used by the next load operation.</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#sort">sort</a>(&nbsp;<code>String fieldName</code>, <span class="optional" title="Optional">[<code>String dir</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#sort" href="Ext.data.Store.html#sort">Store</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Sort the Records.
+If remote sorting is used, the sort is performed on the server, and the cache is
+reloaded. If local...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#sum">sum</a>(&nbsp;<code>String property</code>, <code>Number start</code>, <code>Number end</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#sum" href="Ext.data.Store.html#sum">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Sums the value of <i>property</i> for each record between start and end and returns the result.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-add">add</a> : (&nbsp;<code>Store this</code>, <code>Ext.data.Record[] records</code>, <code>Number index</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-add" href="Ext.data.Store.html#event-add">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when Records have been added to the Store</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeload">beforeload</a> : (&nbsp;<code>Store this</code>, <code>Object options</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-beforeload" href="Ext.data.Store.html#event-beforeload">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Fires before a request is made for a new data object.  If the beforeload handler returns false
+the load action will b...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-clear">clear</a> : (&nbsp;<code>Store this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-clear" href="Ext.data.Store.html#event-clear">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when the data cache has been cleared.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-datachanged">datachanged</a> : (&nbsp;<code>Store this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-datachanged" href="Ext.data.Store.html#event-datachanged">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when the data cache has changed, and a widget which is using this Store
+as a Record cache should refresh its view.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-load">load</a> : (&nbsp;<code>Store this</code>, <code>Ext.data.Record[] records</code>, <code>Object options</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-load" href="Ext.data.Store.html#event-load">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires after a new set of Records has been loaded.</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-loadexception">loadexception</a> : ()</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-loadexception" href="Ext.data.Store.html#event-loadexception">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Fires if an exception occurs in the Proxy during loading.
+Called with the signature of the Proxy's "loadexception" ev...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-metachange">metachange</a> : (&nbsp;<code>Store this</code>, <code>Object meta</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-metachange" href="Ext.data.Store.html#event-metachange">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when this stores reader provides new meta data (fields). This is currently only support for JsonReaders.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-remove">remove</a> : (&nbsp;<code>Store this</code>, <code>Ext.data.Record record</code>, <code>Number index</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-remove" href="Ext.data.Store.html#event-remove">Store</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when Records have been removed from the Store</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-update">update</a> : (&nbsp;<code>Store this</code>, <code>Ext.data.Record record</code>, <code>String operation</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#event-update" href="Ext.data.Store.html#event-update">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when Records have been updated</td>
+    </tr>
+            </table>
+                        <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-baseParams">baseParams</a> : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#baseParams" href="Ext.data.Store.html#baseParams">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">An object containing properties which are to be sent as parameters on any HTTP request</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-data">data</a> : Array</td>
+        <td class="msource" rowspan="2">SimpleStore</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The multi-dimensional array of data</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-fields">fields</a> : Array</td>
+        <td class="msource" rowspan="2">SimpleStore</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">An array of field definition objects, or field name strings.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-id">id</a> : Number</td>
+        <td class="msource" rowspan="2">SimpleStore</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The array index of the record id. Leave blank to auto generate ids.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-proxy">proxy</a> : Ext.data.DataProxy</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#proxy" href="Ext.data.Store.html#proxy">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The Proxy object which provides access to a data object.</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-pruneModifiedRecords">pruneModifiedRecords</a> : boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#pruneModifiedRecords" href="Ext.data.Store.html#pruneModifiedRecords">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">True to clear all modified record information each time the store is loaded or when a record is removed. (defaults to...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-reader">reader</a> : Ext.data.Reader</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#reader" href="Ext.data.Store.html#reader">Store</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">The Reader object which processes the data object and returns an Array of Ext.data.record objects which are cached ke...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-remoteSort">remoteSort</a> : boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#remoteSort" href="Ext.data.Store.html#remoteSort">Store</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">True if sorting is to be handled by requesting the Proxy to provide a refreshed version of the data object in sorted ...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-sortInfo">sortInfo</a> : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.data.Store" ext:member="#sortInfo" href="Ext.data.Store.html#sortInfo">Store</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">A config object in the format: {field: "fieldName", direction: "ASC|DESC"}</td>
+    </tr>
+            </table>
+                
+                    <a name="SimpleStore"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>SimpleStore</i></h3>
+                <code>public function SimpleStore(&nbsp;<code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="add"></a>
+                <div class="mdetail">
+                <h3>add</i></h3>
+                <code>public function add(&nbsp;<code>Ext.data.Record[] records</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Add Records to the Store and fires the add event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>records</code> : Ext.data.Record[]<div class="sub-desc">An Array of Ext.data.Record objects to add to the cache.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#add" href="Ext.data.Store.html#add">Store</a>.</div>
+                </div>
+                            <a name="addEvents"></a>
+                <div class="mdetail alt">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="clearFilter"></a>
+                <div class="mdetail alt">
+                <h3>clearFilter</i></h3>
+                <code>public function clearFilter(&nbsp;<code>Boolean suppressEvent</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Revert to a view of the Record cache with no filtering applied.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>suppressEvent</code> : Boolean<div class="sub-desc">If true the filter is cleared silently without notifying listeners</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#clearFilter" href="Ext.data.Store.html#clearFilter">Store</a>.</div>
+                </div>
+                            <a name="collect"></a>
+                <div class="mdetail">
+                <h3>collect</i></h3>
+                <code>public function collect(&nbsp;<code>String dataIndex</code>, <span class="optional" title="Optional">[<code>Boolean allowNull</code>]</span>, <span class="optional" title="Optional">[<code>Boolean bypassFilter</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Collects unique values for a particular dataIndex from this store.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>dataIndex</code> : String<div class="sub-desc">The property to collect</div></li><li><code>allowNull</code> : Boolean<div class="sub-desc">(optional) Pass true to allow null, undefined or empty string values</div></li><li><code>bypassFilter</code> : Boolean<div class="sub-desc">(optional) Pass true to collect from all records, even ones which are filtered</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code><div class="sub-desc">An array of the unique values</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#collect" href="Ext.data.Store.html#collect">Store</a>.</div>
+                </div>
+                            <a name="commitChanges"></a>
+                <div class="mdetail alt">
+                <h3>commitChanges</i></h3>
+                <code>public function commitChanges()</code>
+                <div class="mdetail-desc">
+                    Commit all Records with outstanding changes. To handle updates for changes, subscribe to the
+Store's "update" event, and perform updating when the third parameter is Ext.data.Record.COMMIT.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#commitChanges" href="Ext.data.Store.html#commitChanges">Store</a>.</div>
+                </div>
+                            <a name="each"></a>
+                <div class="mdetail">
+                <h3>each</i></h3>
+                <code>public function each(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Calls the specified function for each of the Records in the cache.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The function to call. The Record is passed as the first parameter.
+Returning <em>false</em> aborts and exits the iteration.</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to call the function (defaults to the Record).</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#each" href="Ext.data.Store.html#each">Store</a>.</div>
+                </div>
+                            <a name="filter"></a>
+                <div class="mdetail alt">
+                <h3>filter</i></h3>
+                <code>public function filter(&nbsp;<code>String field</code>, <code>String/RegExp value</code>, <code>Boolean anyMatch</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Filter the records by a specified property.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>field</code> : String<div class="sub-desc">A field on your records</div></li><li><code>value</code> : String/RegExp<div class="sub-desc">Either a string that the field
+should start with or a RegExp to test against the field</div></li><li><code>anyMatch</code> : Boolean<div class="sub-desc">True to match any part not just the beginning</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#filter" href="Ext.data.Store.html#filter">Store</a>.</div>
+                </div>
+                            <a name="filterBy"></a>
+                <div class="mdetail">
+                <h3>filterBy</i></h3>
+                <code>public function filterBy(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Filter by a function. The specified function will be called with each
+record in this data source. If the function returns true the record is included,
+otherwise it is filtered.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The function to be called, it will receive 2 args (record, id)</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to this)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#filterBy" href="Ext.data.Store.html#filterBy">Store</a>.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail alt">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="getAt"></a>
+                <div class="mdetail">
+                <h3>getAt</i></h3>
+                <code>public function getAt(&nbsp;<code>Number index</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Get the Record at the specified index.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>index</code> : Number<div class="sub-desc">The index of the Record to find.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.data.Record</code><div class="sub-desc">The Record at the passed index. Returns undefined if not found.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#getAt" href="Ext.data.Store.html#getAt">Store</a>.</div>
+                </div>
+                            <a name="getById"></a>
+                <div class="mdetail alt">
+                <h3>getById</i></h3>
+                <code>public function getById(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Get the Record with the specified id.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">The id of the Record to find.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.data.Record</code><div class="sub-desc">The Record with the passed id. Returns undefined if not found.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#getById" href="Ext.data.Store.html#getById">Store</a>.</div>
+                </div>
+                            <a name="getCount"></a>
+                <div class="mdetail">
+                <h3>getCount</i></h3>
+                <code>public function getCount()</code>
+                <div class="mdetail-desc">
+                    Gets the number of cached records.
+<p>
+<em>If using paging, this may not be the total size of the dataset. If the data object
+used by the Reader contains the dataset size, then the getTotalCount() function returns
+the data set size</em>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#getCount" href="Ext.data.Store.html#getCount">Store</a>.</div>
+                </div>
+                            <a name="getModifiedRecords"></a>
+                <div class="mdetail alt">
+                <h3>getModifiedRecords</i></h3>
+                <code>public function getModifiedRecords()</code>
+                <div class="mdetail-desc">
+                    Get all records modified since the last load, or since the last commit.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.data.Record[]</code><div class="sub-desc">An array of Records containing outstanding modifications.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#getModifiedRecords" href="Ext.data.Store.html#getModifiedRecords">Store</a>.</div>
+                </div>
+                            <a name="getRange"></a>
+                <div class="mdetail">
+                <h3>getRange</i></h3>
+                <code>public function getRange(&nbsp;<span class="optional" title="Optional">[<code>Number startIndex</code>]</span>, <span class="optional" title="Optional">[<code>Number endIndex</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns a range of Records between specified indices.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>startIndex</code> : Number<div class="sub-desc">(optional) The starting index (defaults to 0)</div></li><li><code>endIndex</code> : Number<div class="sub-desc">(optional) The ending index (defaults to the last Record in the Store)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.data.Record[]</code><div class="sub-desc">An array of Records</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#getRange" href="Ext.data.Store.html#getRange">Store</a>.</div>
+                </div>
+                            <a name="getSortState"></a>
+                <div class="mdetail alt">
+                <h3>getSortState</i></h3>
+                <code>public function getSortState()</code>
+                <div class="mdetail-desc">
+                    Returns the sort state of the Store as an object with two properties:
+<pre><code>field {String} The name of the field by which the Records are sorted
+ direction {String} The sort order, <em>"ASC"</em> or <em>"DESC"</em></code></pre>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#getSortState" href="Ext.data.Store.html#getSortState">Store</a>.</div>
+                </div>
+                            <a name="getTotalCount"></a>
+                <div class="mdetail">
+                <h3>getTotalCount</i></h3>
+                <code>public function getTotalCount()</code>
+                <div class="mdetail-desc">
+                    Gets the total number of records in the dataset.
+<p>
+<em>If using paging, for this to be accurate, the data object used by the Reader must contain
+the dataset size</em>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#getTotalCount" href="Ext.data.Store.html#getTotalCount">Store</a>.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail alt">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="indexOf"></a>
+                <div class="mdetail">
+                <h3>indexOf</i></h3>
+                <code>public function indexOf(&nbsp;<code>Ext.data.Record record</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Get the index within the cache of the passed Record.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>record</code> : Ext.data.Record<div class="sub-desc">The Ext.data.Record object to to find.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The index of the passed Record. Returns -1 if not found.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#indexOf" href="Ext.data.Store.html#indexOf">Store</a>.</div>
+                </div>
+                            <a name="indexOfId"></a>
+                <div class="mdetail alt">
+                <h3>indexOfId</i></h3>
+                <code>public function indexOfId(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Get the index within the cache of the Record with the passed id.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">The id of the Record to find.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The index of the Record. Returns -1 if not found.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#indexOfId" href="Ext.data.Store.html#indexOfId">Store</a>.</div>
+                </div>
+                            <a name="insert"></a>
+                <div class="mdetail">
+                <h3>insert</i></h3>
+                <code>public function insert(&nbsp;<code>Number index</code>, <code>Ext.data.Record[] records</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Inserts Records to the Store at the given index and fires the add event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>index</code> : Number<div class="sub-desc">The start index at which to insert the passed Records.</div></li><li><code>records</code> : Ext.data.Record[]<div class="sub-desc">An Array of Ext.data.Record objects to add to the cache.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#insert" href="Ext.data.Store.html#insert">Store</a>.</div>
+                </div>
+                            <a name="load"></a>
+                <div class="mdetail alt">
+                <h3>load</i></h3>
+                <code>public function load(&nbsp;<code>Object options</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Loads the Record cache from the configured Proxy using the configured Reader.
+<p>
+If using remote paging, then the first load call must specify the <em>start</em>
+and <em>limit</em> properties in the options.params property to establish the initial
+position within the dataset, and the number of Records to cache on each read from the Proxy.
+<p>
+<strong>It is important to note that for remote data sources, loading is asynchronous,
+and this call will return before the new data has been loaded. Perform any post-processing
+in a callback function, or in a "load" event handler.</strong>
+<p>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">An object containing properties which control loading options:<ul>
+<li>params {Object} An object containing properties to pass as HTTP parameters to a remote data source.</li>
+<li>callback {Function} A function to be called after the Records have been loaded. The callback is
+passed the following arguments:<ul>
+<li>r : Ext.data.Record[]</li>
+<li>options: Options object from the load call</li>
+<li>success: Boolean success indicator</li></ul></li>
+<li>scope {Object} Scope with which to call the callback (defaults to the Store object)</li>
+<li>add {Boolean} indicator to append loaded records rather than replace the current cache.</li>
+</ul></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#load" href="Ext.data.Store.html#load">Store</a>.</div>
+                </div>
+                            <a name="loadData"></a>
+                <div class="mdetail">
+                <h3>loadData</i></h3>
+                <code>public function loadData(&nbsp;<code>Object data</code>, <span class="optional" title="Optional">[<code>Boolean append</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Loads data from a passed data block. A Reader which understands the format of the data
+must have been configured in the constructor.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>data</code> : Object<div class="sub-desc">The data block from which to read the Records. The format of the data expected
+is dependent on the type of Reader that is configured and should correspond to that Reader's readRecords parameter.</div></li><li><code>append</code> : Boolean<div class="sub-desc">(Optional) True to append the new Records rather than replace the existing cache.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#loadData" href="Ext.data.Store.html#loadData">Store</a>.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail alt">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="query"></a>
+                <div class="mdetail alt">
+                <h3>query</i></h3>
+                <code>public function query(&nbsp;<code>String field</code>, <code>String/RegExp value</code>, <code>Boolean anyMatch</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Query the records by a specified property.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>field</code> : String<div class="sub-desc">A field on your records</div></li><li><code>value</code> : String/RegExp<div class="sub-desc">Either a string that the field
+should start with or a RegExp to test against the field</div></li><li><code>anyMatch</code> : Boolean<div class="sub-desc">True to match any part not just the beginning</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>MixedCollection</code><div class="sub-desc">Returns an Ext.util.MixedCollection of the matched records</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#query" href="Ext.data.Store.html#query">Store</a>.</div>
+                </div>
+                            <a name="queryBy"></a>
+                <div class="mdetail">
+                <h3>queryBy</i></h3>
+                <code>public function queryBy(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Query by a function. The specified function will be called with each
+record in this data source. If the function returns true the record is included
+in the results.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc">The function to be called, it will receive 2 args (record, id)</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to this)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>MixedCollection</code><div class="sub-desc">Returns an Ext.util.MixedCollection of the matched records</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#queryBy" href="Ext.data.Store.html#queryBy">Store</a>.</div>
+                </div>
+                            <a name="rejectChanges"></a>
+                <div class="mdetail alt">
+                <h3>rejectChanges</i></h3>
+                <code>public function rejectChanges()</code>
+                <div class="mdetail-desc">
+                    Cancel outstanding changes on all changed records.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#rejectChanges" href="Ext.data.Store.html#rejectChanges">Store</a>.</div>
+                </div>
+                            <a name="reload"></a>
+                <div class="mdetail">
+                <h3>reload</i></h3>
+                <code>public function reload(&nbsp;<span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Reloads the Record cache from the configured Proxy using the configured Reader and
+the options from the last load operation performed.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing properties which may override the options
+used in the last load operation. See <a ext:cls="Ext.data.Store" ext:member="load" href="Ext.data.Store.html#load">load</a> for details (defaults to null, in which case
+the most recently used options are reused).</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#reload" href="Ext.data.Store.html#reload">Store</a>.</div>
+                </div>
+                            <a name="remove"></a>
+                <div class="mdetail alt">
+                <h3>remove</i></h3>
+                <code>public function remove(&nbsp;<code>Ext.data.Record record</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Remove a Record from the Store and fires the remove event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>record</code> : Ext.data.Record<div class="sub-desc">Th Ext.data.Record object to remove from the cache.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#remove" href="Ext.data.Store.html#remove">Store</a>.</div>
+                </div>
+                            <a name="removeAll"></a>
+                <div class="mdetail">
+                <h3>removeAll</i></h3>
+                <code>public function removeAll()</code>
+                <div class="mdetail-desc">
+                    Remove all Records from the Store and fires the clear event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#removeAll" href="Ext.data.Store.html#removeAll">Store</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail alt">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="setDefaultSort"></a>
+                <div class="mdetail">
+                <h3>setDefaultSort</i></h3>
+                <code>public function setDefaultSort(&nbsp;<code>String fieldName</code>, <span class="optional" title="Optional">[<code>String dir</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the default sort column and order to be used by the next load operation.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fieldName</code> : String<div class="sub-desc">The name of the field to sort by.</div></li><li><code>dir</code> : String<div class="sub-desc">(optional) The sort order, "ASC" or "DESC" (defaults to "ASC")</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#setDefaultSort" href="Ext.data.Store.html#setDefaultSort">Store</a>.</div>
+                </div>
+                            <a name="sort"></a>
+                <div class="mdetail alt">
+                <h3>sort</i></h3>
+                <code>public function sort(&nbsp;<code>String fieldName</code>, <span class="optional" title="Optional">[<code>String dir</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sort the Records.
+If remote sorting is used, the sort is performed on the server, and the cache is
+reloaded. If local sorting is used, the cache is sorted internally.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fieldName</code> : String<div class="sub-desc">The name of the field to sort by.</div></li><li><code>dir</code> : String<div class="sub-desc">(optional) The sort order, "ASC" or "DESC" (defaults to "ASC")</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#sort" href="Ext.data.Store.html#sort">Store</a>.</div>
+                </div>
+                            <a name="sum"></a>
+                <div class="mdetail">
+                <h3>sum</i></h3>
+                <code>public function sum(&nbsp;<code>String property</code>, <code>Number start</code>, <code>Number end</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sums the value of <i>property</i> for each record between start and end and returns the result.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>property</code> : String<div class="sub-desc">A field on your records</div></li><li><code>start</code> : Number<div class="sub-desc">The record index to start at (defaults to 0)</div></li><li><code>end</code> : Number<div class="sub-desc">The last record index to include (defaults to length - 1)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The sum</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.data.Store" ext:member="#sum" href="Ext.data.Store.html#sum">Store</a>.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail alt">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-add"></a>
+                <div class="mdetail">
+                <h3>add</i></h3>
+                <code>public event add</code>
+                <div class="mdetail-desc">
+                Fires when Records have been added to the Store
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>records</code> : Ext.data.Record[]<div class="sub-desc">The array of Records added</div></li><li><code>index</code> : Number<div class="sub-desc">The index at which the record(s) were added</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-add" href="Ext.data.Store.html#event-add">Store</a>.</div>
+                </div>
+                            <a name="event-beforeload"></a>
+                <div class="mdetail alt">
+                <h3>beforeload</i></h3>
+                <code>public event beforeload</code>
+                <div class="mdetail-desc">
+                Fires before a request is made for a new data object.  If the beforeload handler returns false
+the load action will be canceled.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>options</code> : Object<div class="sub-desc">The loading options that were specified (see <a ext:cls="Ext.data.Store" ext:member="load" href="Ext.data.Store.html#load">load</a> for details)</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-beforeload" href="Ext.data.Store.html#event-beforeload">Store</a>.</div>
+                </div>
+                            <a name="event-clear"></a>
+                <div class="mdetail">
+                <h3>clear</i></h3>
+                <code>public event clear</code>
+                <div class="mdetail-desc">
+                Fires when the data cache has been cleared.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Store<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-clear" href="Ext.data.Store.html#event-clear">Store</a>.</div>
+                </div>
+                            <a name="event-datachanged"></a>
+                <div class="mdetail alt">
+                <h3>datachanged</i></h3>
+                <code>public event datachanged</code>
+                <div class="mdetail-desc">
+                Fires when the data cache has changed, and a widget which is using this Store
+as a Record cache should refresh its view.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Store<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-datachanged" href="Ext.data.Store.html#event-datachanged">Store</a>.</div>
+                </div>
+                            <a name="event-load"></a>
+                <div class="mdetail">
+                <h3>load</i></h3>
+                <code>public event load</code>
+                <div class="mdetail-desc">
+                Fires after a new set of Records has been loaded.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>records</code> : Ext.data.Record[]<div class="sub-desc">The Records that were loaded</div></li><li><code>options</code> : Object<div class="sub-desc">The loading options that were specified (see <a ext:cls="Ext.data.Store" ext:member="load" href="Ext.data.Store.html#load">load</a> for details)</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-load" href="Ext.data.Store.html#event-load">Store</a>.</div>
+                </div>
+                            <a name="event-loadexception"></a>
+                <div class="mdetail alt">
+                <h3>loadexception</i></h3>
+                <code>public event loadexception</code>
+                <div class="mdetail-desc">
+                Fires if an exception occurs in the Proxy during loading.
+Called with the signature of the Proxy's "loadexception" event.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-loadexception" href="Ext.data.Store.html#event-loadexception">Store</a>.</div>
+                </div>
+                            <a name="event-metachange"></a>
+                <div class="mdetail">
+                <h3>metachange</i></h3>
+                <code>public event metachange</code>
+                <div class="mdetail-desc">
+                Fires when this stores reader provides new meta data (fields). This is currently only support for JsonReaders.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>meta</code> : Object<div class="sub-desc">The JSON meta data</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-metachange" href="Ext.data.Store.html#event-metachange">Store</a>.</div>
+                </div>
+                            <a name="event-remove"></a>
+                <div class="mdetail alt">
+                <h3>remove</i></h3>
+                <code>public event remove</code>
+                <div class="mdetail-desc">
+                Fires when Records have been removed from the Store
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>record</code> : Ext.data.Record<div class="sub-desc">The Record that was removed</div></li><li><code>index</code> : Number<div class="sub-desc">The index at which the record was removed</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-remove" href="Ext.data.Store.html#event-remove">Store</a>.</div>
+                </div>
+                            <a name="event-update"></a>
+                <div class="mdetail">
+                <h3>update</i></h3>
+                <code>public event update</code>
+                <div class="mdetail-desc">
+                Fires when Records have been updated
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Store<div class="sub-desc"></div></li><li><code>record</code> : Ext.data.Record<div class="sub-desc">The Record that was updated</div></li><li><code>operation</code> : String<div class="sub-desc">The update operation being performed. Value may be one of:
+<pre><code>Ext.data.Record.EDIT
+ Ext.data.Record.REJECT
+ Ext.data.Record.COMMIT</code></pre></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.data.Store" ext:member="#event-update" href="Ext.data.Store.html#event-update">Store</a>.</div>
+                </div>
+                        </div>
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-baseParams"></a>
+                <div class="mdetail">
+                <h3>baseParams</i></h3>
+                <code>baseParams : Object</code>
+                <div class="mdetail-desc">
+                    An object containing properties which are to be sent as parameters on any HTTP request                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.data.Store" ext:member="#baseParams" href="Ext.data.Store.html#baseParams">Store</a>.</div>
+                </div>
+                            <a name="config-data"></a>
+                <div class="mdetail alt">
+                <h3>data</i></h3>
+                <code>data : Array</code>
+                <div class="mdetail-desc">
+                    The multi-dimensional array of data                </div>
+                <div class="mdetail-def">This config option is defined by SimpleStore.</div>
+                </div>
+                            <a name="config-fields"></a>
+                <div class="mdetail">
+                <h3>fields</i></h3>
+                <code>fields : Array</code>
+                <div class="mdetail-desc">
+                    An array of field definition objects, or field name strings.                </div>
+                <div class="mdetail-def">This config option is defined by SimpleStore.</div>
+                </div>
+                            <a name="config-id"></a>
+                <div class="mdetail alt">
+                <h3>id</i></h3>
+                <code>id : Number</code>
+                <div class="mdetail-desc">
+                    The array index of the record id. Leave blank to auto generate ids.                </div>
+                <div class="mdetail-def">This config option is defined by SimpleStore.</div>
+                </div>
+                            <a name="config-proxy"></a>
+                <div class="mdetail">
+                <h3>proxy</i></h3>
+                <code>proxy : Ext.data.DataProxy</code>
+                <div class="mdetail-desc">
+                    The Proxy object which provides access to a data object.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.data.Store" ext:member="#proxy" href="Ext.data.Store.html#proxy">Store</a>.</div>
+                </div>
+                            <a name="config-pruneModifiedRecords"></a>
+                <div class="mdetail alt">
+                <h3>pruneModifiedRecords</i></h3>
+                <code>pruneModifiedRecords : boolean</code>
+                <div class="mdetail-desc">
+                    True to clear all modified record information each time the store is loaded or when a record is removed. (defaults to false).                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.data.Store" ext:member="#pruneModifiedRecords" href="Ext.data.Store.html#pruneModifiedRecords">Store</a>.</div>
+                </div>
+                            <a name="config-reader"></a>
+                <div class="mdetail">
+                <h3>reader</i></h3>
+                <code>reader : Ext.data.Reader</code>
+                <div class="mdetail-desc">
+                    The Reader object which processes the data object and returns an Array of Ext.data.record objects which are cached keyed by their <em>id</em> property.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.data.Store" ext:member="#reader" href="Ext.data.Store.html#reader">Store</a>.</div>
+                </div>
+                            <a name="config-remoteSort"></a>
+                <div class="mdetail alt">
+                <h3>remoteSort</i></h3>
+                <code>remoteSort : boolean</code>
+                <div class="mdetail-desc">
+                    True if sorting is to be handled by requesting the Proxy to provide a refreshed version of the data object in sorted order, as opposed to sorting the Record cache in place (defaults to false).                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.data.Store" ext:member="#remoteSort" href="Ext.data.Store.html#remoteSort">Store</a>.</div>
+                </div>
+                            <a name="config-sortInfo"></a>
+                <div class="mdetail">
+                <h3>sortInfo</i></h3>
+                <code>sortInfo : Object</code>
+                <div class="mdetail-desc">
+                    A config object in the format: {field: "fieldName", direction: "ASC|DESC"}                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.data.Store" ext:member="#sortInfo" href="Ext.data.Store.html#sortInfo">Store</a>.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

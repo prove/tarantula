@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>index (TestSetsController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/test_sets_controller.rb, line 12</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">index</span>
+    <span class="ruby-identifier">sets</span> = []
+    <span class="ruby-comment cmt"># Should we return all test sets, if project is not specified?</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:project_id</span>])
+      <span class="ruby-comment cmt"># Listaa aktiivisen projektin setit JSON-muodossa joka voidaan sijoittaa</span>
+      <span class="ruby-comment cmt"># Ext.js:n puukomponentin sisällöksi.</span>
+      <span class="ruby-identifier">sets</span> = <span class="ruby-constant">TestSet</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:all</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">'`project_id` =?'</span>, <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:project_id</span>]])
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:format</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'tree'</span>)
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sets</span>.<span class="ruby-identifier">to_treejson</span>(<span class="ruby-identifier">:name</span>)
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">array_to_extjson</span>( <span class="ruby-identifier">sets</span>)    
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

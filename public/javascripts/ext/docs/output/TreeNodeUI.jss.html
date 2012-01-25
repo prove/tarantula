@@ -1,0 +1,511 @@
+<html><head><title>TreeNodeUI.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>TreeNodeUI.js</h1><pre class="highlighted"><code><i>/**
+ * The TreeNode UI implementation is separate from the
+ * tree implementation. Unless you are customizing the tree UI,
+ * you should never have to use <b>this</b> directly.
+ */</i>
+Ext.tree.TreeNodeUI = <b>function</b>(node){
+    <b>this</b>.node = node;
+    <b>this</b>.rendered = false;
+    <b>this</b>.animating = false;
+    <b>this</b>.emptyIcon = Ext.BLANK_IMAGE_URL;
+};
+
+Ext.tree.TreeNodeUI.prototype = {
+    removeChild : <b>function</b>(node){
+        <b>if</b>(this.rendered){
+            <b>this</b>.ctNode.removeChild(node.ui.getEl());
+        }
+    },
+
+    beforeLoad : <b>function</b>(){
+         <b>this</b>.addClass(&quot;x-tree-node-loading&quot;);
+    },
+
+    afterLoad : <b>function</b>(){
+         <b>this</b>.removeClass(&quot;x-tree-node-loading&quot;);
+    },
+
+    onTextChange : <b>function</b>(node, text, oldText){
+        <b>if</b>(this.rendered){
+            <b>this</b>.textNode.innerHTML = text;
+        }
+    },
+
+    onDisableChange : <b>function</b>(node, state){
+        <b>this</b>.disabled = state;
+        <b>if</b>(state){
+            <b>this</b>.addClass(&quot;x-tree-node-disabled&quot;);
+        }<b>else</b>{
+            <b>this</b>.removeClass(&quot;x-tree-node-disabled&quot;);
+        }
+    },
+
+    onSelectedChange : <b>function</b>(state){
+        <b>if</b>(state){
+            <b>this</b>.focus();
+            <b>this</b>.addClass(&quot;x-tree-selected&quot;);
+        }<b>else</b>{
+            <i>//<b>this</b>.blur();</i>
+            <b>this</b>.removeClass(&quot;x-tree-selected&quot;);
+        }
+    },
+
+    onMove : <b>function</b>(tree, node, oldParent, newParent, index, refNode){
+        <b>this</b>.childIndent = null;
+        <b>if</b>(this.rendered){
+            <b>var</b> targetNode = newParent.ui.getContainer();
+            <b>if</b>(!targetNode){<i>//target not rendered</i>
+                <b>this</b>.holder = document.createElement(&quot;div&quot;);
+                <b>this</b>.holder.appendChild(<b>this</b>.wrap);
+                <b>return</b>;
+            }
+            <b>var</b> insertBefore = refNode ? refNode.ui.getEl() : null;
+            <b>if</b>(insertBefore){
+                targetNode.insertBefore(<b>this</b>.wrap, insertBefore);
+            }<b>else</b>{
+                targetNode.appendChild(<b>this</b>.wrap);
+            }
+            <b>this</b>.node.renderIndent(true);
+        }
+    },
+
+    addClass : <b>function</b>(cls){
+        <b>if</b>(this.elNode){
+            Ext.fly(<b>this</b>.elNode).addClass(cls);
+        }
+    },
+
+    removeClass : <b>function</b>(cls){
+        <b>if</b>(this.elNode){
+            Ext.fly(<b>this</b>.elNode).removeClass(cls);
+        }
+    },
+
+    remove : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>this</b>.holder = document.createElement(&quot;div&quot;);
+            <b>this</b>.holder.appendChild(<b>this</b>.wrap);
+        }
+    },
+
+    fireEvent : <b>function</b>(){
+        <b>return</b> this.node.fireEvent.apply(<b>this</b>.node, arguments);
+    },
+
+    initEvents : <b>function</b>(){
+        <b>this</b>.node.on(&quot;move&quot;, <b>this</b>.onMove, <b>this</b>);
+        <b>var</b> E = Ext.EventManager;
+        <b>var</b> a = <b>this</b>.anchor;
+
+        <b>var</b> el = Ext.fly(a, <em>'_treeui'</em>);
+
+        <b>if</b>(Ext.isOpera){ <i>// opera render bug ignores the CSS</i>
+            el.setStyle(&quot;text-decoration&quot;, &quot;none&quot;);
+        }
+
+        el.on(&quot;click&quot;, <b>this</b>.onClick, <b>this</b>);
+        el.on(&quot;dblclick&quot;, <b>this</b>.onDblClick, <b>this</b>);
+
+        <b>if</b>(this.checkbox){
+            Ext.EventManager.on(<b>this</b>.checkbox, &quot;change&quot;, <b>this</b>.onCheckChange, <b>this</b>);
+        }
+
+        el.on(&quot;contextmenu&quot;, <b>this</b>.onContextMenu, <b>this</b>);
+
+        <b>var</b> icon = Ext.fly(<b>this</b>.iconNode);
+        icon.on(&quot;click&quot;, <b>this</b>.onClick, <b>this</b>);
+        icon.on(&quot;dblclick&quot;, <b>this</b>.onDblClick, <b>this</b>);
+        icon.on(&quot;contextmenu&quot;, <b>this</b>.onContextMenu, <b>this</b>);
+        E.on(<b>this</b>.ecNode, &quot;click&quot;, <b>this</b>.ecClick, <b>this</b>, true);
+
+        <b>if</b>(this.node.disabled){
+            <b>this</b>.addClass(&quot;x-tree-node-disabled&quot;);
+        }
+        <b>if</b>(this.node.hidden){
+            <b>this</b>.addClass(&quot;x-tree-node-disabled&quot;);
+        }
+        <b>var</b> ot = <b>this</b>.node.getOwnerTree();
+        <b>var</b> dd = ot.enableDD || ot.enableDrag || ot.enableDrop;
+        <b>if</b>(dd &amp;&amp; (!<b>this</b>.node.isRoot || ot.rootVisible)){
+            Ext.dd.Registry.register(<b>this</b>.elNode, {
+                node: <b>this</b>.node,
+                handles: <b>this</b>.getDDHandles(),
+                isHandle: false
+            });
+        }
+    },
+
+    getDDHandles : <b>function</b>(){
+        <b>return</b> [<b>this</b>.iconNode, <b>this</b>.textNode];
+    },
+
+    hide : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>this</b>.wrap.style.display = &quot;none&quot;;
+        }
+    },
+
+    show : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>this</b>.wrap.style.display = &quot;&quot;;
+        }
+    },
+
+    onContextMenu : <b>function</b>(e){
+        <b>if</b> (<b>this</b>.node.hasListener(&quot;contextmenu&quot;) || <b>this</b>.node.getOwnerTree().hasListener(&quot;contextmenu&quot;)) {
+            e.preventDefault();
+            <b>this</b>.focus();
+            <b>this</b>.fireEvent(&quot;contextmenu&quot;, <b>this</b>.node, e);
+        }
+    },
+
+    onClick : <b>function</b>(e){
+        <b>if</b>(this.dropping){
+            e.stopEvent();
+            <b>return</b>;
+        }
+        <b>if</b>(this.fireEvent(&quot;beforeclick&quot;, <b>this</b>.node, e) !== false){
+            <b>if</b>(!<b>this</b>.disabled &amp;&amp; <b>this</b>.node.attributes.href){
+                <b>this</b>.fireEvent(&quot;click&quot;, <b>this</b>.node, e);
+                <b>return</b>;
+            }
+            e.preventDefault();
+            <b>if</b>(this.disabled){
+                <b>return</b>;
+            }
+
+            <b>if</b>(this.node.attributes.singleClickExpand &amp;&amp; !<b>this</b>.animating &amp;&amp; <b>this</b>.node.hasChildNodes()){
+                <b>this</b>.node.toggle();
+            }
+
+            <b>this</b>.fireEvent(&quot;click&quot;, <b>this</b>.node, e);
+        }<b>else</b>{
+            e.stopEvent();
+        }
+    },
+
+    onDblClick : <b>function</b>(e){
+        e.preventDefault();
+        <b>if</b>(this.disabled){
+            <b>return</b>;
+        }
+        <b>if</b>(this.checkbox){
+            <b>this</b>.toggleCheck();
+        }
+        <b>if</b>(!<b>this</b>.animating &amp;&amp; <b>this</b>.node.hasChildNodes()){
+            <b>this</b>.node.toggle();
+        }
+        <b>this</b>.fireEvent(&quot;dblclick&quot;, <b>this</b>.node, e);
+    },
+
+    onCheckChange : <b>function</b>(){
+        <b>var</b> checked = <b>this</b>.checkbox.checked;
+        <b>this</b>.node.attributes.checked = checked;
+        <b>this</b>.fireEvent(<em>'checkchange'</em>, <b>this</b>.node, checked);
+    },
+
+    ecClick : <b>function</b>(e){
+        <b>if</b>(!<b>this</b>.animating &amp;&amp; <b>this</b>.node.hasChildNodes()){
+            <b>this</b>.node.toggle();
+        }
+    },
+
+    startDrop : <b>function</b>(){
+        <b>this</b>.dropping = true;
+    },
+
+    <i>// delayed drop so the click event doesn't get fired on a drop</i>
+    endDrop : <b>function</b>(){
+       setTimeout(<b>function</b>(){
+           <b>this</b>.dropping = false;
+       }.createDelegate(<b>this</b>), 50);
+    },
+
+    expand : <b>function</b>(){
+        <b>this</b>.updateExpandIcon();
+        <b>this</b>.ctNode.style.display = &quot;&quot;;
+    },
+
+    focus : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.node.preventHScroll){
+            try{<b>this</b>.anchor.focus();
+            }catch(e){}
+        }<b>else</b> if(!Ext.isIE){
+            try{
+                <b>var</b> noscroll = <b>this</b>.node.getOwnerTree().getTreeEl().dom;
+                <b>var</b> l = noscroll.scrollLeft;
+                <b>this</b>.anchor.focus();
+                noscroll.scrollLeft = l;
+            }catch(e){}
+        }
+    },
+
+    toggleCheck : <b>function</b>(value){
+        <b>var</b> cb = <b>this</b>.checkbox;
+        <b>if</b>(cb){
+            cb.checked = (value === undefined ? !cb.checked : value);
+        }
+    },
+
+    blur : <b>function</b>(){
+        try{
+            <b>this</b>.anchor.blur();
+        }catch(e){}
+    },
+
+    animExpand : <b>function</b>(callback){
+        <b>var</b> ct = Ext.get(<b>this</b>.ctNode);
+        ct.stopFx();
+        <b>if</b>(!<b>this</b>.node.hasChildNodes()){
+            <b>this</b>.updateExpandIcon();
+            <b>this</b>.ctNode.style.display = &quot;&quot;;
+            Ext.callback(callback);
+            <b>return</b>;
+        }
+        <b>this</b>.animating = true;
+        <b>this</b>.updateExpandIcon();
+
+        ct.slideIn(<em>'t'</em>, {
+           callback : <b>function</b>(){
+               <b>this</b>.animating = false;
+               Ext.callback(callback);
+            },
+            scope: <b>this</b>,
+            duration: <b>this</b>.node.ownerTree.duration || .25
+        });
+    },
+
+    highlight : <b>function</b>(){
+        <b>var</b> tree = <b>this</b>.node.getOwnerTree();
+        Ext.fly(<b>this</b>.wrap).highlight(
+            tree.hlColor || &quot;C3DAF9&quot;,
+            {endColor: tree.hlBaseColor}
+        );
+    },
+
+    collapse : <b>function</b>(){
+        <b>this</b>.updateExpandIcon();
+        <b>this</b>.ctNode.style.display = &quot;none&quot;;
+    },
+
+    animCollapse : <b>function</b>(callback){
+        <b>var</b> ct = Ext.get(<b>this</b>.ctNode);
+        ct.enableDisplayMode(<em>'block'</em>);
+        ct.stopFx();
+
+        <b>this</b>.animating = true;
+        <b>this</b>.updateExpandIcon();
+
+        ct.slideOut(<em>'t'</em>, {
+            callback : <b>function</b>(){
+               <b>this</b>.animating = false;
+               Ext.callback(callback);
+            },
+            scope: <b>this</b>,
+            duration: <b>this</b>.node.ownerTree.duration || .25
+        });
+    },
+
+    getContainer : <b>function</b>(){
+        <b>return</b> this.ctNode;
+    },
+
+    getEl : <b>function</b>(){
+        <b>return</b> this.wrap;
+    },
+
+    appendDDGhost : <b>function</b>(ghostNode){
+        ghostNode.appendChild(<b>this</b>.elNode.cloneNode(true));
+    },
+
+    getDDRepairXY : <b>function</b>(){
+        <b>return</b> Ext.lib.Dom.getXY(<b>this</b>.iconNode);
+    },
+
+    onRender : <b>function</b>(){
+        <b>this</b>.render();
+    },
+
+    render : <b>function</b>(bulkRender){
+        <b>var</b> n = <b>this</b>.node, a = n.attributes;
+        <b>var</b> targetNode = n.parentNode ?
+              n.parentNode.ui.getContainer() : n.ownerTree.innerCt.dom;
+
+        <b>if</b>(!<b>this</b>.rendered){
+            <b>this</b>.rendered = true;
+
+            <b>this</b>.renderElements(n, a, targetNode, bulkRender);
+
+            <b>if</b>(a.qtip){
+               <b>if</b>(this.textNode.setAttributeNS){
+                   <b>this</b>.textNode.setAttributeNS(&quot;ext&quot;, &quot;qtip&quot;, a.qtip);
+                   <b>if</b>(a.qtipTitle){
+                       <b>this</b>.textNode.setAttributeNS(&quot;ext&quot;, &quot;qtitle&quot;, a.qtipTitle);
+                   }
+               }<b>else</b>{
+                   <b>this</b>.textNode.setAttribute(&quot;ext:qtip&quot;, a.qtip);
+                   <b>if</b>(a.qtipTitle){
+                       <b>this</b>.textNode.setAttribute(&quot;ext:qtitle&quot;, a.qtipTitle);
+                   }
+               }
+            }<b>else</b> if(a.qtipCfg){
+                a.qtipCfg.target = Ext.id(<b>this</b>.textNode);
+                Ext.QuickTips.register(a.qtipCfg);
+            }
+            <b>this</b>.initEvents();
+            <b>if</b>(!<b>this</b>.node.expanded){
+                <b>this</b>.updateExpandIcon();
+            }
+        }<b>else</b>{
+            <b>if</b>(bulkRender === true) {
+                targetNode.appendChild(<b>this</b>.wrap);
+            }
+        }
+    },
+
+    renderElements : <b>function</b>(n, a, targetNode, bulkRender){
+        <i>// add some indent caching, <b>this</b> helps performance when rendering a large tree</i>
+        <b>this</b>.indentMarkup = n.parentNode ? n.parentNode.ui.getChildIndent() : <em>''</em>;
+
+        <b>var</b> cb = <b>typeof</b> a.checked == <em>'boolean'</em>;
+
+        <b>var</b> buf = [<em>'&lt;li class=&quot;x-tree-node&quot;&gt;&lt;div class=&quot;x-tree-node-el '</em>, a.cls,<em>'&quot;&gt;'</em>,
+            <em>'&lt;span class=&quot;x-tree-node-indent&quot;&gt;'</em>,<b>this</b>.indentMarkup,&quot;&lt;/span&gt;&quot;,
+            <em>'&lt;img src=&quot;'</em>, <b>this</b>.emptyIcon, <em>'&quot; class=&quot;x-tree-ec-icon&quot; /&gt;'</em>,
+            <em>'&lt;img src=&quot;'</em>, a.icon || <b>this</b>.emptyIcon, <em>'&quot; class=&quot;x-tree-node-icon'</em>,(a.icon ? &quot; x-tree-node-inline-icon&quot; : &quot;&quot;),(a.iconCls ? &quot; &quot;+a.iconCls : &quot;&quot;),<em>'&quot; unselectable=&quot;on&quot; /&gt;'</em>,
+            cb ? (<em>'&lt;input class=&quot;x-tree-node-cb&quot; type=&quot;checkbox&quot; '</em> + (a.checked ? <em>'checked=&quot;checked&quot; /&gt;'</em> : <em>' /&gt;'</em>)) : <em>''</em>,
+            <em>'&lt;a hidefocus=&quot;on&quot; href=&quot;'</em>,a.href ? a.href : &quot;#&quot;,<em>'&quot; tabIndex=&quot;1&quot; '</em>,
+             a.hrefTarget ? <em>' target=&quot;'</em>+a.hrefTarget+<em>'&quot;'</em> : &quot;&quot;, <em>'&gt;&lt;span unselectable=&quot;on&quot;&gt;'</em>,n.text,&quot;&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&quot;,
+            <em>'&lt;ul class=&quot;x-tree-node-ct&quot; style=&quot;display:none;&quot;&gt;&lt;/ul&gt;'</em>,
+            &quot;&lt;/li&gt;&quot;];
+
+        <b>if</b>(bulkRender !== true &amp;&amp; n.nextSibling &amp;&amp; n.nextSibling.ui.getEl()){
+            <b>this</b>.wrap = Ext.DomHelper.insertHtml(&quot;beforeBegin&quot;,
+                                n.nextSibling.ui.getEl(), buf.join(&quot;&quot;));
+        }<b>else</b>{
+            <b>this</b>.wrap = Ext.DomHelper.insertHtml(&quot;beforeEnd&quot;, targetNode, buf.join(&quot;&quot;));
+        }
+
+        <b>this</b>.elNode = <b>this</b>.wrap.childNodes[0];
+        <b>this</b>.ctNode = <b>this</b>.wrap.childNodes[1];
+        <b>var</b> cs = <b>this</b>.elNode.childNodes;
+        <b>this</b>.indentNode = cs[0];
+        <b>this</b>.ecNode = cs[1];
+        <b>this</b>.iconNode = cs[2];
+        <b>var</b> index = 3;
+        <b>if</b>(cb){
+            <b>this</b>.checkbox = cs[3];
+            index++;
+        }
+        <b>this</b>.anchor = cs[index];
+        <b>this</b>.textNode = cs[index].firstChild;
+    },
+
+    getAnchor : <b>function</b>(){
+        <b>return</b> this.anchor;
+    },
+
+    getTextEl : <b>function</b>(){
+        <b>return</b> this.textNode;
+    },
+
+    getIconEl : <b>function</b>(){
+        <b>return</b> this.iconNode;
+    },
+
+    isChecked : <b>function</b>(){
+        <b>return</b> this.checkbox ? <b>this</b>.checkbox.checked : false;
+    },
+
+    updateExpandIcon : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>var</b> n = <b>this</b>.node, c1, c2;
+            <b>var</b> cls = n.isLast() ? &quot;x-tree-elbow-end&quot; : &quot;x-tree-elbow&quot;;
+            <b>var</b> hasChild = n.hasChildNodes();
+            <b>if</b>(hasChild){
+                <b>if</b>(n.expanded){
+                    cls += &quot;-minus&quot;;
+                    c1 = &quot;x-tree-node-collapsed&quot;;
+                    c2 = &quot;x-tree-node-expanded&quot;;
+                }<b>else</b>{
+                    cls += &quot;-plus&quot;;
+                    c1 = &quot;x-tree-node-expanded&quot;;
+                    c2 = &quot;x-tree-node-collapsed&quot;;
+                }
+                <b>if</b>(this.wasLeaf){
+                    <b>this</b>.removeClass(&quot;x-tree-node-leaf&quot;);
+                    <b>this</b>.wasLeaf = false;
+                }
+                <b>if</b>(this.c1 != c1 || <b>this</b>.c2 != c2){
+                    Ext.fly(<b>this</b>.elNode).replaceClass(c1, c2);
+                    <b>this</b>.c1 = c1; <b>this</b>.c2 = c2;
+                }
+            }<b>else</b>{
+                <b>if</b>(!<b>this</b>.wasLeaf){
+                    Ext.fly(<b>this</b>.elNode).replaceClass(&quot;x-tree-node-expanded&quot;, &quot;x-tree-node-leaf&quot;);
+                    <b>delete</b> this.c1;
+                    <b>delete</b> this.c2;
+                    <b>this</b>.wasLeaf = true;
+                }
+            }
+            <b>var</b> ecc = &quot;x-tree-ec-icon &quot;+cls;
+            <b>if</b>(this.ecc != ecc){
+                <b>this</b>.ecNode.className = ecc;
+                <b>this</b>.ecc = ecc;
+            }
+        }
+    },
+
+    getChildIndent : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.childIndent){
+            <b>var</b> buf = [];
+            <b>var</b> p = <b>this</b>.node;
+            <b>while</b>(p){
+                <b>if</b>(!p.isRoot || (p.isRoot &amp;&amp; p.ownerTree.rootVisible)){
+                    <b>if</b>(!p.isLast()) {
+                        buf.unshift(<em>'&lt;img src=&quot;'</em>+<b>this</b>.emptyIcon+<em>'&quot; class=&quot;x-tree-elbow-line&quot;&gt;'</em>);
+                    } <b>else</b> {
+                        buf.unshift(<em>'&lt;img src=&quot;'</em>+<b>this</b>.emptyIcon+<em>'&quot; class=&quot;x-tree-icon&quot;&gt;'</em>);
+                    }
+                }
+                p = p.parentNode;
+            }
+            <b>this</b>.childIndent = buf.join(&quot;&quot;);
+        }
+        <b>return</b> this.childIndent;
+    },
+
+    renderIndent : <b>function</b>(){
+        <b>if</b>(this.rendered){
+            <b>var</b> indent = &quot;&quot;;
+            <b>var</b> p = <b>this</b>.node.parentNode;
+            <b>if</b>(p){
+                indent = p.ui.getChildIndent();
+            }
+            <b>if</b>(this.indentMarkup != indent){ <i>// don't rerender <b>if</b> not required</i>
+                <b>this</b>.indentNode.innerHTML = indent;
+                <b>this</b>.indentMarkup = indent;
+            }
+            <b>this</b>.updateExpandIcon();
+        }
+    }
+};
+
+Ext.tree.RootTreeNodeUI = <b>function</b>(){
+    Ext.tree.RootTreeNodeUI.superclass.constructor.apply(<b>this</b>, arguments);
+};
+Ext.extend(Ext.tree.RootTreeNodeUI, Ext.tree.TreeNodeUI, {
+    render : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.rendered){
+            <b>var</b> targetNode = <b>this</b>.node.ownerTree.innerCt.dom;
+            <b>this</b>.node.expanded = true;
+            targetNode.innerHTML = <em>'&lt;div class=&quot;x-tree-root-node&quot;&gt;&lt;/div&gt;'</em>;
+            <b>this</b>.wrap = <b>this</b>.ctNode = targetNode.firstChild;
+        }
+    },
+    collapse : <b>function</b>(){
+    },
+    expand : <b>function</b>(){
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

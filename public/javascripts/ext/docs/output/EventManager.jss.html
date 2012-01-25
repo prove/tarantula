@@ -1,0 +1,777 @@
+<html><head><title>EventManager.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>EventManager.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.EventManager
+ * Registers event handlers that want to receive a normalized EventObject instead of the standard browser event and provides 
+ * several useful events directly.
+ * See {@link Ext.EventObject} <b>for</b> more details on normalized event objects.
+ * @singleton
+ */</i>
+Ext.EventManager = <b>function</b>(){
+    <b>var</b> docReadyEvent, docReadyProcId, docReadyState = false;
+    <b>var</b> resizeEvent, resizeTask, textEvent, textSize;
+    <b>var</b> E = Ext.lib.Event;
+    <b>var</b> D = Ext.lib.Dom;
+
+
+    <b>var</b> fireDocReady = <b>function</b>(){
+        <b>if</b>(!docReadyState){
+            docReadyState = true;
+            Ext.isReady = true;
+            <b>if</b>(docReadyProcId){
+                clearInterval(docReadyProcId);
+            }
+            <b>if</b>(Ext.isGecko || Ext.isOpera) {
+                document.removeEventListener(&quot;DOMContentLoaded&quot;, fireDocReady, false);
+            }
+            <b>if</b>(docReadyEvent){
+                docReadyEvent.fire();
+                docReadyEvent.clearListeners();
+            }
+        }
+    };
+    
+    <b>var</b> initDocReady = <b>function</b>(){
+        docReadyEvent = <b>new</b> Ext.util.Event();
+        <b>if</b>(Ext.isGecko || Ext.isOpera) {
+            document.addEventListener(&quot;DOMContentLoaded&quot;, fireDocReady, false);
+        }<b>else</b> if(Ext.isIE){
+            <i>// inspired by  http://www.thefutureoftheweb.com/blog/2006/6/adddomloadevent</i>
+            document.write(&quot;&lt;s&quot;+<em>'cript id=&quot;ie-deferred-loader&quot; defer=&quot;defer&quot; src=&quot;/'</em>+<em>'/:&quot;&gt;&lt;/s'</em>+&quot;cript&gt;&quot;);
+            <b>var</b> defer = document.getElementById(&quot;ie-deferred-loader&quot;);
+            defer.onreadystatechange = <b>function</b>(){
+                <b>if</b>(this.readyState == &quot;complete&quot;){
+                    fireDocReady();
+                    defer.onreadystatechange = null;
+                    defer.parentNode.removeChild(defer);
+                }
+            };
+        }<b>else</b> if(Ext.isSafari){ 
+            docReadyProcId = setInterval(<b>function</b>(){
+                <b>var</b> rs = document.readyState;
+                <b>if</b>(rs == &quot;complete&quot;) {
+                    fireDocReady();     
+                 }
+            }, 10);
+        }
+        <i>// no matter what, make sure it fires on load</i>
+        E.on(window, &quot;load&quot;, fireDocReady);
+    };
+
+    <b>var</b> createBuffered = <b>function</b>(h, o){
+        <b>var</b> task = <b>new</b> Ext.util.DelayedTask(h);
+        <b>return</b> function(e){
+            <i>// create <b>new</b> event object impl so <b>new</b> events don't wipe out properties</i>
+            e = <b>new</b> Ext.EventObjectImpl(e);
+            task.delay(o.buffer, h, null, [e]);
+        };
+    };
+
+    <b>var</b> createSingle = <b>function</b>(h, el, ename, fn){
+        <b>return</b> function(e){
+            Ext.EventManager.removeListener(el, ename, fn);
+            h(e);
+        };
+    };
+
+    <b>var</b> createDelayed = <b>function</b>(h, o){
+        <b>return</b> function(e){
+            <i>// create <b>new</b> event object impl so <b>new</b> events don't wipe out properties</i>
+            e = <b>new</b> Ext.EventObjectImpl(e);
+            setTimeout(<b>function</b>(){
+                h(e);
+            }, o.delay || 10);
+        };
+    };
+
+    <b>var</b> listen = <b>function</b>(element, ename, opt, fn, scope){
+        <b>var</b> o = (!opt || <b>typeof</b> opt == &quot;boolean&quot;) ? {} : opt;
+        fn = fn || o.fn; scope = scope || o.scope;
+        <b>var</b> el = Ext.getDom(element);
+        <b>if</b>(!el){
+            throw &quot;Error listening <b>for</b> \&quot;&quot; + ename + <em>'\&quot;. Element &quot;'</em> + element + <em>'&quot; doesn\'</em>t exist.';
+        }
+        <b>var</b> h = <b>function</b>(e){
+            e = Ext.EventObject.setEvent(e);
+            <b>var</b> t;
+            <b>if</b>(o.delegate){
+                t = e.getTarget(o.delegate, el);
+                <b>if</b>(!t){
+                    <b>return</b>;
+                }
+            }<b>else</b>{
+                t = e.target;
+            }
+            <b>if</b>(o.stopEvent === true){
+                e.stopEvent();
+            }
+            <b>if</b>(o.preventDefault === true){
+               e.preventDefault();
+            }
+            <b>if</b>(o.stopPropagation === true){
+                e.stopPropagation();
+            }
+
+            <b>if</b>(o.normalized === false){
+                e = e.browserEvent;
+            }
+
+            fn.call(scope || el, e, t, o);
+        };
+        <b>if</b>(o.delay){
+            h = createDelayed(h, o);
+        }
+        <b>if</b>(o.single){
+            h = createSingle(h, el, ename, fn);
+        }
+        <b>if</b>(o.buffer){
+            h = createBuffered(h, o);
+        }
+        fn._handlers = fn._handlers || [];
+        fn._handlers.push([Ext.id(el), ename, h]);
+
+        E.on(el, ename, h);
+        <b>if</b>(ename == &quot;mousewheel&quot; &amp;&amp; el.addEventListener){ <i>// workaround <b>for</b> jQuery</i>
+            el.addEventListener(&quot;DOMMouseScroll&quot;, h, false);
+            E.on(window, <em>'unload'</em>, <b>function</b>(){
+                el.removeEventListener(&quot;DOMMouseScroll&quot;, h, false);
+            });
+        }
+        <b>if</b>(ename == &quot;mousedown&quot; &amp;&amp; el == document){ <i>// fix stopped mousedowns on the document</i>
+            Ext.EventManager.stoppedMouseDownEvent.addListener(h);
+        }
+        <b>return</b> h;
+    };
+
+    <b>var</b> stopListening = <b>function</b>(el, ename, fn){
+        <b>var</b> id = Ext.id(el), hds = fn._handlers, hd = fn;
+        <b>if</b>(hds){
+            <b>for</b>(var i = 0, len = hds.length; i &lt; len; i++){
+                <b>var</b> h = hds[i];
+                <b>if</b>(h[0] == id &amp;&amp; h[1] == ename){
+                    hd = h[2];
+                    hds.splice(i, 1);
+                    <b>break</b>;
+                }
+            }
+        }
+        E.un(el, ename, hd);
+        el = Ext.getDom(el);
+        <b>if</b>(ename == &quot;mousewheel&quot; &amp;&amp; el.addEventListener){
+            el.removeEventListener(&quot;DOMMouseScroll&quot;, hd, false);
+        }
+        <b>if</b>(ename == &quot;mousedown&quot; &amp;&amp; el == document){ <i>// fix stopped mousedowns on the document</i>
+            Ext.EventManager.stoppedMouseDownEvent.removeListener(hd);
+        }
+    };
+
+    <b>var</b> propRe = /^(?:scope|delay|buffer|single|stopEvent|preventDefault|stopPropagation|normalized|args|delegate)$/;
+    <b>var</b> pub = {
+        
+        <i>/** 
+         * This is no longer needed and is deprecated. Places a simple wrapper around an event handler to override the browser event
+         * object <b>with</b> a Ext.EventObject
+         * @param {Function} fn        The method the event invokes
+         * @param {Object}   scope    An object that becomes the scope of the handler
+         * @param {boolean}  override If true, the obj passed <b>in</b> becomes
+         *                             the execution scope of the listener
+         * @<b>return</b> {Function} The wrapped <b>function</b>
+         * @deprecated
+         */</i>
+        wrap : <b>function</b>(fn, scope, override){
+            <b>return</b> function(e){
+                Ext.EventObject.setEvent(e);
+                fn.call(override ? scope || window : window, Ext.EventObject, scope);
+            };
+        },
+        
+        <i>/**
+     * Appends an event handler to an element (shorthand <b>for</b> addListener)
+     * @param {String/HTMLElement}   element        The html element or id to assign the
+     * @param {String}   eventName The type of event to listen <b>for</b>
+     * @param {Function} handler The method the event invokes
+     * @param {Object}   scope (optional) The scope <b>in</b> which to execute the handler
+     * <b>function</b>. The handler <b>function</b>'s &quot;<b>this</b>&quot; context.
+     * @param {Object}   options (optional) An object containing handler configuration
+     * properties. This may contain any of the following properties:&lt;ul&gt;
+     * &lt;li&gt;scope {Object} The scope <b>in</b> which to execute the handler <b>function</b>. The handler <b>function</b>'s &quot;<b>this</b>&quot; context.&lt;/li&gt;
+     * &lt;li&gt;delegate {String} A simple selector to filter the target or look <b>for</b> a descendant of the target&lt;/li&gt;
+     * &lt;li&gt;stopEvent {Boolean} True to stop the event. That is stop propagation, and prevent the <b>default</b> action.&lt;/li&gt;
+     * &lt;li&gt;preventDefault {Boolean} True to prevent the <b>default</b> action&lt;/li&gt;
+     * &lt;li&gt;stopPropagation {Boolean} True to prevent event propagation&lt;/li&gt;
+     * &lt;li&gt;normalized {Boolean} False to pass a browser event to the handler <b>function</b> instead of an Ext.EventObject&lt;/li&gt;
+     * &lt;li&gt;delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.&lt;/li&gt;
+     * &lt;li&gt;single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.&lt;/li&gt;
+     * &lt;li&gt;buffer {Number} Causes the handler to be scheduled to run <b>in</b> an {@link Ext.util.DelayedTask} delayed
+     * by the specified number of milliseconds. If the event fires again within that time, the original
+     * handler is &lt;em&gt;not&lt;/em&gt; invoked, but the <b>new</b> handler is scheduled <b>in</b> its place.&lt;/li&gt;
+     * &lt;/ul&gt;&lt;br&gt;
+     * &lt;p&gt;
+     * &lt;b&gt;Combining Options&lt;/b&gt;&lt;br&gt;
+     * Using the options argument, it is possible to combine different types of listeners:&lt;br&gt;
+     * &lt;br&gt;
+     * A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)&lt;div style=&quot;margin: 5px 20px 20px;&quot;&gt;
+     * Code:&lt;pre&gt;&lt;code&gt;
+el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+    single: true,
+    delay: 100,
+    stopEvent : true,
+    forumId: 4
+});&lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;
+     * &lt;b&gt;Attaching multiple handlers <b>in</b> 1 call&lt;/b&gt;&lt;br&gt;
+      * The method also allows <b>for</b> a single argument to be passed which is a config object containing properties
+     * which specify multiple handlers.
+     * &lt;p&gt;
+     * Code:&lt;pre&gt;&lt;code&gt;
+el.on({
+    <em>'click'</em> : {
+        fn: <b>this</b>.onClick
+        scope: <b>this</b>,
+        delay: 100
+    },
+    <em>'mouseover'</em> : {
+        fn: <b>this</b>.onMouseOver
+        scope: <b>this</b>
+    },
+    <em>'mouseout'</em> : {
+        fn: <b>this</b>.onMouseOut
+        scope: <b>this</b>
+    }
+});&lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;
+     * Or a shorthand syntax:&lt;br&gt;
+     * Code:&lt;pre&gt;&lt;code&gt;
+el.on({
+    <em>'click'</em> : <b>this</b>.onClick,
+    <em>'mouseover'</em> : <b>this</b>.onMouseOver,
+    <em>'mouseout'</em> : <b>this</b>.onMouseOut
+    scope: <b>this</b>
+});&lt;/code&gt;&lt;/pre&gt;
+     */</i>
+        addListener : <b>function</b>(element, eventName, fn, scope, options){
+            <b>if</b>(typeof eventName == &quot;object&quot;){
+                <b>var</b> o = eventName;
+                <b>for</b>(var e <b>in</b> o){
+                    <b>if</b>(propRe.test(e)){
+                        <b>continue</b>;
+                    }
+                    <b>if</b>(typeof o[e] == &quot;<b>function</b>&quot;){
+                        <i>// shared options</i>
+                        listen(element, e, o, o[e], o.scope);
+                    }<b>else</b>{
+                        <i>// individual options</i>
+                        listen(element, e, o[e]);
+                    }
+                }
+                <b>return</b>;
+            }
+            <b>return</b> listen(element, eventName, options, fn, scope);
+        },
+        
+        <i>/**
+         * Removes an event handler
+         *
+         * @param {String/HTMLElement}   element        The id or html element to remove the 
+         *                             event from
+         * @param {String}   eventName     The type of event
+         * @param {Function} fn
+         * @<b>return</b> {Boolean} True <b>if</b> a listener was actually removed
+         */</i>
+        removeListener : <b>function</b>(element, eventName, fn){
+            <b>return</b> stopListening(element, eventName, fn);
+        },
+        
+        <i>/**
+         * Fires when the document is ready (before onload and before images are loaded). Can be 
+         * accessed shorthanded Ext.onReady().
+         * @param {Function} fn        The method the event invokes
+         * @param {Object}   scope    An  object that becomes the scope of the handler
+         * @param {boolean}  options
+         */</i>
+        onDocumentReady : <b>function</b>(fn, scope, options){
+            <b>if</b>(docReadyState){ <i>// <b>if</b> it already fired</i>
+                fn.call(scope || window, scope);
+                <b>return</b>;
+            }
+            <b>if</b>(!docReadyEvent){
+                initDocReady();
+            }
+            docReadyEvent.addListener(fn, scope, options);
+        },
+        
+        <i>/**
+         * Fires when the window is resized and provides resize event buffering (50 milliseconds), passes <b>new</b> viewport width and height to handlers.
+         * @param {Function} fn        The method the event invokes
+         * @param {Object}   scope    An object that becomes the scope of the handler
+         * @param {boolean}  options
+         */</i>
+        onWindowResize : <b>function</b>(fn, scope, options){
+            <b>if</b>(!resizeEvent){
+                resizeEvent = <b>new</b> Ext.util.Event();
+                resizeTask = <b>new</b> Ext.util.DelayedTask(<b>function</b>(){
+                    resizeEvent.fire(D.getViewWidth(), D.getViewHeight());
+                });
+                E.on(window, &quot;resize&quot;, <b>function</b>(){
+                    <b>if</b>(Ext.isIE){
+                        resizeTask.delay(50);
+                    }<b>else</b>{
+                        resizeEvent.fire(D.getViewWidth(), D.getViewHeight());
+                    }
+                });
+            }
+            resizeEvent.addListener(fn, scope, options);
+        },
+
+        <i>/**
+         * Fires when the user changes the active text size. Handler gets called <b>with</b> 2 params, the old size and the <b>new</b> size.
+         * @param {Function} fn        The method the event invokes
+         * @param {Object}   scope    An object that becomes the scope of the handler
+         * @param {boolean}  options
+         */</i>
+        onTextResize : <b>function</b>(fn, scope, options){
+            <b>if</b>(!textEvent){
+                textEvent = <b>new</b> Ext.util.Event();
+                <b>var</b> textEl = <b>new</b> Ext.Element(document.createElement(<em>'div'</em>));
+                textEl.dom.className = <em>'x-text-resize'</em>;
+                textEl.dom.innerHTML = <em>'X'</em>;
+                textEl.appendTo(document.body);
+                textSize = textEl.dom.offsetHeight;
+                setInterval(<b>function</b>(){
+                    <b>if</b>(textEl.dom.offsetHeight != textSize){
+                        textEvent.fire(textSize, textSize = textEl.dom.offsetHeight);
+                    }
+                }, <b>this</b>.textResizeInterval);
+            }
+            textEvent.addListener(fn, scope, options);
+        },
+
+        <i>/**
+         * Removes the passed window resize listener.
+         * @param {Function} fn        The method the event invokes
+         * @param {Object}   scope    The scope of handler
+         */</i>
+        removeResizeListener : <b>function</b>(fn, scope){
+            <b>if</b>(resizeEvent){
+                resizeEvent.removeListener(fn, scope);
+            }
+        },
+        
+        fireResize : <b>function</b>(){
+            <b>if</b>(resizeEvent){
+                resizeEvent.fire(D.getViewWidth(), D.getViewHeight());
+            }   
+        },
+        <i>/**
+         * Url used <b>for</b> onDocumentReady <b>with</b> using SSL (defaults to Ext.SSL_SECURE_URL)
+         */</i>
+        ieDeferSrc : false,
+        textResizeInterval : 50
+    };
+     <i>/**
+     * Appends an event handler to an element (shorthand <b>for</b> addListener)
+     * @param {String/HTMLElement}   element        The html element or id to assign the
+     * @param {String}   eventName The type of event to listen <b>for</b>
+     * @param {Function} handler The method the event invokes
+     * @param {Object}   scope (optional) The scope <b>in</b> which to execute the handler
+     * <b>function</b>. The handler <b>function</b>'s &quot;<b>this</b>&quot; context.
+     * @param {Object}   options (optional) An object containing handler configuration
+     * properties. This may contain any of the following properties:&lt;ul&gt;
+     * &lt;li&gt;scope {Object} The scope <b>in</b> which to execute the handler <b>function</b>. The handler <b>function</b>'s &quot;<b>this</b>&quot; context.&lt;/li&gt;
+     * &lt;li&gt;delegate {String} A simple selector to filter the target or look <b>for</b> a descendant of the target&lt;/li&gt;
+     * &lt;li&gt;stopEvent {Boolean} True to stop the event. That is stop propagation, and prevent the <b>default</b> action.&lt;/li&gt;
+     * &lt;li&gt;preventDefault {Boolean} True to prevent the <b>default</b> action&lt;/li&gt;
+     * &lt;li&gt;stopPropagation {Boolean} True to prevent event propagation&lt;/li&gt;
+     * &lt;li&gt;normalized {Boolean} False to pass a browser event to the handler <b>function</b> instead of an Ext.EventObject&lt;/li&gt;
+     * &lt;li&gt;delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.&lt;/li&gt;
+     * &lt;li&gt;single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.&lt;/li&gt;
+     * &lt;li&gt;buffer {Number} Causes the handler to be scheduled to run <b>in</b> an {@link Ext.util.DelayedTask} delayed
+     * by the specified number of milliseconds. If the event fires again within that time, the original
+     * handler is &lt;em&gt;not&lt;/em&gt; invoked, but the <b>new</b> handler is scheduled <b>in</b> its place.&lt;/li&gt;
+     * &lt;/ul&gt;&lt;br&gt;
+     * &lt;p&gt;
+     * &lt;b&gt;Combining Options&lt;/b&gt;&lt;br&gt;
+     * Using the options argument, it is possible to combine different types of listeners:&lt;br&gt;
+     * &lt;br&gt;
+     * A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)&lt;div style=&quot;margin: 5px 20px 20px;&quot;&gt;
+     * Code:&lt;pre&gt;&lt;code&gt;
+el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+    single: true,
+    delay: 100,
+    stopEvent : true,
+    forumId: 4
+});&lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;
+     * &lt;b&gt;Attaching multiple handlers <b>in</b> 1 call&lt;/b&gt;&lt;br&gt;
+      * The method also allows <b>for</b> a single argument to be passed which is a config object containing properties
+     * which specify multiple handlers.
+     * &lt;p&gt;
+     * Code:&lt;pre&gt;&lt;code&gt;
+el.on({
+    <em>'click'</em> : {
+        fn: <b>this</b>.onClick
+        scope: <b>this</b>,
+        delay: 100
+    },
+    <em>'mouseover'</em> : {
+        fn: <b>this</b>.onMouseOver
+        scope: <b>this</b>
+    },
+    <em>'mouseout'</em> : {
+        fn: <b>this</b>.onMouseOut
+        scope: <b>this</b>
+    }
+});&lt;/code&gt;&lt;/pre&gt;
+     * &lt;p&gt;
+     * Or a shorthand syntax:&lt;br&gt;
+     * Code:&lt;pre&gt;&lt;code&gt;
+el.on({
+    <em>'click'</em> : <b>this</b>.onClick,
+    <em>'mouseover'</em> : <b>this</b>.onMouseOver,
+    <em>'mouseout'</em> : <b>this</b>.onMouseOut
+    scope: <b>this</b>
+});&lt;/code&gt;&lt;/pre&gt;
+     */</i>
+    pub.on = pub.addListener;
+    pub.un = pub.removeListener;
+
+    pub.stoppedMouseDownEvent = <b>new</b> Ext.util.Event();
+    <b>return</b> pub;
+}();
+<i>/**
+  * Fires when the document is ready (before onload and before images are loaded).  Shorthand of {@link Ext.EventManager#onDocumentReady}.
+  * @param {Function} fn        The method the event invokes
+  * @param {Object}   scope    An  object that becomes the scope of the handler
+  * @param {boolean}  override If true, the obj passed <b>in</b> becomes
+  *                             the execution scope of the listener
+  * @member Ext
+  * @method onReady
+ */</i>
+Ext.onReady = Ext.EventManager.onDocumentReady;
+
+Ext.onReady(<b>function</b>(){
+    <b>var</b> bd = Ext.get(document.body);
+    <b>if</b>(!bd){ <b>return</b>; }
+
+    <b>var</b> cls = [
+            Ext.isIE ? &quot;ext-ie&quot;
+            : Ext.isGecko ? &quot;ext-gecko&quot;
+            : Ext.isOpera ? &quot;ext-opera&quot;
+            : Ext.isSafari ? &quot;ext-safari&quot; : &quot;&quot;];
+
+    <b>if</b>(Ext.isMac){
+        cls.push(&quot;ext-mac&quot;);
+    }
+    <b>if</b>(Ext.isLinux){
+        cls.push(&quot;ext-linux&quot;);
+    }
+    <b>if</b>(Ext.isBorderBox){
+        cls.push(<em>'ext-border-box'</em>);
+    }
+    <b>if</b>(Ext.isStrict){ <i>// add to the parent to allow <b>for</b> selectors like &quot;.ext-strict .ext-ie&quot;</i>
+        <b>var</b> p = bd.dom.parentNode;
+        <b>if</b>(p){
+            p.className = p.className ? <em>' ext-strict'</em> : <em>'ext-strict'</em>;
+        }
+    }
+    bd.addClass(cls.join(<em>' '</em>));
+});
+
+<i>/**
+ * @class Ext.EventObject
+ * EventObject exposes the Yahoo! UI Event functionality directly on the object
+ * passed to your event handler. It exists mostly <b>for</b> convenience. It also fixes the annoying null checks automatically to cleanup your code 
+ * Example:
+ * &lt;pre&gt;&lt;code&gt;
+ <b>function</b> handleClick(e){ <i>// e is not a standard event object, it is a Ext.EventObject</i>
+    e.preventDefault();
+    <b>var</b> target = e.getTarget();
+    ...
+ }
+ <b>var</b> myDiv = Ext.get(&quot;myDiv&quot;);
+ myDiv.on(&quot;click&quot;, handleClick);
+ <i>//or</i>
+ Ext.EventManager.on(&quot;myDiv&quot;, <em>'click'</em>, handleClick);
+ Ext.EventManager.addListener(&quot;myDiv&quot;, <em>'click'</em>, handleClick);
+ &lt;/code&gt;&lt;/pre&gt;
+ * @singleton
+ */</i>
+Ext.EventObject = <b>function</b>(){
+    
+    <b>var</b> E = Ext.lib.Event;
+    
+    <i>// safari keypress events <b>for</b> special keys <b>return</b> bad keycodes</i>
+    <b>var</b> safariKeys = {
+        63234 : 37, <i>// left</i>
+        63235 : 39, <i>// right</i>
+        63232 : 38, <i>// up</i>
+        63233 : 40, <i>// down</i>
+        63276 : 33, <i>// page up</i>
+        63277 : 34, <i>// page down</i>
+        63272 : 46, <i>// <b>delete</b></i>
+        63273 : 36, <i>// home</i>
+        63275 : 35  <i>// end</i>
+    };
+
+    <i>// normalize button clicks</i>
+    <b>var</b> btnMap = Ext.isIE ? {1:0,4:1,2:2} :
+                (Ext.isSafari ? {1:0,2:1,3:2} : {0:0,1:1,2:2});
+
+    Ext.EventObjectImpl = <b>function</b>(e){
+        <b>if</b>(e){
+            <b>this</b>.setEvent(e.browserEvent || e);
+        }
+    };
+    Ext.EventObjectImpl.prototype = {
+        <i>/** The normal browser event */</i>
+        browserEvent : null,
+        <i>/** The button pressed <b>in</b> a mouse event */</i>
+        button : -1,
+        <i>/** True <b>if</b> the shift key was down during the event */</i>
+        shiftKey : false,
+        <i>/** True <b>if</b> the control key was down during the event */</i>
+        ctrlKey : false,
+        <i>/** True <b>if</b> the alt key was down during the event */</i>
+        altKey : false,
+
+        <i>/** Key constant @type Number */</i>
+        BACKSPACE : 8,
+        <i>/** Key constant @type Number */</i>
+        TAB : 9,
+        <i>/** Key constant @type Number */</i>
+        RETURN : 13,
+        <i>/** Key constant @type Number */</i>
+        ENTER : 13,
+        <i>/** Key constant @type Number */</i>
+        SHIFT : 16,
+        <i>/** Key constant @type Number */</i>
+        CONTROL : 17,
+        <i>/** Key constant @type Number */</i>
+        ESC : 27,
+        <i>/** Key constant @type Number */</i>
+        SPACE : 32,
+        <i>/** Key constant @type Number */</i>
+        PAGEUP : 33,
+        <i>/** Key constant @type Number */</i>
+        PAGEDOWN : 34,
+        <i>/** Key constant @type Number */</i>
+        END : 35,
+        <i>/** Key constant @type Number */</i>
+        HOME : 36,
+        <i>/** Key constant @type Number */</i>
+        LEFT : 37,
+        <i>/** Key constant @type Number */</i>
+        UP : 38,
+        <i>/** Key constant @type Number */</i>
+        RIGHT : 39,
+        <i>/** Key constant @type Number */</i>
+        DOWN : 40,
+        <i>/** Key constant @type Number */</i>
+        DELETE : 46,
+        <i>/** Key constant @type Number */</i>
+        F5 : 116,
+
+           <i>/** @private */</i>
+        setEvent : <b>function</b>(e){
+            <b>if</b>(e == <b>this</b> || (e &amp;&amp; e.browserEvent)){ <i>// already wrapped</i>
+                <b>return</b> e;
+            }
+            <b>this</b>.browserEvent = e;
+            <b>if</b>(e){
+                <i>// normalize buttons</i>
+                <b>this</b>.button = e.button ? btnMap[e.button] : (e.which ? e.which-1 : -1);
+                <b>if</b>(e.type == <em>'click'</em> &amp;&amp; <b>this</b>.button == -1){
+                    <b>this</b>.button = 0;
+                }
+                <b>this</b>.type = e.type;
+                <b>this</b>.shiftKey = e.shiftKey;
+                <i>// mac metaKey behaves like ctrlKey</i>
+                <b>this</b>.ctrlKey = e.ctrlKey || e.metaKey;
+                <b>this</b>.altKey = e.altKey;
+                <i>// <b>in</b> getKey these will be normalized <b>for</b> the mac</i>
+                <b>this</b>.keyCode = e.keyCode;
+                <b>this</b>.charCode = e.charCode;
+                <i>// cache the target <b>for</b> the delayed and or buffered events</i>
+                <b>this</b>.target = E.getTarget(e);
+                <i>// same <b>for</b> XY</i>
+                <b>this</b>.xy = E.getXY(e);
+            }<b>else</b>{
+                <b>this</b>.button = -1;
+                <b>this</b>.shiftKey = false;
+                <b>this</b>.ctrlKey = false;
+                <b>this</b>.altKey = false;
+                <b>this</b>.keyCode = 0;
+                <b>this</b>.charCode =0;
+                <b>this</b>.target = null;
+                <b>this</b>.xy = [0, 0];
+            }
+            <b>return</b> this;
+        },
+
+        <i>/**
+         * Stop the event (preventDefault and stopPropagation)
+         */</i>
+        stopEvent : <b>function</b>(){
+            <b>if</b>(this.browserEvent){
+                <b>if</b>(this.browserEvent.type == <em>'mousedown'</em>){
+                    Ext.EventManager.stoppedMouseDownEvent.fire(<b>this</b>);
+                }
+                E.stopEvent(<b>this</b>.browserEvent);
+            }
+        },
+
+        <i>/**
+         * Prevents the browsers <b>default</b> handling of the event.
+         */</i>
+        preventDefault : <b>function</b>(){
+            <b>if</b>(this.browserEvent){
+                E.preventDefault(<b>this</b>.browserEvent);
+            }
+        },
+
+        <i>/** @private */</i>
+        isNavKeyPress : <b>function</b>(){
+            <b>var</b> k = <b>this</b>.keyCode;
+            k = Ext.isSafari ? (safariKeys[k] || k) : k;
+            <b>return</b> (k &gt;= 33 &amp;&amp; k &lt;= 40) || k == <b>this</b>.RETURN || k == <b>this</b>.TAB || k == <b>this</b>.ESC;
+        },
+
+        isSpecialKey : <b>function</b>(){
+            <b>var</b> k = <b>this</b>.keyCode;
+            <b>return</b> (<b>this</b>.type == <em>'keypress'</em> &amp;&amp; <b>this</b>.ctrlKey) || k == 9 || k == 13  || k == 40 || k == 27 ||
+            (k == 16) || (k == 17) ||
+            (k &gt;= 18 &amp;&amp; k &lt;= 20) ||
+            (k &gt;= 33 &amp;&amp; k &lt;= 35) ||
+            (k &gt;= 36 &amp;&amp; k &lt;= 39) ||
+            (k &gt;= 44 &amp;&amp; k &lt;= 45);
+        },
+        <i>/**
+         * Cancels bubbling of the event.
+         */</i>
+        stopPropagation : <b>function</b>(){
+            <b>if</b>(this.browserEvent){
+                <b>if</b>(this.type == <em>'mousedown'</em>){
+                    Ext.EventManager.stoppedMouseDownEvent.fire(<b>this</b>);
+                }
+                E.stopPropagation(<b>this</b>.browserEvent);
+            }
+        },
+
+        <i>/**
+         * Gets the key code <b>for</b> the event.
+         * @<b>return</b> {Number}
+         */</i>
+        getCharCode : <b>function</b>(){
+            <b>return</b> this.charCode || <b>this</b>.keyCode;
+        },
+
+        <i>/**
+         * Returns a normalized keyCode <b>for</b> the event.
+         * @<b>return</b> {Number} The key code
+         */</i>
+        getKey : <b>function</b>(){
+            <b>var</b> k = <b>this</b>.keyCode || <b>this</b>.charCode;
+            <b>return</b> Ext.isSafari ? (safariKeys[k] || k) : k;
+        },
+
+        <i>/**
+         * Gets the x coordinate of the event.
+         * @<b>return</b> {Number}
+         */</i>
+        getPageX : <b>function</b>(){
+            <b>return</b> this.xy[0];
+        },
+
+        <i>/**
+         * Gets the y coordinate of the event.
+         * @<b>return</b> {Number}
+         */</i>
+        getPageY : <b>function</b>(){
+            <b>return</b> this.xy[1];
+        },
+
+        <i>/**
+         * Gets the time of the event.
+         * @<b>return</b> {Number}
+         */</i>
+        getTime : <b>function</b>(){
+            <b>if</b>(this.browserEvent){
+                <b>return</b> E.getTime(<b>this</b>.browserEvent);
+            }
+            <b>return</b> null;
+        },
+
+        <i>/**
+         * Gets the page coordinates of the event.
+         * @<b>return</b> {Array} The xy values like [x, y]
+         */</i>
+        getXY : <b>function</b>(){
+            <b>return</b> this.xy;
+        },
+
+        <i>/**
+         * Gets the target <b>for</b> the event.
+         * @param {String} selector (optional) A simple selector to filter the target or look <b>for</b> an ancestor of the target
+         * @param {Number/String/HTMLElement/Element} maxDepth (optional) The max depth to
+                search as a number or element (defaults to 10 || document.body)
+         * @param {Boolean} returnEl (optional) True to <b>return</b> a Ext.Element object instead of DOM node
+         * @<b>return</b> {HTMLelement}
+         */</i>
+        getTarget : <b>function</b>(selector, maxDepth, returnEl){
+            <b>return</b> selector ? Ext.fly(<b>this</b>.target).findParent(selector, maxDepth, returnEl) : <b>this</b>.target;
+        },
+        <i>/**
+         * Gets the related target.
+         * @<b>return</b> {HTMLElement}
+         */</i>
+        getRelatedTarget : <b>function</b>(){
+            <b>if</b>(this.browserEvent){
+                <b>return</b> E.getRelatedTarget(<b>this</b>.browserEvent);
+            }
+            <b>return</b> null;
+        },
+
+        <i>/**
+         * Normalizes mouse wheel delta across browsers
+         * @<b>return</b> {Number} The delta
+         */</i>
+        getWheelDelta : <b>function</b>(){
+            <b>var</b> e = <b>this</b>.browserEvent;
+            <b>var</b> delta = 0;
+            <b>if</b>(e.wheelDelta){ <i>/* IE/Opera. */</i>
+                delta = e.wheelDelta/120;
+                <i>/* In Opera 9, delta differs <b>in</b> sign as compared to IE. */</i>
+                <b>if</b>(window.opera) delta = -delta;
+            }<b>else</b> if(e.detail){ <i>/* Mozilla <b>case</b>. */</i>
+                delta = -e.detail/3;
+            }
+            <b>return</b> delta;
+        },
+
+        <i>/**
+         * Returns true <b>if</b> the control, meta, shift or alt key was pressed during <b>this</b> event.
+         * @<b>return</b> {Boolean}
+         */</i>
+        hasModifier : <b>function</b>(){
+            <b>return</b> !!((<b>this</b>.ctrlKey || <b>this</b>.altKey) || <b>this</b>.shiftKey);
+        },
+
+        <i>/**
+         * Returns true <b>if</b> the target of <b>this</b> event equals el or is a child of el
+         * @param {String/HTMLElement/Element} el
+         * @param {Boolean} related (optional) true to test <b>if</b> the related target is within el instead of the target
+         * @<b>return</b> {Boolean}
+         */</i>
+        within : <b>function</b>(el, related){
+            <b>var</b> t = <b>this</b>[related ? &quot;getRelatedTarget&quot; : &quot;getTarget&quot;]();
+            <b>return</b> t &amp;&amp; Ext.fly(el).contains(t);
+        },
+
+        getPoint : <b>function</b>(){
+            <b>return</b> new Ext.lib.Point(<b>this</b>.xy[0], <b>this</b>.xy[1]);
+        }
+    };
+
+    <b>return</b> new Ext.EventObjectImpl();
+}();
+            
+    </code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

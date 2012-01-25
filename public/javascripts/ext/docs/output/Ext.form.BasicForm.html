@@ -1,0 +1,1017 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.form.BasicForm</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.form.BasicForm.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.form.BasicForm</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.form</td></tr>
+            <tr><td class="label">Class:</td><td>BasicForm</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.util.Observable" ext:member="" href="Ext.util.Observable.html">Observable</a></td></tr>
+                                    <tr><td class="label">Subclasses:</td><td><a ext:cls="Ext.form.Form" href="Ext.form.Form.html">Form</a></td></tr>
+                        <tr><td class="label">Defined In:</td><td><a href="BasicForm.jss.html">BasicForm.js</a></td></tr>
+        </table>
+        <div class="description">
+            Supplies the functionality to do "actions" on forms and initialize Ext.form.Field types on existing markup.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#waitMsgTarget">waitMsgTarget</a> : Mixed</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">By default wait messages are displayed with Ext.MessageBox.wait. You can target a specific
+element by passing it or i...</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>BasicForm</b>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#add">add</a>(&nbsp;<code>Field field1</code>, <span class="optional" title="Optional">[<code>Field field2</code>]</span>, <span class="optional" title="Optional">[<code>Field etc</code>]</span>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Add Ext.form components to this form.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#applyIfToFields">applyIfToFields</a>(&nbsp;<code>Object values</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Calls <a ext:cls="Ext" ext:member="applyIf" href="Ext.html#applyIf">Ext.applyIf</a> for all field in this form with the passed object.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#applyToFields">applyToFields</a>(&nbsp;<code>Object values</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Calls <a ext:cls="Ext" ext:member="apply" href="Ext.html#apply">Ext.apply</a> for all fields in this form with the passed object.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearInvalid">clearInvalid</a>() : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Clears all invalid messages in this form.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#doAction">doAction</a>(&nbsp;<code>String actionName</code>, <code>Object options</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Performs a predefined action (submit or load) or custom actions you define on this form.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#findField">findField</a>(&nbsp;<code>String id</code>&nbsp;) : Field</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Find a Ext.form.Field in this form by id, dataIndex, name or hiddenName</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getValues">getValues</a>(&nbsp;<code>Boolean asString</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Returns the fields in this form as an object with key/value pairs. If multiple fields exist with the same name
+they a...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isDirty">isDirty</a>() : Boolean</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns true if any fields in this form have changed since their original load.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isValid">isValid</a>() : Boolean</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns true if client-side validation on the form is successful.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#load">load</a>(&nbsp;<code>Object options</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Shortcut to do a load action.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#loadRecord">loadRecord</a>(&nbsp;<code>Record record</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Loads an Ext.data.Record into this form.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#markInvalid">markInvalid</a>(&nbsp;<code>Array/Object errors</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Mark fields in this form invalid in bulk.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#remove">remove</a>(&nbsp;<code>Field field</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Removes a field from the items collection (does NOT remove its markup).</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#render">render</a>() : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Looks at the fields in this form, checks them for an id attribute,
+and calls applyTo on the existing dom element with...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#reset">reset</a>() : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Resets this form.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setValues">setValues</a>(&nbsp;<code>Array/Object values</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Set values for fields in this form in bulk.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#submit">submit</a>(&nbsp;<code>Object options</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Shortcut to do a submit action.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#updateRecord">updateRecord</a>(&nbsp;<code>Record record</code>&nbsp;) : BasicForm</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Persists the values in this form into the passed Ext.data.Record object in a beginEdit/endEdit block.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-actioncomplete">actioncomplete</a> : (&nbsp;<code>Form this</code>, <code>Action action</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when an action is completed.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-actionfailed">actionfailed</a> : (&nbsp;<code>Form this</code>, <code>Action action</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when an action fails.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeaction">beforeaction</a> : (&nbsp;<code>Form this</code>, <code>Action action</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires before any action is performed. Return false to cancel the action.</td>
+    </tr>
+            </table>
+                        <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-baseParams">baseParams</a> : Object</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Parameters to pass with all requests. e.g. baseParams: {id: '123', foo: 'bar'}.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-errorReader">errorReader</a> : DataReader</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">An Ext.data.DataReader (e.g. Ext.data.XmlReader) to be used to read data when reading validation errors on "submit" a...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-fileUpload">fileUpload</a> : Boolean</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Set to true if this form is a file upload.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-method">method</a> : String</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The request method to use (GET or POST) for form actions if one isn't supplied in the action options.</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-reader">reader</a> : DataReader</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">An Ext.data.DataReader (e.g. Ext.data.XmlReader) to be used to read data when executing "load" actions. This is optio...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-timeout">timeout</a> : Number</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Timeout for form actions in seconds (default is 30 seconds).</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-trackResetOnLoad">trackResetOnLoad</a> : Boolean</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">If set to true, form.reset() resets to the last loaded or setValues() data instead of when the form was first created.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-url">url</a> : String</td>
+        <td class="msource" rowspan="2">BasicForm</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The URL to use for form actions if one isn't supplied in the action options.</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="waitMsgTarget"></a>
+                <div class="mdetail">
+                <h3>waitMsgTarget</i></h3>
+                <code>public Mixed waitMsgTarget</code>
+                <div class="mdetail-desc">
+                    By default wait messages are displayed with Ext.MessageBox.wait. You can target a specific
+element by passing it or its id or mask the form itself by passing in true.                </div>
+                <div class="mdetail-def">This property is defined by BasicForm.</div>
+                </div>
+                        </div>
+        
+                    <a name="BasicForm"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>BasicForm</i></h3>
+                <code>public function BasicForm(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The form element or its id</div></li><li><code>config</code> : Object<div class="sub-desc">Configuration options</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="add"></a>
+                <div class="mdetail">
+                <h3>add</i></h3>
+                <code>public function add(&nbsp;<code>Field field1</code>, <span class="optional" title="Optional">[<code>Field field2</code>]</span>, <span class="optional" title="Optional">[<code>Field etc</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Add Ext.form components to this form.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>field1</code> : Field<div class="sub-desc"></div></li><li><code>field2</code> : Field<div class="sub-desc">(optional)</div></li><li><code>etc</code> : Field<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="addEvents"></a>
+                <div class="mdetail alt">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="applyIfToFields"></a>
+                <div class="mdetail alt">
+                <h3>applyIfToFields</i></h3>
+                <code>public function applyIfToFields(&nbsp;<code>Object values</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Calls <a ext:cls="Ext" ext:member="applyIf" href="Ext.html#applyIf">Ext.applyIf</a> for all field in this form with the passed object.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>values</code> : Object<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="applyToFields"></a>
+                <div class="mdetail">
+                <h3>applyToFields</i></h3>
+                <code>public function applyToFields(&nbsp;<code>Object values</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Calls <a ext:cls="Ext" ext:member="apply" href="Ext.html#apply">Ext.apply</a> for all fields in this form with the passed object.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>values</code> : Object<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="clearInvalid"></a>
+                <div class="mdetail alt">
+                <h3>clearInvalid</i></h3>
+                <code>public function clearInvalid()</code>
+                <div class="mdetail-desc">
+                    Clears all invalid messages in this form.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="doAction"></a>
+                <div class="mdetail">
+                <h3>doAction</i></h3>
+                <code>public function doAction(&nbsp;<code>String actionName</code>, <code>Object options</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Performs a predefined action (submit or load) or custom actions you define on this form.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>actionName</code> : String<div class="sub-desc">The name of the action type</div></li><li><code>options</code> : Object<div class="sub-desc">The options to pass to the action</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="findField"></a>
+                <div class="mdetail alt">
+                <h3>findField</i></h3>
+                <code>public function findField(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Find a Ext.form.Field in this form by id, dataIndex, name or hiddenName
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">The value to search for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Field</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="getValues"></a>
+                <div class="mdetail alt">
+                <h3>getValues</i></h3>
+                <code>public function getValues(&nbsp;<code>Boolean asString</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the fields in this form as an object with key/value pairs. If multiple fields exist with the same name
+they are returned as an array.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>asString</code> : Boolean<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="isDirty"></a>
+                <div class="mdetail alt">
+                <h3>isDirty</i></h3>
+                <code>public function isDirty()</code>
+                <div class="mdetail-desc">
+                    Returns true if any fields in this form have changed since their original load.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="isValid"></a>
+                <div class="mdetail">
+                <h3>isValid</i></h3>
+                <code>public function isValid()</code>
+                <div class="mdetail-desc">
+                    Returns true if client-side validation on the form is successful.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="load"></a>
+                <div class="mdetail alt">
+                <h3>load</i></h3>
+                <code>public function load(&nbsp;<code>Object options</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Shortcut to do a load action.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">The options to pass to the action</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="loadRecord"></a>
+                <div class="mdetail">
+                <h3>loadRecord</i></h3>
+                <code>public function loadRecord(&nbsp;<code>Record record</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Loads an Ext.data.Record into this form.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>record</code> : Record<div class="sub-desc">The record to load</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="markInvalid"></a>
+                <div class="mdetail alt">
+                <h3>markInvalid</i></h3>
+                <code>public function markInvalid(&nbsp;<code>Array/Object errors</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Mark fields in this form invalid in bulk.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>errors</code> : Array/Object<div class="sub-desc">Either an array in the form [{id:'fieldId', msg:'The message'},...] or an object hash of {id: msg, id2: msg2}</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail alt">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="remove"></a>
+                <div class="mdetail">
+                <h3>remove</i></h3>
+                <code>public function remove(&nbsp;<code>Field field</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a field from the items collection (does NOT remove its markup).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>field</code> : Field<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail alt">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="render"></a>
+                <div class="mdetail">
+                <h3>render</i></h3>
+                <code>public function render()</code>
+                <div class="mdetail-desc">
+                    Looks at the fields in this form, checks them for an id attribute,
+and calls applyTo on the existing dom element with that id.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="reset"></a>
+                <div class="mdetail alt">
+                <h3>reset</i></h3>
+                <code>public function reset()</code>
+                <div class="mdetail-desc">
+                    Resets this form.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="setValues"></a>
+                <div class="mdetail">
+                <h3>setValues</i></h3>
+                <code>public function setValues(&nbsp;<code>Array/Object values</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Set values for fields in this form in bulk.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>values</code> : Array/Object<div class="sub-desc">Either an array in the form [{id:'fieldId', value:'foo'},...] or an object hash of {id: value, id2: value2}</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="submit"></a>
+                <div class="mdetail alt">
+                <h3>submit</i></h3>
+                <code>public function submit(&nbsp;<code>Object options</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Shortcut to do a submit action.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>options</code> : Object<div class="sub-desc">The options to pass to the action</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                            <a name="updateRecord"></a>
+                <div class="mdetail alt">
+                <h3>updateRecord</i></h3>
+                <code>public function updateRecord(&nbsp;<code>Record record</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Persists the values in this form into the passed Ext.data.Record object in a beginEdit/endEdit block.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>record</code> : Record<div class="sub-desc">The record to edit</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>BasicForm</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by BasicForm.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-actioncomplete"></a>
+                <div class="mdetail">
+                <h3>actioncomplete</i></h3>
+                <code>public event actioncomplete</code>
+                <div class="mdetail-desc">
+                Fires when an action is completed.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Form<div class="sub-desc"></div></li><li><code>action</code> : Action<div class="sub-desc">The action that completed</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by BasicForm.</div>
+                </div>
+                            <a name="event-actionfailed"></a>
+                <div class="mdetail alt">
+                <h3>actionfailed</i></h3>
+                <code>public event actionfailed</code>
+                <div class="mdetail-desc">
+                Fires when an action fails.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Form<div class="sub-desc"></div></li><li><code>action</code> : Action<div class="sub-desc">The action that failed</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by BasicForm.</div>
+                </div>
+                            <a name="event-beforeaction"></a>
+                <div class="mdetail">
+                <h3>beforeaction</i></h3>
+                <code>public event beforeaction</code>
+                <div class="mdetail-desc">
+                Fires before any action is performed. Return false to cancel the action.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Form<div class="sub-desc"></div></li><li><code>action</code> : Action<div class="sub-desc">The action to be performed</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by BasicForm.</div>
+                </div>
+                        </div>
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-baseParams"></a>
+                <div class="mdetail">
+                <h3>baseParams</i></h3>
+                <code>baseParams : Object</code>
+                <div class="mdetail-desc">
+                    Parameters to pass with all requests. e.g. baseParams: {id: '123', foo: 'bar'}.                </div>
+                <div class="mdetail-def">This config option is defined by BasicForm.</div>
+                </div>
+                            <a name="config-errorReader"></a>
+                <div class="mdetail alt">
+                <h3>errorReader</i></h3>
+                <code>errorReader : DataReader</code>
+                <div class="mdetail-desc">
+                    An Ext.data.DataReader (e.g. <a ext:cls="Ext.data.XmlReader" href="Ext.data.XmlReader.html">Ext.data.XmlReader</a>) to be used to read data when reading validation errors on "submit" actions. This is completely optional as there is built-in support for processing JSON.                </div>
+                <div class="mdetail-def">This config option is defined by BasicForm.</div>
+                </div>
+                            <a name="config-fileUpload"></a>
+                <div class="mdetail">
+                <h3>fileUpload</i></h3>
+                <code>fileUpload : Boolean</code>
+                <div class="mdetail-desc">
+                    Set to true if this form is a file upload.                </div>
+                <div class="mdetail-def">This config option is defined by BasicForm.</div>
+                </div>
+                            <a name="config-method"></a>
+                <div class="mdetail alt">
+                <h3>method</i></h3>
+                <code>method : String</code>
+                <div class="mdetail-desc">
+                    The request method to use (GET or POST) for form actions if one isn't supplied in the action options.                </div>
+                <div class="mdetail-def">This config option is defined by BasicForm.</div>
+                </div>
+                            <a name="config-reader"></a>
+                <div class="mdetail">
+                <h3>reader</i></h3>
+                <code>reader : DataReader</code>
+                <div class="mdetail-desc">
+                    An Ext.data.DataReader (e.g. <a ext:cls="Ext.data.XmlReader" href="Ext.data.XmlReader.html">Ext.data.XmlReader</a>) to be used to read data when executing "load" actions. This is optional as there is built-in support for processing JSON.                </div>
+                <div class="mdetail-def">This config option is defined by BasicForm.</div>
+                </div>
+                            <a name="config-timeout"></a>
+                <div class="mdetail alt">
+                <h3>timeout</i></h3>
+                <code>timeout : Number</code>
+                <div class="mdetail-desc">
+                    Timeout for form actions in seconds (default is 30 seconds).                </div>
+                <div class="mdetail-def">This config option is defined by BasicForm.</div>
+                </div>
+                            <a name="config-trackResetOnLoad"></a>
+                <div class="mdetail">
+                <h3>trackResetOnLoad</i></h3>
+                <code>trackResetOnLoad : Boolean</code>
+                <div class="mdetail-desc">
+                    If set to true, form.reset() resets to the last loaded or setValues() data instead of when the form was first created.                </div>
+                <div class="mdetail-def">This config option is defined by BasicForm.</div>
+                </div>
+                            <a name="config-url"></a>
+                <div class="mdetail alt">
+                <h3>url</i></h3>
+                <code>url : String</code>
+                <div class="mdetail-desc">
+                    The URL to use for form actions if one isn't supplied in the action options.                </div>
+                <div class="mdetail-def">This config option is defined by BasicForm.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

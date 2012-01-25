@@ -1,0 +1,137 @@
+<html><head><title>JSON.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>JSON.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.util.JSON
+ * Modified version of Douglas Crockford&quot;s json.js that doesn&quot;t
+ * mess <b>with</b> the Object prototype 
+ * http:<i>//www.json.org/js.html</i>
+ * @singleton
+ */</i>
+Ext.util.JSON = <b>new</b> (<b>function</b>(){
+    <b>var</b> useHasOwn = {}.hasOwnProperty ? true : false;
+    
+    <i>// crashes Safari <b>in</b> some instances</i>
+    <i>//<b>var</b> validRE = /^(&quot;(\\.|[^&quot;\\\n\r])*?&quot;|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;</i>
+    
+    <b>var</b> pad = <b>function</b>(n) {
+        <b>return</b> n &lt; 10 ? &quot;0&quot; + n : n;
+    };
+    
+    <b>var</b> m = {
+        &quot;\b&quot;: <em>'\\b'</em>,
+        &quot;\t&quot;: <em>'\\t'</em>,
+        &quot;\n&quot;: <em>'\\n'</em>,
+        &quot;\f&quot;: <em>'\\f'</em>,
+        &quot;\r&quot;: <em>'\\r'</em>,
+        <em>'&quot;'</em> : <em>'\\&quot;'</em>,
+        &quot;\\&quot;: <em>'\\\\'</em>
+    };
+
+    <b>var</b> encodeString = <b>function</b>(s){
+        <b>if</b> (/[&quot;\\\x00-\x1f]/.test(s)) {
+            <b>return</b> <em>'&quot;'</em> + s.replace(/([\x00-\x1f\\&quot;])/g, <b>function</b>(a, b) {
+                <b>var</b> c = m[b];
+                <b>if</b>(c){
+                    <b>return</b> c;
+                }
+                c = b.charCodeAt();
+                <b>return</b> &quot;\\u00&quot; +
+                    Math.floor(c / 16).toString(16) +
+                    (c % 16).toString(16);
+            }) + <em>'&quot;'</em>;
+        }
+        <b>return</b> <em>'&quot;'</em> + s + <em>'&quot;'</em>;
+    };
+    
+    <b>var</b> encodeArray = <b>function</b>(o){
+        <b>var</b> a = [&quot;[&quot;], b, i, l = o.length, v;
+            <b>for</b> (i = 0; i &lt; l; i += 1) {
+                v = o[i];
+                <b>switch</b> (<b>typeof</b> v) {
+                    <b>case</b> &quot;undefined&quot;:
+                    <b>case</b> &quot;<b>function</b>&quot;:
+                    <b>case</b> &quot;unknown&quot;:
+                        <b>break</b>;
+                    <b>default</b>:
+                        <b>if</b> (b) {
+                            a.push(<em>','</em>);
+                        }
+                        a.push(v === null ? &quot;null&quot; : Ext.util.JSON.encode(v));
+                        b = true;
+                }
+            }
+            a.push(&quot;]&quot;);
+            <b>return</b> a.join(&quot;&quot;);
+    };
+    
+    <b>var</b> encodeDate = <b>function</b>(o){
+        <b>return</b> <em>'&quot;'</em> + o.getFullYear() + &quot;-&quot; +
+                pad(o.getMonth() + 1) + &quot;-&quot; +
+                pad(o.getDate()) + &quot;T&quot; +
+                pad(o.getHours()) + &quot;:&quot; +
+                pad(o.getMinutes()) + &quot;:&quot; +
+                pad(o.getSeconds()) + <em>'&quot;'</em>;
+    };
+    
+    <i>/**
+     * Encodes an Object, Array or other value
+     * @param {Mixed} o The variable to encode
+     * @<b>return</b> {String} The JSON string
+     */</i>
+    <b>this</b>.encode = <b>function</b>(o){
+        <b>if</b>(typeof o == &quot;undefined&quot; || o === null){
+            <b>return</b> &quot;null&quot;;
+        }<b>else</b> if(o instanceof Array){
+            <b>return</b> encodeArray(o);
+        }<b>else</b> if(o instanceof Date){
+            <b>return</b> encodeDate(o);
+        }<b>else</b> if(<b>typeof</b> o == &quot;string&quot;){
+            <b>return</b> encodeString(o);
+        }<b>else</b> if(<b>typeof</b> o == &quot;number&quot;){
+            <b>return</b> isFinite(o) ? String(o) : &quot;null&quot;;
+        }<b>else</b> if(<b>typeof</b> o == &quot;boolean&quot;){
+            <b>return</b> String(o);
+        }<b>else</b> {
+            <b>var</b> a = [&quot;{&quot;], b, i, v;
+            <b>for</b> (i <b>in</b> o) {
+                <b>if</b>(!useHasOwn || o.hasOwnProperty(i)) {
+                    v = o[i];
+                    <b>switch</b> (<b>typeof</b> v) {
+                    <b>case</b> &quot;undefined&quot;:
+                    <b>case</b> &quot;<b>function</b>&quot;:
+                    <b>case</b> &quot;unknown&quot;:
+                        <b>break</b>;
+                    <b>default</b>:
+                        <b>if</b>(b){
+                            a.push(<em>','</em>);
+                        }
+                        a.push(<b>this</b>.encode(i), &quot;:&quot;,
+                                v === null ? &quot;null&quot; : <b>this</b>.encode(v));
+                        b = true;
+                    }
+                }
+            }
+            a.push(&quot;}&quot;);
+            <b>return</b> a.join(&quot;&quot;);
+        }
+    };
+    
+    <i>/**
+     * Decodes (parses) a JSON string to an object. If the JSON is invalid, <b>this</b> function throws a SyntaxError.
+     * @param {String} json The JSON string
+     * @<b>return</b> {Object} The resulting object
+     */</i>
+    <b>this</b>.decode = <b>function</b>(json){
+        <b>return</b> eval(&quot;(&quot; + json + <em>')'</em>);
+    };
+})();
+<i>/** 
+ * Shorthand <b>for</b> {@link Ext.util.JSON#encode}
+ * @member Ext encode 
+ * @method */</i>
+Ext.encode = Ext.util.JSON.encode;
+<i>/** 
+ * Shorthand <b>for</b> {@link Ext.util.JSON#decode}
+ * @member Ext decode 
+ * @method */</i>
+Ext.decode = Ext.util.JSON.decode;
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

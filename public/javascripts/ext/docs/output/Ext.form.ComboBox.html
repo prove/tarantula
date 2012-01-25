@@ -1,0 +1,3147 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.form.ComboBox</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.form.ComboBox.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.form.ComboBox</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.form</td></tr>
+            <tr><td class="label">Class:</td><td>ComboBox</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.form.TriggerField" ext:member="" href="Ext.form.TriggerField.html">TriggerField</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="Combo.jss.html">Combo.js</a></td></tr>
+        </table>
+        <div class="description">
+            A combobox control with support for autocomplete, remote-loading, paging and many other features.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disabled">disabled</a> : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#disabled" href="Ext.Component.html#disabled">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">true if this component is disabled. Read-only.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hidden">hidden</a> : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#hidden" href="Ext.Component.html#hidden">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">true if this component is hidden. Read-only.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#rendered">rendered</a> : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#rendered" href="Ext.Component.html#rendered">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">true if this component has been rendered. Read-only.</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>ComboBox</b>(&nbsp;<code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new ComboBox.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#applyTo">applyTo</a>(&nbsp;<code>String/HTMLElement/Element el</code>&nbsp;) : Ext.form.Field</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#applyTo" href="Ext.form.Field.html#applyTo">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Apply the behaviors of this component to an existing element. <b>This is used instead of render().</b></td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearInvalid">clearInvalid</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#clearInvalid" href="Ext.form.Field.html#clearInvalid">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Clear any invalid styles/messages for this field</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearValue">clearValue</a>() : void</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Clears any text/value currently set in the field</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#collapse">collapse</a>() : void</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Hides the dropdown list if it is currently expanded. Fires the 'collapse' event on completion.</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#destroy">destroy</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#destroy" href="Ext.Component.html#destroy">Component</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Destroys this component by purging any event listeners, removing the component's element from the DOM,
+removing the c...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disable">disable</a>() : Ext.Component</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#disable" href="Ext.Component.html#disable">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Disable this component.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#doQuery">doQuery</a>(&nbsp;<code>String query</code>, <code>Boolean forceAll</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Execute a query to filter the dropdown list.  Fires the beforequery event prior to performing the
+query allowing the ...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#enable">enable</a>() : Ext.Component</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#enable" href="Ext.Component.html#enable">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Enable this component.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#expand">expand</a>() : void</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Expands the dropdown list if it is currently hidden. Fires the 'expand' event on completion.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#focus">focus</a>(&nbsp;<code>Boolean selectText</code>&nbsp;) : Ext.Component</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#focus" href="Ext.Component.html#focus">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Try to focus this component.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getBox">getBox</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean local</code>]</span>&nbsp;) : s</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#getBox" href="Ext.BoxComponent.html#getBox">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Gets the current box measurements of the component's underlying element.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getEl">getEl</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#getEl" href="Ext.Component.html#getEl">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the underlying <a ext:cls="Ext.Element" href="Ext.Element.html">Ext.Element</a>.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getId">getId</a>() : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#getId" href="Ext.Component.html#getId">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns the id of this component.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getName">getName</a>() : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#getName" href="Ext.form.Field.html#getName">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the name attribute of the field if available</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getPosition">getPosition</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean local</code>]</span>&nbsp;) : Array</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#getPosition" href="Ext.BoxComponent.html#getPosition">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Gets the current XY position of the component's underlying element.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getRawValue">getRawValue</a>() : Mixed</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#getRawValue" href="Ext.form.Field.html#getRawValue">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the raw data value which may or may not be a valid, defined value.  To return a normalized value see <a ext:cls="Ext.form.Field" ext:member="getValue" href="Ext.form.Field.html#getValue">getValue</a>.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getSize">getSize</a>() : Object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#getSize" href="Ext.BoxComponent.html#getSize">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Gets the current size of the component's underlying element.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getValue">getValue</a>() : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns the currently selected field value or empty string if no value is set.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hide">hide</a>() : Ext.Component</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#hide" href="Ext.Component.html#hide">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Hide this component.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isDirty">isDirty</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#isDirty" href="Ext.form.Field.html#isDirty">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns true if this field has been changed since it was originally loaded and is not disabled.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isExpanded">isExpanded</a>() : void</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns true if the dropdown list is expanded, else false.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isValid">isValid</a>(&nbsp;<code>Boolean preventMark</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#isValid" href="Ext.form.Field.html#isValid">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns whether or not the field value is currently valid</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isVisible">isVisible</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#isVisible" href="Ext.Component.html#isVisible">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns true if this component is visible.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#markInvalid">markInvalid</a>(&nbsp;<code>String msg</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#markInvalid" href="Ext.form.Field.html#markInvalid">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Mark this field as invalid</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onPosition">onPosition</a>(&nbsp;<code>Number x</code>, <code>Number y</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#onPosition" href="Ext.BoxComponent.html#onPosition">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Called after the component is moved, this method is empty by default but can be implemented by any
+subclass that need...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onResize">onResize</a>(&nbsp;<code>Number adjWidth</code>, <code>Number adjHeight</code>, <code>Number rawWidth</code>, <code>Number rawHeight</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#onResize" href="Ext.BoxComponent.html#onResize">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Called after the component is resized, this method is empty by default but can be implemented by any
+subclass that ne...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onTriggerClick">onTriggerClick</a>(&nbsp;<code>EventObject e</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TriggerField" ext:member="#onTriggerClick" href="Ext.form.TriggerField.html#onTriggerClick">TriggerField</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">The function that should handle the trigger's click event.  This method does nothing by default until overridden
+by a...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#render">render</a>(&nbsp;<span class="optional" title="Optional">[<code>String/HTMLElement/Element container</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#render" href="Ext.Component.html#render">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">If this is a lazy rendering component, render it to its container element.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#reset">reset</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#reset" href="Ext.form.Field.html#reset">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Resets the current field value to the originally loaded value and clears any validation messages</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#select">select</a>(&nbsp;<code>Number index</code>, <code>Boolean scrollIntoView</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Select an item in the dropdown list by its numeric index in the list. This function does NOT cause the select event t...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#selectByValue">selectByValue</a>(&nbsp;<code>String value</code>, <code>Boolean scrollIntoView</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Select an item in the dropdown list by its data value. This function does NOT cause the select event to fire.
+The sto...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#selectText">selectText</a>(&nbsp;<span class="optional" title="Optional">[<code>Number start</code>]</span>, <span class="optional" title="Optional">[<code>Number end</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#selectText" href="Ext.form.TextField.html#selectText">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Selects text in this field</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setDisabled">setDisabled</a>(&nbsp;<code>Boolean disabled</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#setDisabled" href="Ext.Component.html#setDisabled">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Convenience function for setting disabled/enabled by boolean.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setEditable">setEditable</a>(&nbsp;<code>Boolean value</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Allow or prevent the user from directly editing the field text.  If false is passed,
+the user will only be able to se...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setPagePosition">setPagePosition</a>(&nbsp;<code>Number x</code>, <code>Number y</code>&nbsp;) : s</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#setPagePosition" href="Ext.BoxComponent.html#setPagePosition">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Sets the page XY position of the component.  To set the left and top instead, use setPosition.
+This method fires the ...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setPosition">setPosition</a>(&nbsp;<code>Number left</code>, <code>Number top</code>&nbsp;) : s</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#setPosition" href="Ext.BoxComponent.html#setPosition">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Sets the left and top of the component.  To set the page XY position instead, use setPagePosition.
+This method fires ...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setRawValue">setRawValue</a>(&nbsp;<code>Mixed value</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#setRawValue" href="Ext.form.Field.html#setRawValue">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Sets the underlying DOM field's value directly, bypassing validation.  To set the value with validation see <a ext:cls="Ext.form.Field" ext:member="setValue" href="Ext.form.Field.html#setValue">setValue</a>.</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setSize">setSize</a>(&nbsp;<code>Number/Object width</code>, <code>Number height</code>&nbsp;) : Ext.BoxComponent</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#setSize" href="Ext.BoxComponent.html#setSize">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Sets the width and height of the component.  This method fires the resize event.  This method can accept
+either width...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setValue">setValue</a>(&nbsp;<code>String value</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Sets the specified value into the field.  If the value finds a match, the corresponding record text
+will be displayed...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setVisible">setVisible</a>(&nbsp;<code>Boolean visible</code>&nbsp;) : Ext.Component</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#setVisible" href="Ext.Component.html#setVisible">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Convenience function to hide or show this component by boolean.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#show">show</a>() : Ext.Component</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#show" href="Ext.Component.html#show">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Show this component.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#syncSize">syncSize</a>() : s</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#syncSize" href="Ext.BoxComponent.html#syncSize">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Force the component's size to recalculate based on the underlying element's current height and width.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#updateBox">updateBox</a>(&nbsp;<code>Object box</code>&nbsp;) : s</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#updateBox" href="Ext.BoxComponent.html#updateBox">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Sets the current box measurements of the component's underlying element.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#validate">validate</a>() : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#validate" href="Ext.form.Field.html#validate">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Validates the field value</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#validateValue">validateValue</a>(&nbsp;<code>Mixed value</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#validateValue" href="Ext.form.TextField.html#validateValue">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Validates a value according to the field's validation rules and marks the field as invalid
+if the validation fails</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-autosize">autosize</a> : (&nbsp;<code>Ext.form.Field this</code>, <code>Number width</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#event-autosize" href="Ext.form.TextField.html#event-autosize">TextField</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Fires when the autosize function is triggered.  The field may or may not have actually changed size
+according to the ...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforedestroy">beforedestroy</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-beforedestroy" href="Ext.Component.html#event-beforedestroy">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires before the component is destroyed. Return false to stop the destroy.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforehide">beforehide</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-beforehide" href="Ext.Component.html#event-beforehide">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before the component is hidden. Return false to stop the hide.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforequery">beforequery</a> : (&nbsp;<code>Ext.form.ComboBox combo</code>, <code>String query</code>, <code>Boolean forceAll</code>, <code>Boolean cancel</code>, <code>Object e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Fires before all queries are processed. Return false to cancel the query or set cancel to true.
+The event object pass...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforerender">beforerender</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-beforerender" href="Ext.Component.html#event-beforerender">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before the component is rendered. Return false to stop the render.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeselect">beforeselect</a> : (&nbsp;<code>Ext.form.ComboBox combo</code>, <code>Ext.data.Record record</code>, <code>Number index</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires before a list item is selected. Return false to cancel the selection.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeshow">beforeshow</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-beforeshow" href="Ext.Component.html#event-beforeshow">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before the component is shown.  Return false to stop the show.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-blur">blur</a> : (&nbsp;<code>Ext.form.Field this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#event-blur" href="Ext.form.Field.html#event-blur">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when this field loses input focus.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-change">change</a> : (&nbsp;<code>Ext.form.Field this</code>, <code>Mixed newValue</code>, <code>Mixed oldValue</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#event-change" href="Ext.form.Field.html#event-change">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires just before the field blurs if the field value has changed.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-collapse">collapse</a> : (&nbsp;<code>Ext.form.ComboBox combo</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when the dropdown list is collapsed</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-destroy">destroy</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-destroy" href="Ext.Component.html#event-destroy">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires after the component is destroyed.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-disable">disable</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-disable" href="Ext.Component.html#event-disable">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires after the component is disabled.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-enable">enable</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-enable" href="Ext.Component.html#event-enable">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires after the component is enabled.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-expand">expand</a> : (&nbsp;<code>Ext.form.ComboBox combo</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires when the dropdown list is expanded</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-focus">focus</a> : (&nbsp;<code>Ext.form.Field this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#event-focus" href="Ext.form.Field.html#event-focus">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when this field receives input focus.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-hide">hide</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-hide" href="Ext.Component.html#event-hide">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires after the component is hidden.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-invalid">invalid</a> : (&nbsp;<code>Ext.form.Field this</code>, <code>String msg</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#event-invalid" href="Ext.form.Field.html#event-invalid">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires after the field has been marked as invalid.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-move">move</a> : (&nbsp;<code>Ext.Component this</code>, <code>Number x</code>, <code>Number y</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#event-move" href="Ext.BoxComponent.html#event-move">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires after the component is moved.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-render">render</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-render" href="Ext.Component.html#event-render">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires after the component is rendered.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-resize">resize</a> : (&nbsp;<code>Ext.Component this</code>, <code>Number adjWidth</code>, <code>Number adjHeight</code>, <code>Number rawWidth</code>, <code>Number rawHeight</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.BoxComponent" ext:member="#event-resize" href="Ext.BoxComponent.html#event-resize">BoxComponent</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires after the component is resized.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-select">select</a> : (&nbsp;<code>Ext.form.ComboBox combo</code>, <code>Ext.data.Record record</code>, <code>Number index</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Fires when a list item is selected</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-show">show</a> : (&nbsp;<code>Ext.Component this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#event-show" href="Ext.Component.html#event-show">Component</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires after the component is shown.</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-specialkey">specialkey</a> : (&nbsp;<code>Ext.form.Field this</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#event-specialkey" href="Ext.form.Field.html#event-specialkey">Field</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Fires when any key related to navigation (arrows, tab, enter, esc, etc.) is pressed.  You can check
+Ext.EventObject.g...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-valid">valid</a> : (&nbsp;<code>Ext.form.Field this</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#event-valid" href="Ext.form.Field.html#event-valid">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires after the field has been validated with no errors.</td>
+    </tr>
+            </table>
+                        <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-allQuery">allQuery</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The text query to send to the server to return all records for the list with no filtering (defaults to '')</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-allowBlank">allowBlank</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#allowBlank" href="Ext.form.TextField.html#allowBlank">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">False to validate that the value length > 0 (defaults to true)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-allowDomMove">allowDomMove</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#allowDomMove" href="Ext.Component.html#allowDomMove">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Whether the component can move the Dom node when rendering (defaults to true).</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-autoCreate">autoCreate</a> : Boolean/Object</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">A DomHelper element spec, or true for a default element spec (defaults to: {tag: "input", type: "text", size: "24", a...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-blankText">blankText</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#blankText" href="Ext.form.TextField.html#blankText">TextField</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Error text to display if the allow blank validation fails (defaults to "This field is required")</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-cls">cls</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#cls" href="Ext.form.Field.html#cls">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">A CSS class to apply to the field's underlying element.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-disableClass">disableClass</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#disableClass" href="Ext.Component.html#disableClass">Component</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">CSS class added to the component when it is disabled (defaults to "x-item-disabled").</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-disableKeyFilter">disableKeyFilter</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#disableKeyFilter" href="Ext.form.TextField.html#disableKeyFilter">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">True to disable input keystroke filtering (defaults to false)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-disabled">disabled</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#disabled" href="Ext.form.Field.html#disabled">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to disable the field (defaults to false).</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-displayField">displayField</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">The underlying data field name to bind to this CombBox (defaults to undefined if mode = 'remote' or 'text' if mode = ...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-editable">editable</a> : Boolean</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">False to prevent the user from typing text directly into the field, just like a traditional select (defaults to true)</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-emptyClass">emptyClass</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#emptyClass" href="Ext.form.TextField.html#emptyClass">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">The CSS class to apply to an empty field to style the emptyText (defaults to 'x-form-empty-field'). This class is aut...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-emptyText">emptyText</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#emptyText" href="Ext.form.TextField.html#emptyText">TextField</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The default text to display in an empty field (defaults to null).</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-fieldClass">fieldClass</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#fieldClass" href="Ext.form.Field.html#fieldClass">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The default CSS class for the field (defaults to "x-form-field")</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-focusClass">focusClass</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#focusClass" href="Ext.form.Field.html#focusClass">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The CSS class to use when the field receives focus (defaults to "x-form-focus")</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-forceSelection">forceSelection</a> : Boolean</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">True to restrict the selected value to one of the values in the list, false to allow the user to set arbitrary text i...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-grow">grow</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#grow" href="Ext.form.TextField.html#grow">TextField</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True if this field should automatically grow and shrink to its content</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-growMax">growMax</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#growMax" href="Ext.form.TextField.html#growMax">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The maximum width to allow when grow = true (defaults to 800)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-growMin">growMin</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#growMin" href="Ext.form.TextField.html#growMin">TextField</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The minimum width to allow when grow = true (defaults to 30)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-handleHeight">handleHeight</a> : Number</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The height in pixels of the dropdown list resize handle if resizable = true (defaults to 8)</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hiddenName">hiddenName</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">If specified, a hidden form field with this name is dynamically generated to store the field's data value (defaults t...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hideMode">hideMode</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.Component" ext:member="#hideMode" href="Ext.Component.html#hideMode">Component</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">How this component should hidden. Supported values are "visibility" (css visibility), "offsets" (negative offset posi...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-hideTrigger">hideTrigger</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TriggerField" ext:member="#hideTrigger" href="Ext.form.TriggerField.html#hideTrigger">TriggerField</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">True to hide the trigger element and display only the base text field (defaults to false)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-inputType">inputType</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#inputType" href="Ext.form.Field.html#inputType">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The type attribute for input fields -- e.g. radio, text, password (defaults to "text").</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-invalidClass">invalidClass</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#invalidClass" href="Ext.form.Field.html#invalidClass">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The CSS class to use when marking a field invalid (defaults to "x-form-invalid")</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-invalidText">invalidText</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#invalidText" href="Ext.form.Field.html#invalidText">Field</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">The error text to use when marking a field invalid and no message is provided (defaults to "The value in this field i...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-lazyRender">lazyRender</a> : Boolean</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">True to prevent the ComboBox from rendering until requested (should always be used when rendering into an Ext.Editor,...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-listAlign">listAlign</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">A valid anchor position value. See <a ext:cls="Ext.Element" ext:member="alignTo" href="Ext.Element.html#alignTo">Ext.Element.alignTo</a> for details on supported anchor positions (defaults to 'tl-bl')</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-listClass">listClass</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">CSS class to apply to the dropdown list element (defaults to '')</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-listWidth">listWidth</a> : Number</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The width in pixels of the dropdown list (defaults to the width of the ComboBox field)</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-loadingText">loadingText</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">The text to display in the dropdown list while data is loading. Only applies when mode = 'remote' (defaults to 'Loadi...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-maskRe">maskRe</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#maskRe" href="Ext.form.TextField.html#maskRe">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">An input mask regular expression that will be used to filter keystrokes that don't match (defaults to null)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-maxHeight">maxHeight</a> : Number</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The maximum height in pixels of the dropdown list before scrollbars are shown (defaults to 300)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-maxLength">maxLength</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#maxLength" href="Ext.form.TextField.html#maxLength">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Maximum input field length allowed (defaults to Number.MAX_VALUE)</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-maxLengthText">maxLengthText</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#maxLengthText" href="Ext.form.TextField.html#maxLengthText">TextField</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Error text to display if the maximum length validation fails (defaults to "The maximum length for this field is {maxL...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minChars">minChars</a> : Number</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">The minimum number of characters the user must type before autocomplete and typeahead activate (defaults to 4, does n...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minLength">minLength</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#minLength" href="Ext.form.TextField.html#minLength">TextField</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Minimum input field length required (defaults to 0)</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minLengthText">minLengthText</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#minLengthText" href="Ext.form.TextField.html#minLengthText">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Error text to display if the minimum length validation fails (defaults to "The minimum length for this field is {minL...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-minListWidth">minListWidth</a> : Number</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The minimum width of the dropdown list in pixels (defaults to 70, will be ignored if listWidth has a higher value)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-mode">mode</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Set to 'local' if the ComboBox loads local data (defaults to 'remote' which loads from the server)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-msgFx">msgFx</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#msgFx" href="Ext.form.Field.html#msgFx">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc"><b>Experimental</b> The effect used when displaying a validation message under the field (defaults to 'normal').</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-msgTarget">msgTarget</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#msgTarget" href="Ext.form.Field.html#msgTarget">Field</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">The location where error text should display. Should be one of the following values (defaults to 'qtip'): Value      ...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-name">name</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#name" href="Ext.form.Field.html#name">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The field's HTML name attribute.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-pageSize">pageSize</a> : Number</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">If greater than 0, a paging toolbar is displayed in the footer of the dropdown list and the filter queries will execu...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-queryDelay">queryDelay</a> : Number</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">The length of time in milliseconds to delay between the start of typing and sending the query to filter the dropdown ...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-queryParam">queryParam</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Name of the query as it will be passed on the querystring (defaults to 'query')</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-readOnly">readOnly</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#readOnly" href="Ext.form.Field.html#readOnly">Field</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">True to mark the field as readOnly in HTML (defaults to false) -- Note: this only sets the element's readOnly DOM att...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-regex">regex</a> : RegExp</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#regex" href="Ext.form.TextField.html#regex">TextField</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">A JavaScript RegExp object to be tested against the field value during validation (defaults to null). If available, t...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-regexText">regexText</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#regexText" href="Ext.form.TextField.html#regexText">TextField</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The error text to display if <a ext:cls="Ext.form.TextField" ext:member="regex" href="Ext.form.TextField.html#regex">regex</a> is used and the test fails during validation (defaults to "")</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-resizable">resizable</a> : Boolean</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True to add a resize handle to the bottom of the dropdown list (defaults to false)</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-selectOnFocus">selectOnFocus</a> : Boolean</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">True to select any existing text in the field immediately on focus. Only applies when editable = true (defaults to fa...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-selectedClass">selectedClass</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">CSS class to apply to the selected item in the dropdown list (defaults to 'x-combo-selected')</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-shadow">shadow</a> : Boolean/String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True or "sides" for the default effect, "frame" for 4-way shadow, and "drop" for bottom-right</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-tabIndex">tabIndex</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#tabIndex" href="Ext.form.Field.html#tabIndex">Field</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">The tabIndex for this field. Note this only applies to fields that are rendered, not those which are built via applyT...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-transform">transform</a> : String/HTMLElement/Element</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The id, DOM node or element of an existing select to convert to a ComboBox</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-triggerAction">triggerAction</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">The action to execute when the trigger field is activated. Use 'all' to run the query specified by the allQuery confi...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-triggerClass">triggerClass</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">An additional CSS class used to style the trigger button. The trigger will always get the class 'x-form-trigger' and ...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-typeAhead">typeAhead</a> : Boolean</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">True to populate and autoselect the remainder of the text being typed after a configurable delay (typeAheadDelay) if ...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-typeAheadDelay">typeAheadDelay</a> : Number</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The length of time in milliseconds to wait until the typeahead text is displayed if typeAhead = true (defaults to 250)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-validateOnBlur">validateOnBlur</a> : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#validateOnBlur" href="Ext.form.Field.html#validateOnBlur">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Whether the field should validate when it loses focus (defaults to true).</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-validationDelay">validationDelay</a> : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#validationDelay" href="Ext.form.Field.html#validationDelay">Field</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The length of time in milliseconds after user input begins until validation is initiated (defaults to 250)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-validationEvent">validationEvent</a> : String/Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#validationEvent" href="Ext.form.Field.html#validationEvent">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The event that should initiate field validation. Set to false to disable automatic validation (defaults to "keyup").</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-validator">validator</a> : Function</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#validator" href="Ext.form.TextField.html#validator">TextField</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">A custom validation function to be called during field validation (defaults to null). If available, this function wil...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-value">value</a> : Mixed</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.Field" ext:member="#value" href="Ext.form.Field.html#value">Field</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">A value to initialize this field with.</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-valueField">valueField</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">The underlying data value name to bind to this CombBox (defaults to undefined if mode = 'remote' or 'value' if mode =...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-valueNotFoundText">valueNotFoundText</a> : String</td>
+        <td class="msource" rowspan="2">ComboBox</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">When using a name/value combo, if the value passed to setValue is not found in the store, valueNotFoundText will be d...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-vtype">vtype</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.form.TextField" ext:member="#vtype" href="Ext.form.TextField.html#vtype">TextField</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">A validation type name as defined in <a ext:cls="Ext.form.VTypes" href="Ext.form.VTypes.html">Ext.form.VTypes</a> (defaults to null)</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="disabled"></a>
+                <div class="mdetail">
+                <h3>disabled</i></h3>
+                <code>public Object disabled</code>
+                <div class="mdetail-desc">
+                    true if this component is disabled. Read-only.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.Component" ext:member="#disabled" href="Ext.Component.html#disabled">Component</a>.</div>
+                </div>
+                            <a name="hidden"></a>
+                <div class="mdetail alt">
+                <h3>hidden</i></h3>
+                <code>public Object hidden</code>
+                <div class="mdetail-desc">
+                    true if this component is hidden. Read-only.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.Component" ext:member="#hidden" href="Ext.Component.html#hidden">Component</a>.</div>
+                </div>
+                            <a name="rendered"></a>
+                <div class="mdetail">
+                <h3>rendered</i></h3>
+                <code>public Object rendered</code>
+                <div class="mdetail-desc">
+                    true if this component has been rendered. Read-only.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.Component" ext:member="#rendered" href="Ext.Component.html#rendered">Component</a>.</div>
+                </div>
+                        </div>
+        
+                    <a name="ComboBox"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>ComboBox</i></h3>
+                <code>public function ComboBox(&nbsp;<code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new ComboBox.                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>config</code> : Object<div class="sub-desc">Configuration options</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="addEvents"></a>
+                <div class="mdetail">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail alt">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="applyTo"></a>
+                <div class="mdetail">
+                <h3>applyTo</i></h3>
+                <code>public function applyTo(&nbsp;<code>String/HTMLElement/Element el</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Apply the behaviors of this component to an existing element. <b>This is used instead of render().</b>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The id of the node, a DOM node or an existing Element</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.form.Field</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#applyTo" href="Ext.form.Field.html#applyTo">Field</a>.</div>
+                </div>
+                            <a name="clearInvalid"></a>
+                <div class="mdetail alt">
+                <h3>clearInvalid</i></h3>
+                <code>public function clearInvalid()</code>
+                <div class="mdetail-desc">
+                    Clear any invalid styles/messages for this field
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#clearInvalid" href="Ext.form.Field.html#clearInvalid">Field</a>.</div>
+                </div>
+                            <a name="clearValue"></a>
+                <div class="mdetail">
+                <h3>clearValue</i></h3>
+                <code>public function clearValue()</code>
+                <div class="mdetail-desc">
+                    Clears any text/value currently set in the field
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="collapse"></a>
+                <div class="mdetail alt">
+                <h3>collapse</i></h3>
+                <code>public function collapse()</code>
+                <div class="mdetail-desc">
+                    Hides the dropdown list if it is currently expanded. Fires the 'collapse' event on completion.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="destroy"></a>
+                <div class="mdetail">
+                <h3>destroy</i></h3>
+                <code>public function destroy()</code>
+                <div class="mdetail-desc">
+                    Destroys this component by purging any event listeners, removing the component's element from the DOM,
+removing the component from its <a ext:cls="Ext.Container" href="Ext.Container.html">Ext.Container</a> (if applicable) and unregistering it from <a ext:cls="Ext.ComponentMgr" href="Ext.ComponentMgr.html">Ext.ComponentMgr</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#destroy" href="Ext.Component.html#destroy">Component</a>.</div>
+                </div>
+                            <a name="disable"></a>
+                <div class="mdetail alt">
+                <h3>disable</i></h3>
+                <code>public function disable()</code>
+                <div class="mdetail-desc">
+                    Disable this component.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#disable" href="Ext.Component.html#disable">Component</a>.</div>
+                </div>
+                            <a name="doQuery"></a>
+                <div class="mdetail">
+                <h3>doQuery</i></h3>
+                <code>public function doQuery(&nbsp;<code>String query</code>, <code>Boolean forceAll</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Execute a query to filter the dropdown list.  Fires the beforequery event prior to performing the
+query allowing the query action to be canceled if needed.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>query</code> : String<div class="sub-desc">The SQL query to execute</div></li><li><code>forceAll</code> : Boolean<div class="sub-desc">True to force the query to execute even if there are currently fewer characters
+in the field than the minimum specified by the minChars config option. It also clears any filter previously
+saved in the current store (defaults to false)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="enable"></a>
+                <div class="mdetail alt">
+                <h3>enable</i></h3>
+                <code>public function enable()</code>
+                <div class="mdetail-desc">
+                    Enable this component.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#enable" href="Ext.Component.html#enable">Component</a>.</div>
+                </div>
+                            <a name="expand"></a>
+                <div class="mdetail">
+                <h3>expand</i></h3>
+                <code>public function expand()</code>
+                <div class="mdetail-desc">
+                    Expands the dropdown list if it is currently hidden. Fires the 'expand' event on completion.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail alt">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="focus"></a>
+                <div class="mdetail">
+                <h3>focus</i></h3>
+                <code>public function focus(&nbsp;<code>Boolean selectText</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Try to focus this component.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selectText</code> : Boolean<div class="sub-desc">True to also select the text in this component (if applicable)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#focus" href="Ext.Component.html#focus">Component</a>.</div>
+                </div>
+                            <a name="getBox"></a>
+                <div class="mdetail alt">
+                <h3>getBox</i></h3>
+                <code>public function getBox(&nbsp;<span class="optional" title="Optional">[<code>Boolean local</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Gets the current box measurements of the component's underlying element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>local</code> : Boolean<div class="sub-desc">(optional) If true the element's left and top are returned instead of page XY (defaults to false)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>s</code><div class="sub-desc">{Object} box An object in the format {x, y, width, height}</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#getBox" href="Ext.BoxComponent.html#getBox">BoxComponent</a>.</div>
+                </div>
+                            <a name="getEl"></a>
+                <div class="mdetail">
+                <h3>getEl</i></h3>
+                <code>public function getEl()</code>
+                <div class="mdetail-desc">
+                    Returns the underlying <a ext:cls="Ext.Element" href="Ext.Element.html">Ext.Element</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code><div class="sub-desc">The element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#getEl" href="Ext.Component.html#getEl">Component</a>.</div>
+                </div>
+                            <a name="getId"></a>
+                <div class="mdetail alt">
+                <h3>getId</i></h3>
+                <code>public function getId()</code>
+                <div class="mdetail-desc">
+                    Returns the id of this component.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#getId" href="Ext.Component.html#getId">Component</a>.</div>
+                </div>
+                            <a name="getName"></a>
+                <div class="mdetail">
+                <h3>getName</i></h3>
+                <code>public function getName()</code>
+                <div class="mdetail-desc">
+                    Returns the name attribute of the field if available
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">name The field name</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#getName" href="Ext.form.Field.html#getName">Field</a>.</div>
+                </div>
+                            <a name="getPosition"></a>
+                <div class="mdetail alt">
+                <h3>getPosition</i></h3>
+                <code>public function getPosition(&nbsp;<span class="optional" title="Optional">[<code>Boolean local</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Gets the current XY position of the component's underlying element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>local</code> : Boolean<div class="sub-desc">(optional) If true the element's left and top are returned instead of page XY (defaults to false)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code><div class="sub-desc">The XY position of the element (e.g., [100, 200])</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#getPosition" href="Ext.BoxComponent.html#getPosition">BoxComponent</a>.</div>
+                </div>
+                            <a name="getRawValue"></a>
+                <div class="mdetail">
+                <h3>getRawValue</i></h3>
+                <code>public function getRawValue()</code>
+                <div class="mdetail-desc">
+                    Returns the raw data value which may or may not be a valid, defined value.  To return a normalized value see <a ext:cls="Ext.form.Field" ext:member="getValue" href="Ext.form.Field.html#getValue">getValue</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Mixed</code><div class="sub-desc">value The field value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#getRawValue" href="Ext.form.Field.html#getRawValue">Field</a>.</div>
+                </div>
+                            <a name="getSize"></a>
+                <div class="mdetail alt">
+                <h3>getSize</i></h3>
+                <code>public function getSize()</code>
+                <div class="mdetail-desc">
+                    Gets the current size of the component's underlying element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">An object containing the element's size {width: (element width), height: (element height)}</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#getSize" href="Ext.BoxComponent.html#getSize">BoxComponent</a>.</div>
+                </div>
+                            <a name="getValue"></a>
+                <div class="mdetail">
+                <h3>getValue</i></h3>
+                <code>public function getValue()</code>
+                <div class="mdetail-desc">
+                    Returns the currently selected field value or empty string if no value is set.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">value The selected value</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail alt">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="hide"></a>
+                <div class="mdetail">
+                <h3>hide</i></h3>
+                <code>public function hide()</code>
+                <div class="mdetail-desc">
+                    Hide this component.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#hide" href="Ext.Component.html#hide">Component</a>.</div>
+                </div>
+                            <a name="isDirty"></a>
+                <div class="mdetail alt">
+                <h3>isDirty</i></h3>
+                <code>public function isDirty()</code>
+                <div class="mdetail-desc">
+                    Returns true if this field has been changed since it was originally loaded and is not disabled.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#isDirty" href="Ext.form.Field.html#isDirty">Field</a>.</div>
+                </div>
+                            <a name="isExpanded"></a>
+                <div class="mdetail">
+                <h3>isExpanded</i></h3>
+                <code>public function isExpanded()</code>
+                <div class="mdetail-desc">
+                    Returns true if the dropdown list is expanded, else false.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="isValid"></a>
+                <div class="mdetail alt">
+                <h3>isValid</i></h3>
+                <code>public function isValid(&nbsp;<code>Boolean preventMark</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns whether or not the field value is currently valid
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>preventMark</code> : Boolean<div class="sub-desc">True to disable marking the field invalid</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the value is valid, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#isValid" href="Ext.form.Field.html#isValid">Field</a>.</div>
+                </div>
+                            <a name="isVisible"></a>
+                <div class="mdetail">
+                <h3>isVisible</i></h3>
+                <code>public function isVisible()</code>
+                <div class="mdetail-desc">
+                    Returns true if this component is visible.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#isVisible" href="Ext.Component.html#isVisible">Component</a>.</div>
+                </div>
+                            <a name="markInvalid"></a>
+                <div class="mdetail alt">
+                <h3>markInvalid</i></h3>
+                <code>public function markInvalid(&nbsp;<code>String msg</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Mark this field as invalid
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>msg</code> : String<div class="sub-desc">The validation message</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#markInvalid" href="Ext.form.Field.html#markInvalid">Field</a>.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="onPosition"></a>
+                <div class="mdetail alt">
+                <h3>onPosition</i></h3>
+                <code>public function onPosition(&nbsp;<code>Number x</code>, <code>Number y</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Called after the component is moved, this method is empty by default but can be implemented by any
+subclass that needs to perform custom logic after a move occurs.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>x</code> : Number<div class="sub-desc">The new x position</div></li><li><code>y</code> : Number<div class="sub-desc">The new y position</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#onPosition" href="Ext.BoxComponent.html#onPosition">BoxComponent</a>.</div>
+                </div>
+                            <a name="onResize"></a>
+                <div class="mdetail">
+                <h3>onResize</i></h3>
+                <code>public function onResize(&nbsp;<code>Number adjWidth</code>, <code>Number adjHeight</code>, <code>Number rawWidth</code>, <code>Number rawHeight</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Called after the component is resized, this method is empty by default but can be implemented by any
+subclass that needs to perform custom logic after a resize occurs.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>adjWidth</code> : Number<div class="sub-desc">The box-adjusted width that was set</div></li><li><code>adjHeight</code> : Number<div class="sub-desc">The box-adjusted height that was set</div></li><li><code>rawWidth</code> : Number<div class="sub-desc">The width that was originally specified</div></li><li><code>rawHeight</code> : Number<div class="sub-desc">The height that was originally specified</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#onResize" href="Ext.BoxComponent.html#onResize">BoxComponent</a>.</div>
+                </div>
+                            <a name="onTriggerClick"></a>
+                <div class="mdetail alt">
+                <h3>onTriggerClick</i></h3>
+                <code>public function onTriggerClick(&nbsp;<code>EventObject e</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    The function that should handle the trigger's click event.  This method does nothing by default until overridden
+by a handler implementation.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : EventObject<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.TriggerField" ext:member="#onTriggerClick" href="Ext.form.TriggerField.html#onTriggerClick">TriggerField</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail alt">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="render"></a>
+                <div class="mdetail">
+                <h3>render</i></h3>
+                <code>public function render(&nbsp;<span class="optional" title="Optional">[<code>String/HTMLElement/Element container</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    If this is a lazy rendering component, render it to its container element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>container</code> : String/HTMLElement/Element<div class="sub-desc">(optional) The element this component should be rendered into. If it is being applied to existing markup, this should be left off.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#render" href="Ext.Component.html#render">Component</a>.</div>
+                </div>
+                            <a name="reset"></a>
+                <div class="mdetail alt">
+                <h3>reset</i></h3>
+                <code>public function reset()</code>
+                <div class="mdetail-desc">
+                    Resets the current field value to the originally loaded value and clears any validation messages
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#reset" href="Ext.form.Field.html#reset">Field</a>.</div>
+                </div>
+                            <a name="select"></a>
+                <div class="mdetail">
+                <h3>select</i></h3>
+                <code>public function select(&nbsp;<code>Number index</code>, <code>Boolean scrollIntoView</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Select an item in the dropdown list by its numeric index in the list. This function does NOT cause the select event to fire.
+The store must be loaded and the list expanded for this function to work, otherwise use setValue.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>index</code> : Number<div class="sub-desc">The zero-based index of the list item to select</div></li><li><code>scrollIntoView</code> : Boolean<div class="sub-desc">False to prevent the dropdown list from autoscrolling to display the
+selected item if it is not currently in view (defaults to true)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="selectByValue"></a>
+                <div class="mdetail alt">
+                <h3>selectByValue</i></h3>
+                <code>public function selectByValue(&nbsp;<code>String value</code>, <code>Boolean scrollIntoView</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Select an item in the dropdown list by its data value. This function does NOT cause the select event to fire.
+The store must be loaded and the list expanded for this function to work, otherwise use setValue.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>value</code> : String<div class="sub-desc">The data value of the item to select</div></li><li><code>scrollIntoView</code> : Boolean<div class="sub-desc">False to prevent the dropdown list from autoscrolling to display the
+selected item if it is not currently in view (defaults to true)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the value matched an item in the list, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="selectText"></a>
+                <div class="mdetail">
+                <h3>selectText</i></h3>
+                <code>public function selectText(&nbsp;<span class="optional" title="Optional">[<code>Number start</code>]</span>, <span class="optional" title="Optional">[<code>Number end</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Selects text in this field
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>start</code> : Number<div class="sub-desc">(optional) The index where the selection should start (defaults to 0)</div></li><li><code>end</code> : Number<div class="sub-desc">(optional) The index where the selection should end (defaults to the text length)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.TextField" ext:member="#selectText" href="Ext.form.TextField.html#selectText">TextField</a>.</div>
+                </div>
+                            <a name="setDisabled"></a>
+                <div class="mdetail alt">
+                <h3>setDisabled</i></h3>
+                <code>public function setDisabled(&nbsp;<code>Boolean disabled</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Convenience function for setting disabled/enabled by boolean.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>disabled</code> : Boolean<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#setDisabled" href="Ext.Component.html#setDisabled">Component</a>.</div>
+                </div>
+                            <a name="setEditable"></a>
+                <div class="mdetail">
+                <h3>setEditable</i></h3>
+                <code>public function setEditable(&nbsp;<code>Boolean value</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Allow or prevent the user from directly editing the field text.  If false is passed,
+the user will only be able to select from the items defined in the dropdown list.  This method
+is the runtime equivalent of setting the 'editable' config option at config time.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>value</code> : Boolean<div class="sub-desc">True to allow the user to directly edit the field text</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="setPagePosition"></a>
+                <div class="mdetail alt">
+                <h3>setPagePosition</i></h3>
+                <code>public function setPagePosition(&nbsp;<code>Number x</code>, <code>Number y</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the page XY position of the component.  To set the left and top instead, use <a ext:cls="Ext.BoxComponent" ext:member="setPosition" href="Ext.BoxComponent.html#setPosition">setPosition</a>.
+This method fires the move event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>x</code> : Number<div class="sub-desc">The new x position</div></li><li><code>y</code> : Number<div class="sub-desc">The new y position</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>s</code><div class="sub-desc">{Ext.BoxComponent} this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#setPagePosition" href="Ext.BoxComponent.html#setPagePosition">BoxComponent</a>.</div>
+                </div>
+                            <a name="setPosition"></a>
+                <div class="mdetail">
+                <h3>setPosition</i></h3>
+                <code>public function setPosition(&nbsp;<code>Number left</code>, <code>Number top</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the left and top of the component.  To set the page XY position instead, use <a ext:cls="Ext.BoxComponent" ext:member="setPagePosition" href="Ext.BoxComponent.html#setPagePosition">setPagePosition</a>.
+This method fires the move event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>left</code> : Number<div class="sub-desc">The new left</div></li><li><code>top</code> : Number<div class="sub-desc">The new top</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>s</code><div class="sub-desc">{Ext.BoxComponent} this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#setPosition" href="Ext.BoxComponent.html#setPosition">BoxComponent</a>.</div>
+                </div>
+                            <a name="setRawValue"></a>
+                <div class="mdetail alt">
+                <h3>setRawValue</i></h3>
+                <code>public function setRawValue(&nbsp;<code>Mixed value</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the underlying DOM field's value directly, bypassing validation.  To set the value with validation see <a ext:cls="Ext.form.Field" ext:member="setValue" href="Ext.form.Field.html#setValue">setValue</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>value</code> : Mixed<div class="sub-desc">The value to set</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#setRawValue" href="Ext.form.Field.html#setRawValue">Field</a>.</div>
+                </div>
+                            <a name="setSize"></a>
+                <div class="mdetail">
+                <h3>setSize</i></h3>
+                <code>public function setSize(&nbsp;<code>Number/Object width</code>, <code>Number height</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the width and height of the component.  This method fires the resize event.  This method can accept
+either width and height as separate numeric arguments, or you can pass a size object like {width:10, height:20}.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>width</code> : Number/Object<div class="sub-desc">The new width to set, or a size object in the format {width, height}</div></li><li><code>height</code> : Number<div class="sub-desc">The new height to set (not required if a size object is passed as the first arg)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.BoxComponent</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#setSize" href="Ext.BoxComponent.html#setSize">BoxComponent</a>.</div>
+                </div>
+                            <a name="setValue"></a>
+                <div class="mdetail alt">
+                <h3>setValue</i></h3>
+                <code>public function setValue(&nbsp;<code>String value</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the specified value into the field.  If the value finds a match, the corresponding record text
+will be displayed in the field.  If the value does not match the data value of an existing item,
+and the valueNotFoundText config option is defined, it will be displayed as the default field text.
+Otherwise the field will be blank (although the value will still be set).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>value</code> : String<div class="sub-desc">The value to match</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ComboBox.</div>
+                </div>
+                            <a name="setVisible"></a>
+                <div class="mdetail">
+                <h3>setVisible</i></h3>
+                <code>public function setVisible(&nbsp;<code>Boolean visible</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Convenience function to hide or show this component by boolean.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>visible</code> : Boolean<div class="sub-desc">True to show, false to hide</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#setVisible" href="Ext.Component.html#setVisible">Component</a>.</div>
+                </div>
+                            <a name="show"></a>
+                <div class="mdetail alt">
+                <h3>show</i></h3>
+                <code>public function show()</code>
+                <div class="mdetail-desc">
+                    Show this component.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.Component" ext:member="#show" href="Ext.Component.html#show">Component</a>.</div>
+                </div>
+                            <a name="syncSize"></a>
+                <div class="mdetail">
+                <h3>syncSize</i></h3>
+                <code>public function syncSize()</code>
+                <div class="mdetail-desc">
+                    Force the component's size to recalculate based on the underlying element's current height and width.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>s</code><div class="sub-desc">{Ext.BoxComponent} this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#syncSize" href="Ext.BoxComponent.html#syncSize">BoxComponent</a>.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail alt">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                            <a name="updateBox"></a>
+                <div class="mdetail">
+                <h3>updateBox</i></h3>
+                <code>public function updateBox(&nbsp;<code>Object box</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the current box measurements of the component's underlying element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>box</code> : Object<div class="sub-desc">An object in the format {x, y, width, height}</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>s</code><div class="sub-desc">{Ext.BoxComponent} this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.BoxComponent" ext:member="#updateBox" href="Ext.BoxComponent.html#updateBox">BoxComponent</a>.</div>
+                </div>
+                            <a name="validate"></a>
+                <div class="mdetail alt">
+                <h3>validate</i></h3>
+                <code>public function validate()</code>
+                <div class="mdetail-desc">
+                    Validates the field value
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the value is valid, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.Field" ext:member="#validate" href="Ext.form.Field.html#validate">Field</a>.</div>
+                </div>
+                            <a name="validateValue"></a>
+                <div class="mdetail">
+                <h3>validateValue</i></h3>
+                <code>public function validateValue(&nbsp;<code>Mixed value</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Validates a value according to the field's validation rules and marks the field as invalid
+if the validation fails
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>value</code> : Mixed<div class="sub-desc">The value to validate</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the value is valid, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.form.TextField" ext:member="#validateValue" href="Ext.form.TextField.html#validateValue">TextField</a>.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-autosize"></a>
+                <div class="mdetail">
+                <h3>autosize</i></h3>
+                <code>public event autosize</code>
+                <div class="mdetail-desc">
+                Fires when the autosize function is triggered.  The field may or may not have actually changed size
+according to the default logic, but this event provides a hook for the developer to apply additional
+logic at runtime to resize the field if needed.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.form.Field<div class="sub-desc">This text field</div></li><li><code>width</code> : Number<div class="sub-desc">The new field width</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.form.TextField" ext:member="#event-autosize" href="Ext.form.TextField.html#event-autosize">TextField</a>.</div>
+                </div>
+                            <a name="event-beforedestroy"></a>
+                <div class="mdetail alt">
+                <h3>beforedestroy</i></h3>
+                <code>public event beforedestroy</code>
+                <div class="mdetail-desc">
+                Fires before the component is destroyed. Return false to stop the destroy.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-beforedestroy" href="Ext.Component.html#event-beforedestroy">Component</a>.</div>
+                </div>
+                            <a name="event-beforehide"></a>
+                <div class="mdetail">
+                <h3>beforehide</i></h3>
+                <code>public event beforehide</code>
+                <div class="mdetail-desc">
+                Fires before the component is hidden. Return false to stop the hide.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-beforehide" href="Ext.Component.html#event-beforehide">Component</a>.</div>
+                </div>
+                            <a name="event-beforequery"></a>
+                <div class="mdetail alt">
+                <h3>beforequery</i></h3>
+                <code>public event beforequery</code>
+                <div class="mdetail-desc">
+                Fires before all queries are processed. Return false to cancel the query or set cancel to true.
+The event object passed has these properties:
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>combo</code> : Ext.form.ComboBox<div class="sub-desc">This combo box</div></li><li><code>query</code> : String<div class="sub-desc">The query</div></li><li><code>forceAll</code> : Boolean<div class="sub-desc">true to force "all" query</div></li><li><code>cancel</code> : Boolean<div class="sub-desc">true to cancel the query</div></li><li><code>e</code> : Object<div class="sub-desc">The query event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ComboBox.</div>
+                </div>
+                            <a name="event-beforerender"></a>
+                <div class="mdetail">
+                <h3>beforerender</i></h3>
+                <code>public event beforerender</code>
+                <div class="mdetail-desc">
+                Fires before the component is rendered. Return false to stop the render.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-beforerender" href="Ext.Component.html#event-beforerender">Component</a>.</div>
+                </div>
+                            <a name="event-beforeselect"></a>
+                <div class="mdetail alt">
+                <h3>beforeselect</i></h3>
+                <code>public event beforeselect</code>
+                <div class="mdetail-desc">
+                Fires before a list item is selected. Return false to cancel the selection.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>combo</code> : Ext.form.ComboBox<div class="sub-desc">This combo box</div></li><li><code>record</code> : Ext.data.Record<div class="sub-desc">The data record returned from the underlying store</div></li><li><code>index</code> : Number<div class="sub-desc">The index of the selected item in the dropdown list</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ComboBox.</div>
+                </div>
+                            <a name="event-beforeshow"></a>
+                <div class="mdetail">
+                <h3>beforeshow</i></h3>
+                <code>public event beforeshow</code>
+                <div class="mdetail-desc">
+                Fires before the component is shown.  Return false to stop the show.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-beforeshow" href="Ext.Component.html#event-beforeshow">Component</a>.</div>
+                </div>
+                            <a name="event-blur"></a>
+                <div class="mdetail alt">
+                <h3>blur</i></h3>
+                <code>public event blur</code>
+                <div class="mdetail-desc">
+                Fires when this field loses input focus.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.form.Field<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.form.Field" ext:member="#event-blur" href="Ext.form.Field.html#event-blur">Field</a>.</div>
+                </div>
+                            <a name="event-change"></a>
+                <div class="mdetail">
+                <h3>change</i></h3>
+                <code>public event change</code>
+                <div class="mdetail-desc">
+                Fires just before the field blurs if the field value has changed.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.form.Field<div class="sub-desc"></div></li><li><code>newValue</code> : Mixed<div class="sub-desc">The new value</div></li><li><code>oldValue</code> : Mixed<div class="sub-desc">The original value</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.form.Field" ext:member="#event-change" href="Ext.form.Field.html#event-change">Field</a>.</div>
+                </div>
+                            <a name="event-collapse"></a>
+                <div class="mdetail alt">
+                <h3>collapse</i></h3>
+                <code>public event collapse</code>
+                <div class="mdetail-desc">
+                Fires when the dropdown list is collapsed
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>combo</code> : Ext.form.ComboBox<div class="sub-desc">This combo box</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ComboBox.</div>
+                </div>
+                            <a name="event-destroy"></a>
+                <div class="mdetail">
+                <h3>destroy</i></h3>
+                <code>public event destroy</code>
+                <div class="mdetail-desc">
+                Fires after the component is destroyed.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-destroy" href="Ext.Component.html#event-destroy">Component</a>.</div>
+                </div>
+                            <a name="event-disable"></a>
+                <div class="mdetail alt">
+                <h3>disable</i></h3>
+                <code>public event disable</code>
+                <div class="mdetail-desc">
+                Fires after the component is disabled.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-disable" href="Ext.Component.html#event-disable">Component</a>.</div>
+                </div>
+                            <a name="event-enable"></a>
+                <div class="mdetail">
+                <h3>enable</i></h3>
+                <code>public event enable</code>
+                <div class="mdetail-desc">
+                Fires after the component is enabled.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-enable" href="Ext.Component.html#event-enable">Component</a>.</div>
+                </div>
+                            <a name="event-expand"></a>
+                <div class="mdetail alt">
+                <h3>expand</i></h3>
+                <code>public event expand</code>
+                <div class="mdetail-desc">
+                Fires when the dropdown list is expanded
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>combo</code> : Ext.form.ComboBox<div class="sub-desc">This combo box</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ComboBox.</div>
+                </div>
+                            <a name="event-focus"></a>
+                <div class="mdetail">
+                <h3>focus</i></h3>
+                <code>public event focus</code>
+                <div class="mdetail-desc">
+                Fires when this field receives input focus.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.form.Field<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.form.Field" ext:member="#event-focus" href="Ext.form.Field.html#event-focus">Field</a>.</div>
+                </div>
+                            <a name="event-hide"></a>
+                <div class="mdetail alt">
+                <h3>hide</i></h3>
+                <code>public event hide</code>
+                <div class="mdetail-desc">
+                Fires after the component is hidden.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-hide" href="Ext.Component.html#event-hide">Component</a>.</div>
+                </div>
+                            <a name="event-invalid"></a>
+                <div class="mdetail">
+                <h3>invalid</i></h3>
+                <code>public event invalid</code>
+                <div class="mdetail-desc">
+                Fires after the field has been marked as invalid.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.form.Field<div class="sub-desc"></div></li><li><code>msg</code> : String<div class="sub-desc">The validation message</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.form.Field" ext:member="#event-invalid" href="Ext.form.Field.html#event-invalid">Field</a>.</div>
+                </div>
+                            <a name="event-move"></a>
+                <div class="mdetail alt">
+                <h3>move</i></h3>
+                <code>public event move</code>
+                <div class="mdetail-desc">
+                Fires after the component is moved.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li><li><code>x</code> : Number<div class="sub-desc">The new x position</div></li><li><code>y</code> : Number<div class="sub-desc">The new y position</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BoxComponent" ext:member="#event-move" href="Ext.BoxComponent.html#event-move">BoxComponent</a>.</div>
+                </div>
+                            <a name="event-render"></a>
+                <div class="mdetail">
+                <h3>render</i></h3>
+                <code>public event render</code>
+                <div class="mdetail-desc">
+                Fires after the component is rendered.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-render" href="Ext.Component.html#event-render">Component</a>.</div>
+                </div>
+                            <a name="event-resize"></a>
+                <div class="mdetail alt">
+                <h3>resize</i></h3>
+                <code>public event resize</code>
+                <div class="mdetail-desc">
+                Fires after the component is resized.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li><li><code>adjWidth</code> : Number<div class="sub-desc">The box-adjusted width that was set</div></li><li><code>adjHeight</code> : Number<div class="sub-desc">The box-adjusted height that was set</div></li><li><code>rawWidth</code> : Number<div class="sub-desc">The width that was originally specified</div></li><li><code>rawHeight</code> : Number<div class="sub-desc">The height that was originally specified</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.BoxComponent" ext:member="#event-resize" href="Ext.BoxComponent.html#event-resize">BoxComponent</a>.</div>
+                </div>
+                            <a name="event-select"></a>
+                <div class="mdetail">
+                <h3>select</i></h3>
+                <code>public event select</code>
+                <div class="mdetail-desc">
+                Fires when a list item is selected
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>combo</code> : Ext.form.ComboBox<div class="sub-desc">This combo box</div></li><li><code>record</code> : Ext.data.Record<div class="sub-desc">The data record returned from the underlying store</div></li><li><code>index</code> : Number<div class="sub-desc">The index of the selected item in the dropdown list</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by ComboBox.</div>
+                </div>
+                            <a name="event-show"></a>
+                <div class="mdetail alt">
+                <h3>show</i></h3>
+                <code>public event show</code>
+                <div class="mdetail-desc">
+                Fires after the component is shown.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.Component<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.Component" ext:member="#event-show" href="Ext.Component.html#event-show">Component</a>.</div>
+                </div>
+                            <a name="event-specialkey"></a>
+                <div class="mdetail">
+                <h3>specialkey</i></h3>
+                <code>public event specialkey</code>
+                <div class="mdetail-desc">
+                Fires when any key related to navigation (arrows, tab, enter, esc, etc.) is pressed.  You can check
+<a ext:cls="Ext.EventObject" ext:member="getKey" href="Ext.EventObject.html#getKey">Ext.EventObject.getKey</a> to determine which key was pressed.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.form.Field<div class="sub-desc"></div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.form.Field" ext:member="#event-specialkey" href="Ext.form.Field.html#event-specialkey">Field</a>.</div>
+                </div>
+                            <a name="event-valid"></a>
+                <div class="mdetail alt">
+                <h3>valid</i></h3>
+                <code>public event valid</code>
+                <div class="mdetail-desc">
+                Fires after the field has been validated with no errors.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.form.Field<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.form.Field" ext:member="#event-valid" href="Ext.form.Field.html#event-valid">Field</a>.</div>
+                </div>
+                        </div>
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-allQuery"></a>
+                <div class="mdetail">
+                <h3>allQuery</i></h3>
+                <code>allQuery : String</code>
+                <div class="mdetail-desc">
+                    The text query to send to the server to return all records for the list with no filtering (defaults to '')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-allowBlank"></a>
+                <div class="mdetail alt">
+                <h3>allowBlank</i></h3>
+                <code>allowBlank : Boolean</code>
+                <div class="mdetail-desc">
+                    False to validate that the value length > 0 (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#allowBlank" href="Ext.form.TextField.html#allowBlank">TextField</a>.</div>
+                </div>
+                            <a name="config-allowDomMove"></a>
+                <div class="mdetail">
+                <h3>allowDomMove</i></h3>
+                <code>allowDomMove : Boolean</code>
+                <div class="mdetail-desc">
+                    Whether the component can move the Dom node when rendering (defaults to true).                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.Component" ext:member="#allowDomMove" href="Ext.Component.html#allowDomMove">Component</a>.</div>
+                </div>
+                            <a name="config-autoCreate"></a>
+                <div class="mdetail alt">
+                <h3>autoCreate</i></h3>
+                <code>autoCreate : Boolean/Object</code>
+                <div class="mdetail-desc">
+                    A DomHelper element spec, or true for a default element spec (defaults to: {tag: "input", type: "text", size: "24", autocomplete: "off"})                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-blankText"></a>
+                <div class="mdetail">
+                <h3>blankText</i></h3>
+                <code>blankText : String</code>
+                <div class="mdetail-desc">
+                    Error text to display if the allow blank validation fails (defaults to "This field is required")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#blankText" href="Ext.form.TextField.html#blankText">TextField</a>.</div>
+                </div>
+                            <a name="config-cls"></a>
+                <div class="mdetail alt">
+                <h3>cls</i></h3>
+                <code>cls : String</code>
+                <div class="mdetail-desc">
+                    A CSS class to apply to the field's underlying element.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#cls" href="Ext.form.Field.html#cls">Field</a>.</div>
+                </div>
+                            <a name="config-disableClass"></a>
+                <div class="mdetail">
+                <h3>disableClass</i></h3>
+                <code>disableClass : String</code>
+                <div class="mdetail-desc">
+                    CSS class added to the component when it is disabled (defaults to "x-item-disabled").                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.Component" ext:member="#disableClass" href="Ext.Component.html#disableClass">Component</a>.</div>
+                </div>
+                            <a name="config-disableKeyFilter"></a>
+                <div class="mdetail alt">
+                <h3>disableKeyFilter</i></h3>
+                <code>disableKeyFilter : Boolean</code>
+                <div class="mdetail-desc">
+                    True to disable input keystroke filtering (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#disableKeyFilter" href="Ext.form.TextField.html#disableKeyFilter">TextField</a>.</div>
+                </div>
+                            <a name="config-disabled"></a>
+                <div class="mdetail">
+                <h3>disabled</i></h3>
+                <code>disabled : Boolean</code>
+                <div class="mdetail-desc">
+                    True to disable the field (defaults to false).                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#disabled" href="Ext.form.Field.html#disabled">Field</a>.</div>
+                </div>
+                            <a name="config-displayField"></a>
+                <div class="mdetail alt">
+                <h3>displayField</i></h3>
+                <code>displayField : String</code>
+                <div class="mdetail-desc">
+                    The underlying data field name to bind to this CombBox (defaults to undefined if mode = 'remote' or 'text' if mode = 'local')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-editable"></a>
+                <div class="mdetail">
+                <h3>editable</i></h3>
+                <code>editable : Boolean</code>
+                <div class="mdetail-desc">
+                    False to prevent the user from typing text directly into the field, just like a traditional select (defaults to true)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-emptyClass"></a>
+                <div class="mdetail alt">
+                <h3>emptyClass</i></h3>
+                <code>emptyClass : String</code>
+                <div class="mdetail-desc">
+                    The CSS class to apply to an empty field to style the <a ext:cls="Ext.form.TextField" ext:member="emptyText" href="Ext.form.TextField.html#emptyText">emptyText</a> (defaults to 'x-form-empty-field'). This class is automatically added and removed as needed depending on the current field value.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#emptyClass" href="Ext.form.TextField.html#emptyClass">TextField</a>.</div>
+                </div>
+                            <a name="config-emptyText"></a>
+                <div class="mdetail">
+                <h3>emptyText</i></h3>
+                <code>emptyText : String</code>
+                <div class="mdetail-desc">
+                    The default text to display in an empty field (defaults to null).                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#emptyText" href="Ext.form.TextField.html#emptyText">TextField</a>.</div>
+                </div>
+                            <a name="config-fieldClass"></a>
+                <div class="mdetail alt">
+                <h3>fieldClass</i></h3>
+                <code>fieldClass : String</code>
+                <div class="mdetail-desc">
+                    The default CSS class for the field (defaults to "x-form-field")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#fieldClass" href="Ext.form.Field.html#fieldClass">Field</a>.</div>
+                </div>
+                            <a name="config-focusClass"></a>
+                <div class="mdetail">
+                <h3>focusClass</i></h3>
+                <code>focusClass : String</code>
+                <div class="mdetail-desc">
+                    The CSS class to use when the field receives focus (defaults to "x-form-focus")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#focusClass" href="Ext.form.Field.html#focusClass">Field</a>.</div>
+                </div>
+                            <a name="config-forceSelection"></a>
+                <div class="mdetail alt">
+                <h3>forceSelection</i></h3>
+                <code>forceSelection : Boolean</code>
+                <div class="mdetail-desc">
+                    True to restrict the selected value to one of the values in the list, false to allow the user to set arbitrary text into the field (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-grow"></a>
+                <div class="mdetail">
+                <h3>grow</i></h3>
+                <code>grow : Boolean</code>
+                <div class="mdetail-desc">
+                    True if this field should automatically grow and shrink to its content                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#grow" href="Ext.form.TextField.html#grow">TextField</a>.</div>
+                </div>
+                            <a name="config-growMax"></a>
+                <div class="mdetail alt">
+                <h3>growMax</i></h3>
+                <code>growMax : Number</code>
+                <div class="mdetail-desc">
+                    The maximum width to allow when grow = true (defaults to 800)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#growMax" href="Ext.form.TextField.html#growMax">TextField</a>.</div>
+                </div>
+                            <a name="config-growMin"></a>
+                <div class="mdetail">
+                <h3>growMin</i></h3>
+                <code>growMin : Number</code>
+                <div class="mdetail-desc">
+                    The minimum width to allow when grow = true (defaults to 30)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#growMin" href="Ext.form.TextField.html#growMin">TextField</a>.</div>
+                </div>
+                            <a name="config-handleHeight"></a>
+                <div class="mdetail alt">
+                <h3>handleHeight</i></h3>
+                <code>handleHeight : Number</code>
+                <div class="mdetail-desc">
+                    The height in pixels of the dropdown list resize handle if resizable = true (defaults to 8)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-hiddenName"></a>
+                <div class="mdetail">
+                <h3>hiddenName</i></h3>
+                <code>hiddenName : String</code>
+                <div class="mdetail-desc">
+                    If specified, a hidden form field with this name is dynamically generated to store the field's data value (defaults to the underlying DOM element's name)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-hideMode"></a>
+                <div class="mdetail alt">
+                <h3>hideMode</i></h3>
+                <code>hideMode : String</code>
+                <div class="mdetail-desc">
+                    How this component should hidden. Supported values are "visibility" (css visibility), "offsets" (negative offset position) and "display" (css display) - defaults to "display".                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.Component" ext:member="#hideMode" href="Ext.Component.html#hideMode">Component</a>.</div>
+                </div>
+                            <a name="config-hideTrigger"></a>
+                <div class="mdetail">
+                <h3>hideTrigger</i></h3>
+                <code>hideTrigger : Boolean</code>
+                <div class="mdetail-desc">
+                    True to hide the trigger element and display only the base text field (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TriggerField" ext:member="#hideTrigger" href="Ext.form.TriggerField.html#hideTrigger">TriggerField</a>.</div>
+                </div>
+                            <a name="config-inputType"></a>
+                <div class="mdetail alt">
+                <h3>inputType</i></h3>
+                <code>inputType : String</code>
+                <div class="mdetail-desc">
+                    The type attribute for input fields -- e.g. radio, text, password (defaults to "text").                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#inputType" href="Ext.form.Field.html#inputType">Field</a>.</div>
+                </div>
+                            <a name="config-invalidClass"></a>
+                <div class="mdetail">
+                <h3>invalidClass</i></h3>
+                <code>invalidClass : String</code>
+                <div class="mdetail-desc">
+                    The CSS class to use when marking a field invalid (defaults to "x-form-invalid")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#invalidClass" href="Ext.form.Field.html#invalidClass">Field</a>.</div>
+                </div>
+                            <a name="config-invalidText"></a>
+                <div class="mdetail alt">
+                <h3>invalidText</i></h3>
+                <code>invalidText : String</code>
+                <div class="mdetail-desc">
+                    The error text to use when marking a field invalid and no message is provided (defaults to "The value in this field is invalid")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#invalidText" href="Ext.form.Field.html#invalidText">Field</a>.</div>
+                </div>
+                            <a name="config-lazyRender"></a>
+                <div class="mdetail">
+                <h3>lazyRender</i></h3>
+                <code>lazyRender : Boolean</code>
+                <div class="mdetail-desc">
+                    True to prevent the ComboBox from rendering until requested (should always be used when rendering into an Ext.Editor, defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-listAlign"></a>
+                <div class="mdetail alt">
+                <h3>listAlign</i></h3>
+                <code>listAlign : String</code>
+                <div class="mdetail-desc">
+                    A valid anchor position value. See <a ext:cls="Ext.Element" ext:member="alignTo" href="Ext.Element.html#alignTo">Ext.Element.alignTo</a> for details on supported anchor positions (defaults to 'tl-bl')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-listClass"></a>
+                <div class="mdetail">
+                <h3>listClass</i></h3>
+                <code>listClass : String</code>
+                <div class="mdetail-desc">
+                    CSS class to apply to the dropdown list element (defaults to '')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-listWidth"></a>
+                <div class="mdetail alt">
+                <h3>listWidth</i></h3>
+                <code>listWidth : Number</code>
+                <div class="mdetail-desc">
+                    The width in pixels of the dropdown list (defaults to the width of the ComboBox field)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-loadingText"></a>
+                <div class="mdetail">
+                <h3>loadingText</i></h3>
+                <code>loadingText : String</code>
+                <div class="mdetail-desc">
+                    The text to display in the dropdown list while data is loading. Only applies when mode = 'remote' (defaults to 'Loading...')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-maskRe"></a>
+                <div class="mdetail alt">
+                <h3>maskRe</i></h3>
+                <code>maskRe : String</code>
+                <div class="mdetail-desc">
+                    An input mask regular expression that will be used to filter keystrokes that don't match (defaults to null)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#maskRe" href="Ext.form.TextField.html#maskRe">TextField</a>.</div>
+                </div>
+                            <a name="config-maxHeight"></a>
+                <div class="mdetail">
+                <h3>maxHeight</i></h3>
+                <code>maxHeight : Number</code>
+                <div class="mdetail-desc">
+                    The maximum height in pixels of the dropdown list before scrollbars are shown (defaults to 300)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-maxLength"></a>
+                <div class="mdetail alt">
+                <h3>maxLength</i></h3>
+                <code>maxLength : Number</code>
+                <div class="mdetail-desc">
+                    Maximum input field length allowed (defaults to Number.MAX_VALUE)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#maxLength" href="Ext.form.TextField.html#maxLength">TextField</a>.</div>
+                </div>
+                            <a name="config-maxLengthText"></a>
+                <div class="mdetail">
+                <h3>maxLengthText</i></h3>
+                <code>maxLengthText : String</code>
+                <div class="mdetail-desc">
+                    Error text to display if the maximum length validation fails (defaults to "The maximum length for this field is {maxLength}")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#maxLengthText" href="Ext.form.TextField.html#maxLengthText">TextField</a>.</div>
+                </div>
+                            <a name="config-minChars"></a>
+                <div class="mdetail alt">
+                <h3>minChars</i></h3>
+                <code>minChars : Number</code>
+                <div class="mdetail-desc">
+                    The minimum number of characters the user must type before autocomplete and typeahead activate (defaults to 4, does not apply if editable = false)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-minLength"></a>
+                <div class="mdetail">
+                <h3>minLength</i></h3>
+                <code>minLength : Number</code>
+                <div class="mdetail-desc">
+                    Minimum input field length required (defaults to 0)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#minLength" href="Ext.form.TextField.html#minLength">TextField</a>.</div>
+                </div>
+                            <a name="config-minLengthText"></a>
+                <div class="mdetail alt">
+                <h3>minLengthText</i></h3>
+                <code>minLengthText : String</code>
+                <div class="mdetail-desc">
+                    Error text to display if the minimum length validation fails (defaults to "The minimum length for this field is {minLength}")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#minLengthText" href="Ext.form.TextField.html#minLengthText">TextField</a>.</div>
+                </div>
+                            <a name="config-minListWidth"></a>
+                <div class="mdetail">
+                <h3>minListWidth</i></h3>
+                <code>minListWidth : Number</code>
+                <div class="mdetail-desc">
+                    The minimum width of the dropdown list in pixels (defaults to 70, will be ignored if listWidth has a higher value)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-mode"></a>
+                <div class="mdetail alt">
+                <h3>mode</i></h3>
+                <code>mode : String</code>
+                <div class="mdetail-desc">
+                    Set to 'local' if the ComboBox loads local data (defaults to 'remote' which loads from the server)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-msgFx"></a>
+                <div class="mdetail">
+                <h3>msgFx</i></h3>
+                <code>msgFx : String</code>
+                <div class="mdetail-desc">
+                    <b>Experimental</b> The effect used when displaying a validation message under the field (defaults to 'normal').                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#msgFx" href="Ext.form.Field.html#msgFx">Field</a>.</div>
+                </div>
+                            <a name="config-msgTarget"></a>
+                <div class="mdetail alt">
+                <h3>msgTarget</i></h3>
+                <code>msgTarget : String</code>
+                <div class="mdetail-desc">
+                    The location where error text should display. Should be one of the following values (defaults to 'qtip'): <pre>Value         Description
+-----------   ----------------------------------------------------------------------
+qtip          Display a quick tip when the user hovers over the field
+title         Display a default browser title attribute popup
+under         Add a block div beneath the field containing the error text
+side          Add an error icon to the right of the field with a popup on hover
+[element id]  Add the error text directly to the innerHTML of the specified element</pre>                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#msgTarget" href="Ext.form.Field.html#msgTarget">Field</a>.</div>
+                </div>
+                            <a name="config-name"></a>
+                <div class="mdetail">
+                <h3>name</i></h3>
+                <code>name : String</code>
+                <div class="mdetail-desc">
+                    The field's HTML name attribute.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#name" href="Ext.form.Field.html#name">Field</a>.</div>
+                </div>
+                            <a name="config-pageSize"></a>
+                <div class="mdetail alt">
+                <h3>pageSize</i></h3>
+                <code>pageSize : Number</code>
+                <div class="mdetail-desc">
+                    If greater than 0, a paging toolbar is displayed in the footer of the dropdown list and the filter queries will execute with page start and limit parameters. Only applies when mode = 'remote' (defaults to 0)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-queryDelay"></a>
+                <div class="mdetail">
+                <h3>queryDelay</i></h3>
+                <code>queryDelay : Number</code>
+                <div class="mdetail-desc">
+                    The length of time in milliseconds to delay between the start of typing and sending the query to filter the dropdown list (defaults to 500 if mode = 'remote' or 10 if mode = 'local')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-queryParam"></a>
+                <div class="mdetail alt">
+                <h3>queryParam</i></h3>
+                <code>queryParam : String</code>
+                <div class="mdetail-desc">
+                    Name of the query as it will be passed on the querystring (defaults to 'query')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-readOnly"></a>
+                <div class="mdetail">
+                <h3>readOnly</i></h3>
+                <code>readOnly : Boolean</code>
+                <div class="mdetail-desc">
+                    True to mark the field as readOnly in HTML (defaults to false) -- Note: this only sets the element's readOnly DOM attribute.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#readOnly" href="Ext.form.Field.html#readOnly">Field</a>.</div>
+                </div>
+                            <a name="config-regex"></a>
+                <div class="mdetail alt">
+                <h3>regex</i></h3>
+                <code>regex : RegExp</code>
+                <div class="mdetail-desc">
+                    A JavaScript RegExp object to be tested against the field value during validation (defaults to null). If available, this regex will be evaluated only after the basic validators all return true, and will be passed the current field value. If the test fails, the field will be marked invalid using <a ext:cls="Ext.form.TextField" ext:member="regexText" href="Ext.form.TextField.html#regexText">regexText</a>.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#regex" href="Ext.form.TextField.html#regex">TextField</a>.</div>
+                </div>
+                            <a name="config-regexText"></a>
+                <div class="mdetail">
+                <h3>regexText</i></h3>
+                <code>regexText : String</code>
+                <div class="mdetail-desc">
+                    The error text to display if <a ext:cls="Ext.form.TextField" ext:member="regex" href="Ext.form.TextField.html#regex">regex</a> is used and the test fails during validation (defaults to "")                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#regexText" href="Ext.form.TextField.html#regexText">TextField</a>.</div>
+                </div>
+                            <a name="config-resizable"></a>
+                <div class="mdetail alt">
+                <h3>resizable</i></h3>
+                <code>resizable : Boolean</code>
+                <div class="mdetail-desc">
+                    True to add a resize handle to the bottom of the dropdown list (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-selectOnFocus"></a>
+                <div class="mdetail">
+                <h3>selectOnFocus</i></h3>
+                <code>selectOnFocus : Boolean</code>
+                <div class="mdetail-desc">
+                    True to select any existing text in the field immediately on focus. Only applies when editable = true (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-selectedClass"></a>
+                <div class="mdetail alt">
+                <h3>selectedClass</i></h3>
+                <code>selectedClass : String</code>
+                <div class="mdetail-desc">
+                    CSS class to apply to the selected item in the dropdown list (defaults to 'x-combo-selected')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-shadow"></a>
+                <div class="mdetail">
+                <h3>shadow</i></h3>
+                <code>shadow : Boolean/String</code>
+                <div class="mdetail-desc">
+                    True or "sides" for the default effect, "frame" for 4-way shadow, and "drop" for bottom-right                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-tabIndex"></a>
+                <div class="mdetail alt">
+                <h3>tabIndex</i></h3>
+                <code>tabIndex : Number</code>
+                <div class="mdetail-desc">
+                    The tabIndex for this field. Note this only applies to fields that are rendered, not those which are built via applyTo (defaults to undefined).                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#tabIndex" href="Ext.form.Field.html#tabIndex">Field</a>.</div>
+                </div>
+                            <a name="config-transform"></a>
+                <div class="mdetail">
+                <h3>transform</i></h3>
+                <code>transform : String/HTMLElement/Element</code>
+                <div class="mdetail-desc">
+                    The id, DOM node or element of an existing select to convert to a ComboBox                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-triggerAction"></a>
+                <div class="mdetail alt">
+                <h3>triggerAction</i></h3>
+                <code>triggerAction : String</code>
+                <div class="mdetail-desc">
+                    The action to execute when the trigger field is activated. Use 'all' to run the query specified by the allQuery config option (defaults to 'query')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-triggerClass"></a>
+                <div class="mdetail">
+                <h3>triggerClass</i></h3>
+                <code>triggerClass : String</code>
+                <div class="mdetail-desc">
+                    An additional CSS class used to style the trigger button. The trigger will always get the class 'x-form-trigger' and triggerClass will be <b>appended</b> if specified (defaults to 'x-form-arrow-trigger' which displays a downward arrow icon).                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-typeAhead"></a>
+                <div class="mdetail alt">
+                <h3>typeAhead</i></h3>
+                <code>typeAhead : Boolean</code>
+                <div class="mdetail-desc">
+                    True to populate and autoselect the remainder of the text being typed after a configurable delay (typeAheadDelay) if it matches a known value (defaults to false)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-typeAheadDelay"></a>
+                <div class="mdetail">
+                <h3>typeAheadDelay</i></h3>
+                <code>typeAheadDelay : Number</code>
+                <div class="mdetail-desc">
+                    The length of time in milliseconds to wait until the typeahead text is displayed if typeAhead = true (defaults to 250)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-validateOnBlur"></a>
+                <div class="mdetail alt">
+                <h3>validateOnBlur</i></h3>
+                <code>validateOnBlur : Boolean</code>
+                <div class="mdetail-desc">
+                    Whether the field should validate when it loses focus (defaults to true).                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#validateOnBlur" href="Ext.form.Field.html#validateOnBlur">Field</a>.</div>
+                </div>
+                            <a name="config-validationDelay"></a>
+                <div class="mdetail">
+                <h3>validationDelay</i></h3>
+                <code>validationDelay : Number</code>
+                <div class="mdetail-desc">
+                    The length of time in milliseconds after user input begins until validation is initiated (defaults to 250)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#validationDelay" href="Ext.form.Field.html#validationDelay">Field</a>.</div>
+                </div>
+                            <a name="config-validationEvent"></a>
+                <div class="mdetail alt">
+                <h3>validationEvent</i></h3>
+                <code>validationEvent : String/Boolean</code>
+                <div class="mdetail-desc">
+                    The event that should initiate field validation. Set to false to disable automatic validation (defaults to "keyup").                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#validationEvent" href="Ext.form.Field.html#validationEvent">Field</a>.</div>
+                </div>
+                            <a name="config-validator"></a>
+                <div class="mdetail">
+                <h3>validator</i></h3>
+                <code>validator : Function</code>
+                <div class="mdetail-desc">
+                    A custom validation function to be called during field validation (defaults to null). If available, this function will be called only after the basic validators all return true, and will be passed the current field value and expected to return boolean true if the value is valid or a string error message if invalid.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#validator" href="Ext.form.TextField.html#validator">TextField</a>.</div>
+                </div>
+                            <a name="config-value"></a>
+                <div class="mdetail alt">
+                <h3>value</i></h3>
+                <code>value : Mixed</code>
+                <div class="mdetail-desc">
+                    A value to initialize this field with.                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.Field" ext:member="#value" href="Ext.form.Field.html#value">Field</a>.</div>
+                </div>
+                            <a name="config-valueField"></a>
+                <div class="mdetail">
+                <h3>valueField</i></h3>
+                <code>valueField : String</code>
+                <div class="mdetail-desc">
+                    The underlying data value name to bind to this CombBox (defaults to undefined if mode = 'remote' or 'value' if mode = 'local')                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-valueNotFoundText"></a>
+                <div class="mdetail alt">
+                <h3>valueNotFoundText</i></h3>
+                <code>valueNotFoundText : String</code>
+                <div class="mdetail-desc">
+                    When using a name/value combo, if the value passed to setValue is not found in the store, valueNotFoundText will be displayed as the field text if defined (defaults to undefined)                </div>
+                <div class="mdetail-def">This config option is defined by ComboBox.</div>
+                </div>
+                            <a name="config-vtype"></a>
+                <div class="mdetail">
+                <h3>vtype</i></h3>
+                <code>vtype : String</code>
+                <div class="mdetail-desc">
+                    A validation type name as defined in <a ext:cls="Ext.form.VTypes" href="Ext.form.VTypes.html">Ext.form.VTypes</a> (defaults to null)                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.form.TextField" ext:member="#vtype" href="Ext.form.TextField.html#vtype">TextField</a>.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

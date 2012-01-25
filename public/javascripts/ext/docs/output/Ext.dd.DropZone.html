@@ -1,0 +1,1811 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.dd.DropZone</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.dd.DropZone.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.dd.DropZone</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.dd</td></tr>
+            <tr><td class="label">Class:</td><td>DropZone</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.dd.DropTarget" ext:member="" href="Ext.dd.DropTarget.html">DropTarget</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="DropZone.jss.html">DropZone.js</a></td></tr>
+        </table>
+        <div class="description">
+            This class provides a container DD instance that proxies for multiple child node targets.<br />
+By default, this class requires that child nodes accepting drop are registered with <a ext:cls="Ext.dd.Registry" href="Ext.dd.Registry.html">Ext.dd.Registry</a>.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#available">available</a> : boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#available" href="Ext.dd.DragDrop.html#available">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The availabe property is false until the linked dom element is accessible.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config">config</a> : object</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#config" href="Ext.dd.DragDrop.html#config">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Configuration attributes passed into the constructor</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#groups">groups</a> : string:</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#groups" href="Ext.dd.DragDrop.html#groups">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">The group defines a logical collection of DragDrop objects that are
+related.  Instances only get events when interact...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasOuterHandles">hasOuterHandles</a> : boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#hasOuterHandles" href="Ext.dd.DragDrop.html#hasOuterHandles">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">By default, drags can only be initiated if the mousedown occurs in the
+region the linked element is.  This is done in...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#id">id</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#id" href="Ext.dd.DragDrop.html#id">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">The id of the element associated with this object.  This is what we
+refer to as the "linked element" because the size...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#invalidHandleClasses">invalidHandleClasses</a> : string[]</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#invalidHandleClasses" href="Ext.dd.DragDrop.html#invalidHandleClasses">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">An indexted array of css class names for elements that will be ignored
+if clicked.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#invalidHandleIds">invalidHandleIds</a> : string:</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#invalidHandleIds" href="Ext.dd.DragDrop.html#invalidHandleIds">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">An associative array of ids for elements that will be ignored if clicked</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#invalidHandleTypes">invalidHandleTypes</a> : string:</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#invalidHandleTypes" href="Ext.dd.DragDrop.html#invalidHandleTypes">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">An associative array of HTML tags that will be ignored if clicked.</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#maintainOffset">maintainOffset</a> : boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#maintainOffset" href="Ext.dd.DragDrop.html#maintainOffset">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Maintain offsets when we resetconstraints.  Set to true when you want
+the position of the element relative to its par...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#primaryButtonOnly">primaryButtonOnly</a> : boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#primaryButtonOnly" href="Ext.dd.DragDrop.html#primaryButtonOnly">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">By default the drag and drop instance will only respond to the primary
+button click (left button for a right-handed m...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#xTicks">xTicks</a> : int[]</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#xTicks" href="Ext.dd.DragDrop.html#xTicks">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Array of pixel locations the element will snap to if we specified a
+horizontal graduation/interval.  This array is ge...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#yTicks">yTicks</a> : int[]</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#yTicks" href="Ext.dd.DragDrop.html#yTicks">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Array of pixel locations the element will snap to if we specified a
+vertical graduation/interval.  This array is gene...</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>DropZone</b>(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addInvalidHandleClass">addInvalidHandleClass</a>(&nbsp;<code>string cssClass</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#addInvalidHandleClass" href="Ext.dd.DragDrop.html#addInvalidHandleClass">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Lets you specify a css class of elements that will not initiate a drag</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addInvalidHandleId">addInvalidHandleId</a>(&nbsp;<code>string id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#addInvalidHandleId" href="Ext.dd.DragDrop.html#addInvalidHandleId">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Lets you to specify an element id for a child of a drag handle
+that should not initiate a drag</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addInvalidHandleType">addInvalidHandleType</a>(&nbsp;<code>string tagName</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#addInvalidHandleType" href="Ext.dd.DragDrop.html#addInvalidHandleType">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Allows you to specify a tag name that should not start a drag operation
+when clicked.  This is designed to facilitate...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addToGroup">addToGroup</a>(&nbsp;<code>sGroup {string}</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#addToGroup" href="Ext.dd.DragDrop.html#addToGroup">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Add this instance to a group of related drag/drop objects.  All
+instances belong to at least one group, and can belon...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#applyConfig">applyConfig</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#applyConfig" href="Ext.dd.DragDrop.html#applyConfig">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Applies the configuration parameters that were passed into the constructor.
+This is supposed to happen at each level ...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearConstraints">clearConstraints</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#clearConstraints" href="Ext.dd.DragDrop.html#clearConstraints">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Clears any constraints applied to this instance.  Also clears ticks
+since they can't exist independent of a constrain...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearTicks">clearTicks</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#clearTicks" href="Ext.dd.DragDrop.html#clearTicks">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Clears any tick interval defined for this instance</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#endDrag">endDrag</a>(&nbsp;<code>Event e</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#endDrag" href="Ext.dd.DragDrop.html#endDrag">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fired when we are done dragging the object</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getDragEl">getDragEl</a>() : HTMLElement</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#getDragEl" href="Ext.dd.DragDrop.html#getDragEl">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Returns a reference to the actual element to drag.  By default this is
+the same as the html element, but it can be as...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getEl">getEl</a>() : HTMLElement</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#getEl" href="Ext.dd.DragDrop.html#getEl">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns a reference to the linked element</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTargetFromEvent">getTargetFromEvent</a>(&nbsp;<code>Event e</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Returns a custom data object associated with the DOM node that is the target of the event.  By default
+this looks up ...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#init">init</a>(&nbsp;<code>id the</code>, <code>String sGroup</code>, <code>object config</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#init" href="Ext.dd.DragDrop.html#init">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Sets up the DragDrop object.  Must be called in the constructor of any
+Ext.dd.DragDrop subclass</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#initTarget">initTarget</a>(&nbsp;<code>id the</code>, <code>String sGroup</code>, <code>object config</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#initTarget" href="Ext.dd.DragDrop.html#initTarget">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Initializes Targeting functionality only... the object does not
+get a mousedown handler.</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isLocked">isLocked</a>() : boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#isLocked" href="Ext.dd.DragDrop.html#isLocked">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Returns true if this instance is locked, or the drag drop mgr is locked
+(meaning that all drag/drop is disabled on th...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isTarget">isTarget</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#isTarget" href="Ext.dd.DragDrop.html#isTarget">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">By default, all insances can be a drop target.  This can be disabled by
+setting isTarget to false.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isValidHandleChild">isValidHandleChild</a>(&nbsp;<code>HTMLElement node</code>&nbsp;) : boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#isValidHandleChild" href="Ext.dd.DragDrop.html#isValidHandleChild">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Checks the tag exclusion list to see if this click should be ignored</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#lock">lock</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#lock" href="Ext.dd.DragDrop.html#lock">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Lock this instance</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#notifyDrop">notifyDrop</a>(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">The function a Ext.dd.DragSource calls once to notify this drop zone that the dragged item has
+been dropped on it.  T...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#notifyEnter">notifyEnter</a>(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">The function a Ext.dd.DragSource calls once to notify this drop zone that the source is now over
+the zone.  The defau...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#notifyOut">notifyOut</a>(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">The function a Ext.dd.DragSource calls once to notify this drop zone that the source has been dragged
+out of the zone...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#notifyOver">notifyOver</a>(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">The function a Ext.dd.DragSource calls continuously while it is being dragged over the drop zone.
+This method will be...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onAvailable">onAvailable</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onAvailable" href="Ext.dd.DragDrop.html#onAvailable">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Override the onAvailable method to do what is needed after the initial
+position was determined.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onContainerDrop">onContainerDrop</a>(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Called internally when the DropZone determines that a Ext.dd.DragSource has been dropped on it,
+but not on any of its...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onContainerOver">onContainerOver</a>(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Called internally while the DropZone determines that a Ext.dd.DragSource is being dragged over it,
+but not over any o...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onDrag">onDrag</a>(&nbsp;<code>Event e</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onDrag" href="Ext.dd.DragDrop.html#onDrag">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Abstract method called during the onMouseMove event while dragging an
+object.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onDragDrop">onDragDrop</a>(&nbsp;<code>Event e</code>, <code>String|DragDrop[] id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onDragDrop" href="Ext.dd.DragDrop.html#onDragDrop">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Abstract method called when this item is dropped on another DragDrop
+obj</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onDragEnter">onDragEnter</a>(&nbsp;<code>Event e</code>, <code>String|DragDrop[] id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onDragEnter" href="Ext.dd.DragDrop.html#onDragEnter">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Abstract method called when this element fist begins hovering over
+another DragDrop obj</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onDragOut">onDragOut</a>(&nbsp;<code>Event e</code>, <code>String|DragDrop[] id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onDragOut" href="Ext.dd.DragDrop.html#onDragOut">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Abstract method called when we are no longer hovering over an element</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onDragOver">onDragOver</a>(&nbsp;<code>Event e</code>, <code>String|DragDrop[] id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onDragOver" href="Ext.dd.DragDrop.html#onDragOver">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Abstract method called when this element is hovering over another
+DragDrop obj</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onInvalidDrop">onInvalidDrop</a>(&nbsp;<code>Event e</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onInvalidDrop" href="Ext.dd.DragDrop.html#onInvalidDrop">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Abstract method called when this item is dropped on an area with no
+drop target</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onMouseDown">onMouseDown</a>(&nbsp;<code>Event e</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onMouseDown" href="Ext.dd.DragDrop.html#onMouseDown">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Event handler that fires when a drag/drop obj gets a mousedown</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onMouseUp">onMouseUp</a>(&nbsp;<code>Event e</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#onMouseUp" href="Ext.dd.DragDrop.html#onMouseUp">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Event handler that fires when a drag/drop obj gets a mouseup</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onNodeDrop">onNodeDrop</a>(&nbsp;<code>Object nodeData</code>, <code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Called internally when the DropZone determines that a Ext.dd.DragSource has been dropped onto
+the drop node.  The def...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onNodeEnter">onNodeEnter</a>(&nbsp;<code>Object nodeData</code>, <code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Called internally when the DropZone determines that a Ext.dd.DragSource has entered a drop node
+that it has registere...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onNodeOut">onNodeOut</a>(&nbsp;<code>Object nodeData</code>, <code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Called internally when the DropZone determines that a Ext.dd.DragSource has been dragged out of
+the drop node without...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#onNodeOver">onNodeOver</a>(&nbsp;<code>Object nodeData</code>, <code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">DropZone</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Called internally while the DropZone determines that a Ext.dd.DragSource is over a drop node
+that it has registered. ...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#padding">padding</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#padding" href="Ext.dd.DragDrop.html#padding">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The padding configured for this drag and drop object for calculating
+the drop zone intersection with this object.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeFromGroup">removeFromGroup</a>(&nbsp;<code>string sGroup</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#removeFromGroup" href="Ext.dd.DragDrop.html#removeFromGroup">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Remove's this instance from the supplied interaction group</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeInvalidHandleClass">removeInvalidHandleClass</a>(&nbsp;<code>string cssClass</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#removeInvalidHandleClass" href="Ext.dd.DragDrop.html#removeInvalidHandleClass">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Unsets an invalid css class</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeInvalidHandleId">removeInvalidHandleId</a>(&nbsp;<code>string id</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#removeInvalidHandleId" href="Ext.dd.DragDrop.html#removeInvalidHandleId">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Unsets an invalid handle id</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeInvalidHandleType">removeInvalidHandleType</a>(&nbsp;<code>string tagName</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#removeInvalidHandleType" href="Ext.dd.DragDrop.html#removeInvalidHandleType">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Unsets an excluded tag name set by addInvalidHandleType</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#resetConstraints">resetConstraints</a>(&nbsp;<code>boolean maintainOffset</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#resetConstraints" href="Ext.dd.DragDrop.html#resetConstraints">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">resetConstraints must be called if you manually reposition a dd element.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setDragElId">setDragElId</a>(&nbsp;<code>id {string}</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#setDragElId" href="Ext.dd.DragDrop.html#setDragElId">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Allows you to specify that an element other than the linked element
+will be moved with the cursor during a drag</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setHandleElId">setHandleElId</a>(&nbsp;<code>id {string}</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#setHandleElId" href="Ext.dd.DragDrop.html#setHandleElId">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">Allows you to specify a child of the linked element that should be
+used to initiate the drag operation.  An example o...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setInitialPosition">setInitialPosition</a>(&nbsp;<code>int diffX</code>, <code>int diffY</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#setInitialPosition" href="Ext.dd.DragDrop.html#setInitialPosition">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Stores the initial placement of the linked element.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setOuterHandleElId">setOuterHandleElId</a>(&nbsp;<code>id the</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#setOuterHandleElId" href="Ext.dd.DragDrop.html#setOuterHandleElId">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Allows you to set an element outside of the linked element as a drag
+handle</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setPadding">setPadding</a>(&nbsp;<code>int iTop</code>, <code>int iRight</code>, <code>int iBot</code>, <code>int iLeft</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#setPadding" href="Ext.dd.DragDrop.html#setPadding">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">Configures the padding for the target zone in px.  Effectively expands
+(or reduces) the virtual object size for targe...</td>
+    </tr>
+        <tr class=" inherited" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setXConstraint">setXConstraint</a>(&nbsp;<code>int iLeft</code>, <code>int iRight</code>, <code>int iTickSize</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#setXConstraint" href="Ext.dd.DragDrop.html#setXConstraint">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited" expandable>
+        <td class="mdesc">By default, the element can be dragged any place on the screen.  Use
+this method to limit the horizontal travel of th...</td>
+    </tr>
+        <tr class=" inherited alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setYConstraint">setYConstraint</a>(&nbsp;<code>int iUp</code>, <code>int iDown</code>, <code>int iTickSize</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#setYConstraint" href="Ext.dd.DragDrop.html#setYConstraint">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt" expandable>
+        <td class="mdesc">By default, the element can be dragged any place on the screen.  Set
+this to limit the vertical travel of the element...</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#startDrag">startDrag</a>(&nbsp;<code>int X</code>, <code>int Y</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#startDrag" href="Ext.dd.DragDrop.html#startDrag">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Abstract method called after a drag/drop object is clicked
+and the drag or mousedown time thresholds have beeen met.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#toString">toString</a>() : string</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#toString" href="Ext.dd.DragDrop.html#toString">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">toString method</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#unlock">unlock</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#unlock" href="Ext.dd.DragDrop.html#unlock">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Unlock this instace</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#unreg">unreg</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DragDrop" ext:member="#unreg" href="Ext.dd.DragDrop.html#unreg">DragDrop</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Remove all drag and drop hooks for this element</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-dropAllowed">dropAllowed</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DropTarget" ext:member="#dropAllowed" href="Ext.dd.DropTarget.html#dropAllowed">DropTarget</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The CSS class returned to the drag source when drop is allowed (defaults to "x-dd-drop-ok").</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-dropNotAllowed">dropNotAllowed</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DropTarget" ext:member="#dropNotAllowed" href="Ext.dd.DropTarget.html#dropNotAllowed">DropTarget</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The CSS class returned to the drag source when drop is not allowed (defaults to "x-dd-drop-nodrop").</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-overClass">overClass</a> : String</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.dd.DropTarget" ext:member="#overClass" href="Ext.dd.DropTarget.html#overClass">DropTarget</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The CSS class applied to the drop target element while the drag source is over it (defaults to "").</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="available"></a>
+                <div class="mdetail">
+                <h3>available</i></h3>
+                <code>public boolean available</code>
+                <div class="mdetail-desc">
+                    The availabe property is false until the linked dom element is accessible.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#available" href="Ext.dd.DragDrop.html#available">DragDrop</a>.</div>
+                </div>
+                            <a name="config"></a>
+                <div class="mdetail alt">
+                <h3>config</i></h3>
+                <code>public object config</code>
+                <div class="mdetail-desc">
+                    Configuration attributes passed into the constructor                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#config" href="Ext.dd.DragDrop.html#config">DragDrop</a>.</div>
+                </div>
+                            <a name="groups"></a>
+                <div class="mdetail">
+                <h3>groups</i></h3>
+                <code>public string: groups</code>
+                <div class="mdetail-desc">
+                    The group defines a logical collection of DragDrop objects that are
+related.  Instances only get events when interacting with other
+DragDrop object in the same group.  This lets us define multiple
+groups using a single DragDrop subclass if we want.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#groups" href="Ext.dd.DragDrop.html#groups">DragDrop</a>.</div>
+                </div>
+                            <a name="hasOuterHandles"></a>
+                <div class="mdetail alt">
+                <h3>hasOuterHandles</i></h3>
+                <code>public boolean hasOuterHandles</code>
+                <div class="mdetail-desc">
+                    By default, drags can only be initiated if the mousedown occurs in the
+region the linked element is.  This is done in part to work around a
+bug in some browsers that mis-report the mousedown if the previous
+mouseup happened outside of the window.  This property is set to true
+if outer handles are defined.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#hasOuterHandles" href="Ext.dd.DragDrop.html#hasOuterHandles">DragDrop</a>.</div>
+                </div>
+                            <a name="id"></a>
+                <div class="mdetail">
+                <h3>id</i></h3>
+                <code>public String id</code>
+                <div class="mdetail-desc">
+                    The id of the element associated with this object.  This is what we
+refer to as the "linked element" because the size and position of
+this element is used to determine when the drag and drop objects have
+interacted.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#id" href="Ext.dd.DragDrop.html#id">DragDrop</a>.</div>
+                </div>
+                            <a name="invalidHandleClasses"></a>
+                <div class="mdetail alt">
+                <h3>invalidHandleClasses</i></h3>
+                <code>public string[] invalidHandleClasses</code>
+                <div class="mdetail-desc">
+                    An indexted array of css class names for elements that will be ignored
+if clicked.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#invalidHandleClasses" href="Ext.dd.DragDrop.html#invalidHandleClasses">DragDrop</a>.</div>
+                </div>
+                            <a name="invalidHandleIds"></a>
+                <div class="mdetail">
+                <h3>invalidHandleIds</i></h3>
+                <code>public string: invalidHandleIds</code>
+                <div class="mdetail-desc">
+                    An associative array of ids for elements that will be ignored if clicked                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#invalidHandleIds" href="Ext.dd.DragDrop.html#invalidHandleIds">DragDrop</a>.</div>
+                </div>
+                            <a name="invalidHandleTypes"></a>
+                <div class="mdetail alt">
+                <h3>invalidHandleTypes</i></h3>
+                <code>public string: invalidHandleTypes</code>
+                <div class="mdetail-desc">
+                    An associative array of HTML tags that will be ignored if clicked.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#invalidHandleTypes" href="Ext.dd.DragDrop.html#invalidHandleTypes">DragDrop</a>.</div>
+                </div>
+                            <a name="maintainOffset"></a>
+                <div class="mdetail">
+                <h3>maintainOffset</i></h3>
+                <code>public boolean maintainOffset</code>
+                <div class="mdetail-desc">
+                    Maintain offsets when we resetconstraints.  Set to true when you want
+the position of the element relative to its parent to stay the same
+when the page changes                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#maintainOffset" href="Ext.dd.DragDrop.html#maintainOffset">DragDrop</a>.</div>
+                </div>
+                            <a name="primaryButtonOnly"></a>
+                <div class="mdetail alt">
+                <h3>primaryButtonOnly</i></h3>
+                <code>public boolean primaryButtonOnly</code>
+                <div class="mdetail-desc">
+                    By default the drag and drop instance will only respond to the primary
+button click (left button for a right-handed mouse).  Set to true to
+allow drag and drop to start with any mouse click that is propogated
+by the browser                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#primaryButtonOnly" href="Ext.dd.DragDrop.html#primaryButtonOnly">DragDrop</a>.</div>
+                </div>
+                            <a name="xTicks"></a>
+                <div class="mdetail">
+                <h3>xTicks</i></h3>
+                <code>public int[] xTicks</code>
+                <div class="mdetail-desc">
+                    Array of pixel locations the element will snap to if we specified a
+horizontal graduation/interval.  This array is generated automatically
+when you define a tick interval.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#xTicks" href="Ext.dd.DragDrop.html#xTicks">DragDrop</a>.</div>
+                </div>
+                            <a name="yTicks"></a>
+                <div class="mdetail alt">
+                <h3>yTicks</i></h3>
+                <code>public int[] yTicks</code>
+                <div class="mdetail-desc">
+                    Array of pixel locations the element will snap to if we specified a
+vertical graduation/interval.  This array is generated automatically
+when you define a tick interval.                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#yTicks" href="Ext.dd.DragDrop.html#yTicks">DragDrop</a>.</div>
+                </div>
+                        </div>
+        
+                    <a name="DropZone"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>DropZone</i></h3>
+                <code>public function DropZone(&nbsp;<code>String/HTMLElement/Element el</code>, <code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc">The container element</div></li><li><code>config</code> : Object<div class="sub-desc"></div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="addInvalidHandleClass"></a>
+                <div class="mdetail">
+                <h3>addInvalidHandleClass</i></h3>
+                <code>public function addInvalidHandleClass(&nbsp;<code>string cssClass</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Lets you specify a css class of elements that will not initiate a drag
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>cssClass</code> : string<div class="sub-desc">the class of the elements you wish to ignore</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#addInvalidHandleClass" href="Ext.dd.DragDrop.html#addInvalidHandleClass">DragDrop</a>.</div>
+                </div>
+                            <a name="addInvalidHandleId"></a>
+                <div class="mdetail alt">
+                <h3>addInvalidHandleId</i></h3>
+                <code>public function addInvalidHandleId(&nbsp;<code>string id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Lets you to specify an element id for a child of a drag handle
+that should not initiate a drag
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : string<div class="sub-desc">the element id of the element you wish to ignore</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#addInvalidHandleId" href="Ext.dd.DragDrop.html#addInvalidHandleId">DragDrop</a>.</div>
+                </div>
+                            <a name="addInvalidHandleType"></a>
+                <div class="mdetail">
+                <h3>addInvalidHandleType</i></h3>
+                <code>public function addInvalidHandleType(&nbsp;<code>string tagName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Allows you to specify a tag name that should not start a drag operation
+when clicked.  This is designed to facilitate embedding links within a
+drag handle that do something other than start the drag.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>tagName</code> : string<div class="sub-desc">the type of element to exclude</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#addInvalidHandleType" href="Ext.dd.DragDrop.html#addInvalidHandleType">DragDrop</a>.</div>
+                </div>
+                            <a name="addToGroup"></a>
+                <div class="mdetail alt">
+                <h3>addToGroup</i></h3>
+                <code>public function addToGroup(&nbsp;<code>sGroup {string}</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Add this instance to a group of related drag/drop objects.  All
+instances belong to at least one group, and can belong to as many
+groups as needed.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>{string}</code> : sGroup<div class="sub-desc">the name of the group</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#addToGroup" href="Ext.dd.DragDrop.html#addToGroup">DragDrop</a>.</div>
+                </div>
+                            <a name="applyConfig"></a>
+                <div class="mdetail">
+                <h3>applyConfig</i></h3>
+                <code>public function applyConfig()</code>
+                <div class="mdetail-desc">
+                    Applies the configuration parameters that were passed into the constructor.
+This is supposed to happen at each level through the inheritance chain.  So
+a DDProxy implentation will execute apply config on DDProxy, DD, and
+DragDrop in order to get all of the parameters that are available in
+each object.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#applyConfig" href="Ext.dd.DragDrop.html#applyConfig">DragDrop</a>.</div>
+                </div>
+                            <a name="clearConstraints"></a>
+                <div class="mdetail alt">
+                <h3>clearConstraints</i></h3>
+                <code>public function clearConstraints()</code>
+                <div class="mdetail-desc">
+                    Clears any constraints applied to this instance.  Also clears ticks
+since they can't exist independent of a constraint at this time.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#clearConstraints" href="Ext.dd.DragDrop.html#clearConstraints">DragDrop</a>.</div>
+                </div>
+                            <a name="clearTicks"></a>
+                <div class="mdetail">
+                <h3>clearTicks</i></h3>
+                <code>public function clearTicks()</code>
+                <div class="mdetail-desc">
+                    Clears any tick interval defined for this instance
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#clearTicks" href="Ext.dd.DragDrop.html#clearTicks">DragDrop</a>.</div>
+                </div>
+                            <a name="endDrag"></a>
+                <div class="mdetail alt">
+                <h3>endDrag</i></h3>
+                <code>public function endDrag(&nbsp;<code>Event e</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fired when we are done dragging the object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mouseup event</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#endDrag" href="Ext.dd.DragDrop.html#endDrag">DragDrop</a>.</div>
+                </div>
+                            <a name="getDragEl"></a>
+                <div class="mdetail">
+                <h3>getDragEl</i></h3>
+                <code>public function getDragEl()</code>
+                <div class="mdetail-desc">
+                    Returns a reference to the actual element to drag.  By default this is
+the same as the html element, but it can be assigned to another
+element. An example of this can be found in Ext.dd.DDProxy
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement</code><div class="sub-desc">the html element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#getDragEl" href="Ext.dd.DragDrop.html#getDragEl">DragDrop</a>.</div>
+                </div>
+                            <a name="getEl"></a>
+                <div class="mdetail alt">
+                <h3>getEl</i></h3>
+                <code>public function getEl()</code>
+                <div class="mdetail-desc">
+                    Returns a reference to the linked element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement</code><div class="sub-desc">the html element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#getEl" href="Ext.dd.DragDrop.html#getEl">DragDrop</a>.</div>
+                </div>
+                            <a name="getTargetFromEvent"></a>
+                <div class="mdetail">
+                <h3>getTargetFromEvent</i></h3>
+                <code>public function getTargetFromEvent(&nbsp;<code>Event e</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns a custom data object associated with the DOM node that is the target of the event.  By default
+this looks up the event target in the <a ext:cls="Ext.dd.Registry" href="Ext.dd.Registry.html">Ext.dd.Registry</a>, although you can override this method to
+provide your own custom lookup.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">The event</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">data The custom data</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="init"></a>
+                <div class="mdetail alt">
+                <h3>init</i></h3>
+                <code>public function init(&nbsp;<code>id the</code>, <code>String sGroup</code>, <code>object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets up the DragDrop object.  Must be called in the constructor of any
+Ext.dd.DragDrop subclass
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : id<div class="sub-desc">id of the linked element</div></li><li><code>sGroup</code> : String<div class="sub-desc">the group of related items</div></li><li><code>config</code> : object<div class="sub-desc">configuration attributes</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#init" href="Ext.dd.DragDrop.html#init">DragDrop</a>.</div>
+                </div>
+                            <a name="initTarget"></a>
+                <div class="mdetail">
+                <h3>initTarget</i></h3>
+                <code>public function initTarget(&nbsp;<code>id the</code>, <code>String sGroup</code>, <code>object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Initializes Targeting functionality only... the object does not
+get a mousedown handler.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : id<div class="sub-desc">id of the linked element</div></li><li><code>sGroup</code> : String<div class="sub-desc">the group of related items</div></li><li><code>config</code> : object<div class="sub-desc">configuration attributes</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#initTarget" href="Ext.dd.DragDrop.html#initTarget">DragDrop</a>.</div>
+                </div>
+                            <a name="isLocked"></a>
+                <div class="mdetail alt">
+                <h3>isLocked</i></h3>
+                <code>public function isLocked()</code>
+                <div class="mdetail-desc">
+                    Returns true if this instance is locked, or the drag drop mgr is locked
+(meaning that all drag/drop is disabled on the page.)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>boolean</code><div class="sub-desc">true if this obj or all drag/drop is locked, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#isLocked" href="Ext.dd.DragDrop.html#isLocked">DragDrop</a>.</div>
+                </div>
+                            <a name="isTarget"></a>
+                <div class="mdetail">
+                <h3>isTarget</i></h3>
+                <code>public function isTarget()</code>
+                <div class="mdetail-desc">
+                    By default, all insances can be a drop target.  This can be disabled by
+setting isTarget to false.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#isTarget" href="Ext.dd.DragDrop.html#isTarget">DragDrop</a>.</div>
+                </div>
+                            <a name="isValidHandleChild"></a>
+                <div class="mdetail alt">
+                <h3>isValidHandleChild</i></h3>
+                <code>public function isValidHandleChild(&nbsp;<code>HTMLElement node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks the tag exclusion list to see if this click should be ignored
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : HTMLElement<div class="sub-desc">the HTMLElement to evaluate</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>boolean</code><div class="sub-desc">true if this is a valid tag type, false if not</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#isValidHandleChild" href="Ext.dd.DragDrop.html#isValidHandleChild">DragDrop</a>.</div>
+                </div>
+                            <a name="lock"></a>
+                <div class="mdetail">
+                <h3>lock</i></h3>
+                <code>public function lock()</code>
+                <div class="mdetail-desc">
+                    Lock this instance
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#lock" href="Ext.dd.DragDrop.html#lock">DragDrop</a>.</div>
+                </div>
+                            <a name="notifyDrop"></a>
+                <div class="mdetail alt">
+                <h3>notifyDrop</i></h3>
+                <code>public function notifyDrop(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    The function a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> calls once to notify this drop zone that the dragged item has
+been dropped on it.  The drag zone will look up the target node based on the event passed in, and if there
+is a node registered for that event, it will delegate to <a ext:cls="Ext.dd.DropZone" ext:member="onNodeDrop" href="Ext.dd.DropZone.html#onNodeDrop">onNodeDrop</a> for node-specific handling,
+otherwise it will call <a ext:cls="Ext.dd.DropZone" ext:member="onContainerDrop" href="Ext.dd.DropZone.html#onContainerDrop">onContainerDrop</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the drop was valid, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="notifyEnter"></a>
+                <div class="mdetail">
+                <h3>notifyEnter</i></h3>
+                <code>public function notifyEnter(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    The function a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> calls once to notify this drop zone that the source is now over
+the zone.  The default implementation returns this.dropNotAllowed and expects that only registered drop
+nodes can process drag drop operations, so if you need the drop zone itself to be able to process drops
+you should override this method and provide a custom implementation.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">status The CSS class that communicates the drop status back to the source so that the underlying {@link Ext.dd.StatusProxy} can be updated</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="notifyOut"></a>
+                <div class="mdetail alt">
+                <h3>notifyOut</i></h3>
+                <code>public function notifyOut(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    The function a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> calls once to notify this drop zone that the source has been dragged
+out of the zone without dropping.  If the drag source is currently over a registered node, the notification
+will be delegated to <a ext:cls="Ext.dd.DropZone" ext:member="onNodeOut" href="Ext.dd.DropZone.html#onNodeOut">onNodeOut</a> for node-specific handling, otherwise it will be ignored.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop target</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag zone</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="notifyOver"></a>
+                <div class="mdetail">
+                <h3>notifyOver</i></h3>
+                <code>public function notifyOver(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    The function a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> calls continuously while it is being dragged over the drop zone.
+This method will be called on every mouse movement while the drag source is over the drop zone.
+It will call <a ext:cls="Ext.dd.DropZone" ext:member="onNodeOver" href="Ext.dd.DropZone.html#onNodeOver">onNodeOver</a> while the drag source is over a registered node, and will also automatically
+delegate to the appropriate node-specific methods as necessary when the drag source enters and exits
+registered nodes (<a ext:cls="Ext.dd.DropZone" ext:member="onNodeEnter" href="Ext.dd.DropZone.html#onNodeEnter">onNodeEnter</a>, <a ext:cls="Ext.dd.DropZone" ext:member="onNodeOut" href="Ext.dd.DropZone.html#onNodeOut">onNodeOut</a>). If the drag source is not currently over a
+registered node, it will call <a ext:cls="Ext.dd.DropZone" ext:member="onContainerOver" href="Ext.dd.DropZone.html#onContainerOver">onContainerOver</a>.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">status The CSS class that communicates the drop status back to the source so that the underlying {@link Ext.dd.StatusProxy} can be updated</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="onAvailable"></a>
+                <div class="mdetail alt">
+                <h3>onAvailable</i></h3>
+                <code>public function onAvailable()</code>
+                <div class="mdetail-desc">
+                    Override the onAvailable method to do what is needed after the initial
+position was determined.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onAvailable" href="Ext.dd.DragDrop.html#onAvailable">DragDrop</a>.</div>
+                </div>
+                            <a name="onContainerDrop"></a>
+                <div class="mdetail">
+                <h3>onContainerDrop</i></h3>
+                <code>public function onContainerDrop(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Called internally when the DropZone determines that a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> has been dropped on it,
+but not on any of its registered drop nodes.  The default implementation returns false, so it should be
+overridden to provide the appropriate processing of the drop event if you need the drop zone itself to
+be able to accept drops.  It should return true when valid so that the drag source's repair action does not run.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the drop was valid, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="onContainerOver"></a>
+                <div class="mdetail alt">
+                <h3>onContainerOver</i></h3>
+                <code>public function onContainerOver(&nbsp;<code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Called internally while the DropZone determines that a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> is being dragged over it,
+but not over any of its registered drop nodes.  The default implementation returns this.dropNotAllowed, so
+it should be overridden to provide the proper feedback if necessary.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">status The CSS class that communicates the drop status back to the source so that the underlying {@link Ext.dd.StatusProxy} can be updated</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="onDrag"></a>
+                <div class="mdetail">
+                <h3>onDrag</i></h3>
+                <code>public function onDrag(&nbsp;<code>Event e</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Abstract method called during the onMouseMove event while dragging an
+object.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mousemove event</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onDrag" href="Ext.dd.DragDrop.html#onDrag">DragDrop</a>.</div>
+                </div>
+                            <a name="onDragDrop"></a>
+                <div class="mdetail alt">
+                <h3>onDragDrop</i></h3>
+                <code>public function onDragDrop(&nbsp;<code>Event e</code>, <code>String|DragDrop[] id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Abstract method called when this item is dropped on another DragDrop
+obj
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mouseup event</div></li><li><code>id</code> : String|DragDrop[]<div class="sub-desc">In POINT mode, the element
+id this was dropped on. In INTERSECT mode, an array of dd items this
+was dropped on.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onDragDrop" href="Ext.dd.DragDrop.html#onDragDrop">DragDrop</a>.</div>
+                </div>
+                            <a name="onDragEnter"></a>
+                <div class="mdetail">
+                <h3>onDragEnter</i></h3>
+                <code>public function onDragEnter(&nbsp;<code>Event e</code>, <code>String|DragDrop[] id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Abstract method called when this element fist begins hovering over
+another DragDrop obj
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mousemove event</div></li><li><code>id</code> : String|DragDrop[]<div class="sub-desc">In POINT mode, the element
+id this is hovering over. In INTERSECT mode, an array of one or more
+dragdrop items being hovered over.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onDragEnter" href="Ext.dd.DragDrop.html#onDragEnter">DragDrop</a>.</div>
+                </div>
+                            <a name="onDragOut"></a>
+                <div class="mdetail alt">
+                <h3>onDragOut</i></h3>
+                <code>public function onDragOut(&nbsp;<code>Event e</code>, <code>String|DragDrop[] id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Abstract method called when we are no longer hovering over an element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mousemove event</div></li><li><code>id</code> : String|DragDrop[]<div class="sub-desc">In POINT mode, the element
+id this was hovering over. In INTERSECT mode, an array of dd items
+that the mouse is no longer over.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onDragOut" href="Ext.dd.DragDrop.html#onDragOut">DragDrop</a>.</div>
+                </div>
+                            <a name="onDragOver"></a>
+                <div class="mdetail">
+                <h3>onDragOver</i></h3>
+                <code>public function onDragOver(&nbsp;<code>Event e</code>, <code>String|DragDrop[] id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Abstract method called when this element is hovering over another
+DragDrop obj
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mousemove event</div></li><li><code>id</code> : String|DragDrop[]<div class="sub-desc">In POINT mode, the element
+id this is hovering over. In INTERSECT mode, an array of dd items
+being hovered over.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onDragOver" href="Ext.dd.DragDrop.html#onDragOver">DragDrop</a>.</div>
+                </div>
+                            <a name="onInvalidDrop"></a>
+                <div class="mdetail alt">
+                <h3>onInvalidDrop</i></h3>
+                <code>public function onInvalidDrop(&nbsp;<code>Event e</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Abstract method called when this item is dropped on an area with no
+drop target
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mouseup event</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onInvalidDrop" href="Ext.dd.DragDrop.html#onInvalidDrop">DragDrop</a>.</div>
+                </div>
+                            <a name="onMouseDown"></a>
+                <div class="mdetail">
+                <h3>onMouseDown</i></h3>
+                <code>public function onMouseDown(&nbsp;<code>Event e</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Event handler that fires when a drag/drop obj gets a mousedown
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mousedown event</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onMouseDown" href="Ext.dd.DragDrop.html#onMouseDown">DragDrop</a>.</div>
+                </div>
+                            <a name="onMouseUp"></a>
+                <div class="mdetail alt">
+                <h3>onMouseUp</i></h3>
+                <code>public function onMouseUp(&nbsp;<code>Event e</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Event handler that fires when a drag/drop obj gets a mouseup
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the mouseup event</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#onMouseUp" href="Ext.dd.DragDrop.html#onMouseUp">DragDrop</a>.</div>
+                </div>
+                            <a name="onNodeDrop"></a>
+                <div class="mdetail">
+                <h3>onNodeDrop</i></h3>
+                <code>public function onNodeDrop(&nbsp;<code>Object nodeData</code>, <code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Called internally when the DropZone determines that a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> has been dropped onto
+the drop node.  The default implementation returns false, so it should be overridden to provide the
+appropriate processing of the drop event and return true so that the drag source's repair action does not run.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>nodeData</code> : Object<div class="sub-desc">The custom data associated with the drop node (this is the same value returned from
+<a ext:cls="Ext.dd.DropZone" ext:member="getTargetFromEvent" href="Ext.dd.DropZone.html#getTargetFromEvent">getTargetFromEvent</a> for this node)</div></li><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the drop was valid, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="onNodeEnter"></a>
+                <div class="mdetail alt">
+                <h3>onNodeEnter</i></h3>
+                <code>public function onNodeEnter(&nbsp;<code>Object nodeData</code>, <code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Called internally when the DropZone determines that a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> has entered a drop node
+that it has registered.  This method has no default implementation and should be overridden to provide
+node-specific processing if necessary.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>nodeData</code> : Object<div class="sub-desc">The custom data associated with the drop node (this is the same value returned from 
+<a ext:cls="Ext.dd.DropZone" ext:member="getTargetFromEvent" href="Ext.dd.DropZone.html#getTargetFromEvent">getTargetFromEvent</a> for this node)</div></li><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="onNodeOut"></a>
+                <div class="mdetail">
+                <h3>onNodeOut</i></h3>
+                <code>public function onNodeOut(&nbsp;<code>Object nodeData</code>, <code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Called internally when the DropZone determines that a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> has been dragged out of
+the drop node without dropping.  This method has no default implementation and should be overridden to provide
+node-specific processing if necessary.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>nodeData</code> : Object<div class="sub-desc">The custom data associated with the drop node (this is the same value returned from
+<a ext:cls="Ext.dd.DropZone" ext:member="getTargetFromEvent" href="Ext.dd.DropZone.html#getTargetFromEvent">getTargetFromEvent</a> for this node)</div></li><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="onNodeOver"></a>
+                <div class="mdetail alt">
+                <h3>onNodeOver</i></h3>
+                <code>public function onNodeOver(&nbsp;<code>Object nodeData</code>, <code>Ext.dd.DragSource source</code>, <code>Event e</code>, <code>Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Called internally while the DropZone determines that a <a ext:cls="Ext.dd.DragSource" href="Ext.dd.DragSource.html">Ext.dd.DragSource</a> is over a drop node
+that it has registered.  The default implementation returns this.dropNotAllowed, so it should be
+overridden to provide the proper feedback.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>nodeData</code> : Object<div class="sub-desc">The custom data associated with the drop node (this is the same value returned from
+<a ext:cls="Ext.dd.DropZone" ext:member="getTargetFromEvent" href="Ext.dd.DropZone.html#getTargetFromEvent">getTargetFromEvent</a> for this node)</div></li><li><code>source</code> : Ext.dd.DragSource<div class="sub-desc">The drag source that was dragged over this drop zone</div></li><li><code>e</code> : Event<div class="sub-desc">The event</div></li><li><code>data</code> : Object<div class="sub-desc">An object containing arbitrary data supplied by the drag source</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">status The CSS class that communicates the drop status back to the source so that the underlying {@link Ext.dd.StatusProxy} can be updated</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DropZone.</div>
+                </div>
+                            <a name="padding"></a>
+                <div class="mdetail">
+                <h3>padding</i></h3>
+                <code>public function padding()</code>
+                <div class="mdetail-desc">
+                    The padding configured for this drag and drop object for calculating
+the drop zone intersection with this object.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#padding" href="Ext.dd.DragDrop.html#padding">DragDrop</a>.</div>
+                </div>
+                            <a name="removeFromGroup"></a>
+                <div class="mdetail alt">
+                <h3>removeFromGroup</i></h3>
+                <code>public function removeFromGroup(&nbsp;<code>string sGroup</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Remove's this instance from the supplied interaction group
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>sGroup</code> : string<div class="sub-desc">The group to drop</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#removeFromGroup" href="Ext.dd.DragDrop.html#removeFromGroup">DragDrop</a>.</div>
+                </div>
+                            <a name="removeInvalidHandleClass"></a>
+                <div class="mdetail">
+                <h3>removeInvalidHandleClass</i></h3>
+                <code>public function removeInvalidHandleClass(&nbsp;<code>string cssClass</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Unsets an invalid css class
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>cssClass</code> : string<div class="sub-desc">the class of the element(s) you wish to
+re-enable</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#removeInvalidHandleClass" href="Ext.dd.DragDrop.html#removeInvalidHandleClass">DragDrop</a>.</div>
+                </div>
+                            <a name="removeInvalidHandleId"></a>
+                <div class="mdetail alt">
+                <h3>removeInvalidHandleId</i></h3>
+                <code>public function removeInvalidHandleId(&nbsp;<code>string id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Unsets an invalid handle id
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : string<div class="sub-desc">the id of the element to re-enable</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#removeInvalidHandleId" href="Ext.dd.DragDrop.html#removeInvalidHandleId">DragDrop</a>.</div>
+                </div>
+                            <a name="removeInvalidHandleType"></a>
+                <div class="mdetail">
+                <h3>removeInvalidHandleType</i></h3>
+                <code>public function removeInvalidHandleType(&nbsp;<code>string tagName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Unsets an excluded tag name set by addInvalidHandleType
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>tagName</code> : string<div class="sub-desc">the type of element to unexclude</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#removeInvalidHandleType" href="Ext.dd.DragDrop.html#removeInvalidHandleType">DragDrop</a>.</div>
+                </div>
+                            <a name="resetConstraints"></a>
+                <div class="mdetail alt">
+                <h3>resetConstraints</i></h3>
+                <code>public function resetConstraints(&nbsp;<code>boolean maintainOffset</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    resetConstraints must be called if you manually reposition a dd element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>maintainOffset</code> : boolean<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#resetConstraints" href="Ext.dd.DragDrop.html#resetConstraints">DragDrop</a>.</div>
+                </div>
+                            <a name="setDragElId"></a>
+                <div class="mdetail">
+                <h3>setDragElId</i></h3>
+                <code>public function setDragElId(&nbsp;<code>id {string}</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Allows you to specify that an element other than the linked element
+will be moved with the cursor during a drag
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>{string}</code> : id<div class="sub-desc">the id of the element that will be used to initiate the drag</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#setDragElId" href="Ext.dd.DragDrop.html#setDragElId">DragDrop</a>.</div>
+                </div>
+                            <a name="setHandleElId"></a>
+                <div class="mdetail alt">
+                <h3>setHandleElId</i></h3>
+                <code>public function setHandleElId(&nbsp;<code>id {string}</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Allows you to specify a child of the linked element that should be
+used to initiate the drag operation.  An example of this would be if
+you have a content div with text and links.  Clicking anywhere in the
+content area would normally start the drag operation.  Use this method
+to specify that an element inside of the content div is the element
+that starts the drag operation.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>{string}</code> : id<div class="sub-desc">the id of the element that will be used to
+initiate the drag.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#setHandleElId" href="Ext.dd.DragDrop.html#setHandleElId">DragDrop</a>.</div>
+                </div>
+                            <a name="setInitialPosition"></a>
+                <div class="mdetail">
+                <h3>setInitialPosition</i></h3>
+                <code>public function setInitialPosition(&nbsp;<code>int diffX</code>, <code>int diffY</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Stores the initial placement of the linked element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>diffX</code> : int<div class="sub-desc">the X offset, default 0</div></li><li><code>diffY</code> : int<div class="sub-desc">the Y offset, default 0</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#setInitialPosition" href="Ext.dd.DragDrop.html#setInitialPosition">DragDrop</a>.</div>
+                </div>
+                            <a name="setOuterHandleElId"></a>
+                <div class="mdetail alt">
+                <h3>setOuterHandleElId</i></h3>
+                <code>public function setOuterHandleElId(&nbsp;<code>id the</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Allows you to set an element outside of the linked element as a drag
+handle
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : id<div class="sub-desc">id of the element that will be used to initiate the drag</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#setOuterHandleElId" href="Ext.dd.DragDrop.html#setOuterHandleElId">DragDrop</a>.</div>
+                </div>
+                            <a name="setPadding"></a>
+                <div class="mdetail">
+                <h3>setPadding</i></h3>
+                <code>public function setPadding(&nbsp;<code>int iTop</code>, <code>int iRight</code>, <code>int iBot</code>, <code>int iLeft</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Configures the padding for the target zone in px.  Effectively expands
+(or reduces) the virtual object size for targeting calculations.
+Supports css-style shorthand; if only one parameter is passed, all sides
+will have that padding, and if only two are passed, the top and bottom
+will have the first param, the left and right the second.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>iTop</code> : int<div class="sub-desc">Top pad</div></li><li><code>iRight</code> : int<div class="sub-desc">Right pad</div></li><li><code>iBot</code> : int<div class="sub-desc">Bot pad</div></li><li><code>iLeft</code> : int<div class="sub-desc">Left pad</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#setPadding" href="Ext.dd.DragDrop.html#setPadding">DragDrop</a>.</div>
+                </div>
+                            <a name="setXConstraint"></a>
+                <div class="mdetail alt">
+                <h3>setXConstraint</i></h3>
+                <code>public function setXConstraint(&nbsp;<code>int iLeft</code>, <code>int iRight</code>, <code>int iTickSize</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    By default, the element can be dragged any place on the screen.  Use
+this method to limit the horizontal travel of the element.  Pass in
+0,0 for the parameters if you want to lock the drag to the y axis.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>iLeft</code> : int<div class="sub-desc">the number of pixels the element can move to the left</div></li><li><code>iRight</code> : int<div class="sub-desc">the number of pixels the element can move to the
+right</div></li><li><code>iTickSize</code> : int<div class="sub-desc">optional parameter for specifying that the
+element
+should move iTickSize pixels at a time.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#setXConstraint" href="Ext.dd.DragDrop.html#setXConstraint">DragDrop</a>.</div>
+                </div>
+                            <a name="setYConstraint"></a>
+                <div class="mdetail">
+                <h3>setYConstraint</i></h3>
+                <code>public function setYConstraint(&nbsp;<code>int iUp</code>, <code>int iDown</code>, <code>int iTickSize</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    By default, the element can be dragged any place on the screen.  Set
+this to limit the vertical travel of the element.  Pass in 0,0 for the
+parameters if you want to lock the drag to the x axis.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>iUp</code> : int<div class="sub-desc">the number of pixels the element can move up</div></li><li><code>iDown</code> : int<div class="sub-desc">the number of pixels the element can move down</div></li><li><code>iTickSize</code> : int<div class="sub-desc">optional parameter for specifying that the
+element should move iTickSize pixels at a time.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#setYConstraint" href="Ext.dd.DragDrop.html#setYConstraint">DragDrop</a>.</div>
+                </div>
+                            <a name="startDrag"></a>
+                <div class="mdetail alt">
+                <h3>startDrag</i></h3>
+                <code>public function startDrag(&nbsp;<code>int X</code>, <code>int Y</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Abstract method called after a drag/drop object is clicked
+and the drag or mousedown time thresholds have beeen met.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>X</code> : int<div class="sub-desc">click location</div></li><li><code>Y</code> : int<div class="sub-desc">click location</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#startDrag" href="Ext.dd.DragDrop.html#startDrag">DragDrop</a>.</div>
+                </div>
+                            <a name="toString"></a>
+                <div class="mdetail">
+                <h3>toString</i></h3>
+                <code>public function toString()</code>
+                <div class="mdetail-desc">
+                    toString method
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>string</code><div class="sub-desc">string representation of the dd obj</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#toString" href="Ext.dd.DragDrop.html#toString">DragDrop</a>.</div>
+                </div>
+                            <a name="unlock"></a>
+                <div class="mdetail alt">
+                <h3>unlock</i></h3>
+                <code>public function unlock()</code>
+                <div class="mdetail-desc">
+                    Unlock this instace
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#unlock" href="Ext.dd.DragDrop.html#unlock">DragDrop</a>.</div>
+                </div>
+                            <a name="unreg"></a>
+                <div class="mdetail">
+                <h3>unreg</i></h3>
+                <code>public function unreg()</code>
+                <div class="mdetail-desc">
+                    Remove all drag and drop hooks for this element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.dd.DragDrop" ext:member="#unreg" href="Ext.dd.DragDrop.html#unreg">DragDrop</a>.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-dropAllowed"></a>
+                <div class="mdetail">
+                <h3>dropAllowed</i></h3>
+                <code>dropAllowed : String</code>
+                <div class="mdetail-desc">
+                    The CSS class returned to the drag source when drop is allowed (defaults to "x-dd-drop-ok").                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.dd.DropTarget" ext:member="#dropAllowed" href="Ext.dd.DropTarget.html#dropAllowed">DropTarget</a>.</div>
+                </div>
+                            <a name="config-dropNotAllowed"></a>
+                <div class="mdetail alt">
+                <h3>dropNotAllowed</i></h3>
+                <code>dropNotAllowed : String</code>
+                <div class="mdetail-desc">
+                    The CSS class returned to the drag source when drop is not allowed (defaults to "x-dd-drop-nodrop").                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.dd.DropTarget" ext:member="#dropNotAllowed" href="Ext.dd.DropTarget.html#dropNotAllowed">DropTarget</a>.</div>
+                </div>
+                            <a name="config-overClass"></a>
+                <div class="mdetail">
+                <h3>overClass</i></h3>
+                <code>overClass : String</code>
+                <div class="mdetail-desc">
+                    The CSS class applied to the drop target element while the drag source is over it (defaults to "").                </div>
+                <div class="mdetail-def">This config option is defined by <a ext:cls="Ext.dd.DropTarget" ext:member="#overClass" href="Ext.dd.DropTarget.html#overClass">DropTarget</a>.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

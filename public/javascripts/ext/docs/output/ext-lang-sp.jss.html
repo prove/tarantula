@@ -1,0 +1,167 @@
+<html><head><title>ext-lang-sp.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-sp.js</h1><pre class="highlighted"><code><i>/*
+ * Spanish/Latin American Translation by genius551v 04-08-2007
+ * Revised by efege, 2007-04-15.
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;Cargando...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} fila(s) seleccionada(s)&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;Cerrar esta pesta&Atilde;&plusmn;a&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;El valor en este campo es inv&Atilde;&iexcl;lido&quot;;
+}
+
+Date.monthNames = [
+   &quot;Enero&quot;,
+   &quot;Febrero&quot;,
+   &quot;Marzo&quot;,
+   &quot;Abril&quot;,
+   &quot;Mayo&quot;,
+   &quot;Junio&quot;,
+   &quot;Julio&quot;,
+   &quot;Agosto&quot;,
+   &quot;Septiembre&quot;,
+   &quot;Octubre&quot;,
+   &quot;Noviembre&quot;,
+   &quot;Diciembre&quot;
+];
+
+Date.dayNames = [
+   &quot;Domingo&quot;,
+   &quot;Lunes&quot;,
+   &quot;Martes&quot;,
+   &quot;Mi&Atilde;&copy;rcoles&quot;,
+   &quot;Jueves&quot;,
+   &quot;Viernes&quot;,
+   &quot;S&Atilde;&iexcl;bado&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;Aceptar&quot;,
+      cancel : &quot;Cancelar&quot;,
+      yes    : &quot;S&Atilde;&shy;&quot;,
+      no     : &quot;No&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;d/m/Y&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;Hoy&quot;,
+      minText           : &quot;Esta fecha es anterior a la fecha m&Atilde;&shy;nima&quot;,
+      maxText           : &quot;Esta fecha es posterior a la fecha m&Atilde;&iexcl;xima&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames	: Date.monthNames,
+      dayNames		: Date.dayNames,
+      nextText          : <em>'Mes Siguiente (Control+Right)'</em>,
+      prevText          : <em>'Mes Anterior (Control+Left)'</em>,
+      monthYearText     : <em>'Seleccione un mes (Control+Up/Down para desplazar el a&Atilde;&plusmn;o)'</em>,
+      todayTip          : &quot;{0} (Barra espaciadora)&quot;,
+      format            : &quot;d/m/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;P&Atilde;&iexcl;gina&quot;,
+      afterPageText  : &quot;de {0}&quot;,
+      firstText      : &quot;Primera p&Atilde;&iexcl;gina&quot;,
+      prevText       : &quot;P&Atilde;&iexcl;gina anterior&quot;,
+      nextText       : &quot;P&Atilde;&iexcl;gina siguiente&quot;,
+      lastText       : &quot;&Atilde;šltima p&Atilde;&iexcl;gina&quot;,
+      refreshText    : &quot;Actualizar&quot;,
+      displayMsg     : &quot;Mostrando {0} - {1} de {2}&quot;,
+      emptyMsg       : <em>'Sin datos para mostrar'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;El tama&Atilde;&plusmn;o m&Atilde;&shy;nimo para este campo es de {0}&quot;,
+      maxLengthText : &quot;El tama&Atilde;&plusmn;o m&Atilde;&iexcl;ximo para este campo es de {0}&quot;,
+      blankText     : &quot;Este campo es obligatorio&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;El valor m&Atilde;&shy;nimo para este campo es de {0}&quot;,
+      maxText : &quot;El valor m&Atilde;&iexcl;ximo para este campo es de {0}&quot;,
+      nanText : &quot;{0} no es un n&Atilde;&ordm;mero v&Atilde;&iexcl;lido&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;Deshabilitado&quot;,
+      disabledDatesText : &quot;Deshabilitado&quot;,
+      minText           : &quot;La fecha para este campo debe ser posterior a {0}&quot;,
+      maxText           : &quot;La fecha para este campo debe ser anterior a {0}&quot;,
+      invalidText       : &quot;{0} no es una fecha v&Atilde;&iexcl;lida - debe tener el formato {1}&quot;,
+      format            : &quot;d/m/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;Cargando...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'Este campo debe ser una direcci&Atilde;&sup3;n de correo electr&Atilde;&sup3;nico con el formato &quot;usuario@dominio.com&quot;'</em>,
+      urlText      : <em>'Este campo debe ser una URL con el formato &quot;http:/'</em>+<em>'/www.dominio.com&quot;'</em>,
+      alphaText    : <em>'Este campo solo debe contener letras y _'</em>,
+      alphanumText : <em>'Este campo solo debe contener letras, n&Atilde;&ordm;meros y _'</em>
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;Ordenar en forma ascendente&quot;,
+      sortDescText : &quot;Ordenar en forma descendente&quot;,
+      lockText     : &quot;Bloquear Columna&quot;,
+      unlockText   : &quot;Desbloquear Columna&quot;,
+      columnsText  : &quot;Columnas&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;Nombre&quot;,
+      valueText  : &quot;Valor&quot;,
+      dateFormat : &quot;j/m/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;Arrastre para redimensionar.&quot;,
+      collapsibleSplitTip : &quot;Arrastre para redimensionar. Doble clic para ocultar.&quot;
+   });
+}
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

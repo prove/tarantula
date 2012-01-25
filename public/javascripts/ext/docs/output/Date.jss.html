@@ -1,0 +1,737 @@
+<html><head><title>Date.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Date.js</h1><pre class="highlighted"><code><i>/**
+ * @class Date
+ *
+ * The date parsing and format syntax is a subset of
+ * &lt;a href=&quot;http:<i>//www.php.net/date&quot;&gt;PHP's date() <b>function</b>&lt;/a&gt;, and the formats that are</i>
+ * supported will provide results equivalent to their PHP versions.
+ *
+ * Following is the list of all currently supported formats:
+ *&lt;pre&gt;
+Sample date:
+<em>'Wed Jan 10 2007 15:05:01 GMT-0600 (Central Standard Time)'</em>
+
+Format  Output      Description
+------  ----------  --------------------------------------------------------------
+  d      10         Day of the month, 2 digits <b>with</b> leading zeros
+  D      Wed        A textual representation of a day, three letters
+  j      10         Day of the month without leading zeros
+  l      Wednesday  A full textual representation of the day of the week
+  S      th         English ordinal day of month suffix, 2 chars (use <b>with</b> j)
+  w      3          Numeric representation of the day of the week
+  z      9          The julian date, or day of the year (0-365)
+  W      01         ISO-8601 2-digit week number of year, weeks starting on Monday (00-52)
+  F      January    A full textual representation of the month
+  m      01         Numeric representation of a month, <b>with</b> leading zeros
+  M      Jan        Month name abbreviation, three letters
+  n      1          Numeric representation of a month, without leading zeros
+  t      31         Number of days <b>in</b> the given month
+  L      0          Whether it's a leap year (1 <b>if</b> it is a leap year, <b>else</b> 0)
+  Y      2007       A full numeric representation of a year, 4 digits
+  y      07         A two digit representation of a year
+  a      pm         Lowercase Ante meridiem and Post meridiem
+  A      PM         Uppercase Ante meridiem and Post meridiem
+  g      3          12-hour format of an hour without leading zeros
+  G      15         24-hour format of an hour without leading zeros
+  h      03         12-hour format of an hour <b>with</b> leading zeros
+  H      15         24-hour format of an hour <b>with</b> leading zeros
+  i      05         Minutes <b>with</b> leading zeros
+  s      01         Seconds, <b>with</b> leading zeros
+  O      -0600      Difference to Greenwich time (GMT) <b>in</b> hours
+  T      CST        Timezone setting of the machine running the code
+  Z      -21600     Timezone offset <b>in</b> seconds (negative <b>if</b> west of UTC, positive <b>if</b> east)
+&lt;/pre&gt;
+ *
+ * Example usage (note that you must escape format specifiers <b>with</b> <em>'\\'</em> to render them as character literals):
+ * &lt;pre&gt;&lt;code&gt;
+<b>var</b> dt = <b>new</b> Date(<em>'1/10/2007 03:05:01 PM GMT-0600'</em>);
+document.write(dt.format(<em>'Y-m-d'</em>));                         <i>//2007-01-10</i>
+document.write(dt.format(<em>'F j, Y, g:i a'</em>));                 <i>//January 10, 2007, 3:05 pm</i>
+document.write(dt.format(<em>'l, \\t\\he dS of F Y h:i:s A'</em>));  <i>//Wednesday, the 10th of January 2007 03:05:01 PM</i>
+ &lt;/code&gt;&lt;/pre&gt;
+ *
+ * Here are some standard date/time patterns that you might find helpful.  They
+ * are not part of the source of Date.js, but to use them you can simply copy <b>this</b>
+ * block of code into any script that is included after Date.js and they will also become
+ * globally available on the Date object.  Feel free to add or remove patterns as needed <b>in</b> your code.
+ * &lt;pre&gt;&lt;code&gt;
+Date.patterns = {
+    ISO8601Long:&quot;Y-m-d H:i:s&quot;,
+    ISO8601Short:&quot;Y-m-d&quot;,
+    ShortDate: &quot;n/j/Y&quot;,
+    LongDate: &quot;l, F d, Y&quot;,
+    FullDateTime: &quot;l, F d, Y g:i:s A&quot;,
+    MonthDay: &quot;F d&quot;,
+    ShortTime: &quot;g:i A&quot;,
+    LongTime: &quot;g:i:s A&quot;,
+    SortableDateTime: &quot;Y-m-d\\TH:i:s&quot;,
+    UniversalSortableDateTime: &quot;Y-m-d H:i:sO&quot;,
+    YearMonth: &quot;F, Y&quot;
+};
+&lt;/code&gt;&lt;/pre&gt;
+ *
+ * Example usage:
+ * &lt;pre&gt;&lt;code&gt;
+<b>var</b> dt = <b>new</b> Date();
+document.write(dt.format(Date.patterns.ShortDate));
+ &lt;/code&gt;&lt;/pre&gt;
+ */</i>
+<i>// holder</i>
+<i>/**
+ * Most of the date-formatting functions below are the excellent work of Baron Schwartz.
+ * They generate precompiled functions from date formats instead of parsing and
+ * processing the pattern every time you format a date.  These functions are available
+ * on every Date object (any javascript <b>function</b>).
+ *
+ * The original article and download are here:
+ * http:<i>//www.xaprb.com/blog/2005/12/12/javascript-closures-<b>for</b>-runtime-efficiency/</i>
+ *
+ */</i>
+
+<i>// private</i>
+Date.parseFunctions = {count:0};
+<i>// private</i>
+Date.parseRegexes = [];
+<i>// private</i>
+Date.formatFunctions = {count:0};
+
+<i>// private</i>
+Date.prototype.dateFormat = <b>function</b>(format) {
+    <b>if</b> (Date.formatFunctions[format] == null) {
+        Date.createNewFormat(format);
+    }
+    <b>var</b> func = Date.formatFunctions[format];
+    <b>return</b> this[func]();
+};
+
+
+<i>/**
+ * Formats a date given the supplied format string
+ * @param {String} format The format string
+ * @<b>return</b> {String} The formatted date
+ * @method
+ */</i>
+Date.prototype.format = Date.prototype.dateFormat;
+
+<i>// private</i>
+Date.createNewFormat = <b>function</b>(format) {
+    <b>var</b> funcName = &quot;format&quot; + Date.formatFunctions.count++;
+    Date.formatFunctions[format] = funcName;
+    <b>var</b> code = &quot;Date.prototype.&quot; + funcName + &quot; = <b>function</b>(){<b>return</b> &quot;;
+    <b>var</b> special = false;
+    <b>var</b> ch = <em>''</em>;
+    <b>for</b> (<b>var</b> i = 0; i &lt; format.length; ++i) {
+        ch = format.charAt(i);
+        <b>if</b> (!special &amp;&amp; ch == &quot;\\&quot;) {
+            special = true;
+        }
+        <b>else</b> if (special) {
+            special = false;
+            code += &quot;<em>'&quot; + String.escape(ch) + &quot;'</em> + &quot;;
+        }
+        <b>else</b> {
+            code += Date.getFormatCode(ch);
+        }
+    }
+    eval(code.substring(0, code.length - 3) + &quot;;}&quot;);
+};
+
+<i>// private</i>
+Date.getFormatCode = <b>function</b>(character) {
+    <b>switch</b> (character) {
+    <b>case</b> &quot;d&quot;:
+        <b>return</b> &quot;String.leftPad(<b>this</b>.getDate(), 2, <em>'0'</em>) + &quot;;
+    <b>case</b> &quot;D&quot;:
+        <b>return</b> &quot;Date.dayNames[<b>this</b>.getDay()].substring(0, 3) + &quot;;
+    <b>case</b> &quot;j&quot;:
+        <b>return</b> &quot;<b>this</b>.getDate() + &quot;;
+    <b>case</b> &quot;l&quot;:
+        <b>return</b> &quot;Date.dayNames[<b>this</b>.getDay()] + &quot;;
+    <b>case</b> &quot;S&quot;:
+        <b>return</b> &quot;<b>this</b>.getSuffix() + &quot;;
+    <b>case</b> &quot;w&quot;:
+        <b>return</b> &quot;<b>this</b>.getDay() + &quot;;
+    <b>case</b> &quot;z&quot;:
+        <b>return</b> &quot;<b>this</b>.getDayOfYear() + &quot;;
+    <b>case</b> &quot;W&quot;:
+        <b>return</b> &quot;<b>this</b>.getWeekOfYear() + &quot;;
+    <b>case</b> &quot;F&quot;:
+        <b>return</b> &quot;Date.monthNames[<b>this</b>.getMonth()] + &quot;;
+    <b>case</b> &quot;m&quot;:
+        <b>return</b> &quot;String.leftPad(<b>this</b>.getMonth() + 1, 2, <em>'0'</em>) + &quot;;
+    <b>case</b> &quot;M&quot;:
+        <b>return</b> &quot;Date.monthNames[<b>this</b>.getMonth()].substring(0, 3) + &quot;;
+    <b>case</b> &quot;n&quot;:
+        <b>return</b> &quot;(<b>this</b>.getMonth() + 1) + &quot;;
+    <b>case</b> &quot;t&quot;:
+        <b>return</b> &quot;<b>this</b>.getDaysInMonth() + &quot;;
+    <b>case</b> &quot;L&quot;:
+        <b>return</b> &quot;(<b>this</b>.isLeapYear() ? 1 : 0) + &quot;;
+    <b>case</b> &quot;Y&quot;:
+        <b>return</b> &quot;<b>this</b>.getFullYear() + &quot;;
+    <b>case</b> &quot;y&quot;:
+        <b>return</b> &quot;(<em>''</em> + <b>this</b>.getFullYear()).substring(2, 4) + &quot;;
+    <b>case</b> &quot;a&quot;:
+        <b>return</b> &quot;(<b>this</b>.getHours() &lt; 12 ? <em>'am'</em> : <em>'pm'</em>) + &quot;;
+    <b>case</b> &quot;A&quot;:
+        <b>return</b> &quot;(<b>this</b>.getHours() &lt; 12 ? <em>'AM'</em> : <em>'PM'</em>) + &quot;;
+    <b>case</b> &quot;g&quot;:
+        <b>return</b> &quot;((<b>this</b>.getHours() % 12) ? <b>this</b>.getHours() % 12 : 12) + &quot;;
+    <b>case</b> &quot;G&quot;:
+        <b>return</b> &quot;<b>this</b>.getHours() + &quot;;
+    <b>case</b> &quot;h&quot;:
+        <b>return</b> &quot;String.leftPad((<b>this</b>.getHours() % 12) ? <b>this</b>.getHours() % 12 : 12, 2, <em>'0'</em>) + &quot;;
+    <b>case</b> &quot;H&quot;:
+        <b>return</b> &quot;String.leftPad(<b>this</b>.getHours(), 2, <em>'0'</em>) + &quot;;
+    <b>case</b> &quot;i&quot;:
+        <b>return</b> &quot;String.leftPad(<b>this</b>.getMinutes(), 2, <em>'0'</em>) + &quot;;
+    <b>case</b> &quot;s&quot;:
+        <b>return</b> &quot;String.leftPad(<b>this</b>.getSeconds(), 2, <em>'0'</em>) + &quot;;
+    <b>case</b> &quot;O&quot;:
+        <b>return</b> &quot;<b>this</b>.getGMTOffset() + &quot;;
+    <b>case</b> &quot;T&quot;:
+        <b>return</b> &quot;<b>this</b>.getTimezone() + &quot;;
+    <b>case</b> &quot;Z&quot;:
+        <b>return</b> &quot;(<b>this</b>.getTimezoneOffset() * -60) + &quot;;
+    <b>default</b>:
+        <b>return</b> &quot;<em>'&quot; + String.escape(character) + &quot;'</em> + &quot;;
+    }
+};
+
+<i>/**
+ * Parses the passed string using the specified format. Note that <b>this</b> function expects dates <b>in</b> normal calendar
+ * format, meaning that months are 1-based (1 = January) and not zero-based like <b>in</b> JavaScript dates.  Any part of
+ * the date format that is not specified will <b>default</b> to the current date value <b>for</b> that part.  Time parts can also
+ * be specified, but <b>default</b> to 0.  Keep <b>in</b> mind that the input date string must precisely match the specified format
+ * string or the parse operation will fail.
+ * Example Usage:
+&lt;pre&gt;&lt;code&gt;
+<i>//dt = Fri May 25 2007 (current date)</i>
+<b>var</b> dt = <b>new</b> Date();
+
+<i>//dt = Thu May 25 2006 (today's month/day <b>in</b> 2006)</i>
+dt = Date.parseDate(&quot;2006&quot;, &quot;Y&quot;);
+
+<i>//dt = Sun Jan 15 2006 (all date parts specified)</i>
+dt = Date.parseDate(&quot;2006-1-15&quot;, &quot;Y-m-d&quot;);
+
+<i>//dt = Sun Jan 15 2006 15:20:01 GMT-0600 (CST)</i>
+dt = Date.parseDate(&quot;2006-1-15 3:20:01 PM&quot;, &quot;Y-m-d h:i:s A&quot; );
+&lt;/code&gt;&lt;/pre&gt;
+ * @param {String} input The unparsed date as a string
+ * @param {String} format The format the date is <b>in</b>
+ * @<b>return</b> {Date} The parsed date
+ * @static
+ */</i>
+Date.parseDate = <b>function</b>(input, format) {
+    <b>if</b> (Date.parseFunctions[format] == null) {
+        Date.createParser(format);
+    }
+    <b>var</b> func = Date.parseFunctions[format];
+    <b>return</b> Date[func](input);
+};
+
+<i>// private</i>
+Date.createParser = <b>function</b>(format) {
+    <b>var</b> funcName = &quot;parse&quot; + Date.parseFunctions.count++;
+    <b>var</b> regexNum = Date.parseRegexes.length;
+    <b>var</b> currentGroup = 1;
+    Date.parseFunctions[format] = funcName;
+
+    <b>var</b> code = &quot;Date.&quot; + funcName + &quot; = <b>function</b>(input){\n&quot;
+        + &quot;<b>var</b> y = -1, m = -1, d = -1, h = -1, i = -1, s = -1, o, z, v;\n&quot;
+        + &quot;<b>var</b> d = <b>new</b> Date();\n&quot;
+        + &quot;y = d.getFullYear();\n&quot;
+        + &quot;m = d.getMonth();\n&quot;
+        + &quot;d = d.getDate();\n&quot;
+        + &quot;<b>var</b> results = input.match(Date.parseRegexes[&quot; + regexNum + &quot;]);\n&quot;
+        + &quot;<b>if</b> (results &amp;&amp; results.length &gt; 0) {&quot;;
+    <b>var</b> regex = &quot;&quot;;
+
+    <b>var</b> special = false;
+    <b>var</b> ch = <em>''</em>;
+    <b>for</b> (<b>var</b> i = 0; i &lt; format.length; ++i) {
+        ch = format.charAt(i);
+        <b>if</b> (!special &amp;&amp; ch == &quot;\\&quot;) {
+            special = true;
+        }
+        <b>else</b> if (special) {
+            special = false;
+            regex += String.escape(ch);
+        }
+        <b>else</b> {
+            <b>var</b> obj = Date.formatCodeToRegex(ch, currentGroup);
+            currentGroup += obj.g;
+            regex += obj.s;
+            <b>if</b> (obj.g &amp;&amp; obj.c) {
+                code += obj.c;
+            }
+        }
+    }
+
+    code += &quot;<b>if</b> (y &gt;= 0 &amp;&amp; m &gt;= 0 &amp;&amp; d &gt; 0 &amp;&amp; h &gt;= 0 &amp;&amp; i &gt;= 0 &amp;&amp; s &gt;= 0)\n&quot;
+        + &quot;{v = <b>new</b> Date(y, m, d, h, i, s);}\n&quot;
+        + &quot;<b>else</b> if (y &gt;= 0 &amp;&amp; m &gt;= 0 &amp;&amp; d &gt; 0 &amp;&amp; h &gt;= 0 &amp;&amp; i &gt;= 0)\n&quot;
+        + &quot;{v = <b>new</b> Date(y, m, d, h, i);}\n&quot;
+        + &quot;<b>else</b> if (y &gt;= 0 &amp;&amp; m &gt;= 0 &amp;&amp; d &gt; 0 &amp;&amp; h &gt;= 0)\n&quot;
+        + &quot;{v = <b>new</b> Date(y, m, d, h);}\n&quot;
+        + &quot;<b>else</b> if (y &gt;= 0 &amp;&amp; m &gt;= 0 &amp;&amp; d &gt; 0)\n&quot;
+        + &quot;{v = <b>new</b> Date(y, m, d);}\n&quot;
+        + &quot;<b>else</b> if (y &gt;= 0 &amp;&amp; m &gt;= 0)\n&quot;
+        + &quot;{v = <b>new</b> Date(y, m);}\n&quot;
+        + &quot;<b>else</b> if (y &gt;= 0)\n&quot;
+        + &quot;{v = <b>new</b> Date(y);}\n&quot;
+        + &quot;}<b>return</b> (v &amp;&amp; (z || o))?\n&quot; <i>// favour UTC offset over GMT offset</i>
+        + &quot;    ((z)? v.add(Date.SECOND, (v.getTimezoneOffset() * 60) + (z*1)) :\n&quot; <i>// reset to UTC, then add offset</i>
+        + &quot;        v.add(Date.HOUR, (v.getGMTOffset() / 100) + (o / -100))) : v\n&quot; <i>// reset to GMT, then add offset</i>
+        + &quot;;}&quot;;
+
+    Date.parseRegexes[regexNum] = <b>new</b> RegExp(&quot;^&quot; + regex + &quot;$&quot;);
+    eval(code);
+};
+
+<i>// private</i>
+Date.formatCodeToRegex = <b>function</b>(character, currentGroup) {
+    <b>switch</b> (character) {
+    <b>case</b> &quot;D&quot;:
+        <b>return</b> {g:0,
+        c:null,
+        s:&quot;(?:Sun|Mon|Tue|Wed|Thu|Fri|Sat)&quot;};
+    <b>case</b> &quot;j&quot;:
+        <b>return</b> {g:1,
+            c:&quot;d = parseInt(results[&quot; + currentGroup + &quot;], 10);\n&quot;,
+            s:&quot;(\\d{1,2})&quot;}; <i>// day of month without leading zeroes</i>
+    <b>case</b> &quot;d&quot;:
+        <b>return</b> {g:1,
+            c:&quot;d = parseInt(results[&quot; + currentGroup + &quot;], 10);\n&quot;,
+            s:&quot;(\\d{2})&quot;}; <i>// day of month <b>with</b> leading zeroes</i>
+    <b>case</b> &quot;l&quot;:
+        <b>return</b> {g:0,
+            c:null,
+            s:&quot;(?:&quot; + Date.dayNames.join(&quot;|&quot;) + &quot;)&quot;};
+    <b>case</b> &quot;S&quot;:
+        <b>return</b> {g:0,
+            c:null,
+            s:&quot;(?:st|nd|rd|th)&quot;};
+    <b>case</b> &quot;w&quot;:
+        <b>return</b> {g:0,
+            c:null,
+            s:&quot;\\d&quot;};
+    <b>case</b> &quot;z&quot;:
+        <b>return</b> {g:0,
+            c:null,
+            s:&quot;(?:\\d{1,3})&quot;};
+    <b>case</b> &quot;W&quot;:
+        <b>return</b> {g:0,
+            c:null,
+            s:&quot;(?:\\d{2})&quot;};
+    <b>case</b> &quot;F&quot;:
+        <b>return</b> {g:1,
+            c:&quot;m = parseInt(Date.monthNumbers[results[&quot; + currentGroup + &quot;].substring(0, 3)], 10);\n&quot;,
+            s:&quot;(&quot; + Date.monthNames.join(&quot;|&quot;) + &quot;)&quot;};
+    <b>case</b> &quot;M&quot;:
+        <b>return</b> {g:1,
+            c:&quot;m = parseInt(Date.monthNumbers[results[&quot; + currentGroup + &quot;]], 10);\n&quot;,
+            s:&quot;(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)&quot;};
+    <b>case</b> &quot;n&quot;:
+        <b>return</b> {g:1,
+            c:&quot;m = parseInt(results[&quot; + currentGroup + &quot;], 10) - 1;\n&quot;,
+            s:&quot;(\\d{1,2})&quot;}; <i>// Numeric representation of a month, without leading zeros</i>
+    <b>case</b> &quot;m&quot;:
+        <b>return</b> {g:1,
+            c:&quot;m = parseInt(results[&quot; + currentGroup + &quot;], 10) - 1;\n&quot;,
+            s:&quot;(\\d{2})&quot;}; <i>// Numeric representation of a month, <b>with</b> leading zeros</i>
+    <b>case</b> &quot;t&quot;:
+        <b>return</b> {g:0,
+            c:null,
+            s:&quot;\\d{1,2}&quot;};
+    <b>case</b> &quot;L&quot;:
+        <b>return</b> {g:0,
+            c:null,
+            s:&quot;(?:1|0)&quot;};
+    <b>case</b> &quot;Y&quot;:
+        <b>return</b> {g:1,
+            c:&quot;y = parseInt(results[&quot; + currentGroup + &quot;], 10);\n&quot;,
+            s:&quot;(\\d{4})&quot;};
+    <b>case</b> &quot;y&quot;:
+        <b>return</b> {g:1,
+            c:&quot;<b>var</b> ty = parseInt(results[&quot; + currentGroup + &quot;], 10);\n&quot;
+                + &quot;y = ty &gt; Date.y2kYear ? 1900 + ty : 2000 + ty;\n&quot;,
+            s:&quot;(\\d{1,2})&quot;};
+    <b>case</b> &quot;a&quot;:
+        <b>return</b> {g:1,
+            c:&quot;<b>if</b> (results[&quot; + currentGroup + &quot;] == <em>'am'</em>) {\n&quot;
+                + &quot;<b>if</b> (h == 12) { h = 0; }\n&quot;
+                + &quot;} <b>else</b> { <b>if</b> (h &lt; 12) { h += 12; }}&quot;,
+            s:&quot;(am|pm)&quot;};
+    <b>case</b> &quot;A&quot;:
+        <b>return</b> {g:1,
+            c:&quot;<b>if</b> (results[&quot; + currentGroup + &quot;] == <em>'AM'</em>) {\n&quot;
+                + &quot;<b>if</b> (h == 12) { h = 0; }\n&quot;
+                + &quot;} <b>else</b> { <b>if</b> (h &lt; 12) { h += 12; }}&quot;,
+            s:&quot;(AM|PM)&quot;};
+    <b>case</b> &quot;g&quot;:
+    <b>case</b> &quot;G&quot;:
+        <b>return</b> {g:1,
+            c:&quot;h = parseInt(results[&quot; + currentGroup + &quot;], 10);\n&quot;,
+            s:&quot;(\\d{1,2})&quot;}; <i>// 12/24-hr format  format of an hour without leading zeroes</i>
+    <b>case</b> &quot;h&quot;:
+    <b>case</b> &quot;H&quot;:
+        <b>return</b> {g:1,
+            c:&quot;h = parseInt(results[&quot; + currentGroup + &quot;], 10);\n&quot;,
+            s:&quot;(\\d{2})&quot;}; <i>//  12/24-hr format  format of an hour <b>with</b> leading zeroes</i>
+    <b>case</b> &quot;i&quot;:
+        <b>return</b> {g:1,
+            c:&quot;i = parseInt(results[&quot; + currentGroup + &quot;], 10);\n&quot;,
+            s:&quot;(\\d{2})&quot;};
+    <b>case</b> &quot;s&quot;:
+        <b>return</b> {g:1,
+            c:&quot;s = parseInt(results[&quot; + currentGroup + &quot;], 10);\n&quot;,
+            s:&quot;(\\d{2})&quot;};
+    <b>case</b> &quot;O&quot;:
+        <b>return</b> {g:1,
+            c:[
+                &quot;o = results[&quot;, currentGroup, &quot;];\n&quot;,
+                &quot;<b>var</b> sn = o.substring(0,1);\n&quot;, <i>// get + / - sign</i>
+                &quot;<b>var</b> hr = o.substring(1,3)*1 + Math.floor(o.substring(3,5) / 60);\n&quot;, <i>// get hours (performs minutes-to-hour conversion also)</i>
+                &quot;<b>var</b> mn = o.substring(3,5) % 60;\n&quot;, <i>// get minutes</i>
+                &quot;o = ((-12 &lt;= (hr*60 + mn)/60) &amp;&amp; ((hr*60 + mn)/60 &lt;= 14))?\n&quot;, <i>// -12hrs &lt;= GMT offset &lt;= 14hrs</i>
+                &quot;    (sn + String.leftPad(hr, 2, 0) + String.leftPad(mn, 2, 0)) : null;\n&quot;
+            ].join(&quot;&quot;),
+            s:&quot;([+\-]\\d{4})&quot;};
+    <b>case</b> &quot;T&quot;:
+        <b>return</b> {g:0,
+            c:null,
+            s:&quot;[A-Z]{1,4}&quot;}; <i>// timezone abbrev. may be between 1 - 4 chars</i>
+    <b>case</b> &quot;Z&quot;:
+        <b>return</b> {g:1,
+            c:&quot;z = results[&quot; + currentGroup + &quot;];\n&quot; <i>// -43200 &lt;= UTC offset &lt;= 50400</i>
+                  + &quot;z = (-43200 &lt;= z*1 &amp;&amp; z*1 &lt;= 50400)? z : null;\n&quot;,
+            s:&quot;([+\-]?\\d{1,5})&quot;}; <i>// leading <em>'+'</em> sign is optional <b>for</b> UTC offset</i>
+    <b>default</b>:
+        <b>return</b> {g:0,
+            c:null,
+            s:String.escape(character)};
+    }
+};
+
+<i>/**
+ * Get the timezone abbreviation of the current date (equivalent to the format specifier <em>'T'</em>).
+ * @<b>return</b> {String} The abbreviated timezone name (e.g. <em>'CST'</em>)
+ */</i>
+Date.prototype.getTimezone = <b>function</b>() {
+    <b>return</b> this.toString().replace(/^.*? ([A-Z]{1,4})[\-+][0-9]{4} .*$/, &quot;$1&quot;);
+};
+
+<i>/**
+ * Get the offset from GMT of the current date (equivalent to the format specifier <em>'O'</em>).
+ * @<b>return</b> {String} The 4-character offset string prefixed <b>with</b> + or - (e.g. <em>'-0600'</em>)
+ */</i>
+Date.prototype.getGMTOffset = <b>function</b>() {
+    <b>return</b> (<b>this</b>.getTimezoneOffset() &gt; 0 ? &quot;-&quot; : &quot;+&quot;)
+        + String.leftPad(Math.abs(Math.floor(<b>this</b>.getTimezoneOffset() / 60)), 2, &quot;0&quot;)
+        + String.leftPad(<b>this</b>.getTimezoneOffset() % 60, 2, &quot;0&quot;);
+};
+
+<i>/**
+ * Get the numeric day number of the year, adjusted <b>for</b> leap year.
+ * @<b>return</b> {Number} 0 through 364 (365 <b>in</b> leap years)
+ */</i>
+Date.prototype.getDayOfYear = <b>function</b>() {
+    <b>var</b> num = 0;
+    Date.daysInMonth[1] = <b>this</b>.isLeapYear() ? 29 : 28;
+    <b>for</b> (<b>var</b> i = 0; i &lt; <b>this</b>.getMonth(); ++i) {
+        num += Date.daysInMonth[i];
+    }
+    <b>return</b> num + <b>this</b>.getDate() - 1;
+};
+
+<i>/**
+ * Get the string representation of the numeric week number of the year
+ * (equivalent to the format specifier <em>'W'</em>).
+ * @<b>return</b> {String} <em>'00'</em> through <em>'52'</em>
+ */</i>
+Date.prototype.getWeekOfYear = <b>function</b>() {
+    <i>// Skip to Thursday of <b>this</b> week</i>
+    <b>var</b> now = <b>this</b>.getDayOfYear() + (4 - <b>this</b>.getDay());
+    <i>// Find the first Thursday of the year</i>
+    <b>var</b> jan1 = <b>new</b> Date(<b>this</b>.getFullYear(), 0, 1);
+    <b>var</b> then = (7 - jan1.getDay() + 4);
+    <b>return</b> String.leftPad(((now - then) / 7) + 1, 2, &quot;0&quot;);
+};
+
+<i>/**
+ * Whether or not the current date is <b>in</b> a leap year.
+ * @<b>return</b> {Boolean} True <b>if</b> the current date is <b>in</b> a leap year, <b>else</b> false
+ */</i>
+Date.prototype.isLeapYear = <b>function</b>() {
+    <b>var</b> year = <b>this</b>.getFullYear();
+    <b>return</b> ((year &amp; 3) == 0 &amp;&amp; (year % 100 || (year % 400 == 0 &amp;&amp; year)));
+};
+
+<i>/**
+ * Get the first day of the current month, adjusted <b>for</b> leap year.  The returned value
+ * is the numeric day index within the week (0-6) which can be used <b>in</b> conjunction <b>with</b>
+ * the {@link #monthNames} array to retrieve the textual day name.
+ * Example:
+ *&lt;pre&gt;&lt;code&gt;
+<b>var</b> dt = <b>new</b> Date(<em>'1/10/2007'</em>);
+document.write(Date.dayNames[dt.getFirstDayOfMonth()]); <i>//output: <em>'Monday'</em></i>
+&lt;/code&gt;&lt;/pre&gt;
+ * @<b>return</b> {Number} The day number (0-6)
+ */</i>
+Date.prototype.getFirstDayOfMonth = <b>function</b>() {
+    <b>var</b> day = (<b>this</b>.getDay() - (<b>this</b>.getDate() - 1)) % 7;
+    <b>return</b> (day &lt; 0) ? (day + 7) : day;
+};
+
+<i>/**
+ * Get the last day of the current month, adjusted <b>for</b> leap year.  The returned value
+ * is the numeric day index within the week (0-6) which can be used <b>in</b> conjunction <b>with</b>
+ * the {@link #monthNames} array to retrieve the textual day name.
+ * Example:
+ *&lt;pre&gt;&lt;code&gt;
+<b>var</b> dt = <b>new</b> Date(<em>'1/10/2007'</em>);
+document.write(Date.dayNames[dt.getLastDayOfMonth()]); <i>//output: <em>'Wednesday'</em></i>
+&lt;/code&gt;&lt;/pre&gt;
+ * @<b>return</b> {Number} The day number (0-6)
+ */</i>
+Date.prototype.getLastDayOfMonth = <b>function</b>() {
+    <b>var</b> day = (<b>this</b>.getDay() + (Date.daysInMonth[<b>this</b>.getMonth()] - <b>this</b>.getDate())) % 7;
+    <b>return</b> (day &lt; 0) ? (day + 7) : day;
+};
+
+
+<i>/**
+ * Get a Date of the first day of <b>this</b> date's month
+ * @<b>return</b> {Date}
+ */</i>
+Date.prototype.getFirstDateOfMonth = <b>function</b>() {
+    <b>return</b> new Date(<b>this</b>.getFullYear(), <b>this</b>.getMonth(), 1);
+};
+
+<i>/**
+ * Get a Date of the late day of <b>this</b> date's month
+ * @<b>return</b> {Date}
+ */</i>
+Date.prototype.getLastDateOfMonth = <b>function</b>() {
+    <b>return</b> new Date(<b>this</b>.getFullYear(), <b>this</b>.getMonth(), <b>this</b>.getDaysInMonth());
+};
+<i>/**
+ * Get the number of days <b>in</b> the current month, adjusted <b>for</b> leap year.
+ * @<b>return</b> {Number} The number of days <b>in</b> the month
+ */</i>
+Date.prototype.getDaysInMonth = <b>function</b>() {
+    Date.daysInMonth[1] = <b>this</b>.isLeapYear() ? 29 : 28;
+    <b>return</b> Date.daysInMonth[<b>this</b>.getMonth()];
+};
+
+<i>/**
+ * Get the English ordinal suffix of the current day (equivalent to the format specifier <em>'S'</em>).
+ * @<b>return</b> {String} <em>'st, '</em>nd<em>', '</em>rd<em>' or '</em>th'
+ */</i>
+Date.prototype.getSuffix = <b>function</b>() {
+    <b>switch</b> (<b>this</b>.getDate()) {
+        <b>case</b> 1:
+        <b>case</b> 21:
+        <b>case</b> 31:
+            <b>return</b> &quot;st&quot;;
+        <b>case</b> 2:
+        <b>case</b> 22:
+            <b>return</b> &quot;nd&quot;;
+        <b>case</b> 3:
+        <b>case</b> 23:
+            <b>return</b> &quot;rd&quot;;
+        <b>default</b>:
+            <b>return</b> &quot;th&quot;;
+    }
+};
+
+<i>// private</i>
+Date.daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+<i>/**
+ * An array of textual month names.
+ * Override these values <b>for</b> international dates, <b>for</b> example...
+ * Date.monthNames = [<em>'JanInYourLang'</em>, <em>'FebInYourLang'</em>, ...];
+ * @type Array
+ * @static
+ */</i>
+Date.monthNames =
+   [&quot;January&quot;,
+    &quot;February&quot;,
+    &quot;March&quot;,
+    &quot;April&quot;,
+    &quot;May&quot;,
+    &quot;June&quot;,
+    &quot;July&quot;,
+    &quot;August&quot;,
+    &quot;September&quot;,
+    &quot;October&quot;,
+    &quot;November&quot;,
+    &quot;December&quot;];
+
+<i>/**
+ * An array of textual day names.
+ * Override these values <b>for</b> international dates, <b>for</b> example...
+ * Date.dayNames = [<em>'SundayInYourLang'</em>, <em>'MondayInYourLang'</em>, ...];
+ * @type Array
+ * @static
+ */</i>
+Date.dayNames =
+   [&quot;Sunday&quot;,
+    &quot;Monday&quot;,
+    &quot;Tuesday&quot;,
+    &quot;Wednesday&quot;,
+    &quot;Thursday&quot;,
+    &quot;Friday&quot;,
+    &quot;Saturday&quot;];
+
+<i>// private</i>
+Date.y2kYear = 50;
+<i>// private</i>
+Date.monthNumbers = {
+    Jan:0,
+    Feb:1,
+    Mar:2,
+    Apr:3,
+    May:4,
+    Jun:5,
+    Jul:6,
+    Aug:7,
+    Sep:8,
+    Oct:9,
+    Nov:10,
+    Dec:11};
+
+<i>/**
+ * Creates and returns a <b>new</b> Date instance <b>with</b> the exact same date value as the called instance.
+ * Dates are copied and passed by reference, so <b>if</b> a copied date variable is modified later, the original
+ * variable will also be changed.  When the intention is to create a <b>new</b> variable that will not
+ * modify the original instance, you should create a clone.
+ *
+ * Example of correctly cloning a date:
+ * &lt;pre&gt;&lt;code&gt;
+<i>//wrong way:</i>
+<b>var</b> orig = <b>new</b> Date(<em>'10/1/2006'</em>);
+<b>var</b> copy = orig;
+copy.setDate(5);
+document.write(orig);  <i>//returns <em>'Thu Oct 05 2006'</em>!</i>
+
+<i>//correct way:</i>
+<b>var</b> orig = <b>new</b> Date(<em>'10/1/2006'</em>);
+<b>var</b> copy = orig.clone();
+copy.setDate(5);
+document.write(orig);  <i>//returns <em>'Thu Oct 01 2006'</em></i>
+&lt;/code&gt;&lt;/pre&gt;
+ * @<b>return</b> {Date} The <b>new</b> Date instance
+ */</i>
+Date.prototype.clone = <b>function</b>() {
+	<b>return</b> new Date(<b>this</b>.getTime());
+};
+
+<i>/**
+ * Clears any time information from <b>this</b> date
+ @param {Boolean} clone true to create a clone of <b>this</b> date, clear the time and <b>return</b> it
+ @<b>return</b> {Date} <b>this</b> or the clone
+ */</i>
+Date.prototype.clearTime = <b>function</b>(clone){
+    <b>if</b>(clone){
+        <b>return</b> this.clone().clearTime();
+    }
+    <b>this</b>.setHours(0);
+    <b>this</b>.setMinutes(0);
+    <b>this</b>.setSeconds(0);
+    <b>this</b>.setMilliseconds(0);
+    <b>return</b> this;
+};
+
+<i>// private</i>
+<i>// safari setMonth is broken</i>
+<b>if</b>(Ext.isSafari){
+    Date.brokenSetMonth = Date.prototype.setMonth;
+	Date.prototype.setMonth = <b>function</b>(num){
+		<b>if</b>(num &lt;= -1){
+			<b>var</b> n = Math.ceil(-num);
+			<b>var</b> back_year = Math.ceil(n/12);
+			<b>var</b> month = (n % 12) ? 12 - n % 12 : 0 ;
+			<b>this</b>.setFullYear(<b>this</b>.getFullYear() - back_year);
+			<b>return</b> Date.brokenSetMonth.call(<b>this</b>, month);
+		} <b>else</b> {
+			<b>return</b> Date.brokenSetMonth.apply(<b>this</b>, arguments);
+		}
+	};
+}
+
+<i>/** Date interval constant @static @type String */</i>
+Date.MILLI = &quot;ms&quot;;
+<i>/** Date interval constant @static @type String */</i>
+Date.SECOND = &quot;s&quot;;
+<i>/** Date interval constant @static @type String */</i>
+Date.MINUTE = &quot;mi&quot;;
+<i>/** Date interval constant @static @type String */</i>
+Date.HOUR = &quot;h&quot;;
+<i>/** Date interval constant @static @type String */</i>
+Date.DAY = &quot;d&quot;;
+<i>/** Date interval constant @static @type String */</i>
+Date.MONTH = &quot;mo&quot;;
+<i>/** Date interval constant @static @type String */</i>
+Date.YEAR = &quot;y&quot;;
+
+<i>/**
+ * Provides a convenient method of performing basic date arithmetic.  This method
+ * does not modify the Date instance being called - it creates and returns
+ * a <b>new</b> Date instance containing the resulting date value.
+ *
+ * Examples:
+ * &lt;pre&gt;&lt;code&gt;
+<i>//Basic usage:</i>
+<b>var</b> dt = <b>new</b> Date(<em>'10/29/2006'</em>).add(Date.DAY, 5);
+document.write(dt); <i>//returns <em>'Fri Oct 06 2006 00:00:00'</em></i>
+
+<i>//Negative values will subtract correctly:</i>
+<b>var</b> dt2 = <b>new</b> Date(<em>'10/1/2006'</em>).add(Date.DAY, -5);
+document.write(dt2); <i>//returns <em>'Tue Sep 26 2006 00:00:00'</em></i>
+
+<i>//You can even chain several calls together <b>in</b> one line!</i>
+<b>var</b> dt3 = <b>new</b> Date(<em>'10/1/2006'</em>).add(Date.DAY, 5).add(Date.HOUR, 8).add(Date.MINUTE, -30);
+document.write(dt3); <i>//returns <em>'Fri Oct 06 2006 07:30:00'</em></i>
+ &lt;/code&gt;&lt;/pre&gt;
+ *
+ * @param {String} interval   A valid date interval enum value
+ * @param {Number} value      The amount to add to the current date
+ * @<b>return</b> {Date} The <b>new</b> Date instance
+ */</i>
+Date.prototype.add = <b>function</b>(interval, value){
+  <b>var</b> d = <b>this</b>.clone();
+  <b>if</b> (!interval || value === 0) <b>return</b> d;
+  <b>switch</b>(interval.toLowerCase()){
+    <b>case</b> Date.MILLI:
+      d.setMilliseconds(<b>this</b>.getMilliseconds() + value);
+      <b>break</b>;
+    <b>case</b> Date.SECOND:
+      d.setSeconds(<b>this</b>.getSeconds() + value);
+      <b>break</b>;
+    <b>case</b> Date.MINUTE:
+      d.setMinutes(<b>this</b>.getMinutes() + value);
+      <b>break</b>;
+    <b>case</b> Date.HOUR:
+      d.setHours(<b>this</b>.getHours() + value);
+      <b>break</b>;
+    <b>case</b> Date.DAY:
+      d.setDate(<b>this</b>.getDate() + value);
+      <b>break</b>;
+    <b>case</b> Date.MONTH:
+      <b>var</b> day = <b>this</b>.getDate();
+      <b>if</b>(day &gt; 28){
+          day = Math.min(day, <b>this</b>.getFirstDateOfMonth().add(<em>'mo'</em>, value).getLastDateOfMonth().getDate());
+      }
+      d.setDate(day);
+      d.setMonth(<b>this</b>.getMonth() + value);
+      <b>break</b>;
+    <b>case</b> Date.YEAR:
+      d.setFullYear(<b>this</b>.getFullYear() + value);
+      <b>break</b>;
+  }
+  <b>return</b> d;
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

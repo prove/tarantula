@@ -1,0 +1,140 @@
+<html><head><title>MasterTemplate.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>MasterTemplate.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.MasterTemplate
+ * @extends Ext.Template
+ * Provides a template that can have child templates. The syntax is:
+&lt;pre&gt;&lt;code&gt;
+<b>var</b> t = <b>new</b> Ext.MasterTemplate(
+	<em>'&amp;lt;select name=&quot;{name}&quot;&amp;gt;'</em>,
+		<em>'&amp;lt;tpl name=&quot;options&quot;&amp;gt;&amp;lt;option value=&quot;{value:trim}&quot;&amp;gt;{text:ellipsis(10)}&amp;lt;/option&amp;gt;&amp;lt;/tpl&amp;gt;'</em>,
+	<em>'&amp;lt;/select&amp;gt;'</em>
+);
+t.add(<em>'options'</em>, {value: <em>'foo'</em>, text: <em>'bar'</em>});
+<i>// or you can add multiple child elements <b>in</b> one shot</i>
+t.addAll(<em>'options'</em>, [
+    {value: <em>'foo'</em>, text: <em>'bar'</em>},
+    {value: <em>'foo2'</em>, text: <em>'bar2'</em>},
+    {value: <em>'foo3'</em>, text: <em>'bar3'</em>}
+]);
+<i>// then append, applying the master template values</i>
+t.append(<em>'my-form'</em>, {name: <em>'my-select'</em>});
+&lt;/code&gt;&lt;/pre&gt;
+* A name attribute <b>for</b> the child template is not required <b>if</b> you have only one child
+* template or you want to refer to them by index.
+ */</i>
+Ext.MasterTemplate = <b>function</b>(){
+    Ext.MasterTemplate.superclass.constructor.apply(<b>this</b>, arguments);
+    <b>this</b>.originalHtml = <b>this</b>.html;
+    <b>var</b> st = {};
+    <b>var</b> m, re = <b>this</b>.subTemplateRe;
+    re.lastIndex = 0;
+    <b>var</b> subIndex = 0;
+    <b>while</b>(m = re.exec(<b>this</b>.html)){
+        <b>var</b> name = m[1], content = m[2];
+        st[subIndex] = {
+            name: name,
+            index: subIndex,
+            buffer: [],
+            tpl : <b>new</b> Ext.Template(content)
+        };
+        <b>if</b>(name){
+            st[name] = st[subIndex];
+        }
+        st[subIndex].tpl.compile();
+        st[subIndex].tpl.call = <b>this</b>.call.createDelegate(<b>this</b>);
+        subIndex++;
+    }
+    <b>this</b>.subCount = subIndex;
+    <b>this</b>.subs = st;
+};
+Ext.extend(Ext.MasterTemplate, Ext.Template, {
+    <i>/**
+    * The regular expression used to match sub templates
+    * @type RegExp
+    * @property
+    */</i>
+    subTemplateRe : /&lt;tpl(?:\sname=&quot;([\w-]+)&quot;)?&gt;((?:.|\n)*?)&lt;\/tpl&gt;/gi,
+
+    <i>/**
+     * Applies the passed values to a child template.
+     * @param {String/Number} name (optional) The name or index of the child template
+     * @param {Array/Object} values The values to be applied to the template
+     * @<b>return</b> {MasterTemplate} <b>this</b>
+     */</i>
+     add : <b>function</b>(name, values){
+        <b>if</b>(arguments.length == 1){
+            values = arguments[0];
+            name = 0;
+        }
+        <b>var</b> s = <b>this</b>.subs[name];
+        s.buffer[s.buffer.length] = s.tpl.apply(values);
+        <b>return</b> this;
+    },
+
+    <i>/**
+     * Applies all the passed values to a child template.
+     * @param {String/Number} name (optional) The name or index of the child template
+     * @param {Array} values The values to be applied to the template, <b>this</b> should be an array of objects.
+     * @param {Boolean} reset (optional) True to reset the template first
+     * @<b>return</b> {MasterTemplate} <b>this</b>
+     */</i>
+    fill : <b>function</b>(name, values, reset){
+        <b>var</b> a = arguments;
+        <b>if</b>(a.length == 1 || (a.length == 2 &amp;&amp; <b>typeof</b> a[1] == &quot;boolean&quot;)){
+            values = a[0];
+            name = 0;
+            reset = a[1];
+        }
+        <b>if</b>(reset){
+            <b>this</b>.reset();
+        }
+        <b>for</b>(var i = 0, len = values.length; i &lt; len; i++){
+            <b>this</b>.add(name, values[i]);
+        }
+        <b>return</b> this;
+    },
+
+    <i>/**
+     * Resets the template <b>for</b> reuse
+     * @<b>return</b> {MasterTemplate} <b>this</b>
+     */</i>
+     reset : <b>function</b>(){
+        <b>var</b> s = <b>this</b>.subs;
+        <b>for</b>(var i = 0; i &lt; <b>this</b>.subCount; i++){
+            s[i].buffer = [];
+        }
+        <b>return</b> this;
+    },
+
+    applyTemplate : <b>function</b>(values){
+        <b>var</b> s = <b>this</b>.subs;
+        <b>var</b> replaceIndex = -1;
+        <b>this</b>.html = <b>this</b>.originalHtml.replace(<b>this</b>.subTemplateRe, <b>function</b>(m, name){
+            <b>return</b> s[++replaceIndex].buffer.join(&quot;&quot;);
+        });
+        <b>return</b> Ext.MasterTemplate.superclass.applyTemplate.call(<b>this</b>, values);
+    },
+
+    apply : <b>function</b>(){
+        <b>return</b> this.applyTemplate.apply(<b>this</b>, arguments);
+    },
+
+    compile : <b>function</b>(){<b>return</b> this;}
+});
+
+<i>/**
+ * Alias <b>for</b> fill().
+ * @method
+ */</i>
+Ext.MasterTemplate.prototype.addAll = Ext.MasterTemplate.prototype.fill;
+ <i>/**
+ * Creates a template from the passed element's value (display:none textarea, preferred) or innerHTML. e.g.
+ * <b>var</b> tpl = Ext.MasterTemplate.from(<em>'element-id'</em>);
+ * @param {String/HTMLElement} el
+ * @param {Object} config
+ * @static
+ */</i>
+Ext.MasterTemplate.from = <b>function</b>(el, config){
+    el = Ext.getDom(el);
+    <b>return</b> new Ext.MasterTemplate(el.value || el.innerHTML, config || <em>''</em>);
+};</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

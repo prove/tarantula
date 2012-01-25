@@ -1,0 +1,1198 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.JsonView</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.JsonView.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.JsonView</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>JsonView</td></tr>
+                        <tr><td class="label">Extends:</td><td><a ext:cls="Ext.View" ext:member="" href="Ext.View.html">View</a></td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="JsonView.jss.html">JsonView.js</a></td></tr>
+        </table>
+        <div class="description">
+            Shortcut class to create a JSON + <a ext:cls="Ext.UpdateManager" href="Ext.UpdateManager.html">Ext.UpdateManager</a> template view. Usage:
+<pre><code>var view = <b>new</b> Ext.JsonView(<em>"my-element"</em>,
+    <em>'&lt;div id="{id}"&gt;{foo} - {bar}&lt;/div&gt;'</em>, <i>// auto create template</i>
+    { multiSelect: true, jsonRoot: <em>"data"</em> }
+);
+
+<i>// listen <b>for</b> node click?</i>
+view.on(<em>"click"</em>, <b>function</b>(vw, index, node, e){
+    alert(<em>'Node "'</em> + node.id + <em>'" at index: '</em> + index + <em>" was clicked."</em>);
+});
+
+<i>// direct load of JSON data</i>
+view.load(<em>"foobar.php"</em>);
+
+<i>// Example from my blog list</i>
+<b>var</b> tpl = <b>new</b> Ext.Template(
+    <em>'&lt;div class="entry"&gt;'</em> +
+    <em>'&lt;a class="entry-title" href="{link}"&gt;{title}&lt;/a&gt;'</em> +
+    <em>"&lt;h4&gt;{date} by {author} | {comments} Comments&lt;/h4&gt;{description}"</em> +
+    <em>"&lt;/div&gt;&lt;hr /&gt;"</em>
+);
+
+<b>var</b> moreView = <b>new</b> Ext.JsonView(<em>"entry-list"</em>, tpl, {
+    jsonRoot: <em>"posts"</em>
+});
+moreView.on(<em>"beforerender"</em>, <b>this</b>.sortEntries, <b>this</b>);
+moreView.load({
+    url: <em>"/blog/get-posts.php"</em>,
+    params: <em>"allposts=true"</em>,
+    text: <em>"Loading Blog Entries..."</em>
+});</code></pre>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#jsonData">jsonData</a> : Object</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The current JSON data or null</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#jsonRoot">jsonRoot</a> : String</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The root property in the loaded JSON object that contains the data</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#selectedClass">selectedClass</a> : Ext.DomHelper.Template</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#selectedClass" href="Ext.View.html#selectedClass">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">The css class to add to selected nodes</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#tpl">tpl</a> : Ext.DomHelper.Template</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#tpl" href="Ext.View.html#tpl">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">The template used by this View</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>JsonView</b>(&nbsp;<code>String/HTMLElement/Element container</code>, <code>Template tpl</code>, <code>Object config</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new JsonView</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addEvents">addEvents</a>(&nbsp;<code>Object object</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Used to define events on this Observable</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#addListener">addListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Appends an event handler to this component</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearFilter">clearFilter</a>() : void</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Clears the current filter.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clearSelections">clearSelections</a>(&nbsp;<span class="optional" title="Optional">[<code>Boolean suppressEvent</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#clearSelections" href="Ext.View.html#clearSelections">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Clear all selections</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#filter">filter</a>(&nbsp;<code>String property</code>, <code>String/RegExp value</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Filter the data by a specific property.</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#filterBy">filterBy</a>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Filter by a function. The passed function will be called with each
+object in the current dataset. If the function ret...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#findItemFromChild">findItemFromChild</a>(&nbsp;<code>HTMLElement node</code>&nbsp;) : HTMLElement</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#findItemFromChild" href="Ext.View.html#findItemFromChild">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns the template node the passed child belongs to or null if it doesn't belong to one.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#fireEvent">fireEvent</a>(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires the specified event with the passed parameters (minus the event name).</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getCount">getCount</a>() : Number</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Get the number of records in the current JSON dataset</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getEl">getEl</a>() : Ext.Element</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#getEl" href="Ext.View.html#getEl">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Returns the element this view is bound to.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getNode">getNode</a>(&nbsp;<code>HTMLElement/String/Number nodeInfo</code>&nbsp;) : HTMLElement</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#getNode" href="Ext.View.html#getNode">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Gets a template node.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getNodeData">getNodeData</a>(&nbsp;<code>HTMLElement/Array node</code>&nbsp;) : Object/Array</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns the JSON object for the specified node(s)</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getNodes">getNodes</a>(&nbsp;<code>Number startIndex</code>, <code>Number endIndex</code>&nbsp;) : Array</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#getNodes" href="Ext.View.html#getNodes">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Gets a range template nodes.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getSelectedIndexes">getSelectedIndexes</a>() : Array</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#getSelectedIndexes" href="Ext.View.html#getSelectedIndexes">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Get the indexes of the selected nodes.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getSelectedNodes">getSelectedNodes</a>() : Array</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#getSelectedNodes" href="Ext.View.html#getSelectedNodes">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Get the currently selected nodes.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getSelectionCount">getSelectionCount</a>() : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#getSelectionCount" href="Ext.View.html#getSelectionCount">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Get the number of selected nodes.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasListener">hasListener</a>(&nbsp;<code>String eventName</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Checks to see if this object has any listeners for a specified event</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#indexOf">indexOf</a>(&nbsp;<code>HTMLElement/String/Number nodeInfo</code>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#indexOf" href="Ext.View.html#indexOf">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Finds the index of the passed node</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isSelected">isSelected</a>(&nbsp;<code>HTMLElement/Number node</code>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#isSelected" href="Ext.View.html#isSelected">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Returns true if the passed node is selected</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#load">load</a>(&nbsp;<code>Object/String/Function url</code>, <span class="optional" title="Optional">[<code>String/Object params</code>]</span>, <span class="optional" title="Optional">[<code>Function callback</code>]</span>, <span class="optional" title="Optional">[<code>Boolean discardUrl</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Performs an async HTTP request, and loads the JSON from the response. If params are specified it uses POST, otherwise...</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#on">on</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Appends an event handler to this element (shorthand for addListener)</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#prepareData">prepareData</a>(&nbsp;<code>Array/Object data</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#prepareData" href="Ext.View.html#prepareData">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Function to override to reformat the data that is sent to
+the template for each node.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#purgeListeners">purgeListeners</a>() : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Removes all listeners for this object</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#refresh">refresh</a>() : void</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Refreshes the view.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#refreshNode">refreshNode</a>(&nbsp;<code>Number index</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#refreshNode" href="Ext.View.html#refreshNode">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Refresh an individual node.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#removeListener">removeListener</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#select">select</a>(&nbsp;<code>Array/HTMLElement/String/Number nodeInfo</code>, <span class="optional" title="Optional">[<code>Boolean keepExisting</code>]</span>, <span class="optional" title="Optional">[<code>Boolean suppressEvent</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#select" href="Ext.View.html#select">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Selects nodes.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#setStore">setStore</a>(&nbsp;<code>Store store</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#setStore" href="Ext.View.html#setStore">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Changes the data store this view uses and refresh the view.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#sort">sort</a>(&nbsp;<code>String property</code>, <span class="optional" title="Optional">[<code>String direction</code>]</span>, <span class="optional" title="Optional">[<code>Function sortType</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Sorts the data for this view and refreshes it.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#un">un</a>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Removes a listener (shorthand for removeListener)</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeclick">beforeclick</a> : (&nbsp;<code>Ext.View this</code>, <code>Number index</code>, <code>HTMLElement node</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#event-beforeclick" href="Ext.View.html#event-beforeclick">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before a click is processed. Returns false to cancel the default action.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforerender">beforerender</a> : (&nbsp;<code>Ext.JsonView this</code>, <code>Object data</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Fires before rendering of the downloaded JSON data.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-beforeselect">beforeselect</a> : (&nbsp;<code>Ext.View this</code>, <code>HTMLElement node</code>, <code>Array selections</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#event-beforeselect" href="Ext.View.html#event-beforeselect">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires before a selection is made. If any handlers return false, the selection is cancelled.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-click">click</a> : (&nbsp;<code>Ext.View this</code>, <code>Number index</code>, <code>HTMLElement node</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#event-click" href="Ext.View.html#event-click">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when a template node is clicked.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-contextmenu">contextmenu</a> : (&nbsp;<code>Ext.View this</code>, <code>Number index</code>, <code>HTMLElement node</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#event-contextmenu" href="Ext.View.html#event-contextmenu">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when a template node is right clicked.</td>
+    </tr>
+        <tr class=" inherited alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-dblclick">dblclick</a> : (&nbsp;<code>Ext.View this</code>, <code>Number index</code>, <code>HTMLElement node</code>, <code>Ext.EventObject e</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#event-dblclick" href="Ext.View.html#event-dblclick">View</a></td>
+    </tr>
+    <tr class=" inherited alt">
+        <td class="mdesc">Fires when a template node is double clicked.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-load">load</a> : (&nbsp;<code>Ext.JsonView this</code>, <code>Object data</code>, <code>Object response</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">
+Fires when data is loaded.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-loadexception">loadexception</a> : (&nbsp;<code>Ext.JsonView this</code>, <code>Object response</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">JsonView</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">
+Fires when loading fails.</td>
+    </tr>
+        <tr class=" inherited">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#event-selectionchange">selectionchange</a> : (&nbsp;<code>Ext.View this</code>, <code>Array selections</code>&nbsp;)</td>
+        <td class="msource" rowspan="2"><a ext:cls="Ext.View" ext:member="#event-selectionchange" href="Ext.View.html#event-selectionchange">View</a></td>
+    </tr>
+    <tr class=" inherited">
+        <td class="mdesc">Fires when the selected nodes change.</td>
+    </tr>
+            </table>
+                                    <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="jsonData"></a>
+                <div class="mdetail">
+                <h3>jsonData</i></h3>
+                <code>public Object jsonData</code>
+                <div class="mdetail-desc">
+                    The current JSON data or null                </div>
+                <div class="mdetail-def">This property is defined by JsonView.</div>
+                </div>
+                            <a name="jsonRoot"></a>
+                <div class="mdetail alt">
+                <h3>jsonRoot</i></h3>
+                <code>public String jsonRoot</code>
+                <div class="mdetail-desc">
+                    The root property in the loaded JSON object that contains the data                </div>
+                <div class="mdetail-def">This property is defined by JsonView.</div>
+                </div>
+                            <a name="selectedClass"></a>
+                <div class="mdetail">
+                <h3>selectedClass</i></h3>
+                <code>public Ext.DomHelper.Template selectedClass</code>
+                <div class="mdetail-desc">
+                    The css class to add to selected nodes                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.View" ext:member="#selectedClass" href="Ext.View.html#selectedClass">View</a>.</div>
+                </div>
+                            <a name="tpl"></a>
+                <div class="mdetail alt">
+                <h3>tpl</i></h3>
+                <code>public Ext.DomHelper.Template tpl</code>
+                <div class="mdetail-desc">
+                    The template used by this View                </div>
+                <div class="mdetail-def">This property is defined by <a ext:cls="Ext.View" ext:member="#tpl" href="Ext.View.html#tpl">View</a>.</div>
+                </div>
+                        </div>
+        
+                    <a name="JsonView"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>JsonView</i></h3>
+                <code>public function JsonView(&nbsp;<code>String/HTMLElement/Element container</code>, <code>Template tpl</code>, <code>Object config</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new JsonView                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>container</code> : String/HTMLElement/Element<div class="sub-desc">The container element where the view is to be rendered.</div></li><li><code>tpl</code> : Template<div class="sub-desc">The rendering template</div></li><li><code>config</code> : Object<div class="sub-desc">The config object</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="addEvents"></a>
+                <div class="mdetail">
+                <h3>addEvents</i></h3>
+                <code>public function addEvents(&nbsp;<code>Object object</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Used to define events on this Observable
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>object</code> : Object<div class="sub-desc">The object with the events defined</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="Ext.util.Observable.html#addEvents">Observable</a>.</div>
+                </div>
+                            <a name="addListener"></a>
+                <div class="mdetail alt">
+                <h3>addListener</i></h3>
+                <code>public function addListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this component
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+properties. This may contain any of the following properties:<ul>
+<li>scope {Object} The scope in which to execute the handler function. The handler function's "this" context.</li>
+<li>delay {Number} The number of milliseconds to delay the invocation of the handler after te event fires.</li>
+<li>single {Boolean} True to add a handler to handle just the next firing of the event, and then remove itself.</li>
+<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+by the specified number of milliseconds. If the event fires again within that time, the original
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+</ul><br>
+<p>
+<b>Combining Options</b><br>
+Using the options argument, it is possible to combine different types of listeners:<br>
+<br>
+A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
+		<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+ 			single: true,
+    		delay: 100,
+    		forumId: 4
+		});</code></pre>
+<p>
+<b>Attaching multiple handlers in 1 call</b><br>
+The method also allows for a single argument to be passed which is a config object containing properties
+which specify multiple handlers.
+<pre><code>el.on({
+			<em>'click'</em>: {
+        		fn: <b>this</b>.onClick,
+        		scope: <b>this</b>,
+        		delay: 100
+    		}, 
+    		<em>'mouseover'</em>: {
+        		fn: <b>this</b>.onMouseOver,
+        		scope: <b>this</b>
+    		},
+    		<em>'mouseout'</em>: {
+        		fn: <b>this</b>.onMouseOut,
+        		scope: <b>this</b>
+    		}
+		});</code></pre>
+<p>
+Or a shorthand syntax which passes the same scope object to all handlers:
+ 	<pre><code>el.on({
+			<em>'click'</em>: <b>this</b>.onClick,
+    		<em>'mouseover'</em>: <b>this</b>.onMouseOver,
+    		<em>'mouseout'</em>: <b>this</b>.onMouseOut,
+    		scope: <b>this</b>
+		});</code></pre></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#addListener" href="Ext.util.Observable.html#addListener">Observable</a>.</div>
+                </div>
+                            <a name="clearFilter"></a>
+                <div class="mdetail">
+                <h3>clearFilter</i></h3>
+                <code>public function clearFilter()</code>
+                <div class="mdetail-desc">
+                    Clears the current filter.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonView.</div>
+                </div>
+                            <a name="clearSelections"></a>
+                <div class="mdetail alt">
+                <h3>clearSelections</i></h3>
+                <code>public function clearSelections(&nbsp;<span class="optional" title="Optional">[<code>Boolean suppressEvent</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Clear all selections
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>suppressEvent</code> : Boolean<div class="sub-desc">(optional) true to skip firing of the selectionchange event</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#clearSelections" href="Ext.View.html#clearSelections">View</a>.</div>
+                </div>
+                            <a name="filter"></a>
+                <div class="mdetail">
+                <h3>filter</i></h3>
+                <code>public function filter(&nbsp;<code>String property</code>, <code>String/RegExp value</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Filter the data by a specific property.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>property</code> : String<div class="sub-desc">A property on your JSON objects</div></li><li><code>value</code> : String/RegExp<div class="sub-desc">Either string that the property values
+should start with, or a RegExp to test against the property</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonView.</div>
+                </div>
+                            <a name="filterBy"></a>
+                <div class="mdetail alt">
+                <h3>filterBy</i></h3>
+                <code>public function filterBy(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Filter by a function. The passed function will be called with each
+object in the current dataset. If the function returns true the value is kept,
+otherwise it is filtered.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the function (defaults to this JsonView)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonView.</div>
+                </div>
+                            <a name="findItemFromChild"></a>
+                <div class="mdetail">
+                <h3>findItemFromChild</i></h3>
+                <code>public function findItemFromChild(&nbsp;<code>HTMLElement node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the template node the passed child belongs to or null if it doesn't belong to one.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : HTMLElement<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement</code><div class="sub-desc">The template node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#findItemFromChild" href="Ext.View.html#findItemFromChild">View</a>.</div>
+                </div>
+                            <a name="fireEvent"></a>
+                <div class="mdetail alt">
+                <h3>fireEvent</i></h3>
+                <code>public function fireEvent(&nbsp;<code>String eventName</code>, <code>Object... args</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Fires the specified event with the passed parameters (minus the event name).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>args</code> : Object...<div class="sub-desc">Variable number of parameters are passed to handlers</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">returns false if any of the handlers return false otherwise it returns true</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="Ext.util.Observable.html#fireEvent">Observable</a>.</div>
+                </div>
+                            <a name="getCount"></a>
+                <div class="mdetail">
+                <h3>getCount</i></h3>
+                <code>public function getCount()</code>
+                <div class="mdetail-desc">
+                    Get the number of records in the current JSON dataset
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonView.</div>
+                </div>
+                            <a name="getEl"></a>
+                <div class="mdetail alt">
+                <h3>getEl</i></h3>
+                <code>public function getEl()</code>
+                <div class="mdetail-desc">
+                    Returns the element this view is bound to.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Element</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#getEl" href="Ext.View.html#getEl">View</a>.</div>
+                </div>
+                            <a name="getNode"></a>
+                <div class="mdetail">
+                <h3>getNode</i></h3>
+                <code>public function getNode(&nbsp;<code>HTMLElement/String/Number nodeInfo</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Gets a template node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>nodeInfo</code> : HTMLElement/String/Number<div class="sub-desc">An HTMLElement template node, index of a template node or the id of a template node</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement</code><div class="sub-desc">The node or null if it wasn't found</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#getNode" href="Ext.View.html#getNode">View</a>.</div>
+                </div>
+                            <a name="getNodeData"></a>
+                <div class="mdetail alt">
+                <h3>getNodeData</i></h3>
+                <code>public function getNodeData(&nbsp;<code>HTMLElement/Array node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns the JSON object for the specified node(s)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : HTMLElement/Array<div class="sub-desc">The node or an array of nodes</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object/Array</code><div class="sub-desc">If you pass in an array, you get an array back, otherwise you get the JSON object for the node</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonView.</div>
+                </div>
+                            <a name="getNodes"></a>
+                <div class="mdetail">
+                <h3>getNodes</i></h3>
+                <code>public function getNodes(&nbsp;<code>Number startIndex</code>, <code>Number endIndex</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Gets a range template nodes.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>startIndex</code> : Number<div class="sub-desc"></div></li><li><code>endIndex</code> : Number<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code><div class="sub-desc">An array of nodes</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#getNodes" href="Ext.View.html#getNodes">View</a>.</div>
+                </div>
+                            <a name="getSelectedIndexes"></a>
+                <div class="mdetail alt">
+                <h3>getSelectedIndexes</i></h3>
+                <code>public function getSelectedIndexes()</code>
+                <div class="mdetail-desc">
+                    Get the indexes of the selected nodes.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#getSelectedIndexes" href="Ext.View.html#getSelectedIndexes">View</a>.</div>
+                </div>
+                            <a name="getSelectedNodes"></a>
+                <div class="mdetail">
+                <h3>getSelectedNodes</i></h3>
+                <code>public function getSelectedNodes()</code>
+                <div class="mdetail-desc">
+                    Get the currently selected nodes.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code><div class="sub-desc">An array of HTMLElements</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#getSelectedNodes" href="Ext.View.html#getSelectedNodes">View</a>.</div>
+                </div>
+                            <a name="getSelectionCount"></a>
+                <div class="mdetail alt">
+                <h3>getSelectionCount</i></h3>
+                <code>public function getSelectionCount()</code>
+                <div class="mdetail-desc">
+                    Get the number of selected nodes.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#getSelectionCount" href="Ext.View.html#getSelectionCount">View</a>.</div>
+                </div>
+                            <a name="hasListener"></a>
+                <div class="mdetail">
+                <h3>hasListener</i></h3>
+                <code>public function hasListener(&nbsp;<code>String eventName</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Checks to see if this object has any listeners for a specified event
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The name of the event to check for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code><div class="sub-desc">True if the event is being listened for, else false</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="Ext.util.Observable.html#hasListener">Observable</a>.</div>
+                </div>
+                            <a name="indexOf"></a>
+                <div class="mdetail alt">
+                <h3>indexOf</i></h3>
+                <code>public function indexOf(&nbsp;<code>HTMLElement/String/Number nodeInfo</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Finds the index of the passed node
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>nodeInfo</code> : HTMLElement/String/Number<div class="sub-desc">An HTMLElement template node, index of a template node or the id of a template node</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The index of the node or -1</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#indexOf" href="Ext.View.html#indexOf">View</a>.</div>
+                </div>
+                            <a name="isSelected"></a>
+                <div class="mdetail">
+                <h3>isSelected</i></h3>
+                <code>public function isSelected(&nbsp;<code>HTMLElement/Number node</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if the passed node is selected
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>node</code> : HTMLElement/Number<div class="sub-desc">The node or node index</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#isSelected" href="Ext.View.html#isSelected">View</a>.</div>
+                </div>
+                            <a name="load"></a>
+                <div class="mdetail alt">
+                <h3>load</i></h3>
+                <code>public function load(&nbsp;<code>Object/String/Function url</code>, <span class="optional" title="Optional">[<code>String/Object params</code>]</span>, <span class="optional" title="Optional">[<code>Function callback</code>]</span>, <span class="optional" title="Optional">[<code>Boolean discardUrl</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Performs an async HTTP request, and loads the JSON from the response. If <i>params</i> are specified it uses POST, otherwise it uses GET.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>url</code> : Object/String/Function<div class="sub-desc">The URL for this request, or a function to call to get the URL, or a config object containing any of the following options:
+ <pre><code>view.load({
+         url: <em>"your-url.php"</em>,
+         params: {param1: <em>"foo"</em>, param2: <em>"bar"</em>}, <i>// or a URL encoded string</i>
+         callback: yourFunction,
+         scope: yourObject, <i>//(optional scope)</i>
+         discardUrl: false,
+         nocache: false,
+         text: <em>"Loading..."</em>,
+         timeout: 30,
+         scripts: false
+     });</code></pre>
+The only required property is <i>url</i>. The optional properties <i>nocache</i>, <i>text</i> and <i>scripts</i>
+are respectively shorthand for <i>disableCaching</i>, <i>indicatorText</i>, and <i>loadScripts</i> and are used to set their associated property on this UpdateManager instance.</div></li><li><code>params</code> : String/Object<div class="sub-desc">(optional) The parameters to pass, as either a URL encoded string "param1=1&amp;param2=2" or an object {param1: 1, param2: 2}</div></li><li><code>callback</code> : Function<div class="sub-desc">(optional) Callback when transaction is complete - called with signature (oElement, bSuccess)</div></li><li><code>discardUrl</code> : Boolean<div class="sub-desc">(optional) By default when you execute an update the defaultUrl is changed to the last used URL. If true, it will not store the URL.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonView.</div>
+                </div>
+                            <a name="on"></a>
+                <div class="mdetail">
+                <h3>on</i></h3>
+                <code>public function on(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Object options</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Appends an event handler to this element (shorthand for addListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
+function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#on" href="Ext.util.Observable.html#on">Observable</a>.</div>
+                </div>
+                            <a name="prepareData"></a>
+                <div class="mdetail alt">
+                <h3>prepareData</i></h3>
+                <code>public function prepareData(&nbsp;<code>Array/Object data</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Function to override to reformat the data that is sent to
+the template for each node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>data</code> : Array/Object<div class="sub-desc">The raw data (array of colData for a data model bound view or
+a JSON object for an UpdateManager bound view).</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#prepareData" href="Ext.View.html#prepareData">View</a>.</div>
+                </div>
+                            <a name="purgeListeners"></a>
+                <div class="mdetail">
+                <h3>purgeListeners</i></h3>
+                <code>public function purgeListeners()</code>
+                <div class="mdetail-desc">
+                    Removes all listeners for this object
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="Ext.util.Observable.html#purgeListeners">Observable</a>.</div>
+                </div>
+                            <a name="refresh"></a>
+                <div class="mdetail alt">
+                <h3>refresh</i></h3>
+                <code>public function refresh()</code>
+                <div class="mdetail-desc">
+                    Refreshes the view.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonView.</div>
+                </div>
+                            <a name="refreshNode"></a>
+                <div class="mdetail">
+                <h3>refreshNode</i></h3>
+                <code>public function refreshNode(&nbsp;<code>Number index</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Refresh an individual node.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>index</code> : Number<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#refreshNode" href="Ext.View.html#refreshNode">View</a>.</div>
+                </div>
+                            <a name="removeListener"></a>
+                <div class="mdetail alt">
+                <h3>removeListener</i></h3>
+                <code>public function removeListener(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="Ext.util.Observable.html#removeListener">Observable</a>.</div>
+                </div>
+                            <a name="select"></a>
+                <div class="mdetail">
+                <h3>select</i></h3>
+                <code>public function select(&nbsp;<code>Array/HTMLElement/String/Number nodeInfo</code>, <span class="optional" title="Optional">[<code>Boolean keepExisting</code>]</span>, <span class="optional" title="Optional">[<code>Boolean suppressEvent</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Selects nodes.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>nodeInfo</code> : Array/HTMLElement/String/Number<div class="sub-desc">An HTMLElement template node, index of a template node, id of a template node or an array of any of those to select</div></li><li><code>keepExisting</code> : Boolean<div class="sub-desc">(optional) true to keep existing selections</div></li><li><code>suppressEvent</code> : Boolean<div class="sub-desc">(optional) true to skip firing of the selectionchange vent</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#select" href="Ext.View.html#select">View</a>.</div>
+                </div>
+                            <a name="setStore"></a>
+                <div class="mdetail alt">
+                <h3>setStore</i></h3>
+                <code>public function setStore(&nbsp;<code>Store store</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Changes the data store this view uses and refresh the view.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>store</code> : Store<div class="sub-desc"></div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.View" ext:member="#setStore" href="Ext.View.html#setStore">View</a>.</div>
+                </div>
+                            <a name="sort"></a>
+                <div class="mdetail">
+                <h3>sort</i></h3>
+                <code>public function sort(&nbsp;<code>String property</code>, <span class="optional" title="Optional">[<code>String direction</code>]</span>, <span class="optional" title="Optional">[<code>Function sortType</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sorts the data for this view and refreshes it.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>property</code> : String<div class="sub-desc">A property on your JSON objects to sort on</div></li><li><code>direction</code> : String<div class="sub-desc">(optional) "desc" or "asc" (defaults to "asc")</div></li><li><code>sortType</code> : Function<div class="sub-desc">(optional) A function to call to convert the data to a sortable value.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by JsonView.</div>
+                </div>
+                            <a name="un"></a>
+                <div class="mdetail alt">
+                <h3>un</i></h3>
+                <code>public function un(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Removes a listener (shorthand for removeListener)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The handler to remove</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (this object) for the handler</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by <a ext:cls="Ext.util.Observable" ext:member="#un" href="Ext.util.Observable.html#un">Observable</a>.</div>
+                </div>
+                        </div>
+        
+                    <h2 class="mdetail-head">Event Details</h2>
+            <div class="detail-wrap">
+                            <a name="event-beforeclick"></a>
+                <div class="mdetail">
+                <h3>beforeclick</i></h3>
+                <code>public event beforeclick</code>
+                <div class="mdetail-desc">
+                Fires before a click is processed. Returns false to cancel the default action.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.View<div class="sub-desc"></div></li><li><code>index</code> : Number<div class="sub-desc">The index of the target node</div></li><li><code>node</code> : HTMLElement<div class="sub-desc">The target node</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The raw event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.View" ext:member="#event-beforeclick" href="Ext.View.html#event-beforeclick">View</a>.</div>
+                </div>
+                            <a name="event-beforerender"></a>
+                <div class="mdetail alt">
+                <h3>beforerender</i></h3>
+                <code>public event beforerender</code>
+                <div class="mdetail-desc">
+                Fires before rendering of the downloaded JSON data.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.JsonView<div class="sub-desc"></div></li><li><code>data</code> : Object<div class="sub-desc">The JSON data loaded</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by JsonView.</div>
+                </div>
+                            <a name="event-beforeselect"></a>
+                <div class="mdetail">
+                <h3>beforeselect</i></h3>
+                <code>public event beforeselect</code>
+                <div class="mdetail-desc">
+                Fires before a selection is made. If any handlers return false, the selection is cancelled.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.View<div class="sub-desc"></div></li><li><code>node</code> : HTMLElement<div class="sub-desc">The node to be selected</div></li><li><code>selections</code> : Array<div class="sub-desc">Array of currently selected nodes</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.View" ext:member="#event-beforeselect" href="Ext.View.html#event-beforeselect">View</a>.</div>
+                </div>
+                            <a name="event-click"></a>
+                <div class="mdetail alt">
+                <h3>click</i></h3>
+                <code>public event click</code>
+                <div class="mdetail-desc">
+                Fires when a template node is clicked.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.View<div class="sub-desc"></div></li><li><code>index</code> : Number<div class="sub-desc">The index of the target node</div></li><li><code>node</code> : HTMLElement<div class="sub-desc">The target node</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The raw event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.View" ext:member="#event-click" href="Ext.View.html#event-click">View</a>.</div>
+                </div>
+                            <a name="event-contextmenu"></a>
+                <div class="mdetail">
+                <h3>contextmenu</i></h3>
+                <code>public event contextmenu</code>
+                <div class="mdetail-desc">
+                Fires when a template node is right clicked.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.View<div class="sub-desc"></div></li><li><code>index</code> : Number<div class="sub-desc">The index of the target node</div></li><li><code>node</code> : HTMLElement<div class="sub-desc">The target node</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The raw event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.View" ext:member="#event-contextmenu" href="Ext.View.html#event-contextmenu">View</a>.</div>
+                </div>
+                            <a name="event-dblclick"></a>
+                <div class="mdetail alt">
+                <h3>dblclick</i></h3>
+                <code>public event dblclick</code>
+                <div class="mdetail-desc">
+                Fires when a template node is double clicked.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.View<div class="sub-desc"></div></li><li><code>index</code> : Number<div class="sub-desc">The index of the target node</div></li><li><code>node</code> : HTMLElement<div class="sub-desc">The target node</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">The raw event object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.View" ext:member="#event-dblclick" href="Ext.View.html#event-dblclick">View</a>.</div>
+                </div>
+                            <a name="event-load"></a>
+                <div class="mdetail">
+                <h3>load</i></h3>
+                <code>public event load</code>
+                <div class="mdetail-desc">
+                
+Fires when data is loaded.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.JsonView<div class="sub-desc"></div></li><li><code>data</code> : Object<div class="sub-desc">The JSON data loaded</div></li><li><code>response</code> : Object<div class="sub-desc">The raw Connect response object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by JsonView.</div>
+                </div>
+                            <a name="event-loadexception"></a>
+                <div class="mdetail alt">
+                <h3>loadexception</i></h3>
+                <code>public event loadexception</code>
+                <div class="mdetail-desc">
+                
+Fires when loading fails.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.JsonView<div class="sub-desc"></div></li><li><code>response</code> : Object<div class="sub-desc">The raw Connect response object</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by JsonView.</div>
+                </div>
+                            <a name="event-selectionchange"></a>
+                <div class="mdetail">
+                <h3>selectionchange</i></h3>
+                <code>public event selectionchange</code>
+                <div class="mdetail-desc">
+                Fires when the selected nodes change.
+                <div class="mdetail-params">
+                    <strong style="font-weight:normal;">Subscribers will be called with the following parameters:</strong>
+                    <ul><li><code>this</code> : Ext.View<div class="sub-desc"></div></li><li><code>selections</code> : Array<div class="sub-desc">Array of the selected nodes</div></li>                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This event is defined by <a ext:cls="Ext.View" ext:member="#event-selectionchange" href="Ext.View.html#event-selectionchange">View</a>.</div>
+                </div>
+                        </div>
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

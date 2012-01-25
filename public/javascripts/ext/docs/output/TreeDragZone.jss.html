@@ -1,0 +1,44 @@
+<html><head><title>TreeDragZone.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>TreeDragZone.js</h1><pre class="highlighted"><code>if(Ext.dd.DragZone){
+Ext.tree.TreeDragZone = <b>function</b>(tree, config){
+    Ext.tree.TreeDragZone.superclass.constructor.call(<b>this</b>, tree.getTreeEl(), config);
+    <b>this</b>.tree = tree;
+};
+
+Ext.extend(Ext.tree.TreeDragZone, Ext.dd.DragZone, {
+    ddGroup : &quot;TreeDD&quot;,
+    
+    onBeforeDrag : <b>function</b>(data, e){
+        <b>var</b> n = data.node;
+        <b>return</b> n &amp;&amp; n.draggable &amp;&amp; !n.disabled;
+    },
+    
+    onInitDrag : <b>function</b>(e){
+        <b>var</b> data = <b>this</b>.dragData;
+        <b>this</b>.tree.getSelectionModel().select(data.node);
+        <b>this</b>.proxy.update(&quot;&quot;);
+        data.node.ui.appendDDGhost(<b>this</b>.proxy.ghost.dom);
+        <b>this</b>.tree.fireEvent(&quot;startdrag&quot;, <b>this</b>.tree, data.node, e);
+    },
+    
+    getRepairXY : <b>function</b>(e, data){
+        <b>return</b> data.node.ui.getDDRepairXY();
+    },
+    
+    onEndDrag : <b>function</b>(data, e){
+        <b>this</b>.tree.fireEvent(&quot;enddrag&quot;, <b>this</b>.tree, data.node, e);
+    },
+    
+    onValidDrop : <b>function</b>(dd, e, id){
+        <b>this</b>.tree.fireEvent(&quot;dragdrop&quot;, <b>this</b>.tree, <b>this</b>.dragData.node, dd, e);
+        <b>this</b>.hideProxy();
+    },
+    
+    beforeInvalidDrop : <b>function</b>(e, id){
+        <i>// <b>this</b> scrolls the original position back into view</i>
+        <b>var</b> sm = <b>this</b>.tree.getSelectionModel();
+        sm.clearSelections();
+        sm.select(<b>this</b>.dragData.node);
+    }
+});
+}</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

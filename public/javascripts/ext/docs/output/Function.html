@@ -1,0 +1,193 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Function</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Function.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Function</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Global</td></tr>
+            <tr><td class="label">Class:</td><td>Function</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="Ext.jss.html">Ext.js</a></td></tr>
+        </table>
+        <div class="description">
+            These functions are available on every Function object (any JavaScript function).        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#createCallback">createCallback</a>() : Function</td>
+        <td class="msource" rowspan="2">Function</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Creates a callback that passes arguments[0], arguments[1], arguments[2], ...
+Call directly on any function. Example: ...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#createDelegate">createDelegate</a>(&nbsp;<span class="optional" title="Optional">[<code>Object obj</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number appendArgs</code>]</span>&nbsp;) : Function</td>
+        <td class="msource" rowspan="2">Function</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Creates a delegate (callback) that sets the scope to obj.
+Call directly on any function. Example: this.myFunction.cre...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#createInterceptor">createInterceptor</a>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Function</td>
+        <td class="msource" rowspan="2">Function</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">Creates an interceptor function. The passed fcn is called before the original one. If it returns false, the original ...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#createSequence">createSequence</a>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Function</td>
+        <td class="msource" rowspan="2">Function</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">Create a combined function call sequence of the original function + the passed function.
+The resulting function retur...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#defer">defer</a>(&nbsp;<code>Number millis</code>, <span class="optional" title="Optional">[<code>Object obj</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number appendArgs</code>]</span>&nbsp;) : Number</td>
+        <td class="msource" rowspan="2">Function</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Calls this function after the number of millseconds specified.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="createCallback"></a>
+                <div class="mdetail">
+                <h3>createCallback</i></h3>
+                <code>public function createCallback()</code>
+                <div class="mdetail-desc">
+                    Creates a callback that passes arguments[0], arguments[1], arguments[2], ...
+Call directly on any function. Example: <code>myFunction.createCallback(myarg, myarg2)</code>
+Will create a function that is bound to those 2 args.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Function</code><div class="sub-desc">The new function</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Function.</div>
+                </div>
+                            <a name="createDelegate"></a>
+                <div class="mdetail alt">
+                <h3>createDelegate</i></h3>
+                <code>public function createDelegate(&nbsp;<span class="optional" title="Optional">[<code>Object obj</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number appendArgs</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates a delegate (callback) that sets the scope to obj.
+Call directly on any function. Example: <code>this.myFunction.createDelegate(this)</code>
+Will create a function that is automatically scoped to this.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>obj</code> : Object<div class="sub-desc">(optional) The object for which the scope is set</div></li><li><code>args</code> : Array<div class="sub-desc">(optional) Overrides arguments for the call. (Defaults to the arguments passed by the caller)</div></li><li><code>appendArgs</code> : Boolean/Number<div class="sub-desc">(optional) if True args are appended to call args instead of overriding,
+if a number the args are inserted at the specified position</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Function</code><div class="sub-desc">The new function</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Function.</div>
+                </div>
+                            <a name="createInterceptor"></a>
+                <div class="mdetail">
+                <h3>createInterceptor</i></h3>
+                <code>public function createInterceptor(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Creates an interceptor function. The passed fcn is called before the original one. If it returns false, the original one is not called.
+The resulting function returns the results of the original function.
+The passed fcn is called with the parameters of the original function.
+@addon
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fcn</code> : Function<div class="sub-desc">The function to call before the original</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the passed fcn (Defaults to scope of original function or window)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Function</code><div class="sub-desc">The new function</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Function.</div>
+                </div>
+                            <a name="createSequence"></a>
+                <div class="mdetail alt">
+                <h3>createSequence</i></h3>
+                <code>public function createSequence(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Create a combined function call sequence of the original function + the passed function.
+The resulting function returns the results of the original function.
+The passed fcn is called with the parameters of the original function
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>fcn</code> : Function<div class="sub-desc">The function to sequence</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope of the passed fcn (Defaults to scope of original function or window)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Function</code><div class="sub-desc">The new function</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Function.</div>
+                </div>
+                            <a name="defer"></a>
+                <div class="mdetail">
+                <h3>defer</i></h3>
+                <code>public function defer(&nbsp;<code>Number millis</code>, <span class="optional" title="Optional">[<code>Object obj</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>, <span class="optional" title="Optional">[<code>Boolean/Number appendArgs</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Calls this function after the number of millseconds specified.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>millis</code> : Number<div class="sub-desc">The number of milliseconds for the setTimeout call (if 0 the function is executed immediately)</div></li><li><code>obj</code> : Object<div class="sub-desc">(optional) The object for which the scope is set</div></li><li><code>args</code> : Array<div class="sub-desc">(optional) Overrides arguments for the call. (Defaults to the arguments passed by the caller)</div></li><li><code>appendArgs</code> : Boolean/Number<div class="sub-desc">(optional) if True args are appended to call args instead of overriding,
+if a number the args are inserted at the specified position</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The timeout id that can be used with clearTimeout</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Function.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

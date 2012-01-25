@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>update (ProjectsController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/projects_controller.rb, line 157</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update</span>
+    <span class="ruby-identifier">ok</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-ivar">@project</span> = <span class="ruby-constant">Project</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+
+    <span class="ruby-comment cmt"># Create copy of parameters hash.</span>
+    <span class="ruby-identifier">params_to_set</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">params_to_set</span>.<span class="ruby-identifier">replace</span>( <span class="ruby-identifier">params</span>)  
+
+    <span class="ruby-comment cmt"># Remove all which are not attributes of target object.</span>
+    <span class="ruby-identifier">params_to_set</span>.<span class="ruby-identifier">delete_if</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@project</span>.<span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">has_key?</span>( <span class="ruby-identifier">key</span>)}
+
+    <span class="ruby-ivar">@project</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">params_to_set</span>)
+
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@project</span>.<span class="ruby-identifier">save</span>)
+      <span class="ruby-identifier">ok</span> = <span class="ruby-keyword kw">true</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:assigned_users</span>])
+        <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:assigned_users</span>].<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">u</span><span class="ruby-operator">|</span>
+          <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_login</span>(<span class="ruby-identifier">u</span>[<span class="ruby-identifier">:login</span>])
+          <span class="ruby-ivar">@project_user</span> = <span class="ruby-constant">ProjectsUsers</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:first</span>,
+                            <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">'`project_id` =? AND `user_id` =?'</span>, <span class="ruby-ivar">@project</span>.<span class="ruby-identifier">id</span>,<span class="ruby-ivar">@user</span>.<span class="ruby-identifier">id</span>])
+          <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@project_user</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+            <span class="ruby-ivar">@project_user</span> = <span class="ruby-constant">ProjectsUsers</span>.<span class="ruby-identifier">new</span>
+            <span class="ruby-ivar">@project_user</span>.<span class="ruby-identifier">project_id</span> = <span class="ruby-ivar">@project</span>.<span class="ruby-identifier">id</span>
+            <span class="ruby-ivar">@project_user</span>.<span class="ruby-identifier">user_id</span> = <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">id</span>
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-ivar">@project_user</span>.<span class="ruby-identifier">group</span> = <span class="ruby-identifier">u</span>[<span class="ruby-identifier">:group</span>]
+          <span class="ruby-keyword kw">if</span> (<span class="ruby-operator">!</span><span class="ruby-ivar">@project_user</span>.<span class="ruby-identifier">save</span>)
+            <span class="ruby-identifier">ok</span> = <span class="ruby-keyword kw">false</span>
+          <span class="ruby-keyword kw">end</span>
+        }
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;{\&quot;status\&quot;:#{ok}, \&quot;id\&quot;:#{@project.id.to_json}}&quot;</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

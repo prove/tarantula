@@ -1,0 +1,57 @@
+#################################################
+### TARANTULA monitrc                         ###
+###                                           ###
+### preferrably include in /etc/monit/monitrc ###
+###                                           ###
+#################################################
+
+
+##### nginx #####
+#check process nginx with pidfile /opt/testia/nginx/logs/nginx.pid
+#	start program = "/opt/testia/nginx/sbin/nginx" as uid testia
+#	stop program = "/bin/bash -c 'kill -QUIT `cat /opt/testia/nginx/logs/nginx.pid`'" as uid testia
+	
+##### mongrel 3001 #####
+check process mongrel-3001 with pidfile /opt/testia/tarantula/tmp/pids/mongrel.3001.pid
+    start program = "/bin/bash -c 'cd /opt/testia/tarantula && RAILS_ENV=production /usr/bin/rake server:start PORT=3001'" as uid testia
+	stop program = "/bin/bash -c 'cd /opt/testia/tarantula && RAILS_ENV=production /usr/bin/rake server:stop PORT=3001'" as uid testia
+    if totalmem is greater than 150.0 MB for 10 cycles then restart     # eating up memory?
+    if cpu is greater than 50% for 2 cycles then alert                  # send an email to admin
+    if cpu is greater than 80% for 3 cycles then restart                # hung process?
+    if loadavg(5min) greater than 10 for 8 cycles then restart          # bad, bad, bad
+    if 3 restarts within 5 cycles then timeout                          # something is wrong, call the sys-admin
+    if failed port 3001 protocol http                                   # check for response
+        with timeout 30 seconds
+        for 2 cycles
+        then restart
+    group mongrel
+
+##### mongrel 3002 #####
+check process mongrel-3002 with pidfile /opt/testia/tarantula/tmp/pids/mongrel.3002.pid
+	start program = "/bin/bash -c 'cd /opt/testia/tarantula && RAILS_ENV=production /usr/bin/rake server:start PORT=3002'" as uid testia
+	stop program = "/bin/bash -c 'cd /opt/testia/tarantula && RAILS_ENV=production /usr/bin/rake server:stop PORT=3002'" as uid testia
+    if totalmem is greater than 150.0 MB for 10 cycles then restart     # eating up memory?
+    if cpu is greater than 50% for 2 cycles then alert                  # send an email to admin
+    if cpu is greater than 80% for 3 cycles then restart                # hung process?
+    if loadavg(5min) greater than 10 for 8 cycles then restart          # bad, bad, bad
+    if 3 restarts within 5 cycles then timeout                          # something is wrong
+    if failed port 3002 protocol http                                   # check for response
+        with timeout 30 seconds
+		for 2 cycles
+        then restart
+    group mongrel
+
+##### mongrel 3003 #####
+check process mongrel-3003 with pidfile /opt/testia/tarantula/tmp/pids/mongrel.3003.pid
+	start program = "/bin/bash -c 'cd /opt/testia/tarantula && RAILS_ENV=production /usr/bin/rake server:start PORT=3003'" as uid testia
+	stop program = "/bin/bash -c 'cd /opt/testia/tarantula && RAILS_ENV=production /usr/bin/rake server:stop PORT=3003'" as uid testia
+    if totalmem is greater than 150.0 MB for 10 cycles then restart     # eating up memory?
+    if cpu is greater than 50% for 2 cycles then alert                  # send an email to admin
+    if cpu is greater than 80% for 3 cycles then restart                # hung process?
+    if loadavg(5min) greater than 10 for 8 cycles then restart          # bad, bad, bad
+    if 3 restarts within 5 cycles then timeout                          # something is wrong
+    if failed port 3003 protocol http                                   # check for response
+        with timeout 30 seconds
+		for 2 cycles
+        then restart
+    group mongrel

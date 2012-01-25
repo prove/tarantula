@@ -1,0 +1,249 @@
+<html><head><title>ext-lang-fr.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-fr.js</h1><pre class="highlighted"><code><i>/*
+ * Fran&Atilde;&sect;ais (France) translation
+ * By Perrich
+ * 06-08-2007, 09:07 PM
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;En cours de chargement...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} ligne(s) s&Atilde;&copy;lectionn&Atilde;&copy;(s)&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;Fermer cet onglet&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;La valeur de ce champ est invalide&quot;;
+}
+
+Date.monthNames = [
+   &quot;Janvier&quot;,
+   &quot;F&Atilde;&copy;vrier&quot;,
+   &quot;Mars&quot;,
+   &quot;Avril&quot;,
+   &quot;Mai&quot;,
+   &quot;Juin&quot;,
+   &quot;Juillet&quot;,
+   &quot;Ao&Atilde;&raquo;t&quot;,
+   &quot;Septembre&quot;,
+   &quot;Octobre&quot;,
+   &quot;Novembre&quot;,
+   &quot;D&Atilde;&copy;cembre&quot;
+];
+
+Date.dayNames = [
+   &quot;Dimanche&quot;,
+   &quot;Lundi&quot;,
+   &quot;Mardi&quot;,
+   &quot;Mercredi&quot;,
+   &quot;Jeudi&quot;,
+   &quot;Vendredi&quot;,
+   &quot;Samedi&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;OK&quot;,
+      cancel : &quot;Annuler&quot;,
+      yes    : &quot;Oui&quot;,
+      no     : &quot;Non&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;d/m/Y&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;Aujourd'hui&quot;,
+      minText           : &quot;Cette date est plus petite que la date minimum&quot;,
+      maxText           : &quot;Cette date est plus grande que la date maximum&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames	: Date.monthNames,
+      dayNames		: Date.dayNames,
+      nextText          : <em>'Prochain mois (CTRL+Fl&Atilde;&copy;che droite)'</em>,
+      prevText          : &quot;Mois pr&Atilde;&copy;c&Atilde;&copy;dent (CTRL+Fl&Atilde;&copy;che gauche)&quot;,
+      monthYearText     : &quot;Choisissez un mois (CTRL+Fl&Atilde;&copy;che haut ou bas pour changer d\'ann&Atilde;&copy;e.)&quot;,
+      todayTip          : &quot;{0} (Barre d'espace)&quot;,
+      okText            : &quot;&amp;#160;OK&amp;#160;&quot;,
+      cancelText        : &quot;Annuler&quot;,
+      format            : &quot;d/m/y&quot;,
+      startDay          : 1
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;Page&quot;,
+      afterPageText  : &quot;sur {0}&quot;,
+      firstText      : &quot;Premi&Atilde;&uml;re page&quot;,
+      prevText       : &quot;Page pr&Atilde;&copy;c&Atilde;&copy;dente&quot;,
+      nextText       : &quot;Page suivante&quot;,
+      lastText       : &quot;Derni&Atilde;&uml;re page&quot;,
+      refreshText    : &quot;Actualiser la page&quot;,
+      displayMsg     : &quot;Page courante {0} - {1} sur {2}&quot;,
+      emptyMsg       : <em>'Aucune donn&Atilde;&copy;e &Atilde;&nbsp; afficher'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;La longueur minimum de ce champ est de {0} caract&Atilde;&uml;res&quot;,
+      maxLengthText : &quot;La longueur maximum de ce champ est de {0} caract&Atilde;&uml;res&quot;,
+      blankText     : &quot;Ce champ est obligatoire&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;La valeur minimum de ce champ doit &Atilde;&ordf;tre de {0}&quot;,
+      maxText : &quot;La valeur maximum de ce champ doit &Atilde;&ordf;tre de {0}&quot;,
+      nanText : &quot;{0} n'est pas un nombre valide&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;D&Atilde;&copy;sactiv&Atilde;&copy;&quot;,
+      disabledDatesText : &quot;D&Atilde;&copy;sactiv&Atilde;&copy;&quot;,
+      minText           : &quot;La date de ce champ doit &Atilde;&ordf;tre avant le {0}&quot;,
+      maxText           : &quot;La date de ce champ doit &Atilde;&ordf;tre apr&Atilde;&uml;s le {0}&quot;,
+      invalidText       : &quot;{0} n'est pas une date valide - elle doit &Atilde;&ordf;tre au format suivant: {1}&quot;,
+      format            : &quot;d/m/y&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;En cours de chargement...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'Ce champ doit contenir une adresse email au format: &quot;usager@domaine.com&quot;'</em>,
+      urlText      : <em>'Ce champ doit contenir une URL au format suivant: &quot;http:/'</em>+<em>'/www.domaine.com&quot;'</em>,
+      alphaText    : <em>'Ce champ ne peut contenir que des lettres et le caract&Atilde;&uml;re soulign&Atilde;&copy; (_)'</em>,
+      alphanumText : <em>'Ce champ ne peut contenir que des caract&Atilde;&uml;res alphanum&Atilde;&copy;riques ainsi que le caract&Atilde;&uml;re soulign&Atilde;&copy; (_)'</em>
+   });
+}
+
+<b>if</b>(Ext.form.HtmlEditor){
+   Ext.apply(Ext.form.HtmlEditor.prototype, {
+      createLinkText : &quot;Veuillez entrer l'URL pour ce lien:&quot;,
+          buttonTips : {
+              bold : {
+                  title: <em>'Gras (Ctrl+B)'</em>,
+                  text: <em>'Met le texte s&Atilde;&copy;lectionn&Atilde;&copy; en gras.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              italic : {
+                  title: <em>'Italique (Ctrl+I)'</em>,
+                  text: <em>'Met le texte s&Atilde;&copy;lectionn&Atilde;&copy; en italique.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              underline : {
+                  title: <em>'Soulign&Atilde;&copy; (Ctrl+U)'</em>,
+                  text: <em>'Souligne le texte s&Atilde;&copy;lectionn&Atilde;&copy;.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              increasefontsize : {
+                  title: <em>'Agrandir la police'</em>,
+                  text: <em>'Augmente la taille de la police.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              decreasefontsize : {
+                  title: <em>'R&Atilde;&copy;duire la police'</em>,
+                  text: <em>'R&Atilde;&copy;duit la taille de la police.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              backcolor : {
+                  title: <em>'Couleur de surbrillance'</em>,
+                  text: <em>'Modifie la couleur de fond du texte s&Atilde;&copy;lectionn&Atilde;&copy;.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              forecolor : {
+                  title: <em>'Couleur de police'</em>,
+                  text: <em>'Modifie la couleur du texte s&Atilde;&copy;lectionn&Atilde;&copy;.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              justifyleft : {
+                  title: <em>'Aligner &Atilde;&nbsp; gauche'</em>,
+                  text: <em>'Aligne le texte &Atilde;&nbsp; gauche.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              justifycenter : {
+                  title: <em>'Centrer'</em>,
+                  text: <em>'Centre le texte.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              justifyright : {
+                  title: <em>'Aligner &Atilde;&nbsp; droite'</em>,
+                  text: <em>'Aligner le texte &Atilde;&nbsp; droite.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              insertunorderedlist : {
+                  title: <em>'Liste &Atilde;&nbsp; puce'</em>,
+                  text: <em>'D&Atilde;&copy;marre une liste &Atilde;&nbsp; puce.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              insertorderedlist : {
+                  title: <em>'Liste num&Atilde;&copy;rot&Atilde;&copy;e'</em>,
+                  text: <em>'D&Atilde;&copy;marre une liste num&Atilde;&copy;rot&Atilde;&copy;e.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              createlink : {
+                  title: <em>'Lien hypertexte'</em>,
+                  text: <em>'Transforme en lien hypertexte.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              },
+              sourceedit : {
+                  title: <em>'Code source'</em>,
+                  text: <em>'Basculer en mode &Atilde;&copy;dition du code source.'</em>,
+                  cls: <em>'x-html-editor-tip'</em>
+              }
+        }
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;Tri croissant&quot;,
+      sortDescText : &quot;Tri d&Atilde;&copy;croissant&quot;,
+      lockText     : &quot;Verrouiller la colonne&quot;,
+      unlockText   : &quot;D&Atilde;&copy;verrouiller la colonne&quot;,
+      columnsText  : &quot;Colonnes&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;Propri&Atilde;&copy;t&Atilde;&copy;&quot;,
+      valueText  : &quot;Valeur&quot;,
+      dateFormat : &quot;d/m/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;Cliquer et glisser pour redimensionner le panneau.&quot;,
+      collapsibleSplitTip : &quot;Cliquer et glisser pour redimensionner le panneau. Double-cliquer pour le cacher.&quot;
+   });
+}
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

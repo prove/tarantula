@@ -1,0 +1,726 @@
+<html><head><title>debug.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>debug.js</h1><pre class="highlighted"><code><i>/*
+ * These functions are only included <b>in</b> -debug files
+ *
+*/</i>Ext.debug = {
+    init : <b>function</b>(){
+        <b>var</b> CP = Ext.ContentPanel;
+        <b>var</b> bd = Ext.get(document.body);
+
+        <i>// create the dialog</i>
+        <b>var</b> dlg = <b>new</b> Ext.LayoutDialog(<em>'x-debug-browser'</em>, {
+            autoCreate:true,
+            width:800,
+            height:450,
+            title: <em>'Ext Debug Console &amp;amp; Inspector'</em>,
+            proxyDrag:true,
+            shadow:true,
+            center:{alwaysShowTabs:true},
+            constraintoviewport:false
+        });
+
+        <i>// prevent dialog events from bubbling</i>
+        dlg.el.swallowEvent(<em>'click'</em>);
+
+        <i>// build the layout</i>
+        <b>var</b> mainLayout = dlg.getLayout();
+        mainLayout.beginUpdate();
+
+        <i>// create the nested layouts</i>
+        <b>var</b> clayout = mainLayout.add(<em>'center'</em>,
+            <b>new</b> Ext.debug.InnerLayout(<em>'x-debug-console'</em>, 400, {
+                title: <em>'Debug Console'</em>
+            }
+        ));
+
+        <b>var</b> ilayout = mainLayout.add(<em>'center'</em>,
+            <b>new</b> Ext.debug.InnerLayout(<em>'x-debug-inspector'</em>, 250, {
+                title: <em>'DOM Inspector'</em>
+            }
+        ));
+
+        <b>var</b> scriptPanel = clayout.add(<em>'east'</em>, <b>new</b> CP({
+            autoCreate:{
+                tag: <em>'div'</em>, children: [
+                    {tag: <em>'div'</em>},
+                    {tag:<em>'textarea'</em>}
+                ]
+            },
+            fitContainer:true,
+            fitToFrame:true,
+            title:<em>'Script Console'</em>,
+            autoScroll: Ext.isGecko, <i>// hideous block <b>for</b> firefox missing cursor AND bad sizing textareas</i>
+            setSize : <b>function</b>(w, h){
+                Ext.ContentPanel.prototype.setSize.call(<b>this</b>, w, h);
+                <b>if</b>(Ext.isGecko &amp;&amp; Ext.isStrict){
+                    <b>var</b> s = <b>this</b>.adjustForComponents(w, h);
+                    <b>this</b>.resizeEl.setSize(s.width-2, s.height-2);
+                }
+            }
+        }));
+        <b>var</b> sel = scriptPanel.el;
+        <b>var</b> script = sel.child(<em>'textarea'</em>);
+        scriptPanel.resizeEl = script;
+        <b>var</b> sctb = scriptPanel.toolbar = <b>new</b> Ext.Toolbar(sel.child(<em>'div'</em>));
+        sctb.add({
+            text: <em>'Run'</em>,
+            handler: <b>function</b>(){
+                <b>var</b> s = script.dom.value;
+                <b>if</b>(trap.checked){
+                    try{
+                        <b>var</b> rt = eval(s);
+                        Ext.debug.dump(rt === undefined? <em>'(no <b>return</b>)'</em> : rt);
+                    }catch(e){
+                        Ext.debug.log(e.message || e.descript);
+                    }
+                }<b>else</b>{
+                    <b>var</b> rt = eval(s);
+                    Ext.debug.dump(rt === undefined? <em>'(no <b>return</b>)'</em> : rt);
+                }
+            }
+        }, {
+            text: <em>'Clear'</em>,
+            handler: <b>function</b>(){
+                script.dom.value = <em>''</em>;
+                script.dom.focus();
+            }
+        });
+
+        <b>var</b> trap = Ext.DomHelper.append(sctb.el, {tag:<em>'input'</em>, type:<em>'checkbox'</em>, checked: <em>'checked'</em>});
+        trap.checked = true;
+        sctb.add(<em>'-'</em>, trap, <em>'Trap Errors'</em>);
+
+
+        <b>var</b> stylesGrid = <b>new</b> Ext.grid.PropertyGrid(bd.createChild(), {
+            nameText: <em>'Style'</em>,
+            enableHdMenu: false,
+            enableColumnResize: false
+        });
+
+        <b>var</b> stylePanel = ilayout.add(<em>'east'</em>, <b>new</b> Ext.GridPanel(stylesGrid,
+            {title: <em>'(No element selected)'</em>}));
+
+        stylesGrid.render();
+
+        <i>// hide the header</i>
+        stylesGrid.getView().mainHd.setDisplayed(false);
+
+        clayout.tbar.add({
+            text: <em>'Clear'</em>,
+            handler: <b>function</b>(){
+                Ext.debug.console.jsonData = [];
+                Ext.debug.console.refresh();
+            }
+        });
+
+        <b>var</b> treeEl = ilayout.main.getEl();
+        <i>// create main inspector toolbar</i>
+        <b>var</b> tb = ilayout.tbar;
+
+        <b>var</b> inspectIgnore, inspecting;
+
+        <b>function</b> inspectListener(e, t){
+            <b>if</b>(!inspectIgnore.contains(e.getPoint())){
+                findNode(t);
+            }
+        }
+
+        <b>function</b> stopInspecting(e, t){
+            <b>if</b>(!inspectIgnore.contains(e.getPoint())){
+                inspect.toggle(false);
+                <b>if</b>(findNode(t) !== false){
+                    e.stopEvent();
+                }
+            }
+        }
+
+        <b>function</b> stopInspectingEsc(e, t){
+            <b>if</b>(e.getKey() == e.ESC){
+                inspect.toggle(false);
+            }
+        }
+
+        <b>var</b> inspect = tb.addButton({
+            text: <em>'Inspect'</em>,
+            enableToggle: true,
+            pressed:false,
+            toggleHandler: <b>function</b>(n, pressed){
+                <b>var</b> d = Ext.get(document);
+                <b>if</b>(pressed){
+                    d.on(<em>'mouseover'</em>, inspectListener, window, {buffer:50});
+                    d.on(<em>'mousedown'</em>, stopInspecting);
+                    d.on(<em>'keydown'</em>, stopInspectingEsc);
+                    inspectIgnore = dlg.el.getRegion();
+                    inspecting = true;
+                }<b>else</b>{
+                    d.un(<em>'mouseover'</em>, inspectListener);
+                    d.un(<em>'mousedown'</em>, stopInspecting);
+                    d.on(<em>'keydown'</em>, stopInspectingEsc);
+                    inspecting = false;
+                    <b>var</b> n = tree.getSelectionModel().getSelectedNode();
+                    <b>if</b>(n &amp;&amp; n.htmlNode){
+                        onNodeSelect(tree, n, false);
+                    }
+                }
+            }
+        });
+
+        tb.addSeparator();
+
+        <b>var</b> frameEl = tb.addButton({
+            text: <em>'Highlight Selection'</em>,
+            enableToggle: true,
+            pressed:false,
+            toggleHandler: <b>function</b>(n, pressed){
+                <b>var</b> n = tree.getSelectionModel().getSelectedNode();
+                <b>if</b>(n &amp;&amp; n.htmlNode){
+                    n[pressed ? <em>'frame'</em> : <em>'unframe'</em>]();
+                }
+            }
+        });
+
+        tb.addSeparator();
+
+        <b>var</b> reload = tb.addButton({
+            text: <em>'Refresh Children'</em>,
+            disabled:true,
+            handler: <b>function</b>(){
+                <b>var</b> n = tree.getSelectionModel().getSelectedNode();
+                <b>if</b>(n &amp;&amp; n.reload){
+                    n.reload();
+                }
+            }
+        });
+
+        tb.add( <em>'-'</em>, {
+            text: <em>'Collapse All'</em>,
+            handler: <b>function</b>(){
+                tree.root.collapse(true);
+            }
+        });
+
+        <i>// perform the main layout</i>
+        mainLayout.endUpdate();
+
+        mainLayout.getRegion(<em>'center'</em>).showPanel(0);
+
+        stylesGrid.on(<em>'propertychange'</em>, <b>function</b>(s, name, value){
+            <b>var</b> node = stylesGrid.treeNode;
+            <b>if</b>(styles){
+                node.htmlNode.style[name] = value;
+            }<b>else</b>{
+                node.htmlNode[name] = value;
+            }
+            node.refresh(true);
+        });
+
+        <i>// Create the style toolbar</i>
+        <b>var</b> stb = <b>new</b> Ext.Toolbar(stylesGrid.view.getHeaderPanel(true));
+
+        <b>var</b> swap = stb.addButton({
+            text: <em>'DOM Attributes'</em>,
+            menu: {
+                items: [
+                    <b>new</b> Ext.menu.CheckItem({id:<em>'dom'</em>, text:<em>'DOM Attributes'</em>, checked: true, group:<em>'xdb-styles'</em>}),
+                    <b>new</b> Ext.menu.CheckItem({id:<em>'styles'</em>, text:<em>'CSS Properties'</em>, group:<em>'xdb-styles'</em>})
+                ]
+            }
+        });
+
+        swap.menu.on(<em>'click'</em>, <b>function</b>(){
+            styles = swap.menu.items.get(<em>'styles'</em>).checked;
+            showAll[styles? <em>'show'</em> : <em>'hide'</em>]();
+            swap.setText(styles ? <em>'CSS Properties'</em> : <em>'DOM Attributes'</em>);
+            <b>var</b> n = tree.getSelectionModel().getSelectedNode();
+            <b>if</b>(n){
+                onNodeSelect(tree, n);
+            }
+        });
+        
+        <b>var</b> addStyle = stb.addButton({
+            text: <em>'Add'</em>,
+            disabled: true,
+            handler: <b>function</b>(){
+                Ext.MessageBox.prompt(<em>'Add Property'</em>, <em>'Property Name:'</em>, <b>function</b>(btn, v){
+                    <i>// store.store is disgusting TODO: clean up the API</i>
+                    <b>var</b> store = stylesGrid.store.store;
+                    <b>if</b>(btn == <em>'ok'</em> &amp;&amp; v &amp;&amp; !store.getById(v)){
+                        <b>var</b> r = <b>new</b> Ext.grid.PropertyRecord({name:v, value: <em>''</em>}, v);
+                        store.add(r);
+                        stylesGrid.startEditing(store.getCount()-1, 1);
+                    }
+                });
+            }
+        });
+
+        <b>var</b> showAll = stb.addButton({
+            text: <em>'Computed Styles'</em>,
+            hidden: true,
+            pressed: false,
+            enableToggle: true,
+            toggleHandler: <b>function</b>(){
+                <b>var</b> n = tree.getSelectionModel().getSelectedNode();
+                <b>if</b>(n){
+                    onNodeSelect(tree, n);
+                }
+            }
+        });
+
+        <i>// tree related stuff</i>
+        <b>var</b> styles = false, hnode;
+        <b>var</b> nonSpace = /^\s*$/;
+        <b>var</b> html = Ext.util.Format.htmlEncode;
+        <b>var</b> ellipsis = Ext.util.Format.ellipsis;
+        <b>var</b> styleRe = /\s?([a-z\-]*)\:([^;]*)(?:[;\s\n\r]*)/gi;
+
+        <b>function</b> findNode(n){
+            <b>if</b>(!n || n.nodeType != 1 || n == document.body || n == document){
+                <b>return</b> false;
+            }
+            <b>var</b> pn = [n], p = n;
+            <b>while</b>((p = p.parentNode) &amp;&amp; p.nodeType == 1 &amp;&amp; p.tagName.toUpperCase() != <em>'HTML'</em>){
+                pn.unshift(p);
+            }
+            <b>var</b> cn = hnode;
+            <b>for</b>(var i = 0, len = pn.length; i &lt; len; i++){
+                cn.expand();
+                cn = cn.findChild(<em>'htmlNode'</em>, pn[i]);
+                <b>if</b>(!cn){ <i>// <b>in</b> this dialog?</i>
+                    <b>return</b> false;
+                }
+            }
+            cn.select();
+            <b>var</b> a = cn.ui.anchor;
+            treeEl.dom.scrollTop = Math.max(0 ,a.offsetTop-10);
+            <i>//treeEl.dom.scrollLeft = Math.max(0 ,a.offsetLeft-10); no likey</i>
+            cn.highlight();
+            <b>return</b> true;
+        }
+
+        <b>function</b> nodeTitle(n){
+            <b>var</b> s = n.tagName;
+            <b>if</b>(n.id){
+                s += <em>'#'</em>+n.id;
+            }<b>else</b> if(n.className){
+                s += <em>'.'</em>+n.className;
+            }
+            <b>return</b> s;
+        }
+
+        <b>function</b> onNodeSelect(t, n, last){
+            <b>if</b>(last &amp;&amp; last.unframe){
+                last.unframe();
+            }
+            <b>var</b> props = {};
+            <b>if</b>(n &amp;&amp; n.htmlNode){
+                <b>if</b>(frameEl.pressed){
+                    n.frame();
+                }
+                <b>if</b>(inspecting){
+                    <b>return</b>;
+                }
+                addStyle.enable();
+                reload.setDisabled(n.leaf);
+                <b>var</b> dom = n.htmlNode;
+                stylePanel.setTitle(nodeTitle(dom));
+                <b>if</b>(styles &amp;&amp; !showAll.pressed){
+                    <b>var</b> s = dom.style ? dom.style.cssText : <em>''</em>;
+                    <b>if</b>(s){
+                        <b>var</b> m;
+                        <b>while</b> ((m = styleRe.exec(s)) != null){
+                            props[m[1].toLowerCase()] = m[2];
+                        }
+                    }
+                }<b>else</b> if(styles){
+                    <b>var</b> cl = Ext.debug.cssList;
+                    <b>var</b> s = dom.style, fly = Ext.fly(dom);
+                    <b>if</b>(s){
+                        <b>for</b>(var i = 0, len = cl.length; i&lt;len; i++){
+                            <b>var</b> st = cl[i];
+                            <b>var</b> v = s[st] || fly.getStyle(st);
+                            <b>if</b>(v != undefined &amp;&amp; v !== null &amp;&amp; v !== <em>''</em>){
+                                props[st] = v;
+                            }
+                        }
+                    }
+                }<b>else</b>{
+                    <b>for</b>(var a <b>in</b> dom){
+                        <b>var</b> v = dom[a];
+                        <b>if</b>((isNaN(a+10)) &amp;&amp; v != undefined &amp;&amp; v !== null &amp;&amp; v !== <em>''</em> &amp;&amp; !(Ext.isGecko &amp;&amp; a[0] == a[0].toUpperCase())){
+                            props[a] = v;
+                        }
+                    }
+                }
+            }<b>else</b>{
+                <b>if</b>(inspecting){
+                    <b>return</b>;
+                }
+                addStyle.disable();
+                reload.disabled();
+            }
+            stylesGrid.setSource(props);
+            stylesGrid.treeNode = n;
+            stylesGrid.view.fitColumns();
+        }
+
+        <i>// lets build a list of nodes to filter from the tree</i>
+        <i>// <b>this</b> is gonna be nasty</i>
+        <b>var</b> filterIds = <em>'^(?:'</em>;
+        <b>var</b> eds = stylesGrid.colModel.editors;
+        <b>for</b>(var edType <b>in</b> eds){
+            filterIds += eds[edType].id +<em>'|'</em>;
+        }
+        Ext.each([dlg.shim? dlg.shim.id : <em>'noshim'</em>, dlg.proxyDrag.id], <b>function</b>(id){
+             filterIds += id +<em>'|'</em>;
+        });
+        filterIds += dlg.el.id;
+        filterIds += <em>')$'</em>;
+        <b>var</b> filterRe = <b>new</b> RegExp(filterIds);
+
+        <b>var</b> loader = <b>new</b> Ext.tree.TreeLoader();
+        loader.load = <b>function</b>(n, cb){
+            <b>var</b> isBody = n.htmlNode == bd.dom;
+            <b>var</b> cn = n.htmlNode.childNodes;
+            <b>for</b>(var i = 0, c; c = cn[i]; i++){
+                <b>if</b>(isBody &amp;&amp; filterRe.test(c.id)){
+                    <b>continue</b>;
+                }
+                <b>if</b>(c.nodeType == 1){
+                    n.appendChild(<b>new</b> Ext.debug.HtmlNode(c));
+                }<b>else</b> if(c.nodeType == 3 &amp;&amp; !nonSpace.test(c.nodeValue)){
+                    n.appendChild(<b>new</b> Ext.tree.TreeNode({
+                        text:<em>'&lt;em&gt;'</em> + ellipsis(html(String(c.nodeValue)), 35) + <em>'&lt;/em&gt;'</em>,
+                        cls: <em>'x-tree-noicon'</em>
+                    }));
+                }
+            }
+            cb();
+        };
+
+        <b>var</b> tree = <b>new</b> Ext.tree.TreePanel(treeEl, {
+            enableDD:false ,
+            loader: loader,
+            lines:false,
+            rootVisible:false,
+            animate:false,
+            hlColor:<em>'ffff9c'</em>
+        });
+        tree.getSelectionModel().on(<em>'selectionchange'</em>, onNodeSelect, null, {buffer:250});
+
+        <b>var</b> root = tree.setRootNode(<b>new</b> Ext.tree.TreeNode(<em>'Ext'</em>));
+
+        hnode = root.appendChild(<b>new</b> Ext.debug.HtmlNode(
+                document.getElementsByTagName(<em>'html'</em>)[0]
+        ));
+
+        tree.render();
+
+        Ext.debug.console = <b>new</b> Ext.JsonView(clayout.main.getEl(),
+                <em>'&lt;pre&gt;&lt;xmp&gt;&gt; {msg}&lt;/xmp&gt;&lt;/pre&gt;'</em>);
+        Ext.debug.console.jsonData = [];
+
+        Ext.debug.dialog = dlg;
+    },
+
+    show : <b>function</b>(){
+        <b>var</b> d = Ext.debug;
+        <b>if</b>(!d.dialog){
+            d.init();
+        }
+        <b>if</b>(!d.dialog.isVisible()){
+            d.dialog.show();
+        }
+    },
+
+    hide : <b>function</b>(){
+        <b>if</b>(Ext.debug.dialog){
+            Ext.debug.dialog.hide();
+        }
+    },
+
+    <i>/**
+     * Debugging <b>function</b>. Prints all arguments to a resizable, movable, scrolling region without
+     * the need to include separate js or css. Double click it to hide it.
+     * @param {Mixed} arg1
+     * @param {Mixed} arg2
+     * @param {Mixed} etc
+     * @method print
+     */</i>
+    log : <b>function</b>(arg1, arg2, etc){
+       Ext.debug.show();
+        <b>var</b> m = &quot;&quot;;
+        <b>for</b>(var i = 0, len = arguments.length; i &lt; len; i++){
+            m += (i == 0 ? &quot;&quot; : &quot;, &quot;) + arguments[i];
+        }
+        <b>var</b> cn = Ext.debug.console;
+        cn.jsonData.unshift({msg: m});
+        cn.refresh();
+    },
+
+    <i>/**
+     * Applies the passed C#/DomHelper style format (e.g. &quot;The variable {0} is equal to {1}&quot;) before calling Ext.debug.log
+     * @param {String} format
+     * @param {Mixed} arg1
+     * @param {Mixed} arg2
+     * @param {Mixed} etc
+     * @method printf
+     */</i>
+    logf : <b>function</b>(format, arg1, arg2, etc){
+        Ext.debug.log(String.format.apply(String, arguments));
+    },
+
+    <i>/**
+     * Dumps an object to Ext.debug.log
+     * @param {Object} o
+     * @method dump
+     */</i>
+    dump : <b>function</b>(o){
+        <b>if</b>(typeof o == <em>'string'</em> || <b>typeof</b> o == <em>'number'</em> || <b>typeof</b> o == <em>'undefined'</em> || o instanceof Date){
+            Ext.debug.log(o);
+        }<b>else</b> if(!o){
+            Ext.debug.log(&quot;null&quot;);
+        }<b>else</b> if(<b>typeof</b> o != &quot;object&quot;){
+            Ext.debug.log(<em>'Unknown <b>return</b> type'</em>);
+        }<b>else</b> if(o instanceof Array){
+            Ext.debug.log(<em>'['</em>+o.join(<em>','</em>)+<em>']'</em>);
+        }<b>else</b>{
+            <b>var</b> b = [&quot;{\n&quot;];
+            <b>for</b>(var key <b>in</b> o){
+                <b>var</b> to = <b>typeof</b> o[key];
+                <b>if</b>(to != &quot;<b>function</b>&quot; &amp;&amp; to != &quot;object&quot;){
+                    b.push(String.format(&quot;  {0}: {1},\n&quot;, key, o[key]));
+                }
+            }
+            <b>var</b> s = b.join(&quot;&quot;);
+            <b>if</b>(s.length &gt; 3){
+                s = s.substr(0, s.length-2);
+            }
+            Ext.debug.log(s + &quot;\n}&quot;);
+        }
+    },
+
+    _timers : {},
+    <i>/**
+     * Starts a timer.
+     * @param {String} name (optional)
+     * @method timer
+     */</i>
+    time : <b>function</b>(name){
+        name = name || &quot;def&quot;;
+        Ext.debug._timers[name] = <b>new</b> Date().getTime();
+    },
+
+    <i>/**
+     * Ends a timer, returns the results (formatted &quot;{1} ms&quot;) and optionally prints them to Ext.print()
+     * @param {String} name (optional)
+     * @param {Boolean} printResults (optional) false to stop printing the results to Ext.print
+     * @method timerEnd
+     */</i>
+    timeEnd : <b>function</b>(name, printResults){
+        <b>var</b> t = <b>new</b> Date().getTime();
+        name = name || &quot;def&quot;;
+        <b>var</b> v = String.format(&quot;{0} ms&quot;, t-Ext.debug._timers[name]);
+        Ext.debug._timers[name] = <b>new</b> Date().getTime();
+        <b>if</b>(printResults !== false){
+            Ext.debug.log(<em>'Timer '</em> + (name == &quot;def&quot; ? v : name + &quot;: &quot; + v));
+        }
+        <b>return</b> v;
+    }
+};
+
+<i>// highly unusual class declaration</i>
+Ext.debug.HtmlNode = <b>function</b>(){
+    <b>var</b> html = Ext.util.Format.htmlEncode;
+    <b>var</b> ellipsis = Ext.util.Format.ellipsis;
+    <b>var</b> nonSpace = /^\s*$/;
+
+    <b>var</b> attrs = [
+        {n: <em>'id'</em>, v: <em>'id'</em>},
+        {n: <em>'className'</em>, v: <em>'class'</em>},
+        {n: <em>'name'</em>, v: <em>'name'</em>},
+        {n: <em>'type'</em>, v: <em>'type'</em>},
+        {n: <em>'src'</em>, v: <em>'src'</em>},
+        {n: <em>'href'</em>, v: <em>'href'</em>}
+    ];
+
+    <b>function</b> hasChild(n){
+        <b>for</b>(var i = 0, c; c = n.childNodes[i]; i++){
+            <b>if</b>(c.nodeType == 1){
+                <b>return</b> true;
+            }
+        }
+        <b>return</b> false;
+    }
+
+    <b>function</b> renderNode(n, leaf){
+        <b>var</b> tag = n.tagName.toLowerCase();
+        <b>var</b> s = <em>'&amp;lt;'</em> + tag;
+        <b>for</b>(var i = 0, len = attrs.length; i &lt; len; i++){
+            <b>var</b> a = attrs[i];
+            <b>var</b> v = n[a.n];
+            <b>if</b>(v &amp;&amp; !nonSpace.test(v)){
+                s += <em>' '</em> + a.v + <em>'=&amp;quot;&lt;i&gt;'</em> + html(v) +<em>'&lt;/i&gt;&amp;quot;'</em>;
+            }
+        }
+        <b>var</b> style = n.style ? n.style.cssText : <em>''</em>;
+        <b>if</b>(style){
+            s += <em>' style=&amp;quot;&lt;i&gt;'</em> + html(style.toLowerCase()) +<em>'&lt;/i&gt;&amp;quot;'</em>;
+        }
+        <b>if</b>(leaf &amp;&amp; n.childNodes.length &gt; 0){
+            s+=<em>'&amp;gt;&lt;em&gt;'</em> + ellipsis(html(String(n.innerHTML)), 35) + <em>'&lt;/em&gt;&amp;lt;/'</em>+tag+<em>'&amp;gt;'</em>;
+        }<b>else</b> if(leaf){
+            s += <em>' /&amp;gt;'</em>;
+        }<b>else</b>{
+            s += <em>'&amp;gt;'</em>;
+        }
+        <b>return</b> s;
+    }
+
+    <b>var</b> HtmlNode = <b>function</b>(n){
+        <b>var</b> leaf = !hasChild(n);
+        <b>this</b>.htmlNode = n;
+        <b>this</b>.tagName = n.tagName.toLowerCase();
+        <b>var</b> attr = {
+            text : renderNode(n, leaf),
+            leaf : leaf,
+            cls: <em>'x-tree-noicon'</em>
+        };
+        HtmlNode.superclass.constructor.call(<b>this</b>, attr);
+        <b>this</b>.attributes.htmlNode = n; <i>// <b>for</b> searching</i>
+        <b>if</b>(!leaf){
+            <b>this</b>.on(<em>'expand'</em>, <b>this</b>.onExpand,  <b>this</b>);
+            <b>this</b>.on(<em>'collapse'</em>, <b>this</b>.onCollapse,  <b>this</b>);
+        }
+    };
+
+
+    Ext.extend(HtmlNode, Ext.tree.AsyncTreeNode, {
+        cls: <em>'x-tree-noicon'</em>,
+        preventHScroll: true,
+        refresh : <b>function</b>(highlight){
+            <b>var</b> leaf = !hasChild(<b>this</b>.htmlNode);
+            <b>this</b>.setText(renderNode(<b>this</b>.htmlNode, leaf));
+            <b>if</b>(highlight){
+                Ext.fly(<b>this</b>.ui.textNode).highlight();
+            }
+        },
+
+        onExpand : <b>function</b>(){
+            <b>if</b>(!<b>this</b>.closeNode &amp;&amp; <b>this</b>.parentNode){
+                <b>this</b>.closeNode = <b>this</b>.parentNode.insertBefore(<b>new</b> Ext.tree.TreeNode({
+                    text:<em>'&amp;lt;/'</em> + <b>this</b>.tagName + <em>'&amp;gt;'</em>,
+                    cls: <em>'x-tree-noicon'</em>
+                }), <b>this</b>.nextSibling);
+            }<b>else</b> if(<b>this</b>.closeNode){
+                <b>this</b>.closeNode.ui.show();
+            }
+        },
+
+        onCollapse : <b>function</b>(){
+            <b>if</b>(this.closeNode){
+                <b>this</b>.closeNode.ui.hide();
+            }
+        },
+
+        render : <b>function</b>(bulkRender){
+            HtmlNode.superclass.render.call(<b>this</b>, bulkRender);
+        },
+
+        highlightNode : <b>function</b>(){
+            <i>//Ext.fly(<b>this</b>.htmlNode).highlight();</i>
+        },
+
+        highlight : <b>function</b>(){
+            <i>//Ext.fly(<b>this</b>.ui.textNode).highlight();</i>
+        },
+
+        frame : <b>function</b>(){
+            <b>this</b>.htmlNode.style.border = <em>'1px solid #0000ff'</em>;
+            <i>//<b>this</b>.highlightNode();</i>
+        },
+
+        unframe : <b>function</b>(){
+            <i>//Ext.fly(<b>this</b>.htmlNode).removeClass(<em>'x-debug-frame'</em>);</i>
+            <b>this</b>.htmlNode.style.border = <em>''</em>;
+        }
+    });
+
+    <b>return</b> HtmlNode;
+}();
+
+<i>// subclass <b>for</b> the standard layout panels</i>
+Ext.debug.InnerLayout = <b>function</b>(id, w, cfg){
+    <i>// console layout</i>
+    <b>var</b> el = Ext.DomHelper.append(document.body, {id:id});
+    <b>var</b> layout = <b>new</b> Ext.BorderLayout(el, {
+        north: {
+            initialSize:28
+        },
+        center: {
+            titlebar: false
+        },
+        east: {
+            split:true,
+            initialSize:w,
+            titlebar:true
+        }
+    });
+    Ext.debug.InnerLayout.superclass.constructor.call(<b>this</b>, layout, cfg);
+
+    layout.beginUpdate();
+
+    <b>var</b> tbPanel = layout.add(<em>'north'</em>, <b>new</b> Ext.ContentPanel({
+            autoCreate:true, fitToFrame:true}));
+
+    <b>this</b>.main = layout.add(<em>'center'</em>, <b>new</b> Ext.ContentPanel({
+            autoCreate:true, fitToFrame:true, autoScroll:true}));
+
+    <b>this</b>.tbar = <b>new</b> Ext.Toolbar(tbPanel.el);
+
+    <b>var</b> mtbEl = tbPanel.resizeEl = tbPanel.el.child(<em>'div.x-toolbar'</em>);
+    mtbEl.setStyle(<em>'border-bottom'</em>, <em>'0 none'</em>);
+    layout.endUpdate(true);
+};
+
+Ext.extend(Ext.debug.InnerLayout, Ext.NestedLayoutPanel, {
+    add : <b>function</b>(){
+        <b>return</b> this.layout.add.apply(<b>this</b>.layout, arguments);
+    }
+});
+
+Ext.debug.cssList = [<em>'background-color'</em>,<em>'border'</em>,<em>'border-color'</em>,<em>'border-spacing'</em>,
+<em>'border-style'</em>,<em>'border-top'</em>,<em>'border-right'</em>,<em>'border-bottom'</em>,<em>'border-left'</em>,<em>'border-top-color'</em>,
+<em>'border-right-color'</em>,<em>'border-bottom-color'</em>,<em>'border-left-color'</em>,<em>'border-top-width'</em>,<em>'border-right-width'</em>,
+<em>'border-bottom-width'</em>,<em>'border-left-width'</em>,<em>'border-width'</em>,<em>'bottom'</em>,<em>'color'</em>,<em>'font-size'</em>,<em>'font-size-adjust'</em>,
+<em>'font-stretch'</em>,<em>'font-style'</em>,<em>'height'</em>,<em>'left'</em>,<em>'letter-spacing'</em>,<em>'line-height'</em>,<em>'margin'</em>,<em>'margin-top'</em>,
+<em>'margin-right'</em>,<em>'margin-bottom'</em>,<em>'margin-left'</em>,<em>'marker-offset'</em>,<em>'max-height'</em>,<em>'max-width'</em>,<em>'min-height'</em>,
+<em>'min-width'</em>,<em>'orphans'</em>,<em>'outline'</em>,<em>'outline-color'</em>,<em>'outline-style'</em>,<em>'outline-width'</em>,<em>'overflow'</em>,<em>'padding'</em>,
+<em>'padding-top'</em>,<em>'padding-right'</em>,<em>'padding-bottom'</em>,<em>'padding-left'</em>,<em>'quotes'</em>,<em>'right'</em>,<em>'size'</em>,<em>'text-indent'</em>,
+<em>'top'</em>,<em>'width'</em>,<em>'word-spacing'</em>,<em>'z-index'</em>,<em>'opacity'</em>,<em>'outline-offset'</em>];
+
+<b>if</b>(typeof console == <em>'undefined'</em>){
+    console = Ext.debug;
+}
+<i>/*
+<b>if</b>(Ext.isSafari || Ext.isIE || Ext.isOpera){
+    window.onerror = <b>function</b>(msg, url, line){
+        Ext.log.apply(Ext, arguments);
+    };
+}*/</i>
+
+<i>// attach shortcut key</i>
+Ext.EventManager.on(window, <em>'load'</em>, <b>function</b>(){
+    Ext.get(document).on(<em>'keydown'</em>, <b>function</b>(e){
+        <b>if</b>(e.ctrlKey &amp;&amp; e.shiftKey &amp;&amp; e.getKey() == e.HOME){
+            Ext.debug.show();
+        }
+    });
+});
+
+<i>// backwards compat</i>
+Ext.print = Ext.log = Ext.debug.log;
+Ext.printf = Ext.logf = Ext.debug.logf;
+Ext.dump = Ext.debug.dump;
+Ext.timer = Ext.debug.time;
+Ext.timerEnd = Ext.debug.timeEnd;
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>login (AccountController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/account_controller.rb, line 7</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">login</span>
+    <span class="ruby-ivar">@title</span> = <span class="ruby-value str">&quot;Login&quot;</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">post?</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">current_user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:login</span>], <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:password</span>])
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logged_in?</span>
+      <span class="ruby-comment cmt">#if params[:remember_me] == &quot;1&quot;</span>
+      <span class="ruby-comment cmt">#  self.current_user.remember_me</span>
+      <span class="ruby-comment cmt">#  cookies[:auth_token] = { :value =&gt; self.current_user.remember_token , :expires =&gt; self.current_user.remember_token_expires_at }</span>
+      <span class="ruby-comment cmt">#end</span>
+      <span class="ruby-identifier">redirect_back_or_default</span>(<span class="ruby-identifier">:controller</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'/home'</span>, <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'index'</span>)
+      <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-value str">&quot;Logged in successfully&quot;</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:error</span>] = <span class="ruby-value str">&quot;Incorrect login name or password.&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+    		<title>Testia Tarantula</title>
+		<%= stylesheet_link_tag "../javascripts/ext/resources/css/ext-all.css" %>
+		<%= stylesheet_link_tag 'main.css' %>
+		<%= javascript_include_tag "prototype" %>
+		<link rel="SHORTCUT ICON" href="/images/favicon.ico" />
+  	</head>
+  	<body style="background-color:white">
+		<div style="background-image: url('../images/tarantula/login_gradient.jpg');">
+			<div style="height:611px;background: url('../images/tarantula/login_bg.jpg') center center no-repeat">
+				<% if @current_user and @current_user != :false -%>
+					<p>
+						<%= @current_user.login %> is logged in |
+						<%= link_to("Logout",{:controller => :home, :action => :logout}) %>
+					</p>
+				<% end -%>
+
+				<%= yield %>
+			</div>
+		</div>
+
+
+	</body>
+</html>

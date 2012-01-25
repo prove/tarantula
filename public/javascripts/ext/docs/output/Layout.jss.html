@@ -1,0 +1,200 @@
+<html><head><title>Layout.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Layout.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.form.Layout
+ * @extends Ext.Component
+ * Creates a container <b>for</b> layout and rendering of fields <b>in</b> an {@link Ext.form.Form}.
+ * @constructor
+ * @param {Object} config Configuration options
+ */</i>
+Ext.form.Layout = <b>function</b>(config){
+    Ext.form.Layout.superclass.constructor.call(<b>this</b>, config);
+    <b>this</b>.stack = [];
+};
+
+Ext.extend(Ext.form.Layout, Ext.Component, {
+    <i>/**
+     * @cfg {String/Object} autoCreate
+     * A DomHelper element spec used to autocreate the layout (defaults to {tag: <em>'div'</em>, cls: <em>'x-form-ct'</em>})
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String/Object/Function} style
+     * A style specification string, e.g. &quot;width:100px&quot;, or object <b>in</b> the form {width:&quot;100px&quot;}, or
+     * a <b>function</b> which returns such a specification.
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String} labelAlign
+     * Valid values are &quot;left,&quot; &quot;top&quot; and &quot;right&quot; (defaults to &quot;left&quot;)
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Number} labelWidth
+     * Fixed width <b>in</b> pixels of all field labels (defaults to undefined)
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Boolean} clear
+     * True to add a clearing element at the end of <b>this</b> layout, equivalent to CSS clear: both (defaults to true)
+     */</i>
+    clear : true,
+    <i>/**
+     * @cfg {String} labelSeparator
+     * The separator to use after field labels (defaults to <em>':'</em>)
+     */</i>
+    labelSeparator : <em>':'</em>,
+    <i>/**
+     * @cfg {Boolean} hideLabels
+     * True to suppress the display of field labels <b>in</b> this layout (defaults to false)
+     */</i>
+    hideLabels : false,
+
+    <i>// private</i>
+    defaultAutoCreate : {tag: <em>'div'</em>, cls: <em>'x-form-ct'</em>},
+
+    <i>// private</i>
+    onRender : <b>function</b>(ct, position){
+        <b>if</b>(this.el){ <i>// from markup</i>
+            <b>this</b>.el = Ext.get(<b>this</b>.el);
+        }<b>else</b> {  <i>// generate</i>
+            <b>var</b> cfg = <b>this</b>.getAutoCreate();
+            <b>this</b>.el = ct.createChild(cfg, position);
+        }
+        <b>if</b>(this.style){
+            <b>this</b>.el.applyStyles(<b>this</b>.style);
+        }
+        <b>if</b>(this.labelAlign){
+            <b>this</b>.el.addClass(<em>'x-form-label-'</em>+<b>this</b>.labelAlign);
+        }
+        <b>if</b>(this.hideLabels){
+            <b>this</b>.labelStyle = &quot;display:none&quot;;
+            <b>this</b>.elementStyle = &quot;padding-left:0;&quot;;
+        }<b>else</b>{
+            <b>if</b>(typeof <b>this</b>.labelWidth == <em>'number'</em>){
+                <b>this</b>.labelStyle = &quot;width:&quot;+<b>this</b>.labelWidth+&quot;px;&quot;;
+                <b>this</b>.elementStyle = &quot;padding-left:&quot;+((<b>this</b>.labelWidth+(<b>typeof</b> this.labelPad == <em>'number'</em> ? <b>this</b>.labelPad : 5))+<em>'px'</em>)+&quot;;&quot;;
+            }
+            <b>if</b>(this.labelAlign == <em>'top'</em>){
+                <b>this</b>.labelStyle = &quot;width:auto;&quot;;
+                <b>this</b>.elementStyle = &quot;padding-left:0;&quot;;
+            }
+        }
+        <b>var</b> stack = <b>this</b>.stack;
+        <b>var</b> slen = stack.length;
+        <b>if</b>(slen &gt; 0){
+            <b>if</b>(!<b>this</b>.fieldTpl){
+                <b>var</b> t = <b>new</b> Ext.Template(
+                    <em>'&lt;div class=&quot;x-form-item {5}&quot;&gt;'</em>,
+                        <em>'&lt;label <b>for</b>=&quot;{0}&quot; style=&quot;{2}&quot;&gt;{1}{4}&lt;/label&gt;'</em>,
+                        <em>'&lt;div class=&quot;x-form-element&quot; id=&quot;x-form-el-{0}&quot; style=&quot;{3}&quot;&gt;'</em>,
+                        <em>'&lt;/div&gt;'</em>,
+                    <em>'&lt;/div&gt;&lt;div class=&quot;x-form-clear-left&quot;&gt;&lt;/div&gt;'</em>
+                );
+                t.disableFormats = true;
+                t.compile();
+                Ext.form.Layout.prototype.fieldTpl = t;
+            }
+            <b>for</b>(var i = 0; i &lt; slen; i++) {
+                <b>if</b>(stack[i].isFormField){
+                    <b>this</b>.renderField(stack[i]);
+                }<b>else</b>{
+                    <b>this</b>.renderComponent(stack[i]);
+                }
+            }
+        }
+        <b>if</b>(this.clear){
+            <b>this</b>.el.createChild({cls:<em>'x-form-clear'</em>});
+        }
+    },
+
+    <i>// private</i>
+    renderField : <b>function</b>(f){
+       <b>this</b>.fieldTpl.append(<b>this</b>.el, [
+               f.id, f.fieldLabel,
+               f.labelStyle||<b>this</b>.labelStyle||<em>''</em>,
+               <b>this</b>.elementStyle||<em>''</em>,
+               <b>typeof</b> f.labelSeparator == <em>'undefined'</em> ? <b>this</b>.labelSeparator : f.labelSeparator,
+               f.itemCls||<b>this</b>.itemCls||<em>''</em>
+       ]);
+    },
+
+    <i>// private</i>
+    renderComponent : <b>function</b>(c){
+        c.render(<b>this</b>.el);
+    }
+});
+
+<i>/**
+ * @class Ext.form.Column
+ * @extends Ext.form.Layout
+ * Creates a column container <b>for</b> layout and rendering of fields <b>in</b> an {@link Ext.form.Form}.
+ * @constructor
+ * @param {Object} config Configuration options
+ */</i>
+Ext.form.Column = <b>function</b>(config){
+    Ext.form.Column.superclass.constructor.call(<b>this</b>, config);
+};
+
+Ext.extend(Ext.form.Column, Ext.form.Layout, {
+    <i>/**
+     * @cfg {Number/String} width
+     * The fixed width of the column <b>in</b> pixels or CSS value (defaults to &quot;auto&quot;)
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String/Object} autoCreate
+     * A DomHelper element spec used to autocreate the column (defaults to {tag: <em>'div'</em>, cls: <em>'x-form-ct x-form-column'</em>})
+     */</i>
+
+    <i>// private</i>
+    defaultAutoCreate : {tag: <em>'div'</em>, cls: <em>'x-form-ct x-form-column'</em>},
+
+    <i>// private</i>
+    onRender : <b>function</b>(ct, position){
+        Ext.form.Column.superclass.onRender.call(<b>this</b>, ct, position);
+        <b>if</b>(this.width){
+            <b>this</b>.el.setWidth(<b>this</b>.width);
+        }
+    }
+});
+
+<i>/**
+ * @class Ext.form.FieldSet
+ * @extends Ext.form.Layout
+ * Creates a fieldset container <b>for</b> layout and rendering of fields <b>in</b> an {@link Ext.form.Form}.
+ * @constructor
+ * @param {Object} config Configuration options
+ */</i>
+Ext.form.FieldSet = <b>function</b>(config){
+    Ext.form.FieldSet.superclass.constructor.call(<b>this</b>, config);
+};
+
+Ext.extend(Ext.form.FieldSet, Ext.form.Layout, {
+    <i>/**
+     * @cfg {String} legend
+     * The text to display as the legend <b>for</b> the FieldSet (defaults to <em>''</em>)
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {String/Object} autoCreate
+     * A DomHelper element spec used to autocreate the fieldset (defaults to {tag: <em>'fieldset'</em>, cn: {tag:<em>'legend'</em>}})
+     */</i>
+
+    <i>// private</i>
+    defaultAutoCreate : {tag: <em>'fieldset'</em>, cn: {tag:<em>'legend'</em>}},
+
+    <i>// private</i>
+    onRender : <b>function</b>(ct, position){
+        Ext.form.FieldSet.superclass.onRender.call(<b>this</b>, ct, position);
+        <b>if</b>(this.legend){
+            <b>this</b>.setLegend(<b>this</b>.legend);
+        }
+    },
+
+    <i>// private</i>
+    setLegend : <b>function</b>(text){
+        <b>if</b>(this.rendered){
+            <b>this</b>.el.child(<em>'legend'</em>).update(text);
+        }
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

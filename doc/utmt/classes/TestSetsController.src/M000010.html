@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>create (TestSetsController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/test_sets_controller.rb, line 28</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create</span>
+    <span class="ruby-ivar">@set</span> = <span class="ruby-constant">TestSet</span>.<span class="ruby-identifier">new</span>
+
+    <span class="ruby-comment cmt"># Filter out non-attributes from incoming data.</span>
+
+    <span class="ruby-comment cmt"># Create copy of parameters hash.</span>
+    <span class="ruby-identifier">params_to_set</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">params_to_set</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">params</span>)
+
+    <span class="ruby-comment cmt"># Remove all which are not attributes of target object.</span>
+    <span class="ruby-identifier">params_to_set</span>.<span class="ruby-identifier">delete_if</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@set</span>.<span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">has_key?</span>( <span class="ruby-identifier">key</span>)}
+
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params_to_set</span>[<span class="ruby-identifier">:project_id</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">params_to_set</span>[<span class="ruby-identifier">:project_id</span>] = <span class="ruby-identifier">session</span>[<span class="ruby-identifier">:project</span>]
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># Set attributes.</span>
+    
+
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@set</span>.<span class="ruby-identifier">update_attributes</span>( <span class="ruby-identifier">params_to_set</span>))
+      <span class="ruby-comment cmt"># Add cases to the set if provided any</span>
+      <span class="ruby-comment cmt">#@set.case_ids = params[:cases]</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:cases</span>])
+        <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:cases</span>].<span class="ruby-identifier">each_index</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+          <span class="ruby-ivar">@cases_testsets</span> = <span class="ruby-constant">CasesTestSets</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">:first</span>,<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">'test_set_id =? AND case_id =?'</span>,<span class="ruby-ivar">@set</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:cases</span>][<span class="ruby-identifier">i</span>]])
+          <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@cases_testsets</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+            <span class="ruby-ivar">@cases_testsets</span> = <span class="ruby-constant">CasesTestSets</span>.<span class="ruby-identifier">new</span>
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-ivar">@cases_testsets</span>.<span class="ruby-identifier">case_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:cases</span>][<span class="ruby-identifier">i</span>]
+          <span class="ruby-ivar">@cases_testsets</span>.<span class="ruby-identifier">test_set_id</span> = <span class="ruby-ivar">@set</span>.<span class="ruby-identifier">id</span>
+          <span class="ruby-ivar">@cases_testsets</span>.<span class="ruby-identifier">order</span> = <span class="ruby-identifier">i</span>
+          <span class="ruby-ivar">@cases_testsets</span>.<span class="ruby-identifier">save</span>
+        }
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'{&quot;status&quot;:true, &quot;id&quot;:'</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@set</span>.<span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_json</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'}'</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'{&quot;status&quot;:false}'</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,480 @@
+<html><head><title>MessageBox.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>MessageBox.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.MessageBox
+ * Utility class <b>for</b> generating different styles of message boxes.  The alias Ext.Msg can also be used.
+ * Example usage:
+ *&lt;pre&gt;&lt;code&gt;
+<i>// Basic alert:</i>
+Ext.Msg.alert(<em>'Status'</em>, <em>'Changes saved successfully.'</em>);
+
+<i>// Prompt <b>for</b> user data:</i>
+Ext.Msg.prompt(<em>'Name'</em>, <em>'Please enter your name:'</em>, <b>function</b>(btn, text){
+    <b>if</b> (btn == <em>'ok'</em>){
+        <i>// process text value...</i>
+    }
+});
+
+<i>// Show a dialog using config options:</i>
+Ext.Msg.show({
+   title:<em>'Save Changes?'</em>,
+   msg: <em>'Your are closing a tab that has unsaved changes. Would you like to save your changes?'</em>,
+   buttons: Ext.Msg.YESNOCANCEL,
+   fn: processResult,
+   animEl: <em>'elId'</em>
+});
+&lt;/code&gt;&lt;/pre&gt;
+ * @singleton
+ */</i>
+Ext.MessageBox = <b>function</b>(){
+    <b>var</b> dlg, opt, mask, waitTimer;
+    <b>var</b> bodyEl, msgEl, textboxEl, textareaEl, progressEl, pp;
+    <b>var</b> buttons, activeTextEl, bwidth;
+
+    <i>// private</i>
+    <b>var</b> handleButton = <b>function</b>(button){
+        dlg.hide();
+        Ext.callback(opt.fn, opt.scope||window, [button, activeTextEl.dom.value], 1);
+    };
+
+    <i>// private</i>
+    <b>var</b> handleHide = <b>function</b>(){
+        <b>if</b>(opt &amp;&amp; opt.cls){
+            dlg.el.removeClass(opt.cls);
+        }
+        <b>if</b>(waitTimer){
+            Ext.TaskMgr.stop(waitTimer);
+            waitTimer = null;
+        }
+    };
+
+    <i>// private</i>
+    <b>var</b> updateButtons = <b>function</b>(b){
+        <b>var</b> width = 0;
+        <b>if</b>(!b){
+            buttons[&quot;ok&quot;].hide();
+            buttons[&quot;cancel&quot;].hide();
+            buttons[&quot;yes&quot;].hide();
+            buttons[&quot;no&quot;].hide();
+            dlg.footer.dom.style.display = <em>'none'</em>;
+            <b>return</b> width;
+        }
+        dlg.footer.dom.style.display = <em>''</em>;
+        <b>for</b>(var k <b>in</b> buttons){
+            <b>if</b>(typeof buttons[k] != &quot;<b>function</b>&quot;){
+                <b>if</b>(b[k]){
+                    buttons[k].show();
+                    buttons[k].setText(<b>typeof</b> b[k] == &quot;string&quot; ? b[k] : Ext.MessageBox.buttonText[k]);
+                    width += buttons[k].el.getWidth()+15;
+                }<b>else</b>{
+                    buttons[k].hide();
+                }
+            }
+        }
+        <b>return</b> width;
+    };
+
+    <i>// private</i>
+    <b>var</b> handleEsc = <b>function</b>(d, k, e){
+        <b>if</b>(opt &amp;&amp; opt.closable !== false){
+            dlg.hide();
+        }
+        <b>if</b>(e){
+            e.stopEvent();
+        }
+    };
+
+    <b>return</b> {
+        <i>/**
+         * Returns a reference to the underlying {@link Ext.BasicDialog} element
+         * @<b>return</b> {Ext.BasicDialog} The BasicDialog element
+         */</i>
+        getDialog : <b>function</b>(){
+           <b>if</b>(!dlg){
+                dlg = <b>new</b> Ext.BasicDialog(&quot;x-msg-box&quot;, {
+                    autoCreate : true,
+                    shadow: true,
+                    draggable: true,
+                    resizable:false,
+                    constraintoviewport:false,
+                    fixedcenter:true,
+                    collapsible : false,
+                    shim:true,
+                    modal: true,
+                    width:400, height:100,
+                    buttonAlign:&quot;center&quot;,
+                    closeClick : <b>function</b>(){
+                        <b>if</b>(opt &amp;&amp; opt.buttons &amp;&amp; opt.buttons.no &amp;&amp; !opt.buttons.cancel){
+                            handleButton(&quot;no&quot;);
+                        }<b>else</b>{
+                            handleButton(&quot;cancel&quot;);
+                        }
+                    }
+                });
+                dlg.on(&quot;hide&quot;, handleHide);
+                mask = dlg.mask;
+                dlg.addKeyListener(27, handleEsc);
+                buttons = {};
+                <b>var</b> bt = <b>this</b>.buttonText;
+                buttons[&quot;ok&quot;] = dlg.addButton(bt[&quot;ok&quot;], handleButton.createCallback(&quot;ok&quot;));
+                buttons[&quot;yes&quot;] = dlg.addButton(bt[&quot;yes&quot;], handleButton.createCallback(&quot;yes&quot;));
+                buttons[&quot;no&quot;] = dlg.addButton(bt[&quot;no&quot;], handleButton.createCallback(&quot;no&quot;));
+                buttons[&quot;cancel&quot;] = dlg.addButton(bt[&quot;cancel&quot;], handleButton.createCallback(&quot;cancel&quot;));
+                bodyEl = dlg.body.createChild({
+
+                    html:<em>'&lt;span class=&quot;ext-mb-text&quot;&gt;&lt;/span&gt;&lt;br /&gt;&lt;input type=&quot;text&quot; class=&quot;ext-mb-input&quot; /&gt;&lt;textarea class=&quot;ext-mb-textarea&quot;&gt;&lt;/textarea&gt;&lt;div class=&quot;ext-mb-progress-wrap&quot;&gt;&lt;div class=&quot;ext-mb-progress&quot;&gt;&lt;div class=&quot;ext-mb-progress-bar&quot;&gt;&amp;#160;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;'</em>
+                });
+                msgEl = bodyEl.dom.firstChild;
+                textboxEl = Ext.get(bodyEl.dom.childNodes[2]);
+                textboxEl.enableDisplayMode();
+                textboxEl.addKeyListener([10,13], <b>function</b>(){
+                    <b>if</b>(dlg.isVisible() &amp;&amp; opt &amp;&amp; opt.buttons){
+                        <b>if</b>(opt.buttons.ok){
+                            handleButton(&quot;ok&quot;);
+                        }<b>else</b> if(opt.buttons.yes){
+                            handleButton(&quot;yes&quot;);
+                        }
+                    }
+                });
+                textareaEl = Ext.get(bodyEl.dom.childNodes[3]);
+                textareaEl.enableDisplayMode();
+                progressEl = Ext.get(bodyEl.dom.childNodes[4]);
+                progressEl.enableDisplayMode();
+                <b>var</b> pf = progressEl.dom.firstChild;
+                pp = Ext.get(pf.firstChild);
+                pp.setHeight(pf.offsetHeight);
+            }
+            <b>return</b> dlg;
+        },
+
+        <i>/**
+         * Updates the message box body text
+         * @param {String} text (optional) Replaces the message box element's innerHTML <b>with</b> the specified string (defaults to
+         * the XHTML-compliant non-breaking space character <em>'&amp;amp;#160;'</em>)
+         * @<b>return</b> {Ext.MessageBox} This message box
+         */</i>
+        updateText : <b>function</b>(text){
+            <b>if</b>(!dlg.isVisible() &amp;&amp; !opt.width){
+                dlg.resizeTo(<b>this</b>.maxWidth, 100); <i>// resize first so content is never clipped from previous shows</i>
+            }
+            msgEl.innerHTML = text || <em>'&amp;#160;'</em>;
+            <b>var</b> w = Math.max(Math.min(opt.width || msgEl.offsetWidth, <b>this</b>.maxWidth), 
+                        Math.max(opt.minWidth || <b>this</b>.minWidth, bwidth));
+            <b>if</b>(opt.prompt){
+                activeTextEl.setWidth(w);
+            }
+            <b>if</b>(dlg.isVisible()){
+                dlg.fixedcenter = false;
+            }
+            dlg.setContentSize(w, bodyEl.getHeight());
+            <b>if</b>(dlg.isVisible()){
+                dlg.fixedcenter = true;
+            }
+            <b>return</b> this;
+        },
+
+        <i>/**
+         * Updates a progress-style message box's text and progress bar.  Only relevant on message boxes
+         * initiated via {@link Ext.MessageBox#progress} or by calling {@link Ext.MessageBox#show} <b>with</b> progress: true.
+         * @param {Number} value Any number between 0 and 1 (e.g., .5)
+         * @param {String} text (optional) If defined, the message box's body text is replaced <b>with</b> the specified string (defaults to undefined)
+         * @<b>return</b> {Ext.MessageBox} This message box
+         */</i>
+        updateProgress : <b>function</b>(value, text){
+            <b>if</b>(text){
+                <b>this</b>.updateText(text);
+            }
+            pp.setWidth(Math.floor(value*progressEl.dom.firstChild.offsetWidth));
+            <b>return</b> this;
+        },        
+
+        <i>/**
+         * Returns true <b>if</b> the message box is currently displayed
+         * @<b>return</b> {Boolean} True <b>if</b> the message box is visible, <b>else</b> false
+         */</i>
+        isVisible : <b>function</b>(){
+            <b>return</b> dlg &amp;&amp; dlg.isVisible();  
+        },
+
+        <i>/**
+         * Hides the message box <b>if</b> it is displayed
+         */</i>
+        hide : <b>function</b>(){
+            <b>if</b>(this.isVisible()){
+                dlg.hide();
+            }  
+        },
+
+        <i>/**
+         * Displays a <b>new</b> message box, or reinitializes an existing message box, based on the config options
+         * passed <b>in</b>. All functions (e.g. prompt, alert, etc) on MessageBox call <b>this</b> function internally.
+         * The following config object properties are supported:
+         * &lt;pre&gt;
+Property    Type             Description
+----------  ---------------  ----------------------------------------------------------------------
+title       String           The title text
+closable    Boolean          False to hide the top-right close box (defaults to true)
+prompt      Boolean          True to prompt the user to enter single-line text (defaults to false)
+multiline   Boolean          True to prompt the user to enter multi-line text (defaults to false)
+progress    Boolean          True to display a progress bar (defaults to false)
+value       String           The string value to set into the active textbox element <b>if</b> displayed
+buttons     Object/Boolean   A button config object (e.g., Ext.MessageBox.OKCANCEL or {ok:<em>'Foo'</em>,
+                             cancel:<em>'Bar'</em>}), or false to not show any buttons (defaults to false)
+msg         String           A string that will replace the existing message box body text (defaults
+                             to the XHTML-compliant non-breaking space character &amp;#160;)
+cls         String           A custom CSS class to apply to the message box element
+proxyDrag   Boolean          True to display a lightweight proxy <b>while</b> dragging (defaults to false)
+modal       Boolean          False to allow user interaction <b>with</b> the page <b>while</b> the message box is
+                             displayed (defaults to true)
+&lt;/pre&gt;
+         *
+         * Example usage:
+         * &lt;pre&gt;&lt;code&gt;
+Ext.Msg.show({
+   title: <em>'Address'</em>,
+   msg: <em>'Please enter your address:'</em>,
+   width: 300,
+   buttons: Ext.MessageBox.OKCANCEL,
+   multiline: true,
+   fn: saveAddress,
+   animEl: <em>'addAddressBtn'</em>
+});
+&lt;/code&gt;&lt;/pre&gt;
+         * @param {Object} config Configuration options
+         * @<b>return</b> {Ext.MessageBox} This message box
+         */</i>
+        show : <b>function</b>(options){
+            <b>if</b>(this.isVisible()){
+                <b>this</b>.hide();
+            }
+            <b>var</b> d = <b>this</b>.getDialog();
+            opt = options;
+            d.setTitle(opt.title || &quot;&amp;#160;&quot;);
+            d.close.setDisplayed(opt.closable !== false);
+            activeTextEl = textboxEl;
+            opt.prompt = opt.prompt || (opt.multiline ? true : false);
+            <b>if</b>(opt.prompt){
+                <b>if</b>(opt.multiline){
+                    textboxEl.hide();
+                    textareaEl.show();
+                    textareaEl.setHeight(<b>typeof</b> opt.multiline == &quot;number&quot; ?
+                        opt.multiline : <b>this</b>.defaultTextHeight);
+                    activeTextEl = textareaEl;
+                }<b>else</b>{
+                    textboxEl.show();
+                    textareaEl.hide();
+                }
+            }<b>else</b>{
+                textboxEl.hide();
+                textareaEl.hide();
+            }
+            progressEl.setDisplayed(opt.progress === true);
+            <b>this</b>.updateProgress(0);
+            activeTextEl.dom.value = opt.value || &quot;&quot;;
+            <b>if</b>(opt.prompt){
+                dlg.setDefaultButton(activeTextEl);
+            }<b>else</b>{
+                <b>var</b> bs = opt.buttons;
+                <b>var</b> db = null;
+                <b>if</b>(bs &amp;&amp; bs.ok){
+                    db = buttons[&quot;ok&quot;];
+                }<b>else</b> if(bs &amp;&amp; bs.yes){
+                    db = buttons[&quot;yes&quot;];
+                }
+                dlg.setDefaultButton(db);
+            }
+            bwidth = updateButtons(opt.buttons);
+            <b>this</b>.updateText(opt.msg);
+            <b>if</b>(opt.cls){
+                d.el.addClass(opt.cls);
+            }
+            d.proxyDrag = opt.proxyDrag === true;
+            d.modal = opt.modal !== false;
+            d.mask = opt.modal !== false ? mask : false;
+            <b>if</b>(!d.isVisible()){
+                <i>// force it to the end of the z-index stack so it gets a cursor <b>in</b> FF</i>
+                document.body.appendChild(dlg.el.dom);
+                d.animateTarget = null;
+                d.show(options.animEl);
+            }
+            <b>return</b> this;
+        },
+
+        <i>/**
+         * Displays a message box <b>with</b> a progress bar.  This message box has no buttons and is not closeable by
+         * the user.  You are responsible <b>for</b> updating the progress bar as needed via {@link Ext.MessageBox#updateProgress}
+         * and closing the message box when the process is complete.
+         * @param {String} title The title bar text
+         * @param {String} msg The message box body text
+         * @<b>return</b> {Ext.MessageBox} This message box
+         */</i>
+        progress : <b>function</b>(title, msg){
+            <b>this</b>.show({
+                title : title,
+                msg : msg,
+                buttons: false,
+                progress:true,
+                closable:false,
+                minWidth: <b>this</b>.minProgressWidth
+            });
+            <b>return</b> this;
+        },
+
+        <i>/**
+         * Displays a standard read-only message box <b>with</b> an OK button (comparable to the basic JavaScript Window.alert).
+         * If a callback <b>function</b> is passed it will be called after the user clicks the button, and the
+         * id of the button that was clicked will be passed as the only parameter to the callback
+         * (could also be the top-right close button).
+         * @param {String} title The title bar text
+         * @param {String} msg The message box body text
+         * @param {Function} fn (optional) The callback <b>function</b> invoked after the message box is closed
+         * @param {Object} scope (optional) The scope of the callback <b>function</b>
+         * @<b>return</b> {Ext.MessageBox} This message box
+         */</i>
+        alert : <b>function</b>(title, msg, fn, scope){
+            <b>this</b>.show({
+                title : title,
+                msg : msg,
+                buttons: <b>this</b>.OK,
+                fn: fn,
+                scope : scope
+            });
+            <b>return</b> this;
+        },
+
+        <i>/**
+         * Displays a message box <b>with</b> an infinitely auto-updating progress bar.  This can be used to block user
+         * interaction <b>while</b> waiting <b>for</b> a long-running process to complete that does not have defined intervals.
+         * You are responsible <b>for</b> closing the message box when the process is complete.
+         * @param {String} msg The message box body text
+         * @param {String} title (optional) The title bar text
+         * @<b>return</b> {Ext.MessageBox} This message box
+         */</i>
+        wait : <b>function</b>(msg, title){
+            <b>this</b>.show({
+                title : title,
+                msg : msg,
+                buttons: false,
+                closable:false,
+                progress:true,
+                modal:true,
+                width:300,
+                wait:true
+            });
+            waitTimer = Ext.TaskMgr.start({
+                run: <b>function</b>(i){
+                    Ext.MessageBox.updateProgress(((((i+20)%20)+1)*5)*.01);
+                },
+                interval: 1000
+            });
+            <b>return</b> this;
+        },
+
+        <i>/**
+         * Displays a confirmation message box <b>with</b> Yes and No buttons (comparable to JavaScript's Window.confirm).
+         * If a callback <b>function</b> is passed it will be called after the user clicks either button, and the id of the
+         * button that was clicked will be passed as the only parameter to the callback (could also be the top-right close button).
+         * @param {String} title The title bar text
+         * @param {String} msg The message box body text
+         * @param {Function} fn (optional) The callback <b>function</b> invoked after the message box is closed
+         * @param {Object} scope (optional) The scope of the callback <b>function</b>
+         * @<b>return</b> {Ext.MessageBox} This message box
+         */</i>
+        confirm : <b>function</b>(title, msg, fn, scope){
+            <b>this</b>.show({
+                title : title,
+                msg : msg,
+                buttons: <b>this</b>.YESNO,
+                fn: fn,
+                scope : scope
+            });
+            <b>return</b> this;
+        },
+
+        <i>/**
+         * Displays a message box <b>with</b> OK and Cancel buttons prompting the user to enter some text (comparable to
+         * JavaScript's Window.prompt).  The prompt can be a single-line or multi-line textbox.  If a callback <b>function</b>
+         * is passed it will be called after the user clicks either button, and the id of the button that was clicked
+         * (could also be the top-right close button) and the text that was entered will be passed as the two
+         * parameters to the callback.
+         * @param {String} title The title bar text
+         * @param {String} msg The message box body text
+         * @param {Function} fn (optional) The callback <b>function</b> invoked after the message box is closed
+         * @param {Object} scope (optional) The scope of the callback <b>function</b>
+         * @param {Boolean/Number} multiline (optional) True to create a multiline textbox using the defaultTextHeight
+         * property, or the height <b>in</b> pixels to create the textbox (defaults to false / single-line)
+         * @<b>return</b> {Ext.MessageBox} This message box
+         */</i>
+        prompt : <b>function</b>(title, msg, fn, scope, multiline){
+            <b>this</b>.show({
+                title : title,
+                msg : msg,
+                buttons: <b>this</b>.OKCANCEL,
+                fn: fn,
+                minWidth:250,
+                scope : scope,
+                prompt:true,
+                multiline: multiline
+            });
+            <b>return</b> this;
+        },
+
+        <i>/**
+         * Button config that displays a single OK button
+         * @type Object
+         */</i>
+        OK : {ok:true},
+        <i>/**
+         * Button config that displays Yes and No buttons
+         * @type Object
+         */</i>
+        YESNO : {yes:true, no:true},
+        <i>/**
+         * Button config that displays OK and Cancel buttons
+         * @type Object
+         */</i>
+        OKCANCEL : {ok:true, cancel:true},
+        <i>/**
+         * Button config that displays Yes, No and Cancel buttons
+         * @type Object
+         */</i>
+        YESNOCANCEL : {yes:true, no:true, cancel:true},
+
+        <i>/**
+         * The <b>default</b> height <b>in</b> pixels of the message box's multiline textarea <b>if</b> displayed (defaults to 75)
+         * @type Number
+         */</i>
+        defaultTextHeight : 75,
+        <i>/**
+         * The maximum width <b>in</b> pixels of the message box (defaults to 600)
+         * @type Number
+         */</i>
+        maxWidth : 600,
+        <i>/**
+         * The minimum width <b>in</b> pixels of the message box (defaults to 100)
+         * @type Number
+         */</i>
+        minWidth : 100,
+        <i>/**
+         * The minimum width <b>in</b> pixels of the message box progress bar <b>if</b> displayed (defaults to 250)
+         * @type Number
+         */</i>
+        minProgressWidth : 250,
+        <i>/**
+         * An object containing the <b>default</b> button text strings that can be overriden <b>for</b> localized language support.
+         * Supported properties are: ok, cancel, yes and no.
+         * Customize the <b>default</b> text like so: Ext.MessageBox.buttonText.yes = &quot;S&iacute;&quot;;
+         * @type Object
+         */</i>
+        buttonText : {
+            ok : &quot;OK&quot;,
+            cancel : &quot;Cancel&quot;,
+            yes : &quot;Yes&quot;,
+            no : &quot;No&quot;
+        }
+    };
+}();
+
+<i>/**
+ * Shorthand <b>for</b> {@link Ext.MessageBox}
+ */</i>
+Ext.Msg = Ext.MessageBox;</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

@@ -1,0 +1,794 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.EventObject</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.EventObject.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.EventObject</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>EventObject</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="EventManager.jss.html">EventManager.js</a></td></tr>
+        </table>
+        <div class="description">
+            EventObject exposes the Yahoo! UI Event functionality directly on the object
+passed to your event handler. It exists mostly for convenience. It also fixes the annoying null checks automatically to cleanup your code 
+Example:
+<pre><code>function handleClick(e){ <i>// e is not a standard event object, it is a Ext.EventObject</i>
+    e.preventDefault();
+    <b>var</b> target = e.getTarget();
+    ...
+ }
+ <b>var</b> myDiv = Ext.get(<em>"myDiv"</em>);
+ myDiv.on(<em>"click"</em>, handleClick);
+ <i>//or</i>
+ Ext.EventManager.on(<em>"myDiv"</em>, <em>'click'</em>, handleClick);
+ Ext.EventManager.addListener(<em>"myDiv"</em>, <em>'click'</em>, handleClick);</code></pre><br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#BACKSPACE">BACKSPACE</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#CONTROL">CONTROL</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#DELETE">DELETE</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#DOWN">DOWN</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#END">END</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#ENTER">ENTER</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#ESC">ESC</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#F5">F5</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#HOME">HOME</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#LEFT">LEFT</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#PAGEDOWN">PAGEDOWN</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#PAGEUP">PAGEUP</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#RETURN">RETURN</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#RIGHT">RIGHT</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#SHIFT">SHIFT</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#SPACE">SPACE</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#TAB">TAB</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#UP">UP</a> : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Key constant</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#altKey">altKey</a> : Object</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True if the alt key was down during the event</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#browserEvent">browserEvent</a> : Object</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The normal browser event</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#button">button</a> : Object</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The button pressed in a mouse event</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#ctrlKey">ctrlKey</a> : Object</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">True if the control key was down during the event</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#shiftKey">shiftKey</a> : Object</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True if the shift key was down during the event</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getCharCode">getCharCode</a>() : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Gets the key code for the event.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getKey">getKey</a>() : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns a normalized keyCode for the event.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getPageX">getPageX</a>() : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Gets the x coordinate of the event.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getPageY">getPageY</a>() : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Gets the y coordinate of the event.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getRelatedTarget">getRelatedTarget</a>() : HTMLElement</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Gets the related target.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTarget">getTarget</a>(&nbsp;<span class="optional" title="Optional">[<code>String selector</code>]</span>, <span class="optional" title="Optional">[<code>Number/String/HTMLElement/Element maxDepth</code>]</span>, <span class="optional" title="Optional">[<code>Boolean returnEl</code>]</span>&nbsp;) : HTMLelement</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Gets the target for the event.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getTime">getTime</a>() : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Gets the time of the event.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getWheelDelta">getWheelDelta</a>() : Number</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Normalizes mouse wheel delta across browsers</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getXY">getXY</a>() : Array</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Gets the page coordinates of the event.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#hasModifier">hasModifier</a>() : Boolean</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns true if the control, meta, shift or alt key was pressed during this event.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#preventDefault">preventDefault</a>() : void</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Prevents the browsers default handling of the event.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#stopEvent">stopEvent</a>() : void</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Stop the event (preventDefault and stopPropagation)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#stopPropagation">stopPropagation</a>() : void</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Cancels bubbling of the event.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#within">within</a>(&nbsp;<code>String/HTMLElement/Element el</code>, <span class="optional" title="Optional">[<code>Boolean related</code>]</span>&nbsp;) : Boolean</td>
+        <td class="msource" rowspan="2">EventObject</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Returns true if the target of this event equals el or is a child of el</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="BACKSPACE"></a>
+                <div class="mdetail">
+                <h3>BACKSPACE</i></h3>
+                <code>public Number BACKSPACE</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="CONTROL"></a>
+                <div class="mdetail alt">
+                <h3>CONTROL</i></h3>
+                <code>public Number CONTROL</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="DELETE"></a>
+                <div class="mdetail">
+                <h3>DELETE</i></h3>
+                <code>public Number DELETE</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="DOWN"></a>
+                <div class="mdetail alt">
+                <h3>DOWN</i></h3>
+                <code>public Number DOWN</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="END"></a>
+                <div class="mdetail">
+                <h3>END</i></h3>
+                <code>public Number END</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="ENTER"></a>
+                <div class="mdetail alt">
+                <h3>ENTER</i></h3>
+                <code>public Number ENTER</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="ESC"></a>
+                <div class="mdetail">
+                <h3>ESC</i></h3>
+                <code>public Number ESC</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="F5"></a>
+                <div class="mdetail alt">
+                <h3>F5</i></h3>
+                <code>public Number F5</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="HOME"></a>
+                <div class="mdetail">
+                <h3>HOME</i></h3>
+                <code>public Number HOME</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="LEFT"></a>
+                <div class="mdetail alt">
+                <h3>LEFT</i></h3>
+                <code>public Number LEFT</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="PAGEDOWN"></a>
+                <div class="mdetail">
+                <h3>PAGEDOWN</i></h3>
+                <code>public Number PAGEDOWN</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="PAGEUP"></a>
+                <div class="mdetail alt">
+                <h3>PAGEUP</i></h3>
+                <code>public Number PAGEUP</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="RETURN"></a>
+                <div class="mdetail">
+                <h3>RETURN</i></h3>
+                <code>public Number RETURN</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="RIGHT"></a>
+                <div class="mdetail alt">
+                <h3>RIGHT</i></h3>
+                <code>public Number RIGHT</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="SHIFT"></a>
+                <div class="mdetail">
+                <h3>SHIFT</i></h3>
+                <code>public Number SHIFT</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="SPACE"></a>
+                <div class="mdetail alt">
+                <h3>SPACE</i></h3>
+                <code>public Number SPACE</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="TAB"></a>
+                <div class="mdetail">
+                <h3>TAB</i></h3>
+                <code>public Number TAB</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="UP"></a>
+                <div class="mdetail alt">
+                <h3>UP</i></h3>
+                <code>public Number UP</code>
+                <div class="mdetail-desc">
+                    Key constant                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="altKey"></a>
+                <div class="mdetail">
+                <h3>altKey</i></h3>
+                <code>public Object altKey</code>
+                <div class="mdetail-desc">
+                    True if the alt key was down during the event                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="browserEvent"></a>
+                <div class="mdetail alt">
+                <h3>browserEvent</i></h3>
+                <code>public Object browserEvent</code>
+                <div class="mdetail-desc">
+                    The normal browser event                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="button"></a>
+                <div class="mdetail">
+                <h3>button</i></h3>
+                <code>public Object button</code>
+                <div class="mdetail-desc">
+                    The button pressed in a mouse event                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="ctrlKey"></a>
+                <div class="mdetail alt">
+                <h3>ctrlKey</i></h3>
+                <code>public Object ctrlKey</code>
+                <div class="mdetail-desc">
+                    True if the control key was down during the event                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                            <a name="shiftKey"></a>
+                <div class="mdetail">
+                <h3>shiftKey</i></h3>
+                <code>public Object shiftKey</code>
+                <div class="mdetail-desc">
+                    True if the shift key was down during the event                </div>
+                <div class="mdetail-def">This property is defined by EventObject.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="getCharCode"></a>
+                <div class="mdetail">
+                <h3>getCharCode</i></h3>
+                <code>public function getCharCode()</code>
+                <div class="mdetail-desc">
+                    Gets the key code for the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="getKey"></a>
+                <div class="mdetail alt">
+                <h3>getKey</i></h3>
+                <code>public function getKey()</code>
+                <div class="mdetail-desc">
+                    Returns a normalized keyCode for the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The key code</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="getPageX"></a>
+                <div class="mdetail">
+                <h3>getPageX</i></h3>
+                <code>public function getPageX()</code>
+                <div class="mdetail-desc">
+                    Gets the x coordinate of the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="getPageY"></a>
+                <div class="mdetail alt">
+                <h3>getPageY</i></h3>
+                <code>public function getPageY()</code>
+                <div class="mdetail-desc">
+                    Gets the y coordinate of the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="getRelatedTarget"></a>
+                <div class="mdetail">
+                <h3>getRelatedTarget</i></h3>
+                <code>public function getRelatedTarget()</code>
+                <div class="mdetail-desc">
+                    Gets the related target.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="getTarget"></a>
+                <div class="mdetail alt">
+                <h3>getTarget</i></h3>
+                <code>public function getTarget(&nbsp;<span class="optional" title="Optional">[<code>String selector</code>]</span>, <span class="optional" title="Optional">[<code>Number/String/HTMLElement/Element maxDepth</code>]</span>, <span class="optional" title="Optional">[<code>Boolean returnEl</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Gets the target for the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>selector</code> : String<div class="sub-desc">(optional) A simple selector to filter the target or look for an ancestor of the target</div></li><li><code>maxDepth</code> : Number/String/HTMLElement/Element<div class="sub-desc">(optional) The max depth to
+ search as a number or element (defaults to 10 || document.body)</div></li><li><code>returnEl</code> : Boolean<div class="sub-desc">(optional) True to return a Ext.Element object instead of DOM node</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLelement</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="getTime"></a>
+                <div class="mdetail">
+                <h3>getTime</i></h3>
+                <code>public function getTime()</code>
+                <div class="mdetail-desc">
+                    Gets the time of the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="getWheelDelta"></a>
+                <div class="mdetail alt">
+                <h3>getWheelDelta</i></h3>
+                <code>public function getWheelDelta()</code>
+                <div class="mdetail-desc">
+                    Normalizes mouse wheel delta across browsers
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Number</code><div class="sub-desc">The delta</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="getXY"></a>
+                <div class="mdetail">
+                <h3>getXY</i></h3>
+                <code>public function getXY()</code>
+                <div class="mdetail-desc">
+                    Gets the page coordinates of the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Array</code><div class="sub-desc">The xy values like [x, y]</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="hasModifier"></a>
+                <div class="mdetail alt">
+                <h3>hasModifier</i></h3>
+                <code>public function hasModifier()</code>
+                <div class="mdetail-desc">
+                    Returns true if the control, meta, shift or alt key was pressed during this event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="preventDefault"></a>
+                <div class="mdetail">
+                <h3>preventDefault</i></h3>
+                <code>public function preventDefault()</code>
+                <div class="mdetail-desc">
+                    Prevents the browsers default handling of the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="stopEvent"></a>
+                <div class="mdetail alt">
+                <h3>stopEvent</i></h3>
+                <code>public function stopEvent()</code>
+                <div class="mdetail-desc">
+                    Stop the event (preventDefault and stopPropagation)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="stopPropagation"></a>
+                <div class="mdetail">
+                <h3>stopPropagation</i></h3>
+                <code>public function stopPropagation()</code>
+                <div class="mdetail-desc">
+                    Cancels bubbling of the event.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                            <a name="within"></a>
+                <div class="mdetail alt">
+                <h3>within</i></h3>
+                <code>public function within(&nbsp;<code>String/HTMLElement/Element el</code>, <span class="optional" title="Optional">[<code>Boolean related</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns true if the target of this event equals el or is a child of el
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Element<div class="sub-desc"></div></li><li><code>related</code> : Boolean<div class="sub-desc">(optional) true to test if the related target is within el instead of the target</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Boolean</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by EventObject.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

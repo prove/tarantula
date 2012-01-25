@@ -1,0 +1,195 @@
+<html><head><title>BorderLayoutRegions.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>BorderLayoutRegions.js</h1><pre class="highlighted"><code><i>/*
+ * These classes are private internal classes
+ */</i>
+Ext.CenterLayoutRegion = <b>function</b>(mgr, config){
+    Ext.CenterLayoutRegion.superclass.constructor.call(<b>this</b>, mgr, config, &quot;center&quot;);
+    <b>this</b>.visible = true;
+    <b>this</b>.minWidth = config.minWidth || 20;
+    <b>this</b>.minHeight = config.minHeight || 20;
+};
+
+Ext.extend(Ext.CenterLayoutRegion, Ext.LayoutRegion, {
+    hide : <b>function</b>(){
+        <i>// center panel can't be hidden</i>
+    },
+    
+    show : <b>function</b>(){
+        <i>// center panel can't be hidden</i>
+    },
+    
+    getMinWidth: <b>function</b>(){
+        <b>return</b> this.minWidth;
+    },
+    
+    getMinHeight: <b>function</b>(){
+        <b>return</b> this.minHeight;
+    }
+});
+
+
+Ext.NorthLayoutRegion = <b>function</b>(mgr, config){
+    Ext.NorthLayoutRegion.superclass.constructor.call(<b>this</b>, mgr, config, &quot;north&quot;, &quot;n-resize&quot;);
+    <b>if</b>(this.split){
+        <b>this</b>.split.placement = Ext.SplitBar.TOP;
+        <b>this</b>.split.orientation = Ext.SplitBar.VERTICAL;
+        <b>this</b>.split.el.addClass(&quot;x-layout-split-v&quot;);
+    }
+    <b>var</b> size = config.initialSize || config.height;
+    <b>if</b>(typeof size != &quot;undefined&quot;){
+        <b>this</b>.el.setHeight(size);
+    }
+};
+Ext.extend(Ext.NorthLayoutRegion, Ext.SplitLayoutRegion, {
+    orientation: Ext.SplitBar.VERTICAL,
+    getBox : <b>function</b>(){
+        <b>if</b>(this.collapsed){
+            <b>return</b> this.collapsedEl.getBox();
+        }
+        <b>var</b> box = <b>this</b>.el.getBox();
+        <b>if</b>(this.split){
+            box.height += <b>this</b>.split.el.getHeight();
+        }
+        <b>return</b> box;
+    },
+    
+    updateBox : <b>function</b>(box){
+        <b>if</b>(this.split &amp;&amp; !<b>this</b>.collapsed){
+            box.height -= <b>this</b>.split.el.getHeight();
+            <b>this</b>.split.el.setLeft(box.x);
+            <b>this</b>.split.el.setTop(box.y+box.height);
+            <b>this</b>.split.el.setWidth(box.width);
+        }
+        <b>if</b>(this.collapsed){
+            <b>this</b>.updateBody(box.width, null);
+        }
+        Ext.NorthLayoutRegion.superclass.updateBox.call(<b>this</b>, box);
+    }
+});
+
+Ext.SouthLayoutRegion = <b>function</b>(mgr, config){
+    Ext.SouthLayoutRegion.superclass.constructor.call(<b>this</b>, mgr, config, &quot;south&quot;, &quot;s-resize&quot;);
+    <b>if</b>(this.split){
+        <b>this</b>.split.placement = Ext.SplitBar.BOTTOM;
+        <b>this</b>.split.orientation = Ext.SplitBar.VERTICAL;
+        <b>this</b>.split.el.addClass(&quot;x-layout-split-v&quot;);
+    }
+    <b>var</b> size = config.initialSize || config.height;
+    <b>if</b>(typeof size != &quot;undefined&quot;){
+        <b>this</b>.el.setHeight(size);
+    }
+};
+Ext.extend(Ext.SouthLayoutRegion, Ext.SplitLayoutRegion, {
+    orientation: Ext.SplitBar.VERTICAL,
+    getBox : <b>function</b>(){
+        <b>if</b>(this.collapsed){
+            <b>return</b> this.collapsedEl.getBox();
+        }
+        <b>var</b> box = <b>this</b>.el.getBox();
+        <b>if</b>(this.split){
+            <b>var</b> sh = <b>this</b>.split.el.getHeight();
+            box.height += sh;
+            box.y -= sh;
+        }
+        <b>return</b> box;
+    },
+    
+    updateBox : <b>function</b>(box){
+        <b>if</b>(this.split &amp;&amp; !<b>this</b>.collapsed){
+            <b>var</b> sh = <b>this</b>.split.el.getHeight();
+            box.height -= sh;
+            box.y += sh;
+            <b>this</b>.split.el.setLeft(box.x);
+            <b>this</b>.split.el.setTop(box.y-sh);
+            <b>this</b>.split.el.setWidth(box.width);
+        }
+        <b>if</b>(this.collapsed){
+            <b>this</b>.updateBody(box.width, null);
+        }
+        Ext.SouthLayoutRegion.superclass.updateBox.call(<b>this</b>, box);
+    }
+});
+
+Ext.EastLayoutRegion = <b>function</b>(mgr, config){
+    Ext.EastLayoutRegion.superclass.constructor.call(<b>this</b>, mgr, config, &quot;east&quot;, &quot;e-resize&quot;);
+    <b>if</b>(this.split){
+        <b>this</b>.split.placement = Ext.SplitBar.RIGHT;
+        <b>this</b>.split.orientation = Ext.SplitBar.HORIZONTAL;
+        <b>this</b>.split.el.addClass(&quot;x-layout-split-h&quot;);
+    }
+    <b>var</b> size = config.initialSize || config.width;
+    <b>if</b>(typeof size != &quot;undefined&quot;){
+        <b>this</b>.el.setWidth(size);
+    }
+};
+Ext.extend(Ext.EastLayoutRegion, Ext.SplitLayoutRegion, {
+    orientation: Ext.SplitBar.HORIZONTAL,
+    getBox : <b>function</b>(){
+        <b>if</b>(this.collapsed){
+            <b>return</b> this.collapsedEl.getBox();
+        }
+        <b>var</b> box = <b>this</b>.el.getBox();
+        <b>if</b>(this.split){
+            <b>var</b> sw = <b>this</b>.split.el.getWidth();
+            box.width += sw;
+            box.x -= sw;
+        }
+        <b>return</b> box;
+    },
+
+    updateBox : <b>function</b>(box){
+        <b>if</b>(this.split &amp;&amp; !<b>this</b>.collapsed){
+            <b>var</b> sw = <b>this</b>.split.el.getWidth();
+            box.width -= sw;
+            <b>this</b>.split.el.setLeft(box.x);
+            <b>this</b>.split.el.setTop(box.y);
+            <b>this</b>.split.el.setHeight(box.height);
+            box.x += sw;
+        }
+        <b>if</b>(this.collapsed){
+            <b>this</b>.updateBody(null, box.height);
+        }
+        Ext.EastLayoutRegion.superclass.updateBox.call(<b>this</b>, box);
+    }
+});
+
+Ext.WestLayoutRegion = <b>function</b>(mgr, config){
+    Ext.WestLayoutRegion.superclass.constructor.call(<b>this</b>, mgr, config, &quot;west&quot;, &quot;w-resize&quot;);
+    <b>if</b>(this.split){
+        <b>this</b>.split.placement = Ext.SplitBar.LEFT;
+        <b>this</b>.split.orientation = Ext.SplitBar.HORIZONTAL;
+        <b>this</b>.split.el.addClass(&quot;x-layout-split-h&quot;);
+    }
+    <b>var</b> size = config.initialSize || config.width;
+    <b>if</b>(typeof size != &quot;undefined&quot;){
+        <b>this</b>.el.setWidth(size);
+    }
+};
+Ext.extend(Ext.WestLayoutRegion, Ext.SplitLayoutRegion, {
+    orientation: Ext.SplitBar.HORIZONTAL,
+    getBox : <b>function</b>(){
+        <b>if</b>(this.collapsed){
+            <b>return</b> this.collapsedEl.getBox();
+        }
+        <b>var</b> box = <b>this</b>.el.getBox();
+        <b>if</b>(this.split){
+            box.width += <b>this</b>.split.el.getWidth();
+        }
+        <b>return</b> box;
+    },
+    
+    updateBox : <b>function</b>(box){
+        <b>if</b>(this.split &amp;&amp; !<b>this</b>.collapsed){
+            <b>var</b> sw = <b>this</b>.split.el.getWidth();
+            box.width -= sw;
+            <b>this</b>.split.el.setLeft(box.x+box.width);
+            <b>this</b>.split.el.setTop(box.y);
+            <b>this</b>.split.el.setHeight(box.height);
+        }
+        <b>if</b>(this.collapsed){
+            <b>this</b>.updateBody(null, box.height);
+        }
+        Ext.WestLayoutRegion.superclass.updateBox.call(<b>this</b>, box);
+    }
+});
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

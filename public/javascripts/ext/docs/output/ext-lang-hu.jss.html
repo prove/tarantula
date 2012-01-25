@@ -1,0 +1,174 @@
+<html><head><title>ext-lang-hu.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-hu.js</h1><pre class="highlighted"><code><i>/**
+ * List compiled by mystix on the extjs.com forums.
+ * Thank you Mystix!
+ */</i>
+<i>// holder</i>
+<i>/**
+ * Hungarian translation
+ * By amon (utf-8 encoded)
+ * 14 April 2007
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;Bet&Atilde;&para;lt&Atilde;&copy;s...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} kiv&Atilde;&iexcl;lasztott sor&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;F&Atilde;&frac14;l bez&Atilde;&iexcl;r&Atilde;&iexcl;sa&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;A mez&Aring;ë tartalma &Atilde;&copy;rv&Atilde;&copy;nytelen&quot;;
+}
+
+Date.monthNames = [
+   &quot;Janu&Atilde;&iexcl;r&quot;,
+   &quot;Febru&Atilde;&iexcl;r&quot;,
+   &quot;M&Atilde;&iexcl;rcius&quot;,
+   &quot;&Atilde;Åprilis&quot;,
+   &quot;M&Atilde;&iexcl;jus&quot;,
+   &quot;J&Atilde;&ordm;nius&quot;,
+   &quot;J&Atilde;&ordm;lius&quot;,
+   &quot;Augusztus&quot;,
+   &quot;Szeptember&quot;,
+   &quot;Okt&Atilde;&sup3;ber&quot;,
+   &quot;November&quot;,
+   &quot;December&quot;
+];
+
+Date.dayNames = [
+   &quot;Vas&Atilde;&iexcl;rnap&quot;,
+   &quot;H&Atilde;&copy;tf&Aring;ë&quot;,
+   &quot;Kedd&quot;,
+   &quot;Szerda&quot;,
+   &quot;Cs&Atilde;&frac14;t&Atilde;&para;rt&Atilde;&para;k&quot;,
+   &quot;P&Atilde;&copy;ntek&quot;,
+   &quot;Szombat&quot;
+];
+   
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;OK&quot;,
+      cancel : &quot;M&Atilde;&copy;gsem&quot;,
+      yes    : &quot;Igen&quot;,
+      no     : &quot;Nem&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;y.m.d&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;Ma&quot;,
+      minText           : &quot;Ez a d&Atilde;&iexcl;tum kor&Atilde;&iexcl;bbi a megengedettn&Atilde;&copy;l&quot;,
+      maxText           : &quot;Ez a d&Atilde;&iexcl;tum k&Atilde;&copy;s&Aring;ëbbi a megengedettn&Atilde;&copy;l&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames        : Date.monthNames,
+      dayNames          : Date.dayNames,
+      nextText          : <em>'K&Atilde;&para;vetkez&Aring;ë h&Atilde;&sup3;nap (Control+Jobbra)'</em>,
+      prevText          : <em>'El&Aring;ëz&Aring;ë h&Atilde;&sup3;nap (Control+Balra)'</em>,
+      monthYearText     : <em>'H&Atilde;&sup3;na&Aring;ëv&Atilde;&iexcl;laszt&Atilde;&iexcl;s (Control+Fel/Le: &Atilde;&copy;v v&Atilde;&iexcl;laszt&Atilde;&iexcl;s)'</em>,
+      todayTip          : &quot;{0} (Sz&Atilde;&sup3;k&Atilde;&para;z)&quot;,
+      format            : &quot;y.m.d&quot;,
+      startDay          : 1
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;Oldal&quot;,
+      afterPageText  : &quot;a {0}-b&Atilde;&sup3;l/b&Aring;ël&quot;,
+      firstText      : &quot;Els&Aring;ë oldal&quot;,
+      prevText       : &quot;El&Aring;ëz&Aring;ë oldal&quot;,
+      nextText       : &quot;K&Atilde;&para;vetkez&Aring;ë&quot;,
+      lastText       : &quot;Utols&Atilde;&sup3; oldal&quot;,
+      refreshText    : &quot;Friss&Atilde;&shy;t&quot;,
+      displayMsg     : &quot;{0} - {1} a {2}-b&Atilde;&sup3;l/b&Aring;ël&quot;,
+      emptyMsg       : <em>'Nincs megjelen&Atilde;&shy;thet&Aring;ë adat'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;A mez&Aring;ë hossza minimum {0}&quot;,
+      maxLengthText : &quot;A mez&Aring;ë hossza maximum {0}&quot;,
+      blankText     : &quot;K&Atilde;&para;telez&Aring;ë mez&Aring;ë&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;A mez&Aring;ë minimum &Atilde;&copy;rt&Atilde;&copy;ke {0} lehet&quot;,
+      maxText : &quot;A mez&Aring;ë maximum &Atilde;&copy;rt&Atilde;&copy;ke {0} lehet&quot;,
+      nanText : &quot;{0} nem &Atilde;&copy;rtelmezhet&Aring;ë sz&Atilde;&iexcl;mk&Atilde;&copy;nt&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;Letiltva&quot;,
+      disabledDatesText : &quot;Letiltva&quot;,
+      minText           : &quot;A d&Atilde;&iexcl;tum k&Atilde;&copy;s&Aring;ëbbi kell legyen {0}-n&Atilde;&iexcl;l/n&Atilde;&copy;l&quot;,
+      maxText           : &quot;A d&Atilde;&iexcl;tum kor&Atilde;&iexcl;bbi kell legyen {0}-n&Atilde;&iexcl;l/n&Atilde;&copy;l&quot;,
+      invalidText       : &quot;{0} nem val&Atilde;&sup3;di d&Atilde;&iexcl;tum - a mez&Aring;ë form&Atilde;&iexcl;tuma: {1}&quot;,
+      format            : &quot;y.m.d&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;Bet&Atilde;&para;lt&Atilde;&copy;s...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'A mez&Aring;ë tartalma e-mail c&Atilde;&shy;m lehet, form&Atilde;&iexcl;tum: &quot;user@domain.com&quot;'</em>,
+      urlText      : <em>'A mez&Aring;ë tartalma webc&Atilde;&shy;m lehet, form&Atilde;&iexcl;tum: &quot;http:/'</em>+<em>'/www.domain.com&quot;'</em>,
+      alphaText    : <em>'A mez&Aring;ë csak bet&Aring;&plusmn;ket (a-z) &Atilde;&copy;s al&Atilde;&iexcl;h&Atilde;&ordm;z&Atilde;&iexcl;s (_) karaktert tartalmazhat.'</em>,
+      alphanumText : <em>'A mez&Aring;ë csak bet&Aring;&plusmn;ket (a-z), sz&Atilde;&iexcl;mokat (0-9) &Atilde;&copy;s al&Atilde;&iexcl;h&Atilde;&ordm;z&Atilde;&iexcl;s (_) karaktert tartalmazhat'</em>
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;N&Atilde;&para;vekv&Aring;ë rendez&Atilde;&copy;s&quot;,
+      sortDescText : &quot;Cs&Atilde;&para;kken&Aring;ë rendez&Atilde;&copy;s&quot;,
+      lockText     : &quot;Oszlop lez&Atilde;&iexcl;r&Atilde;&iexcl;s&quot;,
+      unlockText   : &quot;Oszlop felenged&Atilde;&copy;s&quot;,
+      columnsText  : &quot;Oszlopok&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;N&Atilde;&copy;v&quot;,
+      valueText  : &quot;&Atilde;ârt&Atilde;&copy;k&quot;,
+      dateFormat : &quot;Y m j&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;H&Atilde;&ordm;z&Atilde;&iexcl;s: &Atilde;&iexcl;tm&Atilde;&copy;retez&Atilde;&copy;s&quot;,
+      collapsibleSplitTip : &quot;H&Atilde;&ordm;z&Atilde;&iexcl;s: &Atilde;&iexcl;tm&Atilde;&copy;retez&Atilde;&copy;s, duplaklikk: elt&Atilde;&frac14;ntet&Atilde;&copy;s.&quot;
+   });
+}
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

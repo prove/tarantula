@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>execution_duration (ReportController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/report_controller.rb, line 120</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execution_duration</span>
+    <span class="ruby-identifier">table</span> = <span class="ruby-constant">Execution</span>.<span class="ruby-identifier">report_table</span>(<span class="ruby-identifier">:all</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-constant">Default_conditions</span>, <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:sdate</span>], <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:edate</span>], <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:sdate</span>], <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:edate</span>]], <span class="ruby-identifier">:only</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">'name'</span>],
+      <span class="ruby-identifier">:methods</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">'duration'</span>])
+    <span class="ruby-identifier">graph</span> = <span class="ruby-constant">Gruff</span><span class="ruby-operator">::</span><span class="ruby-constant">Bar</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">480</span>)
+    <span class="ruby-identifier">l</span> = <span class="ruby-identifier">table</span>.<span class="ruby-identifier">column</span>(<span class="ruby-value str">'name'</span>)
+    <span class="ruby-identifier">graph</span>.<span class="ruby-identifier">labels</span> = <span class="ruby-identifier">l</span>.<span class="ruby-identifier">to_hash_values</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">l</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">v</span>)}
+    <span class="ruby-identifier">graph</span>.<span class="ruby-identifier">data</span>(<span class="ruby-value str">'Execution duration'</span>, <span class="ruby-identifier">table</span>.<span class="ruby-identifier">column</span>(<span class="ruby-value str">'duration'</span>).<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">to_f</span>}, <span class="ruby-value str">'#ccbb44'</span>)
+    <span class="ruby-identifier">graph</span>.<span class="ruby-identifier">theme</span> = {
+      <span class="ruby-identifier">:colors</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">%w(orange purple green white red)</span>,
+      <span class="ruby-identifier">:marker_color</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'blue'</span>,
+      <span class="ruby-identifier">:background_colors</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">%w(white grey)</span>
+    }
+    <span class="ruby-identifier">send_data</span>(<span class="ruby-identifier">graph</span>.<span class="ruby-identifier">to_blob</span>, <span class="ruby-identifier">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'image/png'</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

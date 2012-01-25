@@ -1,0 +1,507 @@
+<html><head><title>Button.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>Button.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.Button
+ * @extends Ext.util.Observable
+ * Simple Button class
+ * @cfg {String} text The button text
+ * @cfg {String} icon The path to an image to display <b>in</b> the button (the image will be set as the background-image
+ * CSS property of the button by <b>default</b>, so <b>if</b> you want a mixed icon/text button, set cls:&quot;x-btn-text-icon&quot;)
+ * @cfg {Function} handler A <b>function</b> called when the button is clicked (can be used instead of click event)
+ * @cfg {Object} scope The scope of the handler
+ * @cfg {Number} minWidth The minimum width <b>for</b> this button (used to give a set of buttons a common width)
+ * @cfg {String/Object} tooltip The tooltip <b>for</b> the button - can be a string or QuickTips config object
+ * @cfg {Boolean} hidden True to start hidden (defaults to false)
+ * @cfg {Boolean} disabled True to start disabled (defaults to false)
+ * @cfg {Boolean} pressed True to start pressed (only <b>if</b> enableToggle = true)
+ * @cfg {String} toggleGroup The group <b>this</b> toggle button is a member of (only 1 per group can be pressed, only
+ * applies <b>if</b> enableToggle = true)
+ * @cfg {Boolean/Object} repeat True to repeat fire the click event <b>while</b> the mouse is down. This can also be
+  an {@link Ext.util.ClickRepeater} config object (defaults to false).
+ * @constructor
+ * Create a <b>new</b> button
+ * @param {String/HTMLElement/Element} renderTo The element to append the button to
+ * @param {Object} config The config object
+ */</i>
+Ext.Button = <b>function</b>(renderTo, config){
+    Ext.apply(<b>this</b>, config);
+    <b>this</b>.addEvents({
+        <i>/**
+	     * @event click
+	     * Fires when <b>this</b> button is clicked
+	     * @param {Button} <b>this</b>
+	     * @param {EventObject} e The click event
+	     */</i>
+	    &quot;click&quot; : true,
+        <i>/**
+	     * @event toggle
+	     * Fires when the &quot;pressed&quot; state of <b>this</b> button changes (only <b>if</b> enableToggle = true)
+	     * @param {Button} <b>this</b>
+	     * @param {Boolean} pressed
+	     */</i>
+	    &quot;toggle&quot; : true,
+        <i>/**
+	     * @event mouseover
+	     * Fires when the mouse hovers over the button
+	     * @param {Button} <b>this</b>
+	     * @param {Event} e The event object
+	     */</i>
+        <em>'mouseover'</em> : true,
+        <i>/**
+	     * @event mouseout
+	     * Fires when the mouse exits the button
+	     * @param {Button} <b>this</b>
+	     * @param {Event} e The event object
+	     */</i>
+        <em>'mouseout'</em>: true
+    });
+    <b>if</b>(this.menu){
+        <b>this</b>.menu = Ext.menu.MenuMgr.get(<b>this</b>.menu);
+    }
+    <b>if</b>(renderTo){
+        <b>this</b>.render(renderTo);
+    }
+    Ext.Button.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.Button, Ext.util.Observable, {
+    <i>/**
+     * Read-only. True <b>if</b> this button is hidden
+     * @type Boolean
+     */</i>
+    hidden : false,
+    <i>/**
+     * Read-only. True <b>if</b> this button is disabled
+     * @type Boolean
+     */</i>
+    disabled : false,
+    <i>/**
+     * Read-only. True <b>if</b> this button is pressed (only <b>if</b> enableToggle = true)
+     * @type Boolean
+     */</i>
+    pressed : false,
+
+    <i>/**
+     * @cfg {Number} tabIndex 
+     * The DOM tabIndex <b>for</b> this button (defaults to undefined)
+     */</i>
+    tabIndex : undefined,
+
+    <i>/**
+     * @cfg {Boolean} enableToggle
+     * True to enable pressed/not pressed toggling (defaults to false)
+     */</i>
+    enableToggle: false,
+    <i>/**
+     * @cfg {Mixed} menu
+     * Standard menu attribute consisting of a reference to a menu object, a menu id or a menu config blob (defaults to undefined).
+     */</i>
+    menu : undefined,
+    <i>/**
+     * @cfg {String} menuAlign
+     * The position to align the menu to (see {@link Ext.Element#alignTo} <b>for</b> more details, defaults to <em>'tl-bl?'</em>).
+     */</i>
+    menuAlign : &quot;tl-bl?&quot;,
+
+    <i>/**
+     * @cfg {String} iconCls
+     * A css class which sets a background image to be used as the icon <b>for</b> this button (defaults to undefined).
+     */</i>
+    iconCls : undefined,
+    <i>/**
+     * @cfg {String} type
+     * The button's type, corresponding to the DOM input element type attribute.  Either &quot;submit,&quot; &quot;reset&quot; or &quot;button&quot; (<b>default</b>).
+     */</i>
+    type : <em>'button'</em>,
+
+    <i>// private</i>
+    menuClassTarget: <em>'tr'</em>,
+
+    <i>/**
+     * @cfg {String} clickEvent
+     * The type of event to map to the button<em>'s event handler (defaults to '</em>click')
+     */</i>
+    clickEvent : <em>'click'</em>,
+
+    <i>/**
+     * @cfg {Boolean} handleMouseEvents
+     * False to disable visual cues on mouseover, mouseout and mousedown (defaults to true)
+     */</i>
+    handleMouseEvents : true,
+
+    <i>/**
+     * @cfg {String} tooltipType
+     * The type of tooltip to use. Either &quot;qtip&quot; (<b>default</b>) <b>for</b> QuickTips or &quot;title&quot; <b>for</b> title attribute.
+     */</i>
+    tooltipType : <em>'qtip'</em>,
+
+    <i>/**
+     * @cfg {String} cls
+     * A CSS class to apply to the button's main element.
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Ext.Template} template (Optional)
+     * An {@link Ext.Template} <b>with</b> which to create the Button's main element. This Template must
+     * contain numeric substitution parameter 0 <b>if</b> it is to display the text property. Changing the template could
+     * require code modifications <b>if</b> required elements (e.g. a button) aren't present.
+     */</i>
+
+    <i>// private</i>
+    render : <b>function</b>(renderTo){
+        <b>var</b> btn;
+        <b>if</b>(this.hideParent){
+            <b>this</b>.parentEl = Ext.get(renderTo);
+        }
+        <b>if</b>(!<b>this</b>.dhconfig){
+            <b>if</b>(!<b>this</b>.template){
+                <b>if</b>(!Ext.Button.buttonTemplate){
+                    <i>// hideous table template</i>
+                    Ext.Button.buttonTemplate = <b>new</b> Ext.Template(
+                        <em>'&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;x-btn-wrap&quot;&gt;&lt;tbody&gt;&lt;tr&gt;'</em>,
+                        <em>'&lt;td class=&quot;x-btn-left&quot;&gt;&lt;i&gt;&amp;#160;&lt;/i&gt;&lt;/td&gt;&lt;td class=&quot;x-btn-center&quot;&gt;&lt;em unselectable=&quot;on&quot;&gt;&lt;button class=&quot;x-btn-text&quot; type=&quot;{1}&quot;&gt;{0}&lt;/button&gt;&lt;/em&gt;&lt;/td&gt;&lt;td class=&quot;x-btn-right&quot;&gt;&lt;i&gt;&amp;#160;&lt;/i&gt;&lt;/td&gt;'</em>,
+                        &quot;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&quot;);
+                }
+                <b>this</b>.template = Ext.Button.buttonTemplate;
+            }
+            btn = <b>this</b>.template.append(renderTo, [<b>this</b>.text || <em>'&amp;#160;'</em>, <b>this</b>.type], true);
+            <b>var</b> btnEl = btn.child(&quot;button:first&quot;);
+            btnEl.on(<em>'focus'</em>, <b>this</b>.onFocus, <b>this</b>);
+            btnEl.on(<em>'blur'</em>, <b>this</b>.onBlur, <b>this</b>);
+            <b>if</b>(this.cls){
+                btn.addClass(<b>this</b>.cls);
+            }
+            <b>if</b>(this.icon){
+                btnEl.setStyle(<em>'background-image'</em>, <em>'url('</em> +<b>this</b>.icon +<em>')'</em>);
+            }
+            <b>if</b>(this.iconCls){
+                btnEl.addClass(<b>this</b>.iconCls);
+                <b>if</b>(!<b>this</b>.cls){
+                    btn.addClass(<b>this</b>.text ? <em>'x-btn-text-icon'</em> : <em>'x-btn-icon'</em>);
+                }
+            }
+            <b>if</b>(this.tabIndex !== undefined){
+                btnEl.dom.tabIndex = <b>this</b>.tabIndex;
+            }
+            <b>if</b>(this.tooltip){
+                <b>if</b>(typeof <b>this</b>.tooltip == <em>'object'</em>){
+                    Ext.QuickTips.tips(Ext.apply({
+                          target: btnEl.id
+                    }, <b>this</b>.tooltip));
+                } <b>else</b> {
+                    btnEl.dom[<b>this</b>.tooltipType] = <b>this</b>.tooltip;
+                }
+            }
+        }<b>else</b>{
+            btn = Ext.DomHelper.append(Ext.get(renderTo).dom, <b>this</b>.dhconfig, true);
+        }
+        <b>this</b>.el = btn;
+        <b>if</b>(this.id){
+            <b>this</b>.el.dom.id = <b>this</b>.el.id = <b>this</b>.id;
+        }
+        <b>if</b>(this.menu){
+            <b>this</b>.el.child(<b>this</b>.menuClassTarget).addClass(&quot;x-btn-<b>with</b>-menu&quot;);
+            <b>this</b>.menu.on(&quot;show&quot;, <b>this</b>.onMenuShow, <b>this</b>);
+            <b>this</b>.menu.on(&quot;hide&quot;, <b>this</b>.onMenuHide, <b>this</b>);
+        }
+        btn.addClass(&quot;x-btn&quot;);
+        <b>if</b>(Ext.isIE &amp;&amp; !Ext.isIE7){
+            <b>this</b>.autoWidth.defer(1, <b>this</b>);
+        }<b>else</b>{
+            <b>this</b>.autoWidth();
+        }
+        <b>if</b>(this.handleMouseEvents){
+            btn.on(&quot;mouseover&quot;, <b>this</b>.onMouseOver, <b>this</b>);
+            btn.on(&quot;mouseout&quot;, <b>this</b>.onMouseOut, <b>this</b>);
+            btn.on(&quot;mousedown&quot;, <b>this</b>.onMouseDown, <b>this</b>);
+        }
+        btn.on(<b>this</b>.clickEvent, <b>this</b>.onClick, <b>this</b>);
+        <i>//btn.on(&quot;mouseup&quot;, <b>this</b>.onMouseUp, <b>this</b>);</i>
+        <b>if</b>(this.hidden){
+            <b>this</b>.hide();
+        }
+        <b>if</b>(this.disabled){
+            <b>this</b>.disable();
+        }
+        Ext.ButtonToggleMgr.register(<b>this</b>);
+        <b>if</b>(this.pressed){
+            <b>this</b>.el.addClass(&quot;x-btn-pressed&quot;);
+        }
+        <b>if</b>(this.repeat){
+            <b>var</b> repeater = <b>new</b> Ext.util.ClickRepeater(btn,
+                <b>typeof</b> this.repeat == &quot;object&quot; ? <b>this</b>.repeat : {}
+            );
+            repeater.on(&quot;click&quot;, <b>this</b>.onClick,  <b>this</b>);
+        }
+    },
+    <i>/**
+     * Returns the button's underlying element
+     * @<b>return</b> {Ext.Element} The element
+     */</i>
+    getEl : <b>function</b>(){
+        <b>return</b> this.el;  
+    },
+    
+    <i>/**
+     * Destroys <b>this</b> Button and removes any listeners.
+     */</i>
+    destroy : <b>function</b>(){
+        Ext.ButtonToggleMgr.unregister(<b>this</b>);
+        <b>this</b>.el.removeAllListeners();
+        <b>this</b>.purgeListeners();
+        <b>this</b>.el.remove();
+    },
+
+    <i>// private</i>
+    autoWidth : <b>function</b>(){
+        <b>if</b>(this.el){
+            <b>this</b>.el.setWidth(&quot;auto&quot;);
+            <b>if</b>(Ext.isIE7 &amp;&amp; Ext.isStrict){
+                <b>var</b> ib = <b>this</b>.el.child(<em>'button'</em>);
+                <b>if</b>(ib &amp;&amp; ib.getWidth() &gt; 20){
+                    ib.clip();
+                    ib.setWidth(Ext.util.TextMetrics.measure(ib, <b>this</b>.text).width+ib.getFrameWidth(<em>'lr'</em>));
+                }
+            }
+            <b>if</b>(this.minWidth){
+                <b>if</b>(this.hidden){
+                    <b>this</b>.el.beginMeasure();
+                }
+                <b>if</b>(this.el.getWidth() &lt; <b>this</b>.minWidth){
+                    <b>this</b>.el.setWidth(<b>this</b>.minWidth);
+                }
+                <b>if</b>(this.hidden){
+                    <b>this</b>.el.endMeasure();
+                }
+            }
+        }
+    },
+
+    <i>/**
+     * Assigns <b>this</b> button's click handler
+     * @param {Function} handler The <b>function</b> to call when the button is clicked
+     * @param {Object} scope (optional) Scope <b>for</b> the <b>function</b> passed <b>in</b>
+     */</i>
+    setHandler : <b>function</b>(handler, scope){
+        <b>this</b>.handler = handler;
+        <b>this</b>.scope = scope;  
+    },
+    
+    <i>/**
+     * Sets <b>this</b> button's text
+     * @param {String} text The button text
+     */</i>
+    setText : <b>function</b>(text){
+        <b>this</b>.text = text;
+        <b>if</b>(this.el){
+            <b>this</b>.el.child(&quot;td.x-btn-center button.x-btn-text&quot;).update(text);
+        }
+        <b>this</b>.autoWidth();
+    },
+    
+    <i>/**
+     * Gets the text <b>for</b> this button
+     * @<b>return</b> {String} The button text
+     */</i>
+    getText : <b>function</b>(){
+        <b>return</b> this.text;  
+    },
+    
+    <i>/**
+     * Show <b>this</b> button
+     */</i>
+    show: <b>function</b>(){
+        <b>this</b>.hidden = false;
+        <b>if</b>(this.el){
+            <b>this</b>[this.hideParent? <em>'parentEl'</em> : <em>'el'</em>].setStyle(&quot;display&quot;, &quot;&quot;);
+        }
+    },
+    
+    <i>/**
+     * Hide <b>this</b> button
+     */</i>
+    hide: <b>function</b>(){
+        <b>this</b>.hidden = true;
+        <b>if</b>(this.el){
+            <b>this</b>[this.hideParent? <em>'parentEl'</em> : <em>'el'</em>].setStyle(&quot;display&quot;, &quot;none&quot;);
+        }
+    },
+    
+    <i>/**
+     * Convenience <b>function</b> for boolean show/hide
+     * @param {Boolean} visible True to show, false to hide
+     */</i>
+    setVisible: <b>function</b>(visible){
+        <b>if</b>(visible) {
+            <b>this</b>.show();
+        }<b>else</b>{
+            <b>this</b>.hide();
+        }
+    },
+    
+    <i>/**
+     * If a state it passed, it becomes the pressed state otherwise the current state is toggled.
+     * @param {Boolean} state (optional) Force a particular state
+     */</i>
+    toggle : <b>function</b>(state){
+        state = state === undefined ? !<b>this</b>.pressed : state;
+        <b>if</b>(state != <b>this</b>.pressed){
+            <b>if</b>(state){
+                <b>this</b>.el.addClass(&quot;x-btn-pressed&quot;);
+                <b>this</b>.pressed = true;
+                <b>this</b>.fireEvent(&quot;toggle&quot;, <b>this</b>, true);
+            }<b>else</b>{
+                <b>this</b>.el.removeClass(&quot;x-btn-pressed&quot;);
+                <b>this</b>.pressed = false;
+                <b>this</b>.fireEvent(&quot;toggle&quot;, <b>this</b>, false);
+            }
+            <b>if</b>(this.toggleHandler){
+                <b>this</b>.toggleHandler.call(<b>this</b>.scope || <b>this</b>, <b>this</b>, state);
+            }
+        }
+    },
+    
+    <i>/**
+     * Focus the button
+     */</i>
+    focus : <b>function</b>(){
+        <b>this</b>.el.child(<em>'button:first'</em>).focus();
+    },
+    
+    <i>/**
+     * Disable <b>this</b> button
+     */</i>
+    disable : <b>function</b>(){
+        <b>if</b>(this.el){
+            <b>this</b>.el.addClass(&quot;x-btn-disabled&quot;);
+        }
+        <b>this</b>.disabled = true;
+    },
+    
+    <i>/**
+     * Enable <b>this</b> button
+     */</i>
+    enable : <b>function</b>(){
+        <b>if</b>(this.el){
+            <b>this</b>.el.removeClass(&quot;x-btn-disabled&quot;);
+        }
+        <b>this</b>.disabled = false;
+    },
+
+    <i>/**
+     * Convenience <b>function</b> for boolean enable/disable
+     * @param {Boolean} enabled True to enable, false to disable
+     */</i>
+    setDisabled : <b>function</b>(v){
+        <b>this</b>[v !== true ? &quot;enable&quot; : &quot;disable&quot;]();
+    },
+
+    <i>// private</i>
+    onClick : <b>function</b>(e){
+        <b>if</b>(e){
+            e.preventDefault();
+        }
+        <b>if</b>(e.button != 0){
+            <b>return</b>;
+        }
+        <b>if</b>(!<b>this</b>.disabled){
+            <b>if</b>(this.enableToggle){
+                <b>this</b>.toggle();
+            }
+            <b>if</b>(this.menu &amp;&amp; !<b>this</b>.menu.isVisible()){
+                <b>this</b>.menu.show(<b>this</b>.el, <b>this</b>.menuAlign);
+            }
+            <b>this</b>.fireEvent(&quot;click&quot;, <b>this</b>, e);
+            <b>if</b>(this.handler){
+                <b>this</b>.el.removeClass(&quot;x-btn-over&quot;);
+                <b>this</b>.handler.call(<b>this</b>.scope || <b>this</b>, <b>this</b>, e);
+            }
+        }
+    },
+    <i>// private</i>
+    onMouseOver : <b>function</b>(e){
+        <b>if</b>(!<b>this</b>.disabled){
+            <b>this</b>.el.addClass(&quot;x-btn-over&quot;);
+            <b>this</b>.fireEvent(<em>'mouseover'</em>, <b>this</b>, e);
+        }
+    },
+    <i>// private</i>
+    onMouseOut : <b>function</b>(e){
+        <b>if</b>(!e.within(<b>this</b>.el,  true)){
+            <b>this</b>.el.removeClass(&quot;x-btn-over&quot;);
+            <b>this</b>.fireEvent(<em>'mouseout'</em>, <b>this</b>, e);
+        }
+    },
+    <i>// private</i>
+    onFocus : <b>function</b>(e){
+        <b>if</b>(!<b>this</b>.disabled){
+            <b>this</b>.el.addClass(&quot;x-btn-focus&quot;);
+        }
+    },
+    <i>// private</i>
+    onBlur : <b>function</b>(e){
+        <b>this</b>.el.removeClass(&quot;x-btn-focus&quot;);
+    },
+    <i>// private</i>
+    onMouseDown : <b>function</b>(e){
+        <b>if</b>(!<b>this</b>.disabled &amp;&amp; e.button == 0){
+            <b>this</b>.el.addClass(&quot;x-btn-click&quot;);
+            Ext.get(document).on(<em>'mouseup'</em>, <b>this</b>.onMouseUp, <b>this</b>);
+        }
+    },
+    <i>// private</i>
+    onMouseUp : <b>function</b>(e){
+        <b>if</b>(e.button == 0){
+            <b>this</b>.el.removeClass(&quot;x-btn-click&quot;);
+            Ext.get(document).un(<em>'mouseup'</em>, <b>this</b>.onMouseUp, <b>this</b>);
+        }
+    },
+    <i>// private</i>
+    onMenuShow : <b>function</b>(e){
+        <b>this</b>.el.addClass(&quot;x-btn-menu-active&quot;);
+    },
+    <i>// private</i>
+    onMenuHide : <b>function</b>(e){
+        <b>this</b>.el.removeClass(&quot;x-btn-menu-active&quot;);
+    }   
+});
+
+<i>// Private utility class used by Button</i>
+Ext.ButtonToggleMgr = <b>function</b>(){
+   <b>var</b> groups = {};
+   
+   <b>function</b> toggleGroup(btn, state){
+       <b>if</b>(state){
+           <b>var</b> g = groups[btn.toggleGroup];
+           <b>for</b>(var i = 0, l = g.length; i &lt; l; i++){
+               <b>if</b>(g[i] != btn){
+                   g[i].toggle(false);
+               }
+           }
+       }
+   }
+   
+   <b>return</b> {
+       register : <b>function</b>(btn){
+           <b>if</b>(!btn.toggleGroup){
+               <b>return</b>;
+           }
+           <b>var</b> g = groups[btn.toggleGroup];
+           <b>if</b>(!g){
+               g = groups[btn.toggleGroup] = [];
+           }
+           g.push(btn);
+           btn.on(&quot;toggle&quot;, toggleGroup);
+       },
+       
+       unregister : <b>function</b>(btn){
+           <b>if</b>(!btn.toggleGroup){
+               <b>return</b>;
+           }
+           <b>var</b> g = groups[btn.toggleGroup];
+           <b>if</b>(g){
+               g.remove(btn);
+               btn.un(&quot;toggle&quot;, toggleGroup);
+           }
+       }
+   };
+}();</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

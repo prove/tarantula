@@ -1,0 +1,377 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.Template</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.Template.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.Template</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext</td></tr>
+            <tr><td class="label">Class:</td><td>Template</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Subclasses:</td><td><a ext:cls="Ext.MasterTemplate" href="Ext.MasterTemplate.html">MasterTemplate</a></td></tr>
+                        <tr><td class="label">Defined In:</td><td><a href="Template.jss.html">Template.js</a></td></tr>
+        </table>
+        <div class="description">
+            Represents an HTML fragment template. Templates can be precompiled for greater performance.
+For a list of available format functions, see <a ext:cls="Ext.util.Format" href="Ext.util.Format.html">Ext.util.Format</a>.<br />
+Usage:
+<pre><code>var t = <b>new</b> Ext.Template(
+    <em>'&lt;div name="{id}"&gt;'</em>,
+        <em>'&lt;span class="{cls}"&gt;{name:trim} {value:ellipsis(10)}&lt;/span&gt;'</em>,
+    <em>'&lt;/div&gt;'</em>
+);
+t.append(<em>'some-element'</em>, {id: <em>'myid'</em>, cls: <em>'myclass'</em>, name: <em>'foo'</em>, value: <em>'bar'</em>});</code></pre>
+For more information see this blog post with examples: <a href="http://www.jackslocum.com/yui/2006/10/06/domhelper-create-elements-using-dom-html-fragments-or-templates/">DomHelper - Create Elements using DOM, HTML fragments and Templates</a>.        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#disableFormats">disableFormats</a> : Boolean</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">True to disable format functions (defaults to false)</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#re">re</a> : RegExp</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The regular expression used to match template variables</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>Template</b>(&nbsp;<code>String/Array html</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"></td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#Template.from">Template.from</a>(&nbsp;<code>String/HTMLElement el</code>&nbsp;) : s</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Creates a template from the passed element's value (<i>display:none</i> textarea, preferred) or innerHTML.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#append">append</a>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Applies the supplied values to the template and appends the new node(s) to el.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#apply">apply</a>() : void</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Alias for <a ext:cls="Ext.Template" ext:member="applyTemplate" href="Ext.Template.html#applyTemplate">applyTemplate</a></td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#applyTemplate">applyTemplate</a>(&nbsp;<code>Object values</code>&nbsp;) : String</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Returns an HTML fragment of this template with the specified values applied.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#compile">compile</a>() : Ext.Template</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Compiles the template into an internal function, eliminating the RegEx overhead.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertAfter">insertAfter</a>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Applies the supplied values to the template and inserts the new node(s) after el.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertBefore">insertBefore</a>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Applies the supplied values to the template and inserts the new node(s) before el.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#insertFirst">insertFirst</a>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Applies the supplied values to the template and inserts the new node(s) as the first child of el.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#overwrite">overwrite</a>(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;) : HTMLElement/Ext.Element</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Applies the supplied values to the template and overwrites the content of el with the new node(s).</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#set">set</a>(&nbsp;<code>String html</code>, <span class="optional" title="Optional">[<code>Boolean compile</code>]</span>&nbsp;) : Ext.Template</td>
+        <td class="msource" rowspan="2">Template</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Sets the HTML used as the template and optionally compiles it.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="disableFormats"></a>
+                <div class="mdetail">
+                <h3>disableFormats</i></h3>
+                <code>public Boolean disableFormats</code>
+                <div class="mdetail-desc">
+                    True to disable format functions (defaults to false)                </div>
+                <div class="mdetail-def">This property is defined by Template.</div>
+                </div>
+                            <a name="re"></a>
+                <div class="mdetail alt">
+                <h3>re</i></h3>
+                <code>public RegExp re</code>
+                <div class="mdetail-desc">
+                    The regular expression used to match template variables                </div>
+                <div class="mdetail-def">This property is defined by Template.</div>
+                </div>
+                        </div>
+        
+                    <a name="Template"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>Template</i></h3>
+                <code>public function Template(&nbsp;<code>String/Array html</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>html</code> : String/Array<div class="sub-desc">The HTML fragment or an array of fragments to join("") or multiple arguments to join("")</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="Template.from"></a>
+                <div class="mdetail">
+                <h3>Template.from</i></h3>
+                <code>public function Template.from(&nbsp;<code>String/HTMLElement el</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Creates a template from the passed element's value (<i>display:none</i> textarea, preferred) or innerHTML.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc">A DOM element or its id</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>s</code><div class="sub-desc">{Ext.Template} The created template</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="append"></a>
+                <div class="mdetail alt">
+                <h3>append</i></h3>
+                <code>public function append(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Applies the supplied values to the template and appends the new node(s) to el.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The context element</div></li><li><code>values</code> : Object<div class="sub-desc">The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element (defaults to undefined)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node or Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="apply"></a>
+                <div class="mdetail">
+                <h3>apply</i></h3>
+                <code>public function apply()</code>
+                <div class="mdetail-desc">
+                    Alias for <a ext:cls="Ext.Template" ext:member="applyTemplate" href="Ext.Template.html#applyTemplate">applyTemplate</a>
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="applyTemplate"></a>
+                <div class="mdetail alt">
+                <h3>applyTemplate</i></h3>
+                <code>public function applyTemplate(&nbsp;<code>Object values</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Returns an HTML fragment of this template with the specified values applied.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>values</code> : Object<div class="sub-desc">The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>String</code><div class="sub-desc">The HTML fragment</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="compile"></a>
+                <div class="mdetail">
+                <h3>compile</i></h3>
+                <code>public function compile()</code>
+                <div class="mdetail-desc">
+                    Compiles the template into an internal function, eliminating the RegEx overhead.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Template</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="insertAfter"></a>
+                <div class="mdetail alt">
+                <h3>insertAfter</i></h3>
+                <code>public function insertAfter(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Applies the supplied values to the template and inserts the new node(s) after el.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The context element</div></li><li><code>values</code> : Object<div class="sub-desc">The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element (defaults to undefined)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node or Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="insertBefore"></a>
+                <div class="mdetail">
+                <h3>insertBefore</i></h3>
+                <code>public function insertBefore(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Applies the supplied values to the template and inserts the new node(s) before el.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The context element</div></li><li><code>values</code> : Object<div class="sub-desc">The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element (defaults to undefined)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node or Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="insertFirst"></a>
+                <div class="mdetail alt">
+                <h3>insertFirst</i></h3>
+                <code>public function insertFirst(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Applies the supplied values to the template and inserts the new node(s) as the first child of el.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The context element</div></li><li><code>values</code> : Object<div class="sub-desc">The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element (defaults to undefined)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node or Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="overwrite"></a>
+                <div class="mdetail">
+                <h3>overwrite</i></h3>
+                <code>public function overwrite(&nbsp;<code>String/HTMLElement/Ext.Element el</code>, <code>Object values</code>, <span class="optional" title="Optional">[<code>Boolean returnElement</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Applies the supplied values to the template and overwrites the content of el with the new node(s).
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : String/HTMLElement/Ext.Element<div class="sub-desc">The context element</div></li><li><code>values</code> : Object<div class="sub-desc">The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})</div></li><li><code>returnElement</code> : Boolean<div class="sub-desc">(optional) true to return a Ext.Element (defaults to undefined)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>HTMLElement/Ext.Element</code><div class="sub-desc">The new node or Element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                            <a name="set"></a>
+                <div class="mdetail alt">
+                <h3>set</i></h3>
+                <code>public function set(&nbsp;<code>String html</code>, <span class="optional" title="Optional">[<code>Boolean compile</code>]</span>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Sets the HTML used as the template and optionally compiles it.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>html</code> : String<div class="sub-desc"></div></li><li><code>compile</code> : Boolean<div class="sub-desc">(optional) True to compile the template (defaults to undefined)</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.Template</code><div class="sub-desc">this</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by Template.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

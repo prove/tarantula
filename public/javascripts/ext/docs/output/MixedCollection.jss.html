@@ -1,0 +1,509 @@
+<html><head><title>MixedCollection.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>MixedCollection.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.util.MixedCollection
+ * @extends Ext.util.Observable
+ * A Collection class that maintains both numeric indexes and keys and exposes events.
+ * @constructor
+ * @param {Boolean} allowFunctions True <b>if</b> the addAll <b>function</b> should add <b>function</b> references to the
+ * collection (defaults to false)
+ * @param {Function} keyFn A <b>function</b> that can accept an item of the type(s) stored <b>in</b> this MixedCollection
+ * and <b>return</b> the key value <b>for</b> that item.  This is used when available to look up the key on items that
+ * were passed without an explicit key parameter to a MixedCollection method.  Passing <b>this</b> parameter is
+ * equivalent to providing an implementation <b>for</b> the {@link #getKey} method.
+ */</i>
+Ext.util.MixedCollection = <b>function</b>(allowFunctions, keyFn){
+    <b>this</b>.items = [];
+    <b>this</b>.map = {};
+    <b>this</b>.keys = [];
+    <b>this</b>.length = 0;
+    <b>this</b>.addEvents({
+        <i>/**
+         * @event clear
+         * Fires when the collection is cleared.
+         */</i>
+        &quot;clear&quot; : true,
+        <i>/**
+         * @event add
+         * Fires when an item is added to the collection.
+         * @param {Number} index The index at which the item was added.
+         * @param {Object} o The item added.
+         * @param {String} key The key associated <b>with</b> the added item.
+         */</i>
+        &quot;add&quot; : true,
+        <i>/**
+         * @event replace
+         * Fires when an item is replaced <b>in</b> the collection.
+         * @param {String} key he key associated <b>with</b> the <b>new</b> added.
+         * @param {Object} old The item being replaced.
+         * @param {Object} <b>new</b> The <b>new</b> item.
+         */</i>
+        &quot;replace&quot; : true,
+        <i>/**
+         * @event remove
+         * Fires when an item is removed from the collection.
+         * @param {Object} o The item being removed.
+         * @param {String} key (optional) The key associated <b>with</b> the removed item.
+         */</i>
+        &quot;remove&quot; : true,
+        &quot;sort&quot; : true
+    });
+    <b>this</b>.allowFunctions = allowFunctions === true;
+    <b>if</b>(keyFn){
+        <b>this</b>.getKey = keyFn;
+    }
+    Ext.util.MixedCollection.superclass.constructor.call(<b>this</b>);
+};
+
+Ext.extend(Ext.util.MixedCollection, Ext.util.Observable, {
+    allowFunctions : false,
+    
+<i>/**
+ * Adds an item to the collection.
+ * @param {String} key The key to associate <b>with</b> the item
+ * @param {Object} o The item to add.
+ * @<b>return</b> {Object} The item added.
+ */</i>
+    add : <b>function</b>(key, o){
+        <b>if</b>(arguments.length == 1){
+            o = arguments[0];
+            key = <b>this</b>.getKey(o);
+        }
+        <b>if</b>(typeof key == &quot;undefined&quot; || key === null){
+            <b>this</b>.length++;
+            <b>this</b>.items.push(o);
+            <b>this</b>.keys.push(null);
+        }<b>else</b>{
+            <b>var</b> old = <b>this</b>.map[key];
+            <b>if</b>(old){
+                <b>return</b> this.replace(key, o);
+            }
+            <b>this</b>.length++;
+            <b>this</b>.items.push(o);
+            <b>this</b>.map[key] = o;
+            <b>this</b>.keys.push(key);
+        }
+        <b>this</b>.fireEvent(&quot;add&quot;, <b>this</b>.length-1, o, key);
+        <b>return</b> o;
+    },
+   
+<i>/**
+  * MixedCollection has a generic way to fetch keys <b>if</b> you implement getKey.
+&lt;pre&gt;&lt;code&gt;
+<i>// normal way</i>
+<b>var</b> mc = <b>new</b> Ext.util.MixedCollection();
+mc.add(someEl.dom.id, someEl);
+mc.add(otherEl.dom.id, otherEl);
+<i>//and so on</i>
+
+<i>// using getKey</i>
+<b>var</b> mc = <b>new</b> Ext.util.MixedCollection();
+mc.getKey = <b>function</b>(el){
+   <b>return</b> el.dom.id;
+};
+mc.add(someEl);
+mc.add(otherEl);
+
+<i>// or via the constructor</i>
+<b>var</b> mc = <b>new</b> Ext.util.MixedCollection(false, <b>function</b>(el){
+   <b>return</b> el.dom.id;
+});
+mc.add(someEl);
+mc.add(otherEl);
+&lt;/code&gt;&lt;/pre&gt;
+ * @param o {Object} The item <b>for</b> which to find the key.
+ * @<b>return</b> {Object} The key <b>for</b> the passed item.
+ */</i>
+    getKey : <b>function</b>(o){
+         <b>return</b> o.id; 
+    },
+   
+<i>/**
+ * Replaces an item <b>in</b> the collection.
+ * @param {String} key The key associated <b>with</b> the item to replace, or the item to replace.
+ * @param o {Object} o (optional) If the first parameter passed was a key, the item to associate <b>with</b> that key.
+ * @<b>return</b> {Object}  The <b>new</b> item.
+ */</i>
+    replace : <b>function</b>(key, o){
+        <b>if</b>(arguments.length == 1){
+            o = arguments[0];
+            key = <b>this</b>.getKey(o);
+        }
+        <b>var</b> old = <b>this</b>.item(key);
+        <b>if</b>(typeof key == &quot;undefined&quot; || key === null || <b>typeof</b> old == &quot;undefined&quot;){
+             <b>return</b> this.add(key, o);
+        }
+        <b>var</b> index = <b>this</b>.indexOfKey(key);
+        <b>this</b>.items[index] = o;
+        <b>this</b>.map[key] = o;
+        <b>this</b>.fireEvent(&quot;replace&quot;, key, old, o);
+        <b>return</b> o;
+    },
+   
+<i>/**
+ * Adds all elements of an Array or an Object to the collection.
+ * @param {Object/Array} objs An Object containing properties which will be added to the collection, or
+ * an Array of values, each of which are added to the collection.
+ */</i>
+    addAll : <b>function</b>(objs){
+        <b>if</b>(arguments.length &gt; 1 || objs instanceof Array){
+            <b>var</b> args = arguments.length &gt; 1 ? arguments : objs;
+            <b>for</b>(var i = 0, len = args.length; i &lt; len; i++){
+                <b>this</b>.add(args[i]);
+            }
+        }<b>else</b>{
+            <b>for</b>(var key <b>in</b> objs){
+                <b>if</b>(this.allowFunctions || <b>typeof</b> objs[key] != &quot;<b>function</b>&quot;){
+                    <b>this</b>.add(key, objs[key]);
+                }
+            }
+        }
+    },
+   
+<i>/**
+ * Executes the specified <b>function</b> once <b>for</b> every item <b>in</b> the collection, passing each
+ * item as the first and only parameter. returning false from the <b>function</b> will stop the iteration.
+ * @param {Function} fn The <b>function</b> to execute <b>for</b> each item.
+ * @param {Object} scope (optional) The scope <b>in</b> which to execute the <b>function</b>.
+ */</i>
+    each : <b>function</b>(fn, scope){
+        <b>var</b> items = [].concat(<b>this</b>.items); <i>// each safe <b>for</b> removal</i>
+        <b>for</b>(var i = 0, len = items.length; i &lt; len; i++){
+            <b>if</b>(fn.call(scope || items[i], items[i], i, len) === false){
+                <b>break</b>;
+            }
+        }
+    },
+   
+<i>/**
+ * Executes the specified <b>function</b> once <b>for</b> every key <b>in</b> the collection, passing each
+ * key, and its associated item as the first two parameters.
+ * @param {Function} fn The <b>function</b> to execute <b>for</b> each item.
+ * @param {Object} scope (optional) The scope <b>in</b> which to execute the <b>function</b>.
+ */</i>
+    eachKey : <b>function</b>(fn, scope){
+        <b>for</b>(var i = 0, len = <b>this</b>.keys.length; i &lt; len; i++){
+            fn.call(scope || window, <b>this</b>.keys[i], <b>this</b>.items[i], i, len);
+        }
+    },
+   
+<i>/**
+ * Returns the first item <b>in</b> the collection which elicits a true <b>return</b> value from the
+ * passed selection <b>function</b>.
+ * @param {Function} fn The selection <b>function</b> to execute <b>for</b> each item.
+ * @param {Object} scope (optional) The scope <b>in</b> which to execute the <b>function</b>.
+ * @<b>return</b> {Object} The first item <b>in</b> the collection which returned true from the selection <b>function</b>.
+ */</i>
+    find : <b>function</b>(fn, scope){
+        <b>for</b>(var i = 0, len = <b>this</b>.items.length; i &lt; len; i++){
+            <b>if</b>(fn.call(scope || window, <b>this</b>.items[i], <b>this</b>.keys[i])){
+                <b>return</b> this.items[i];
+            }
+        }
+        <b>return</b> null;
+    },
+   
+<i>/**
+ * Inserts an item at the specified index <b>in</b> the collection.
+ * @param {Number} index The index to insert the item at.
+ * @param {String} key The key to associate <b>with</b> the <b>new</b> item, or the item itself.
+ * @param {Object} o  (optional) If the second parameter was a key, the <b>new</b> item.
+ * @<b>return</b> {Object} The item inserted.
+ */</i>
+    insert : <b>function</b>(index, key, o){
+        <b>if</b>(arguments.length == 2){
+            o = arguments[1];
+            key = <b>this</b>.getKey(o);
+        }
+        <b>if</b>(index &gt;= <b>this</b>.length){
+            <b>return</b> this.add(key, o);
+        }
+        <b>this</b>.length++;
+        <b>this</b>.items.splice(index, 0, o);
+        <b>if</b>(typeof key != &quot;undefined&quot; &amp;&amp; key != null){
+            <b>this</b>.map[key] = o;
+        }
+        <b>this</b>.keys.splice(index, 0, key);
+        <b>this</b>.fireEvent(&quot;add&quot;, index, o, key);
+        <b>return</b> o;
+    },
+   
+<i>/**
+ * Removed an item from the collection.
+ * @param {Object} o The item to remove.
+ * @<b>return</b> {Object} The item removed.
+ */</i>
+    remove : <b>function</b>(o){
+        <b>return</b> this.removeAt(<b>this</b>.indexOf(o));
+    },
+   
+<i>/**
+ * Remove an item from a specified index <b>in</b> the collection.
+ * @param {Number} index The index within the collection of the item to remove.
+ */</i>
+    removeAt : <b>function</b>(index){
+        <b>if</b>(index &lt; <b>this</b>.length &amp;&amp; index &gt;= 0){
+            <b>this</b>.length--;
+            <b>var</b> o = <b>this</b>.items[index];
+            <b>this</b>.items.splice(index, 1);
+            <b>var</b> key = <b>this</b>.keys[index];
+            <b>if</b>(typeof key != &quot;undefined&quot;){
+                <b>delete</b> this.map[key];
+            }
+            <b>this</b>.keys.splice(index, 1);
+            <b>this</b>.fireEvent(&quot;remove&quot;, o, key);
+        }
+    },
+   
+<i>/**
+ * Removed an item associated <b>with</b> the passed key fom the collection.
+ * @param {String} key The key of the item to remove.
+ */</i>
+    removeKey : <b>function</b>(key){
+        <b>return</b> this.removeAt(<b>this</b>.indexOfKey(key));
+    },
+   
+<i>/**
+ * Returns the number of items <b>in</b> the collection.
+ * @<b>return</b> {Number} the number of items <b>in</b> the collection.
+ */</i>
+    getCount : <b>function</b>(){
+        <b>return</b> this.length; 
+    },
+   
+<i>/**
+ * Returns index within the collection of the passed Object.
+ * @param {Object} o The item to find the index of.
+ * @<b>return</b> {Number} index of the item.
+ */</i>
+    indexOf : <b>function</b>(o){
+        <b>if</b>(!<b>this</b>.items.indexOf){
+            <b>for</b>(var i = 0, len = <b>this</b>.items.length; i &lt; len; i++){
+                <b>if</b>(this.items[i] == o) <b>return</b> i;
+            }
+            <b>return</b> -1;
+        }<b>else</b>{
+            <b>return</b> this.items.indexOf(o);
+        }
+    },
+   
+<i>/**
+ * Returns index within the collection of the passed key.
+ * @param {String} key The key to find the index of.
+ * @<b>return</b> {Number} index of the key.
+ */</i>
+    indexOfKey : <b>function</b>(key){
+        <b>if</b>(!<b>this</b>.keys.indexOf){
+            <b>for</b>(var i = 0, len = <b>this</b>.keys.length; i &lt; len; i++){
+                <b>if</b>(this.keys[i] == key) <b>return</b> i;
+            }
+            <b>return</b> -1;
+        }<b>else</b>{
+            <b>return</b> this.keys.indexOf(key);
+        }
+    },
+   
+<i>/**
+ * Returns the item associated <b>with</b> the passed key OR index. Key has priority over index.
+ * @param {String/Number} key The key or index of the item.
+ * @<b>return</b> {Object} The item associated <b>with</b> the passed key.
+ */</i>
+    item : <b>function</b>(key){
+        <b>var</b> item = <b>typeof</b> this.map[key] != &quot;undefined&quot; ? <b>this</b>.map[key] : <b>this</b>.items[key];
+        <b>return</b> typeof item != <em>'<b>function</b>'</em> || <b>this</b>.allowFunctions ? item : null; <i>// <b>for</b> prototype!</i>
+    },
+    
+<i>/**
+ * Returns the item at the specified index.
+ * @param {Number} index The index of the item.
+ * @<b>return</b> {Object}
+ */</i>
+    itemAt : <b>function</b>(index){
+        <b>return</b> this.items[index];
+    },
+    
+<i>/**
+ * Returns the item associated <b>with</b> the passed key.
+ * @param {String/Number} key The key of the item.
+ * @<b>return</b> {Object} The item associated <b>with</b> the passed key.
+ */</i>
+    key : <b>function</b>(key){
+        <b>return</b> this.map[key];
+    },
+   
+<i>/**
+ * Returns true <b>if</b> the collection contains the passed Object as an item.
+ * @param {Object} o  The Object to look <b>for</b> in the collection.
+ * @<b>return</b> {Boolean} True <b>if</b> the collection contains the Object as an item.
+ */</i>
+    contains : <b>function</b>(o){
+        <b>return</b> this.indexOf(o) != -1;
+    },
+   
+<i>/**
+ * Returns true <b>if</b> the collection contains the passed Object as a key.
+ * @param {String} key The key to look <b>for</b> in the collection.
+ * @<b>return</b> {Boolean} True <b>if</b> the collection contains the Object as a key.
+ */</i>
+    containsKey : <b>function</b>(key){
+        <b>return</b> typeof <b>this</b>.map[key] != &quot;undefined&quot;;
+    },
+   
+<i>/**
+ * Removes all items from the collection.
+ */</i>
+    clear : <b>function</b>(){
+        <b>this</b>.length = 0;
+        <b>this</b>.items = [];
+        <b>this</b>.keys = [];
+        <b>this</b>.map = {};
+        <b>this</b>.fireEvent(&quot;clear&quot;);
+    },
+   
+<i>/**
+ * Returns the first item <b>in</b> the collection.
+ * @<b>return</b> {Object} the first item <b>in</b> the collection..
+ */</i>
+    first : <b>function</b>(){
+        <b>return</b> this.items[0]; 
+    },
+   
+<i>/**
+ * Returns the last item <b>in</b> the collection.
+ * @<b>return</b> {Object} the last item <b>in</b> the collection..
+ */</i>
+    last : <b>function</b>(){
+        <b>return</b> this.items[<b>this</b>.length-1];   
+    },
+    
+    _sort : <b>function</b>(property, dir, fn){
+        <b>var</b> dsc = String(dir).toUpperCase() == &quot;DESC&quot; ? -1 : 1;
+        fn = fn || <b>function</b>(a, b){
+            <b>return</b> a-b;
+        };
+        <b>var</b> c = [], k = <b>this</b>.keys, items = <b>this</b>.items;
+        <b>for</b>(var i = 0, len = items.length; i &lt; len; i++){
+            c[c.length] = {key: k[i], value: items[i], index: i};
+        }
+        c.sort(<b>function</b>(a, b){
+            <b>var</b> v = fn(a[property], b[property]) * dsc;
+            <b>if</b>(v == 0){
+                v = (a.index &lt; b.index ? -1 : 1);
+            }
+            <b>return</b> v;
+        });
+        <b>for</b>(var i = 0, len = c.length; i &lt; len; i++){
+            items[i] = c[i].value;
+            k[i] = c[i].key;
+        }
+        <b>this</b>.fireEvent(&quot;sort&quot;, <b>this</b>);
+    },
+    
+    <i>/**
+     * Sorts <b>this</b> collection <b>with</b> the passed comparison <b>function</b>
+     * @param {String} direction (optional) &quot;ASC&quot; or &quot;DESC&quot;
+     * @param {Function} fn (optional) comparison <b>function</b>
+     */</i>
+    sort : <b>function</b>(dir, fn){
+        <b>this</b>._sort(&quot;value&quot;, dir, fn);
+    },
+    
+    <i>/**
+     * Sorts <b>this</b> collection by keys
+     * @param {String} direction (optional) &quot;ASC&quot; or &quot;DESC&quot;
+     * @param {Function} fn (optional) a comparison <b>function</b> (defaults to <b>case</b> insensitive string)
+     */</i>
+    keySort : <b>function</b>(dir, fn){
+        <b>this</b>._sort(&quot;key&quot;, dir, fn || <b>function</b>(a, b){
+            <b>return</b> String(a).toUpperCase()-String(b).toUpperCase();
+        });
+    },
+    
+    <i>/**
+     * Returns a range of items <b>in</b> this collection
+     * @param {Number} startIndex (optional) defaults to 0
+     * @param {Number} endIndex (optional) <b>default</b> to the last item
+     * @<b>return</b> {Array} An array of items
+     */</i>
+    getRange : <b>function</b>(start, end){
+        <b>var</b> items = <b>this</b>.items;
+        <b>if</b>(items.length &lt; 1){
+            <b>return</b> [];
+        }
+        start = start || 0;
+        end = Math.min(<b>typeof</b> end == &quot;undefined&quot; ? <b>this</b>.length-1 : end, <b>this</b>.length-1);
+        <b>var</b> r = [];
+        <b>if</b>(start &lt;= end){
+            <b>for</b>(var i = start; i &lt;= end; i++) {
+        	    r[r.length] = items[i];
+            }
+        }<b>else</b>{
+            <b>for</b>(var i = start; i &gt;= end; i--) {
+        	    r[r.length] = items[i];
+            }
+        }
+        <b>return</b> r;
+    },
+        
+    <i>/**
+     * Filter the &lt;i&gt;objects&lt;/i&gt; <b>in</b> this collection by a specific property. 
+     * Returns a <b>new</b> collection that has been filtered.
+     * @param {String} property A property on your objects
+     * @param {String/RegExp} value Either string that the property values 
+     * should start <b>with</b> or a RegExp to test against the property
+     * @<b>return</b> {MixedCollection} The <b>new</b> filtered collection
+     */</i>
+    filter : <b>function</b>(property, value){
+        <b>if</b>(!value.exec){ <i>// not a regex</i>
+            value = String(value);
+            <b>if</b>(value.length == 0){
+                <b>return</b> this.clone();
+            }
+            value = <b>new</b> RegExp(&quot;^&quot; + Ext.escapeRe(value), &quot;i&quot;);
+        }
+        <b>return</b> this.filterBy(<b>function</b>(o){
+            <b>return</b> o &amp;&amp; value.test(o[property]);
+        });
+	},
+    
+    <i>/**
+     * Filter by a <b>function</b>. * Returns a <b>new</b> collection that has been filtered.
+     * The passed <b>function</b> will be called <b>with</b> each 
+     * object <b>in</b> the collection. If the <b>function</b> returns true, the value is included 
+     * otherwise it is filtered.
+     * @param {Function} fn The <b>function</b> to be called, it will receive the args o (the object), k (the key)
+     * @param {Object} scope (optional) The scope of the <b>function</b> (defaults to <b>this</b>) 
+     * @<b>return</b> {MixedCollection} The <b>new</b> filtered collection
+     */</i>
+    filterBy : <b>function</b>(fn, scope){
+        <b>var</b> r = <b>new</b> Ext.util.MixedCollection();
+        r.getKey = <b>this</b>.getKey;
+        <b>var</b> k = <b>this</b>.keys, it = <b>this</b>.items;
+        <b>for</b>(var i = 0, len = it.length; i &lt; len; i++){
+            <b>if</b>(fn.call(scope||<b>this</b>, it[i], k[i])){
+				r.add(k[i], it[i]);
+			}
+        }
+        <b>return</b> r;
+    },
+    
+    <i>/**
+     * Creates a duplicate of <b>this</b> collection
+     * @<b>return</b> {MixedCollection}
+     */</i>
+    clone : <b>function</b>(){
+        <b>var</b> r = <b>new</b> Ext.util.MixedCollection();
+        <b>var</b> k = <b>this</b>.keys, it = <b>this</b>.items;
+        <b>for</b>(var i = 0, len = it.length; i &lt; len; i++){
+            r.add(k[i], it[i]);
+        }
+        r.getKey = <b>this</b>.getKey;
+        <b>return</b> r;
+    }
+});
+<i>/**
+ * Returns the item associated <b>with</b> the passed key or index.
+ * @method
+ * @param {String/Number} key The key or index of the item.
+ * @<b>return</b> {Object} The item associated <b>with</b> the passed key.
+ */</i>
+Ext.util.MixedCollection.prototype.get = Ext.util.MixedCollection.prototype.item;</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

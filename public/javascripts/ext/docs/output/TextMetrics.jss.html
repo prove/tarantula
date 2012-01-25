@@ -1,0 +1,114 @@
+<html><head><title>TextMetrics.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>TextMetrics.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.util.TextMetrics
+ * Provides precise pixel measurements <b>for</b> blocks of text so that you can determine exactly how high and
+ * wide, <b>in</b> pixels, a given block of text will be.
+ * @singleton
+ */</i>
+Ext.util.TextMetrics = <b>function</b>(){
+    <b>var</b> shared;
+    <b>return</b> {
+        <i>/**
+         * Measures the size of the specified text
+         * @param {String/HTMLElement} el The element, dom node or id from which to copy existing CSS styles
+         * that can affect the size of the rendered text
+         * @param {String} text The text to measure
+         * @param {Number} fixedWidth (optional) If the text will be multiline, you have to set a fixed width
+         * <b>in</b> order to accurately measure the text height
+         * @<b>return</b> {Object} An object containing the text's size {width: (width), height: (height)}
+         */</i>
+        measure : <b>function</b>(el, text, fixedWidth){
+            <b>if</b>(!shared){
+                shared = Ext.util.TextMetrics.Instance(el, fixedWidth);
+            }
+            shared.bind(el);
+            shared.setFixedWidth(fixedWidth || <em>'auto'</em>);
+            <b>return</b> shared.getSize(text);
+        },
+
+        <i>/**
+         * Return a unique TextMetrics instance that can be bound directly to an element and reused.  This reduces
+         * the overhead of multiple calls to initialize the style properties on each measurement.
+         * @param {String/HTMLElement} el The element, dom node or id that the instance will be bound to
+         * @param {Number} fixedWidth (optional) If the text will be multiline, you have to set a fixed width
+         * <b>in</b> order to accurately measure the text height
+         * @<b>return</b> {Ext.util.TextMetrics.Instance} instance The <b>new</b> instance
+         */</i>
+        createInstance : <b>function</b>(el, fixedWidth){
+            <b>return</b> Ext.util.TextMetrics.Instance(el, fixedWidth);
+        }
+    };
+}();
+
+Ext.util.TextMetrics.Instance = <b>function</b>(bindTo, fixedWidth){
+    <b>var</b> ml = <b>new</b> Ext.Element(document.createElement(<em>'div'</em>));
+    document.body.appendChild(ml.dom);
+    ml.position(<em>'absolute'</em>);
+    ml.setLeftTop(-1000, -1000);
+    ml.hide();
+
+    <b>if</b>(fixedWidth){
+        ml.setWidth(fixedWidth);
+    }
+
+    <b>var</b> instance = {
+        <i>/**
+         * Returns the size of the specified text based on the internal element's style and width properties
+         * @param {String} text The text to measure
+         * @<b>return</b> {Object} An object containing the text's size {width: (width), height: (height)}
+         */</i>
+        getSize : <b>function</b>(text){
+            ml.update(text);
+            <b>var</b> s = ml.getSize();
+            ml.update(<em>''</em>);
+            <b>return</b> s;
+        },
+
+        <i>/**
+         * Binds <b>this</b> TextMetrics instance to an element from which to copy existing CSS styles
+         * that can affect the size of the rendered text
+         * @param {String/HTMLElement} el The element, dom node or id
+         */</i>
+        bind : <b>function</b>(el){
+            ml.setStyle(
+                Ext.fly(el).getStyles(<em>'font-size'</em>,<em>'font-style'</em>, <em>'font-weight'</em>, <em>'font-family'</em>,<em>'line-height'</em>)
+            );
+        },
+
+        <i>/**
+         * Sets a fixed width on the internal measurement element.  If the text will be multiline, you have
+         * to set a fixed width <b>in</b> order to accurately measure the text height.
+         * @param {Number} width The width to set on the element
+         */</i>
+        setFixedWidth : <b>function</b>(width){
+            ml.setWidth(width);
+        },
+
+        <i>/**
+         * Returns the measured width of the specified text
+         * @param {String} text The text to measure
+         * @<b>return</b> {Number} width The width <b>in</b> pixels
+         */</i>
+        getWidth : <b>function</b>(text){
+            ml.dom.style.width = <em>'auto'</em>;
+            <b>return</b> this.getSize(text).width;
+        },
+
+        <i>/**
+         * Returns the measured height of the specified text.  For multiline text, be sure to call
+         * {@link #setFixedWidth} <b>if</b> necessary.
+         * @param {String} text The text to measure
+         * @<b>return</b> {Number} height The height <b>in</b> pixels
+         */</i>
+        getHeight : <b>function</b>(text){
+            <b>return</b> this.getSize(text).height;
+        }
+    };
+
+    instance.bind(bindTo);
+
+    <b>return</b> instance;
+};
+
+<i>// backwards compat</i>
+Ext.Element.measureText = Ext.util.TextMetrics.measure;</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

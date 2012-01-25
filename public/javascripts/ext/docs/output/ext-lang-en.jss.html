@@ -1,0 +1,174 @@
+<html><head><title>ext-lang-en.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-en.js</h1><pre class="highlighted"><code><i>/**
+ * List compiled by mystix on the extjs.com forums.
+ * Thank you Mystix!
+ *
+ * English Translations
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;Loading...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} selected row(s)&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;Close <b>this</b> tab&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;The value <b>in</b> this field is invalid&quot;;
+}
+
+<b>if</b>(Ext.LoadMask){
+    Ext.LoadMask.prototype.msg = &quot;Loading...&quot;;
+}
+
+Date.monthNames = [
+   &quot;January&quot;,
+   &quot;February&quot;,
+   &quot;March&quot;,
+   &quot;April&quot;,
+   &quot;May&quot;,
+   &quot;June&quot;,
+   &quot;July&quot;,
+   &quot;August&quot;,
+   &quot;September&quot;,
+   &quot;October&quot;,
+   &quot;November&quot;,
+   &quot;December&quot;
+];
+
+Date.dayNames = [
+   &quot;Sunday&quot;,
+   &quot;Monday&quot;,
+   &quot;Tuesday&quot;,
+   &quot;Wednesday&quot;,
+   &quot;Thursday&quot;,
+   &quot;Friday&quot;,
+   &quot;Saturday&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;OK&quot;,
+      cancel : &quot;Cancel&quot;,
+      yes    : &quot;Yes&quot;,
+      no     : &quot;No&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;m/d/Y&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+   Ext.apply(Ext.DatePicker.prototype, {
+      todayText         : &quot;Today&quot;,
+      minText           : &quot;This date is before the minimum date&quot;,
+      maxText           : &quot;This date is after the maximum date&quot;,
+      disabledDaysText  : &quot;&quot;,
+      disabledDatesText : &quot;&quot;,
+      monthNames	: Date.monthNames,
+      dayNames		: Date.dayNames,
+      nextText          : <em>'Next Month (Control+Right)'</em>,
+      prevText          : <em>'Previous Month (Control+Left)'</em>,
+      monthYearText     : <em>'Choose a month (Control+Up/Down to move years)'</em>,
+      todayTip          : &quot;{0} (Spacebar)&quot;,
+      format            : &quot;m/d/y&quot;
+   });
+}
+
+<b>if</b>(Ext.PagingToolbar){
+   Ext.apply(Ext.PagingToolbar.prototype, {
+      beforePageText : &quot;Page&quot;,
+      afterPageText  : &quot;of {0}&quot;,
+      firstText      : &quot;First Page&quot;,
+      prevText       : &quot;Previous Page&quot;,
+      nextText       : &quot;Next Page&quot;,
+      lastText       : &quot;Last Page&quot;,
+      refreshText    : &quot;Refresh&quot;,
+      displayMsg     : &quot;Displaying {0} - {1} of {2}&quot;,
+      emptyMsg       : <em>'No data to display'</em>
+   });
+}
+
+<b>if</b>(Ext.form.TextField){
+   Ext.apply(Ext.form.TextField.prototype, {
+      minLengthText : &quot;The minimum length <b>for</b> this field is {0}&quot;,
+      maxLengthText : &quot;The maximum length <b>for</b> this field is {0}&quot;,
+      blankText     : &quot;This field is required&quot;,
+      regexText     : &quot;&quot;,
+      emptyText     : null
+   });
+}
+
+<b>if</b>(Ext.form.NumberField){
+   Ext.apply(Ext.form.NumberField.prototype, {
+      minText : &quot;The minimum value <b>for</b> this field is {0}&quot;,
+      maxText : &quot;The maximum value <b>for</b> this field is {0}&quot;,
+      nanText : &quot;{0} is not a valid number&quot;
+   });
+}
+
+<b>if</b>(Ext.form.DateField){
+   Ext.apply(Ext.form.DateField.prototype, {
+      disabledDaysText  : &quot;Disabled&quot;,
+      disabledDatesText : &quot;Disabled&quot;,
+      minText           : &quot;The date <b>in</b> this field must be after {0}&quot;,
+      maxText           : &quot;The date <b>in</b> this field must be before {0}&quot;,
+      invalidText       : &quot;{0} is not a valid date - it must be <b>in</b> the format {1}&quot;,
+      format            : &quot;m/d/y&quot;
+   });
+}
+
+<b>if</b>(Ext.form.ComboBox){
+   Ext.apply(Ext.form.ComboBox.prototype, {
+      loadingText       : &quot;Loading...&quot;,
+      valueNotFoundText : undefined
+   });
+}
+
+<b>if</b>(Ext.form.VTypes){
+   Ext.apply(Ext.form.VTypes, {
+      emailText    : <em>'This field should be an e-mail address <b>in</b> the format &quot;user@domain.com&quot;'</em>,
+      urlText      : <em>'This field should be a URL <b>in</b> the format &quot;http:/'</em>+<em>'/www.domain.com&quot;'</em>,
+      alphaText    : <em>'This field should only contain letters and _'</em>,
+      alphanumText : <em>'This field should only contain letters, numbers and _'</em>
+   });
+}
+
+<b>if</b>(Ext.grid.GridView){
+   Ext.apply(Ext.grid.GridView.prototype, {
+      sortAscText  : &quot;Sort Ascending&quot;,
+      sortDescText : &quot;Sort Descending&quot;,
+      lockText     : &quot;Lock Column&quot;,
+      unlockText   : &quot;Unlock Column&quot;,
+      columnsText  : &quot;Columns&quot;
+   });
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+      nameText   : &quot;Name&quot;,
+      valueText  : &quot;Value&quot;,
+      dateFormat : &quot;m/j/Y&quot;
+   });
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+   Ext.apply(Ext.SplitLayoutRegion.prototype, {
+      splitTip            : &quot;Drag to resize.&quot;,
+      collapsibleSplitTip : &quot;Drag to resize. Double click to hide.&quot;
+   });
+}
+
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

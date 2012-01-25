@@ -1,0 +1,34 @@
+
+<div style="margin-top:4em; margin-left: 1em;">
+<h2>Salome Import</h2>
+
+<% form_tag({:controller => 'import', :action => 'salome'}, :multipart => true) do -%>
+    <table>
+    <tr>
+    	<td><label for="project">Project</label></td>
+        <td style="padding-left:2em;"> 
+	       <%= select_tag 'project', options_from_collection_for_select(
+	                                   @projects, 'id', 'name') %>
+	    </td>
+	</tr>
+	<tr>
+	    <td><label for="file">File to Import</label></td> 
+	    <td style="padding-left:2em;"><%= file_field_tag "file", :size => 40 %></td>
+	</tr>
+	<tr>
+		<td><label for="email">Email log to</label></td>
+		<td style="padding-left:2em;"><%= text_field_tag "email" %></td>
+	</tr>
+	<tr>
+		<td><label for="start_number">Start case numbering from</label></td>
+		<td style="padding-left:2em;"><%= text_field_tag "start_number", nil, :size => 5 %></td>
+	</tr>
+	</table>
+	<p style="margin: 2em; 0; 1.5em; 0;">
+		N.B. Big imports (hundreds or thousands of cases) can freeze UI for several minutes.
+		<br/>Log will always be sent if valid email address is provided. 
+	</p>
+	<%= submit_tag 'Import' %>
+
+<% end %>
+</div>

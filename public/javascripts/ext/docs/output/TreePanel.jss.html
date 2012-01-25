@@ -1,0 +1,414 @@
+<html><head><title>TreePanel.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>TreePanel.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.tree.TreePanel
+ * @extends Ext.data.Tree
+
+ * @cfg {Boolean} rootVisible false to hide the root node (defaults to true)
+ * @cfg {Boolean} lines false to disable tree lines (defaults to true)
+ * @cfg {Boolean} enableDD true to enable drag and drop
+ * @cfg {Boolean} enableDrag true to enable just drag
+ * @cfg {Boolean} enableDrop true to enable just drop
+ * @cfg {Object} dragConfig Custom config to pass to the {@link Ext.tree.TreeDragZone} instance
+ * @cfg {Object} dropConfig Custom config to pass to the {@link Ext.tree.TreeDropZone} instance
+ * @cfg {String} ddGroup The DD group <b>this</b> TreePanel belongs to
+ * @cfg {String} ddAppendOnly True <b>if</b> the tree should only allow append drops (use <b>for</b> trees which are sorted)
+ * @cfg {Boolean} ddScroll true to enable YUI body scrolling
+ * @cfg {Boolean} containerScroll true to register <b>this</b> container <b>with</b> ScrollManager
+ * @cfg {Boolean} hlDrop false to disable node highlight on drop (defaults to true)
+ * @cfg {String} hlColor The color of the node highlight (defaults to C3DAF9)
+ * @cfg {Boolean} animate true to enable animated expand/collapse
+ * @cfg {Boolean} singleExpand true <b>if</b> only 1 node per branch may be expanded
+ * @cfg {Boolean} selModel A tree selection model to use <b>with</b> this TreePanel (defaults to a {@link Ext.tree.DefaultSelectionModel})
+ * @cfg {Boolean} loader A TreeLoader <b>for</b> use <b>with</b> this TreePanel
+ * @constructor
+ * @param {String/HTMLElement/Element} el The container element
+ * @param {Object} config
+ */</i>
+Ext.tree.TreePanel = <b>function</b>(el, config){
+   Ext.apply(<b>this</b>, config);
+   Ext.tree.TreePanel.superclass.constructor.call(<b>this</b>);
+   <b>this</b>.el = Ext.get(el);
+    <b>this</b>.el.addClass(<em>'x-tree'</em>);
+   <i>/**
+    * Read-only. The id of the container element becomes <b>this</b> TreePanel's id.
+    */</i>
+   <b>this</b>.id = <b>this</b>.el.id;
+   <b>this</b>.addEvents({
+        <i>/**
+        * @event beforeload
+        * Fires before a node is loaded, <b>return</b> false to cancel
+        * @param {Node} node The node being loaded
+        */</i>
+        &quot;beforeload&quot; : true,
+        <i>/**
+        * @event load
+        * Fires when a node is loaded
+        * @param {Node} node The node that was loaded
+        */</i>
+        &quot;load&quot; : true,
+        <i>/**
+        * @event textchange
+        * Fires when the text <b>for</b> a node is changed
+        * @param {Node} node The node
+        * @param {String} text The <b>new</b> text
+        * @param {String} oldText The old text
+        */</i>
+        &quot;textchange&quot; : true,
+        <i>/**
+        * @event beforeexpand
+        * Fires before a node is expanded, <b>return</b> false to cancel.
+        * @param {Node} node The node
+        * @param {Boolean} deep
+        * @param {Boolean} anim
+        */</i>
+        &quot;beforeexpand&quot; : true,
+        <i>/**
+        * @event beforecollapse
+        * Fires before a node is collapsed, <b>return</b> false to cancel.
+        * @param {Node} node The node
+        * @param {Boolean} deep
+        * @param {Boolean} anim
+        */</i>
+        &quot;beforecollapse&quot; : true,
+        <i>/**
+        * @event expand
+        * Fires when a node is expanded
+        * @param {Node} node The node
+        */</i>
+        &quot;expand&quot; : true,
+        <i>/**
+        * @event disabledchange
+        * Fires when the disabled status of a node changes
+        * @param {Node} node The node
+        * @param {Boolean} disabled
+        */</i>
+        &quot;disabledchange&quot; : true,
+        <i>/**
+        * @event collapse
+        * Fires when a node is collapsed
+        * @param {Node} node The node
+        */</i>
+        &quot;collapse&quot; : true,
+        <i>/**
+        * @event beforeclick
+        * Fires before click processing on a node. Return false to cancel the <b>default</b> action.
+        * @param {Node} node The node
+        * @param {Ext.EventObject} e The event object
+        */</i>
+        &quot;beforeclick&quot;:true,
+        <i>/**
+        * @event checkchange
+        * Fires when a node <b>with</b> a checkbox's checked property changes
+        * @param {Node} <b>this</b> This node
+        * @param {Boolean} checked
+        */</i>
+        &quot;checkchange&quot;:true,
+        <i>/**
+        * @event click
+        * Fires when a node is clicked
+        * @param {Node} node The node
+        * @param {Ext.EventObject} e The event object
+        */</i>
+        &quot;click&quot;:true,
+        <i>/**
+        * @event dblclick
+        * Fires when a node is double clicked
+        * @param {Node} node The node
+        * @param {Ext.EventObject} e The event object
+        */</i>
+        &quot;dblclick&quot;:true,
+        <i>/**
+        * @event contextmenu
+        * Fires when a node is right clicked
+        * @param {Node} node The node
+        * @param {Ext.EventObject} e The event object
+        */</i>
+        &quot;contextmenu&quot;:true,
+        <i>/**
+        * @event beforechildrenrendered
+        * Fires right before the child nodes <b>for</b> a node are rendered
+        * @param {Node} node The node
+        */</i>
+        &quot;beforechildrenrendered&quot;:true,
+       <i>/**
+	     * @event startdrag
+	     * Fires when a node starts being dragged
+	     * @param {Ext.tree.TreePanel} <b>this</b>
+	     * @param {Ext.tree.TreeNode} node
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;startdrag&quot; : true,
+	    <i>/**
+	     * @event enddrag
+	     * Fires when a drag operation is complete
+	     * @param {Ext.tree.TreePanel} <b>this</b>
+	     * @param {Ext.tree.TreeNode} node
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;enddrag&quot; : true,
+	    <i>/**
+	     * @event dragdrop
+	     * Fires when a dragged node is dropped on a valid DD target
+	     * @param {Ext.tree.TreePanel} <b>this</b>
+	     * @param {Ext.tree.TreeNode} node
+	     * @param {DD} dd The dd it was dropped on
+	     * @param {event} e The raw browser event
+	     */</i>
+	    &quot;dragdrop&quot; : true,
+	    <i>/**
+	     * @event beforenodedrop
+	     * Fires when a DD object is dropped on a node <b>in</b> this tree <b>for</b> preprocessing. Return false to cancel the drop. The dropEvent
+	     * passed to handlers has the following properties:&lt;br /&gt;
+	     * &lt;ul style=&quot;padding:5px;padding-left:16px;&quot;&gt;
+	     * &lt;li&gt;tree - The TreePanel&lt;/li&gt;
+	     * &lt;li&gt;target - The node being targeted <b>for</b> the drop&lt;/li&gt;
+	     * &lt;li&gt;data - The drag data from the drag source&lt;/li&gt;
+	     * &lt;li&gt;point - The point of the drop - append, above or below&lt;/li&gt;
+	     * &lt;li&gt;source - The drag source&lt;/li&gt;
+	     * &lt;li&gt;rawEvent - Raw mouse event&lt;/li&gt;
+	     * &lt;li&gt;dropNode - Drop node(s) provided by the source &lt;b&gt;OR&lt;/b&gt; you can supply node(s)
+	     * to be inserted by setting them on <b>this</b> object.&lt;/li&gt;
+	     * &lt;li&gt;cancel - Set <b>this</b> to true to cancel the drop.&lt;/li&gt;
+	     * &lt;/ul&gt;
+	     * @param {Object} dropEvent
+	     */</i>
+	    &quot;beforenodedrop&quot; : true,
+	    <i>/**
+	     * @event nodedrop
+	     * Fires after a DD object is dropped on a node <b>in</b> this tree. The dropEvent
+	     * passed to handlers has the following properties:&lt;br /&gt;
+	     * &lt;ul style=&quot;padding:5px;padding-left:16px;&quot;&gt;
+	     * &lt;li&gt;tree - The TreePanel&lt;/li&gt;
+	     * &lt;li&gt;target - The node being targeted <b>for</b> the drop&lt;/li&gt;
+	     * &lt;li&gt;data - The drag data from the drag source&lt;/li&gt;
+	     * &lt;li&gt;point - The point of the drop - append, above or below&lt;/li&gt;
+	     * &lt;li&gt;source - The drag source&lt;/li&gt;
+	     * &lt;li&gt;rawEvent - Raw mouse event&lt;/li&gt;
+	     * &lt;li&gt;dropNode - Dropped node(s).&lt;/li&gt;
+	     * &lt;/ul&gt;
+	     * @param {Object} dropEvent
+	     */</i>
+	    &quot;nodedrop&quot; : true,
+	     <i>/**
+	     * @event nodedragover
+	     * Fires when a tree node is being targeted <b>for</b> a drag drop, <b>return</b> false to signal drop not allowed. The dragOverEvent
+	     * passed to handlers has the following properties:&lt;br /&gt;
+	     * &lt;ul style=&quot;padding:5px;padding-left:16px;&quot;&gt;
+	     * &lt;li&gt;tree - The TreePanel&lt;/li&gt;
+	     * &lt;li&gt;target - The node being targeted <b>for</b> the drop&lt;/li&gt;
+	     * &lt;li&gt;data - The drag data from the drag source&lt;/li&gt;
+	     * &lt;li&gt;point - The point of the drop - append, above or below&lt;/li&gt;
+	     * &lt;li&gt;source - The drag source&lt;/li&gt;
+	     * &lt;li&gt;rawEvent - Raw mouse event&lt;/li&gt;
+	     * &lt;li&gt;dropNode - Drop node(s) provided by the source.&lt;/li&gt;
+	     * &lt;li&gt;cancel - Set <b>this</b> to true to signal drop not allowed.&lt;/li&gt;
+	     * &lt;/ul&gt;
+	     * @param {Object} dragOverEvent
+	     */</i>
+	    &quot;nodedragover&quot; : true
+   });
+   <b>if</b>(this.singleExpand){
+       <b>this</b>.on(&quot;beforeexpand&quot;, <b>this</b>.restrictExpand, <b>this</b>);
+   }
+};
+Ext.extend(Ext.tree.TreePanel, Ext.data.Tree, {
+    rootVisible : true,
+    animate: Ext.enableFx,
+    lines : true,
+    enableDD : false,
+    hlDrop : Ext.enableFx,
+
+    <i>// private</i>
+    restrictExpand : <b>function</b>(node){
+        <b>var</b> p = node.parentNode;
+        <b>if</b>(p){
+            <b>if</b>(p.expandedChild &amp;&amp; p.expandedChild.parentNode == p){
+                p.expandedChild.collapse();
+            }
+            p.expandedChild = node;
+        }
+    },
+
+    <i>// private override</i>
+    setRootNode : <b>function</b>(node){
+        Ext.tree.TreePanel.superclass.setRootNode.call(<b>this</b>, node);
+        <b>if</b>(!<b>this</b>.rootVisible){
+            node.ui = <b>new</b> Ext.tree.RootTreeNodeUI(node);
+        }
+        <b>return</b> node;
+    },
+
+    <i>/**
+     * Returns the container element <b>for</b> this TreePanel
+     */</i>
+    getEl : <b>function</b>(){
+        <b>return</b> this.el;
+    },
+
+    <i>/**
+     * Returns the <b>default</b> TreeLoader <b>for</b> this TreePanel
+     */</i>
+    getLoader : <b>function</b>(){
+        <b>return</b> this.loader;
+    },
+
+    <i>/**
+     * Expand all nodes
+     */</i>
+    expandAll : <b>function</b>(){
+        <b>this</b>.root.expand(true);
+    },
+
+    <i>/**
+     * Collapse all nodes
+     */</i>
+    collapseAll : <b>function</b>(){
+        <b>this</b>.root.collapse(true);
+    },
+
+    <i>/**
+     * Returns the selection model used by <b>this</b> TreePanel
+     */</i>
+    getSelectionModel : <b>function</b>(){
+        <b>if</b>(!<b>this</b>.selModel){
+            <b>this</b>.selModel = <b>new</b> Ext.tree.DefaultSelectionModel();
+        }
+        <b>return</b> this.selModel;
+    },
+
+    <i>/**
+     * Retrieve an array of checked nodes, or an array of a specific attribute of checked nodes (e.g. &quot;id&quot;)
+     * @param {String} attribute (optional) Defaults to null (<b>return</b> the actual nodes)
+     * @param {TreeNode} startNode (optional) The node to start from, defaults to the root
+     * @<b>return</b> {Array}
+     */</i>
+    getChecked : <b>function</b>(a, startNode){
+        startNode = startNode || <b>this</b>.root;
+        <b>var</b> r = [];
+        <b>var</b> f = <b>function</b>(){
+            <b>if</b>(this.attributes.checked){
+                r.push(!a ? <b>this</b> : (a == <em>'id'</em> ? <b>this</b>.id : <b>this</b>.attributes[a]));
+            }
+        }
+        startNode.cascade(f);
+        <b>return</b> r;
+    },
+
+    <i>/**
+     * Expands a specified path <b>in</b> this TreePanel. A path can be retrieved from a node <b>with</b> {@link Ext.data.Node#getPath}
+     * @param {String} path
+     * @param {String} attr (optional) The attribute used <b>in</b> the path (see {@link Ext.data.Node#getPath} <b>for</b> more info)
+     * @param {Function} callback (optional) The callback to call when the expand is complete. The callback will be called <b>with</b>
+     * (bSuccess, oLastNode) where bSuccess is <b>if</b> the expand was successful and oLastNode is the last node that was expanded.
+     */</i>
+    expandPath : <b>function</b>(path, attr, callback){
+        attr = attr || &quot;id&quot;;
+        <b>var</b> keys = path.split(<b>this</b>.pathSeparator);
+        <b>var</b> curNode = <b>this</b>.root;
+        <b>if</b>(curNode.attributes[attr] != keys[1]){ <i>// invalid root</i>
+            <b>if</b>(callback){
+                callback(false, null);
+            }
+            <b>return</b>;
+        }
+        <b>var</b> index = 1;
+        <b>var</b> f = <b>function</b>(){
+            <b>if</b>(++index == keys.length){
+                <b>if</b>(callback){
+                    callback(true, curNode);
+                }
+                <b>return</b>;
+            }
+            <b>var</b> c = curNode.findChild(attr, keys[index]);
+            <b>if</b>(!c){
+                <b>if</b>(callback){
+                    callback(false, curNode);
+                }
+                <b>return</b>;
+            }
+            curNode = c;
+            c.expand(false, false, f);
+        };
+        curNode.expand(false, false, f);
+    },
+
+    <i>/**
+     * Selects the node <b>in</b> this tree at the specified path. A path can be retrieved from a node <b>with</b> {@link Ext.data.Node#getPath}
+     * @param {String} path
+     * @param {String} attr (optional) The attribute used <b>in</b> the path (see {@link Ext.data.Node#getPath} <b>for</b> more info)
+     * @param {Function} callback (optional) The callback to call when the selection is complete. The callback will be called <b>with</b>
+     * (bSuccess, oSelNode) where bSuccess is <b>if</b> the selection was successful and oSelNode is the selected node.
+     */</i>
+    selectPath : <b>function</b>(path, attr, callback){
+        attr = attr || &quot;id&quot;;
+        <b>var</b> keys = path.split(<b>this</b>.pathSeparator);
+        <b>var</b> v = keys.pop();
+        <b>if</b>(keys.length &gt; 0){
+            <b>var</b> f = <b>function</b>(success, node){
+                <b>if</b>(success &amp;&amp; node){
+                    <b>var</b> n = node.findChild(attr, v);
+                    <b>if</b>(n){
+                        n.select();
+                        <b>if</b>(callback){
+                            callback(true, n);
+                        }
+                    }<b>else</b> if(callback){
+                        callback(false, n);
+                    }
+                }<b>else</b>{
+                    <b>if</b>(callback){
+                        callback(false, n);
+                    }
+                }
+            };
+            <b>this</b>.expandPath(keys.join(<b>this</b>.pathSeparator), attr, f);
+        }<b>else</b>{
+            <b>this</b>.root.select();
+            <b>if</b>(callback){
+                callback(true, <b>this</b>.root);
+            }
+        }
+    },
+
+    getTreeEl : <b>function</b>(){
+        <b>return</b> this.el;
+    },
+
+    <i>/**
+     * Trigger rendering of <b>this</b> TreePanel
+     */</i>
+    render : <b>function</b>(){
+        <b>this</b>.innerCt = <b>this</b>.el.createChild({tag:&quot;ul&quot;,
+               cls:&quot;x-tree-root-ct &quot; +
+               (<b>this</b>.lines ? &quot;x-tree-lines&quot; : &quot;x-tree-no-lines&quot;)});
+
+        <b>if</b>(this.containerScroll){
+            Ext.dd.ScrollManager.register(<b>this</b>.el);
+        }
+        <b>if</b>((<b>this</b>.enableDD || <b>this</b>.enableDrop) &amp;&amp; !<b>this</b>.dropZone){
+           <i>/**
+            * The dropZone used by <b>this</b> tree <b>if</b> drop is enabled
+            * @type Ext.tree.TreeDropZone
+            */</i>
+             <b>this</b>.dropZone = <b>new</b> Ext.tree.TreeDropZone(<b>this</b>, <b>this</b>.dropConfig || {
+               ddGroup: <b>this</b>.ddGroup || &quot;TreeDD&quot;, appendOnly: <b>this</b>.ddAppendOnly === true
+           });
+        }
+        <b>if</b>((<b>this</b>.enableDD || <b>this</b>.enableDrag) &amp;&amp; !<b>this</b>.dragZone){
+           <i>/**
+            * The dragZone used by <b>this</b> tree <b>if</b> drag is enabled
+            * @type Ext.tree.TreeDragZone
+            */</i>
+            <b>this</b>.dragZone = <b>new</b> Ext.tree.TreeDragZone(<b>this</b>, <b>this</b>.dragConfig || {
+               ddGroup: <b>this</b>.ddGroup || &quot;TreeDD&quot;,
+               scroll: <b>this</b>.ddScroll
+           });
+        }
+        <b>this</b>.getSelectionModel().init(<b>this</b>);
+        <b>this</b>.root.render();
+        <b>if</b>(!<b>this</b>.rootVisible){
+            <b>this</b>.root.renderChildren();
+        }
+        <b>return</b> this;
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

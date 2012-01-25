@@ -1,0 +1,173 @@
+<html><head><title>ext-lang-pl.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ext-lang-pl.js</h1><pre class="highlighted"><code><i>/**
+ * Polish Translations
+ * By vbert 17-April-2007
+ * Encoding: utf-8
+ */</i>
+
+Ext.UpdateManager.defaults.indicatorText = <em>'&lt;div class=&quot;loading-indicator&quot;&gt;Wczytywanie danych...&lt;/div&gt;'</em>;
+
+<b>if</b>(Ext.View){
+   Ext.View.prototype.emptyText = &quot;&quot;;
+}
+
+<b>if</b>(Ext.grid.Grid){
+   Ext.grid.Grid.prototype.ddText = &quot;{0} wybrano wiersze(y)&quot;;
+}
+
+<b>if</b>(Ext.TabPanelItem){
+   Ext.TabPanelItem.prototype.closeText = &quot;Zamknij zak&Aring;‚adk&Auml;™&quot;;
+}
+
+<b>if</b>(Ext.form.Field){
+   Ext.form.Field.prototype.invalidText = &quot;Warto&Aring;›&Auml;‡ tego pola jest niew&Aring;‚a&Aring;›ciwa&quot;;
+}
+
+<b>if</b>(Ext.LoadMask){
+    Ext.LoadMask.prototype.msg = &quot;Wczytywanie danych...&quot;;
+}
+
+Date.monthNames = [
+    &quot;Stycze&Aring;„&quot;,
+    &quot;Luty&quot;,
+    &quot;Marzec&quot;,
+    &quot;Kwiecie&Aring;„&quot;,
+    &quot;Maj&quot;,
+    &quot;Czerwiec&quot;,
+    &quot;Lipiec&quot;,
+    &quot;Sierpie&Aring;„&quot;,
+    &quot;Wrzesie&Aring;„&quot;,
+    &quot;Pa&Aring;&ordm;dziernik&quot;,
+    &quot;Listopad&quot;,
+    &quot;Grudzie&Aring;„&quot;
+];
+
+Date.dayNames = [
+    &quot;Niedziela&quot;,
+    &quot;Poniedzia&Aring;‚ek&quot;,
+    &quot;Wtorek&quot;,
+    &quot;&Aring;šroda&quot;,
+    &quot;Czwartek&quot;,
+    &quot;Pi&Auml;…tek&quot;,
+    &quot;Sobota&quot;
+];
+
+<b>if</b>(Ext.MessageBox){
+   Ext.MessageBox.buttonText = {
+      ok     : &quot;OK&quot;,
+      cancel : &quot;Anuluj&quot;,
+      yes    : &quot;Tak&quot;,
+      no     : &quot;Nie&quot;
+   };
+}
+
+<b>if</b>(Ext.util.Format){
+   Ext.util.Format.date = <b>function</b>(v, format){
+      <b>if</b>(!v) <b>return</b> &quot;&quot;;
+      <b>if</b>(!(v instanceof Date)) v = <b>new</b> Date(Date.parse(v));
+      <b>return</b> v.dateFormat(format || &quot;Y-m-d&quot;);
+   };
+}
+
+<b>if</b>(Ext.DatePicker){
+	Ext.apply(Ext.DatePicker.prototype, {
+		startDay			: 1,
+		todayText			: &quot;Dzisiaj&quot;,
+		minText				: &quot;Data jest wcze&Aring;›niejsza od daty minimalnej&quot;,
+		maxText				: &quot;Data jest p&Atilde;&sup3;&Aring;&ordm;niejsza od daty maksymalnej&quot;,
+		disabledDaysText	: &quot;&quot;,
+		disabledDatesText	: &quot;&quot;,
+		monthNames			: Date.monthNames,
+		dayNames			: Date.dayNames,
+		nextText			: &quot;Nast&Auml;™pny miesi&Auml;…c (Control+Strza&Aring;‚kaWPrawo)&quot;,
+		prevText			: &quot;Poprzedni miesi&Auml;…c (Control+Strza&Aring;‚kaWLewo)&quot;,
+		monthYearText		: &quot;Wybierz miesi&Auml;…c (Control+Up/Down aby zmieni&Auml;‡ rok)&quot;,
+		todayTip			: &quot;{0} (Spacja)&quot;,
+		format				: &quot;Y-m-d&quot;
+	});
+}
+
+<b>if</b>(Ext.PagingToolbar){
+	Ext.apply(Ext.PagingToolbar.prototype, {
+		beforePageText	: &quot;Strona&quot;,
+		afterPageText	: &quot;z {0}&quot;,
+		firstText		: &quot;Pierwsza strona&quot;,
+	    prevText		: &quot;Poprzednia strona&quot;,
+		nextText		: &quot;Nast&Auml;™pna strona&quot;,
+	    lastText		: &quot;Ostatnia strona&quot;,
+		refreshText		: &quot;Od&Aring;›wie&Aring;&frac14;&quot;,
+	    displayMsg		: &quot;Wy&Aring;›wietlono {0} - {1} z {2}&quot;,
+		emptyMsg		: &quot;Brak danych <b>do</b> wy&Aring;›wietlenia&quot;
+	});
+}
+
+<b>if</b>(Ext.form.TextField){
+	Ext.apply(Ext.form.TextField.prototype, {
+	    minLengthText	: &quot;Minimalna ilo&Aring;›&Auml;‡ znak&Atilde;&sup3;w dla tego pola to {0}&quot;,
+		maxLengthText	: &quot;Maksymalna ilo&Aring;›&Auml;‡ znak&Atilde;&sup3;w dla tego pola to {0}&quot;,
+	    blankText		: &quot;To pole jest wymagane&quot;,
+		regexText		: &quot;&quot;,
+	    emptyText		: null
+	});
+}
+
+<b>if</b>(Ext.form.NumberField){
+	Ext.apply(Ext.form.NumberField.prototype, {
+	    minText	: &quot;Minimalna warto&Aring;›&Auml;‡ dla tego pola to {0}&quot;,
+	    maxText	: &quot;Maksymalna warto&Aring;›&Auml;‡ dla tego pola to {0}&quot;,
+		nanText	: &quot;{0} to nie jest w&Aring;‚a&Aring;›ciwa warto&Aring;›&Auml;‡&quot;
+	});
+}
+
+<b>if</b>(Ext.form.DateField){
+	Ext.apply(Ext.form.DateField.prototype, {
+	    disabledDaysText	: &quot;Wy&Aring;‚&Auml;…czony&quot;,
+	    disabledDatesText	: &quot;Wy&Aring;‚&Auml;…czony&quot;,
+		minText				: &quot;Data w tym polu musi by&Auml;‡ p&Atilde;&sup3;&Aring;&ordm;niejsza od {0}&quot;,
+	    maxText				: &quot;Data w tym polu musi by&Auml;‡ wcze&Aring;›niejsza od {0}&quot;,
+		invalidText			: &quot;{0} to nie jest prawid&Aring;‚owa data - prawid&Aring;‚owy format daty {1}&quot;,
+	    format				: &quot;Y-m-d&quot;
+	});
+}
+
+<b>if</b>(Ext.form.ComboBox){
+	Ext.apply(Ext.form.ComboBox.prototype, {
+		loadingText       : &quot;Wczytuj&Auml;™...&quot;,
+		valueNotFoundText : undefined
+	});
+}
+
+<b>if</b>(Ext.form.VTypes){
+	Ext.apply(Ext.form.VTypes, {
+	    emailText		: <em>'To pole wymaga podania adresu e-mail w formacie: &quot;nazwa@domena.pl&quot;'</em>,
+	    urlText			: <em>'To pole wymaga podania adresu strony www w formacie: &quot;http:/'</em>+<em>'/www.domena.pl&quot;'</em>,
+		alphaText		: <em>'To pole wymaga podania tylko liter i _'</em>,
+		alphanumText	: <em>'To pole wymaga podania tylko liter, cyfr i _'</em>
+	});
+}
+
+<b>if</b>(Ext.grid.GridView){
+	Ext.apply(Ext.grid.GridView.prototype, {
+	    sortAscText		: &quot;Sortuj rosn&Auml;…co&quot;,
+	    sortDescText	: &quot;Sortuj malej&Auml;…co&quot;,
+		lockText		: &quot;Zablokuj kolumn&Auml;™&quot;,
+	    unlockText		: &quot;Odblokuj kolumn&Auml;™&quot;,
+		columnsText		: &quot;Kolumny&quot;
+	});
+}
+
+<b>if</b>(Ext.grid.PropertyColumnModel){
+	Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
+	    nameText	: &quot;Nazwa&quot;,
+	    valueText	: &quot;Warto&Aring;›&Auml;‡&quot;,
+		dateFormat	: &quot;Y-m-d&quot;
+	});
+}
+
+<b>if</b>(Ext.SplitLayoutRegion){
+	Ext.apply(Ext.SplitLayoutRegion.prototype, {
+	    splitTip			: &quot;Przeci&Auml;…gnij aby zmieni&Auml;‡ rozmiar.&quot;,
+		collapsibleSplitTip	: &quot;Przeci&Auml;…gnij aby zmieni&Auml;‡ rozmiar. Kliknij dwukrotnie aby ukry&Auml;‡.&quot;
+	});
+}
+</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

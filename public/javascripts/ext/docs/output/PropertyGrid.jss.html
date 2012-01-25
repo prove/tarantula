@@ -1,0 +1,201 @@
+<html><head><title>PropertyGrid.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>PropertyGrid.js</h1><pre class="highlighted"><code>Ext.grid.PropertyRecord = Ext.data.Record.create([
+    {name:<em>'name'</em>,type:<em>'string'</em>}, <em>'value'</em>
+]);
+
+Ext.grid.PropertyStore = <b>function</b>(grid, source){
+    <b>this</b>.grid = grid;
+    <b>this</b>.store = <b>new</b> Ext.data.Store({
+        recordType : Ext.grid.PropertyRecord
+    });
+    <b>this</b>.store.on(<em>'update'</em>, <b>this</b>.onUpdate,  <b>this</b>);
+    <b>if</b>(source){
+        <b>this</b>.setSource(source);
+    }
+    Ext.grid.PropertyStore.superclass.constructor.call(<b>this</b>);
+};
+Ext.extend(Ext.grid.PropertyStore, Ext.util.Observable, {
+    setSource : <b>function</b>(o){
+        <b>this</b>.source = o;
+        <b>this</b>.store.removeAll();
+        <b>var</b> data = [];
+        <b>for</b>(var k <b>in</b> o){
+            <b>if</b>(this.isEditableValue(o[k])){
+                data.push(<b>new</b> Ext.grid.PropertyRecord({name: k, value: o[k]}, k));
+            }
+        }
+        <b>this</b>.store.loadRecords({records: data}, {}, true);
+    },
+
+    onUpdate : <b>function</b>(ds, record, type){
+        <b>if</b>(type == Ext.data.Record.EDIT){
+            <b>var</b> v = record.data[<em>'value'</em>];
+            <b>var</b> oldValue = record.modified[<em>'value'</em>];
+            <b>if</b>(this.grid.fireEvent(<em>'beforepropertychange'</em>, <b>this</b>.source, record.id, v, oldValue) !== false){
+                <b>this</b>.source[record.id] = v;
+                record.commit();
+                <b>this</b>.grid.fireEvent(<em>'propertychange'</em>, <b>this</b>.source, record.id, v, oldValue);
+            }<b>else</b>{
+                record.reject();
+            }
+        }
+    },
+
+    getProperty : <b>function</b>(row){
+       <b>return</b> this.store.getAt(row);
+    },
+
+    isEditableValue: <b>function</b>(val){
+        <b>if</b>(val &amp;&amp; val instanceof Date){
+            <b>return</b> true;
+        }<b>else</b> if(<b>typeof</b> val == <em>'object'</em> || <b>typeof</b> val == <em>'<b>function</b>'</em>){
+            <b>return</b> false;
+        }
+        <b>return</b> true;
+    },
+
+    setValue : <b>function</b>(prop, value){
+        <b>this</b>.source[prop] = value;
+        <b>this</b>.store.getById(prop).set(<em>'value'</em>, value);
+    },
+
+    getSource : <b>function</b>(){
+        <b>return</b> this.source;
+    }
+});
+
+Ext.grid.PropertyColumnModel = <b>function</b>(grid, store){
+    <b>this</b>.grid = grid;
+    <b>var</b> g = Ext.grid;
+    g.PropertyColumnModel.superclass.constructor.call(<b>this</b>, [
+        {header: <b>this</b>.nameText, sortable: true, dataIndex:<em>'name'</em>, id: <em>'name'</em>},
+        {header: <b>this</b>.valueText, resizable:false, dataIndex: <em>'value'</em>, id: <em>'value'</em>}
+    ]);
+    <b>this</b>.store = store;
+    <b>this</b>.bselect = Ext.DomHelper.append(document.body, {
+        tag: <em>'select'</em>, style:<em>'display:none'</em>, cls: <em>'x-grid-editor'</em>, children: [
+            {tag: <em>'option'</em>, value: <em>'true'</em>, html: <em>'true'</em>},
+            {tag: <em>'option'</em>, value: <em>'false'</em>, html: <em>'false'</em>}
+        ]
+    });
+    Ext.id(<b>this</b>.bselect);
+    <b>var</b> f = Ext.form;
+    <b>this</b>.editors = {
+        <em>'date'</em> : <b>new</b> g.GridEditor(<b>new</b> f.DateField({selectOnFocus:true})),
+        <em>'string'</em> : <b>new</b> g.GridEditor(<b>new</b> f.TextField({selectOnFocus:true})),
+        <em>'number'</em> : <b>new</b> g.GridEditor(<b>new</b> f.NumberField({selectOnFocus:true, style:<em>'text-align:left;'</em>})),
+        <em>'boolean'</em> : <b>new</b> g.GridEditor(<b>new</b> f.Field({el:<b>this</b>.bselect,selectOnFocus:true}))
+    };
+    <b>this</b>.renderCellDelegate = <b>this</b>.renderCell.createDelegate(<b>this</b>);
+    <b>this</b>.renderPropDelegate = <b>this</b>.renderProp.createDelegate(<b>this</b>);
+};
+
+Ext.extend(Ext.grid.PropertyColumnModel, Ext.grid.ColumnModel, {
+    nameText : <em>'Name'</em>,
+    valueText : <em>'Value'</em>,
+    dateFormat : <em>'m/j/Y'</em>,
+    renderDate : <b>function</b>(dateVal){
+        <b>return</b> dateVal.dateFormat(<b>this</b>.dateFormat);
+    },
+
+    renderBool : <b>function</b>(bVal){
+        <b>return</b> bVal ? <em>'true'</em> : <em>'false'</em>;
+    },
+
+    isCellEditable : <b>function</b>(colIndex, rowIndex){
+        <b>return</b> colIndex == 1;
+    },
+
+    getRenderer : <b>function</b>(col){
+        <b>return</b> col == 1 ?
+            <b>this</b>.renderCellDelegate : <b>this</b>.renderPropDelegate;
+    },
+
+    renderProp : <b>function</b>(v){
+        <b>return</b> this.getPropertyName(v);
+    },
+
+    renderCell : <b>function</b>(val){
+        <b>var</b> rv = val;
+        <b>if</b>(val instanceof Date){
+            rv = <b>this</b>.renderDate(val);
+        }<b>else</b> if(<b>typeof</b> val == <em>'boolean'</em>){
+            rv = <b>this</b>.renderBool(val);
+        }
+        <b>return</b> Ext.util.Format.htmlEncode(rv);
+    },
+
+    getPropertyName : <b>function</b>(name){
+        <b>var</b> pn = <b>this</b>.grid.propertyNames;
+        <b>return</b> pn &amp;&amp; pn[name] ? pn[name] : name;
+    },
+
+    getCellEditor : <b>function</b>(colIndex, rowIndex){
+        <b>var</b> p = <b>this</b>.store.getProperty(rowIndex);
+        <b>var</b> n = p.data[<em>'name'</em>], val = p.data[<em>'value'</em>];
+        <b>if</b>(this.grid.customEditors[n]){
+            <b>return</b> this.grid.customEditors[n];
+        }
+        <b>if</b>(val instanceof Date){
+            <b>return</b> this.editors[<em>'date'</em>];
+        }<b>else</b> if(<b>typeof</b> val == <em>'number'</em>){
+            <b>return</b> this.editors[<em>'number'</em>];
+        }<b>else</b> if(<b>typeof</b> val == <em>'boolean'</em>){
+            <b>return</b> this.editors[<em>'boolean'</em>];
+        }<b>else</b>{
+            <b>return</b> this.editors[<em>'string'</em>];
+        }
+    }
+});
+
+Ext.grid.PropertyGrid = <b>function</b>(container, config){
+    config = config || {};
+    <b>var</b> store = <b>new</b> Ext.grid.PropertyStore(<b>this</b>);
+    <b>this</b>.store = store;
+    <b>var</b> cm = <b>new</b> Ext.grid.PropertyColumnModel(<b>this</b>, store);
+    store.store.sort(<em>'name'</em>, <em>'ASC'</em>);
+    Ext.grid.PropertyGrid.superclass.constructor.call(<b>this</b>, container, Ext.apply({
+        ds: store.store,
+        cm: cm,
+        enableColLock:false,
+        enableColumnMove:false,
+        stripeRows:false,
+        trackMouseOver: false,
+        clicksToEdit:1
+    }, config));
+    <b>this</b>.getGridEl().addClass(<em>'x-props-grid'</em>);
+    <b>this</b>.lastEditRow = null;
+    <b>this</b>.on(<em>'columnresize'</em>, <b>this</b>.onColumnResize, <b>this</b>);
+    <b>this</b>.addEvents({
+        beforepropertychange: true,
+        propertychange: true
+    });
+    <b>this</b>.customEditors = <b>this</b>.customEditors || {};
+};
+Ext.extend(Ext.grid.PropertyGrid, Ext.grid.EditorGrid, {
+    render : <b>function</b>(){
+        Ext.grid.PropertyGrid.superclass.render.call(<b>this</b>);
+        <b>this</b>.autoSize.defer(100, <b>this</b>);
+    },
+
+    autoSize : <b>function</b>(){
+        Ext.grid.PropertyGrid.superclass.autoSize.call(<b>this</b>);
+        <b>if</b>(this.view){
+            <b>this</b>.view.fitColumns();
+        }
+    },
+
+    onColumnResize : <b>function</b>(){
+        <b>this</b>.colModel.setColumnWidth(1, <b>this</b>.container.getWidth(true)-<b>this</b>.colModel.getColumnWidth(0));
+        <b>this</b>.autoSize();
+    },
+
+    setSource : <b>function</b>(source){
+        <b>this</b>.store.setSource(source);
+        <i>//<b>this</b>.autoSize();</i>
+    },
+
+    getSource : <b>function</b>(){
+        <b>return</b> this.store.getSource();
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

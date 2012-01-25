@@ -1,0 +1,147 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.data.ArrayReader</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.data.ArrayReader.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.data.ArrayReader</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.data</td></tr>
+            <tr><td class="label">Class:</td><td>ArrayReader</td></tr>
+                        <tr><td class="label">Extends:</td><td>Ext.data.DataReader</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="ArrayReader.jss.html">ArrayReader.js</a></td></tr>
+        </table>
+        <div class="description">
+            Data reader class to create an Array of Ext.data.Record objects from an Array.
+Each element of that Array represents a row of data fields. The
+fields are pulled into a Record object using as a subscript, the <em>mapping</em> property
+of the field definition if it exists, or the field's ordinal position in the definition.<br>
+<p>
+Example code:.
+<pre><code>var RecordDef = Ext.data.Record.create([
+    {name: <em>'name'</em>, mapping: 1},         <i>// <em>"mapping"</em> only needed <b>if</b> an <em>"id"</em> field is present which</i>
+    {name: <em>'occupation'</em>, mapping: 2}    <i>// precludes using the ordinal position as the index.</i>
+]);
+<b>var</b> myReader = <b>new</b> Ext.data.ArrayReader({
+    id: 0                     <i>// The subscript within row Array that provides an ID <b>for</b> the Record (optional)</i>
+}, RecordDef);</code></pre>
+<p>
+This would consume an Array like this:
+<pre><code>[ [1, <em>'Bill'</em>, <em>'Gardener'</em>], [2, <em>'Ben'</em>, <em>'Horticulturalist'</em>] ]</code></pre>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+        <div class="no-members">This class has no public properties.</div>        <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>ArrayReader</b>(&nbsp;<code>Object meta</code>, <code>Object recordType</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">ArrayReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new JsonReader</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#readRecords">readRecords</a>(&nbsp;<code>Object o</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">ArrayReader</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">Create a data block containing Ext.data.Records from an XML document.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-id">id</a> : String</td>
+        <td class="msource" rowspan="2">ArrayReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">(optional) The subscript within row Array that provides an ID for the Record</td>
+    </tr>
+            </table>
+                
+                    <a name="ArrayReader"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>ArrayReader</i></h3>
+                <code>public function ArrayReader(&nbsp;<code>Object meta</code>, <code>Object recordType</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new JsonReader                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>meta</code> : Object<div class="sub-desc">Metadata configuration options.</div></li><li><code>recordType</code> : Object<div class="sub-desc">Either an Array of field definition objects
+as specified to <a ext:cls="Ext.data.Record" ext:member="create" href="Ext.data.Record.html#create">Ext.data.Record.create</a>,
+or an <a ext:cls="Ext.data.Record" href="Ext.data.Record.html">Ext.data.Record</a> object
+created using <a ext:cls="Ext.data.Record" ext:member="create" href="Ext.data.Record.html#create">Ext.data.Record.create</a>.</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="readRecords"></a>
+                <div class="mdetail">
+                <h3>readRecords</i></h3>
+                <code>public function readRecords(&nbsp;<code>Object o</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Create a data block containing Ext.data.Records from an XML document.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>o</code> : Object<div class="sub-desc">An Array of row objects which represents the dataset.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">data A data block which is used by an Ext.data.Store object as a cache of Ext.data.Records.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by ArrayReader.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-id"></a>
+                <div class="mdetail">
+                <h3>id</i></h3>
+                <code>id : String</code>
+                <div class="mdetail-desc">
+                    (optional) The subscript within row Array that provides an ID for the Record                </div>
+                <div class="mdetail-def">This config option is defined by ArrayReader.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

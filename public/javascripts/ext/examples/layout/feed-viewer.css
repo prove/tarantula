@@ -1,0 +1,216 @@
+/*
+ * Ext JS Library 1.1
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://www.extjs.com/license
+ */
+
+/*
+ * Ext - JS Library 1.0 Alpha 2
+ * Copyright(c) 2006-2007, Jack Slocum.
+ */
+
+html, body {
+	font: normal 9pt tahoma;
+	margin: 0px;
+	padding:0px;
+	border:0px;
+}
+.x-layout-panel-south{
+	background:#c3daf9;
+	border:0px none;
+	border-top:1px solid #ddecfe;
+}
+.x-layout-panel-north, .xtheme-gray .x-layout-panel-north{
+	background-image: url(images/header.gif);
+	background-repeat: repeat-x;
+	color:#FFF;
+	font:bold 12px verdana, helvetica;
+	overflow:hidden;
+	padding:4px;
+	border:0px none;
+	border-bottom:2px solid #c3daf9;
+}
+.xtheme-gray .x-layout-panel-north{
+	border-bottom:2px solid #f3f2e7;
+}
+.x-layout-panel-hd-text{
+	font: bold 11px tahoma,verdana,helvetica;
+	color:#083772;
+}
+.xtheme-gray .x-layout-panel-hd-text{
+	font: bold 11px tahoma,verdana,helvetica;
+	color:#333333;
+}
+#preview-body{
+	background:white;
+}
+#main .x-layout-panel-center{
+	border-bottom:1px solid #98c0f4;
+}
+#preview-body {
+	padding:10px;
+	overflow:auto;
+	line-height: 18px;
+}
+#preview-body p{
+	margin:5px;
+	margin-bottom:10px;
+}
+.x-toolbar{
+	border:0px none;
+	background-color:#D8E7FB;
+	border-bottom:1px solid #c3daf9;
+	padding-bottom:1px;
+}
+#preview-tb .view-tab,#preview-tb .view-window,#myfeeds-tb .add-feed{
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	padding-left:18px;
+	padding-top:1px;
+	width:auto;
+	display:block;
+}
+.add-feed {
+	background-image: url('images/add-feed.gif');
+}
+#myfeeds-body{
+	overflow:auto;
+}
+.view-tab{
+	background-image: url('images/new_tab.gif');
+}
+.view-window{
+	background-image: url('images/new_window.gif');
+}
+.feed-list{
+	padding:1px;
+}
+.feed-list a{
+	border:1px solid white;
+	display:block;
+	-moz-outline:none;
+	margin-bottom:2px;
+	text-decoration:none;
+}
+.feed-list a .body{
+	padding:5px 2px 5px 22px;
+	background-image:url(images/rss.gif);
+	background-position: 2px 5px;
+	background-repeat: no-repeat;
+	font:bold 12px tahoma, verdana, helvetica;
+	color: #2d5593;
+	display:block;
+	-moz-outline:none;
+}
+.feed-list a .desc{
+	font:normal 11px tahoma, verdana, helvetica;
+	color: #222222;
+}
+.feed-list a:hover, .feed-list .selected{
+	text-decoration: none;
+	border:1px solid #c3daf9;
+	background-color:#ddecfe;
+}
+.feed-list .selected{
+	background-image: url('images/post-bg.gif');
+	border:1px solid #c3daf9;
+}
+#feed-grid {
+	overflow:auto;
+}
+#add-feed{
+	background-image: url('images/post-bg.gif');
+	border:2px solid #c3daf9;
+	position:absolute;
+	z-index:10006;
+	font-size:8pt;
+	width:300px;
+	padding:5px;
+	overflow:auto;
+	left:-1000px;
+	top:-1000px;
+}
+#add-feed input{
+	font:normal 8pt arial,helvetica;
+}
+#add-feed .eg{
+	display:block;
+	padding:3px;
+	color:#1e4e8f;
+}
+#feed-url{
+	width:240px;
+}
+#add-feed-close{
+	position:absolute;
+	right:2px;
+	top:2px;
+	cursor:pointer;
+}
+#add-feed p{
+	height:18px;
+	display:none;
+}
+#add-feed p.active-msg{
+	display:block;
+}
+
+#status {
+	font-size:8pt;
+	background-image: url('../../resources/images/default/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	padding-top:3px;
+	height:18px;
+}
+#status.done {
+	background-image: url('../../resources/images/default/grid/loading.gif');
+}
+.x-layout-collapsed-west{
+    background-image:url(images/myfeeds.gif);
+    background-repeat:no-repeat;
+    background-position:center;
+}
+.x-layout-collapsed-east{
+    background-image:url(images/suggested.gif);
+    background-repeat:no-repeat;
+    background-position:center;
+}
+#main .x-layout-collapsed-south{
+    background-image:url(images/preview.gif);
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+/** Comment List */
+.item-date {
+	margin: 0;
+	display: block;
+	font-size: 10px;
+	font-weight:normal;
+	margin-bottom:3px;
+}
+.item-title{
+	font:bold 11px "sans serif", verdana;
+	color:#444444;
+}
+.feed-item {
+	display:block;
+	margin:5px;
+	padding:5px;
+	font-size:11px;
+	border:1px solid white;
+	border-bottom:1px solid #dddddd;
+	color:#222222;
+	cursor:pointer;
+	line-height: 18px;
+	-moz-user-select: none;
+	-khtml-user-select:none;
+}
+.selected-article{
+	background:#ecf5fe url('images/post-bg.gif') repeat-x;
+	border:1px solid #c3daf9;
+}

@@ -1,0 +1,36 @@
+/*
+ * Ext JS Library 1.1
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://www.extjs.com/license
+ */
+
+.list {list-style:square;width:500px;padding-left:16px;}
+.list li{padding:2px;font-size:8pt;}
+
+/* hide the tab content while loading */
+.tab-content{display:none;}
+
+pre {
+   font-size:11px; 
+}
+
+#tabs1 {width:400px;}
+#tabs1 .x-tabs-item-body {display:none;padding:10px;}
+
+#jtabs {width:600px;}
+#jtabs .x-tabs-body {height:200px;overflow:auto;}
+#jtabs .x-tabs-item-body {display:none;padding:10px;font-size:11px;}
+
+/* default loading indicator for ajax calls */
+.loading-indicator {
+	font-size:8pt;
+	background-image:url('../../resources/images/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+}
+
+#tab-panel1 .x-tabs-body {height:300px;overflow:auto;}
+#tab-panel1 .x-tabs-item-body {padding:10px;}

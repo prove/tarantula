@@ -1,0 +1,83 @@
+<html><head><title>VTypes.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>VTypes.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.form.VTypes
+ * Overridable validation definitions. The validations provided are basic and intended to be easily customizable and extended.
+ * @singleton
+ */</i>
+Ext.form.VTypes = <b>function</b>(){
+    <i>// closure these <b>in</b> so they are only created once.</i>
+    <b>var</b> alpha = /^[a-zA-Z_]+$/;
+    <b>var</b> alphanum = /^[a-zA-Z0-9_]+$/;
+    <b>var</b> email = /^([\w]+)(.[\w]+)*@([\w-]+\.){1,5}([A-Za-z]){2,4}$/;
+    <b>var</b> url = /(((https?)|(ftp)):\/\/([\-\w]+\.)+\w{2,3}(\/[%\-\w]+(\.\w{2,})?)*(([\w\-\.\?\\\/+@&amp;#;`~=%!]*)(\.\w{2,})?)*\/?)/i;
+
+    <i>// All these messages and functions are configurable</i>
+    <b>return</b> {
+        <i>/**
+         * The <b>function</b> used to validate email addresses
+         * @param {String} value The email address
+         */</i>
+        <em>'email'</em> : <b>function</b>(v){
+            <b>return</b> email.test(v);
+        },
+        <i>/**
+         * The error text to display when the email validation <b>function</b> returns false
+         * @type String
+         */</i>
+        <em>'emailText'</em> : <em>'This field should be an e-mail address <b>in</b> the format &quot;user@domain.com&quot;'</em>,
+        <i>/**
+         * The keystroke filter mask to be applied on email input
+         * @type RegExp
+         */</i>
+        <em>'emailMask'</em> : /[a-z0-9_\.\-@]/i,
+
+        <i>/**
+         * The <b>function</b> used to validate URLs
+         * @param {String} value The URL
+         */</i>
+        <em>'url'</em> : <b>function</b>(v){
+            <b>return</b> url.test(v);
+        },
+        <i>/**
+         * The error text to display when the url validation <b>function</b> returns false
+         * @type String
+         */</i>
+        <em>'urlText'</em> : <em>'This field should be a URL <b>in</b> the format &quot;http:/'</em>+<em>'/www.domain.com&quot;'</em>,
+        
+        <i>/**
+         * The <b>function</b> used to validate alpha values
+         * @param {String} value The value
+         */</i>
+        <em>'alpha'</em> : <b>function</b>(v){
+            <b>return</b> alpha.test(v);
+        },
+        <i>/**
+         * The error text to display when the alpha validation <b>function</b> returns false
+         * @type String
+         */</i>
+        <em>'alphaText'</em> : <em>'This field should only contain letters and _'</em>,
+        <i>/**
+         * The keystroke filter mask to be applied on alpha input
+         * @type RegExp
+         */</i>
+        <em>'alphaMask'</em> : /[a-z_]/i,
+
+        <i>/**
+         * The <b>function</b> used to validate alphanumeric values
+         * @param {String} value The value
+         */</i>
+        <em>'alphanum'</em> : <b>function</b>(v){
+            <b>return</b> alphanum.test(v);
+        },
+        <i>/**
+         * The error text to display when the alphanumeric validation <b>function</b> returns false
+         * @type String
+         */</i>
+        <em>'alphanumText'</em> : <em>'This field should only contain letters, numbers and _'</em>,
+        <i>/**
+         * The keystroke filter mask to be applied on alphanumeric input
+         * @type RegExp
+         */</i>
+        <em>'alphanumMask'</em> : /[a-z0-9_]/i
+    };
+}();</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

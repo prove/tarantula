@@ -1,0 +1,1016 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.dd.DragDropMgr</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.dd.DragDropMgr.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.dd.DragDropMgr</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.dd</td></tr>
+            <tr><td class="label">Class:</td><td>DragDropMgr</td></tr>
+                        <tr><td class="label">Extends:</td><td>Object</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="DDCore.jss.html">DDCore.js</a></td></tr>
+        </table>
+        <div class="description">
+            DragDropMgr is a singleton that tracks the element interaction for
+all DragDrop items in the window.  Generally, you will not call
+this class directly, but it does have helper methods that could
+be useful in your DragDrop implementations.<br><br><i>This class is a singleton and cannot be created directly.</i>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#INTERSECT">INTERSECT</a> : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; In intersect mode, drag and drop interactio nis defined by the
+overlap of two or more drag and drop ob...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#POINT">POINT</a> : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; In point mode, drag and drop interaction is defined by the
+location of the cursor during the drag/drop</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clickPixelThresh">clickPixelThresh</a> : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; The number of pixels that the mouse needs to move after the
+mousedown before the drag is initiated.  D...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#clickTimeThresh">clickTimeThresh</a> : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">&lt;static&gt; The number of milliseconds after the mousedown event to initiate the
+drag if we don't get a mouseup ev...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#css">css</a> : Object</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">A reference to the style property</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#el">el</a> : Object</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The element</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#id">id</a> : Object</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The element id</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#mode">mode</a> : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; The current drag and drop mode.  Default: POINT</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#preventDefault">preventDefault</a> : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; Flag to determine if we should prevent the default behavior of the
+events we define. By default this i...</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#stopPropagation">stopPropagation</a> : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">&lt;static&gt; Flag to determine if we should stop the propagation of the events
+we generate. This is true by default...</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#useCache">useCache</a> : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; Set useCache to false if you want to force object the lookup of each
+drag and drop linked element cons...</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getBestMatch">getBestMatch</a>(&nbsp;<code>DragDrop[] dds</code>&nbsp;) : DragDrop</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; Helper function for getting the best match from the list of drag
+and drop objects returned by the drag...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getCss">getCss</a>(&nbsp;<code>String id</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc"><b>Deprecated.</b> &lt;static&gt; Returns the style property for the DOM element (i.e.,
+document.getElById(id).style)</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getDDById">getDDById</a>(&nbsp;<code>String id</code>&nbsp;) : DragDrop</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Returns the DragDrop instance for a given id</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getElement">getElement</a>(&nbsp;<code>String id</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc"><b>Deprecated.</b> &lt;static&gt; Returns the actual DOM element</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getLocation">getLocation</a>(&nbsp;<code>DragDrop oDD</code>&nbsp;) : Ext.lib.Region</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; Returns a Region object containing the drag and drop element's position
+and size, including the paddin...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getPosX">getPosX</a>(&nbsp;<code>el the</code>&nbsp;) : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc"><b>Deprecated.</b> &lt;static&gt; Returns the X position of an html element</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getPosY">getPosY</a>(&nbsp;<code>el the</code>&nbsp;) : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"><b>Deprecated.</b> &lt;static&gt; Returns the Y position of an html element</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getRelated">getRelated</a>(&nbsp;<code>DragDrop p_oDD</code>, <code>boolean bTargetsOnly</code>&nbsp;) : DragDrop[]</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Returns the drag and drop instances that are in all groups the
+passed in instance belongs to.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getScrollLeft">getScrollLeft</a>() : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Gets the scrollLeft</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getScrollTop">getScrollTop</a>() : int</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Gets the scrollTop</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#getStyle">getStyle</a>(&nbsp;<code>HTMLElement el</code>, <code>string styleProp</code>&nbsp;) : string</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc"><b>Deprecated.</b> &lt;static&gt; Returns the specified element style property</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#handleWasClicked">handleWasClicked</a>(&nbsp;<code>node the</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">&lt;static&gt; Recursively searches the immediate parent and all child nodes for
+the handle element in order to deter...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isDragDrop">isDragDrop</a>(&nbsp;<code>String id</code>&nbsp;) : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Utility function to determine if a given element has been
+registered as a drag drop item.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isHandle">isHandle</a>(&nbsp;<code>String id</code>&nbsp;) : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">&lt;static&gt; Utility function to determine if a given element has been
+registered as a drag drop handle for the giv...</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isLegalTarget">isLegalTarget</a>(&nbsp;<code>DragDrop the</code>, <code>DragDrop the</code>&nbsp;) : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Returns true if the specified dd target is a legal target for
+the specifice drag obj</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isLocked">isLocked</a>() : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Is drag and drop locked?</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#isTypeOfDD">isTypeOfDD</a>(&nbsp;<code>Object the</code>&nbsp;) : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; My goal is to be able to transparently determine if an object is
+typeof DragDrop, and the exact subcla...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#lock">lock</a>() : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Lock all drag and drop functionality</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#moveToEl">moveToEl</a>(&nbsp;<code>HTMLElement moveEl</code>, <code>HTMLElement targetEl</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Sets the x/y position of an element to the location of the
+target element.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#numericSort">numericSort</a>() : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Numeric array sort function</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#refreshCache">refreshCache</a>(&nbsp;<code>Object groups</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; Refreshes the cache of the top-left and bottom-right points of the
+drag and drop objects in the specif...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#regDragDrop">regDragDrop</a>(&nbsp;<code>DragDrop oDD</code>, <code>String sGroup</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Each DragDrop instance must be registered with the DragDropMgr.
+This is executed in DragDrop.init()</td>
+    </tr>
+        <tr class="" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#regHandle">regHandle</a>(&nbsp;<code>String sDDId</code>, <code>String sHandleId</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="" expandable>
+        <td class="mdesc">&lt;static&gt; Each DragDrop handle element must be registered.  This is done
+automatically when executing DragDrop.s...</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#startDrag">startDrag</a>(&nbsp;<code>x {int}</code>, <code>y {int}</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Fired when either the drag pixel threshol or the mousedown hold
+time threshold has been met.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#stopEvent">stopEvent</a>(&nbsp;<code>Event e</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Utility to stop event propagation and event default, if these
+features are turned on.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#swapNode">swapNode</a>(&nbsp;<code>n1 the</code>, <code>n2 the</code>&nbsp;) : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">&lt;static&gt; Swap two nodes.  In IE, we use the native method, for others we
+emulate the IE behavior</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#unlock">unlock</a>() : void</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">&lt;static&gt; Unlock all drag and drop functionality</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#verifyEl">verifyEl</a>(&nbsp;<code>HTMLElement el</code>&nbsp;) : boolean</td>
+        <td class="msource" rowspan="2">DragDropMgr</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">&lt;static&gt; This checks to make sure an element exists and is in the DOM.  The
+main purpose is to handle cases whe...</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="INTERSECT"></a>
+                <div class="mdetail">
+                <h3>INTERSECT</i></h3>
+                <code>public int INTERSECT</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; In intersect mode, drag and drop interactio nis defined by the
+overlap of two or more drag and drop objects.                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="POINT"></a>
+                <div class="mdetail alt">
+                <h3>POINT</i></h3>
+                <code>public int POINT</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; In point mode, drag and drop interaction is defined by the
+location of the cursor during the drag/drop                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="clickPixelThresh"></a>
+                <div class="mdetail">
+                <h3>clickPixelThresh</i></h3>
+                <code>public int clickPixelThresh</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; The number of pixels that the mouse needs to move after the
+mousedown before the drag is initiated.  Default=3;                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="clickTimeThresh"></a>
+                <div class="mdetail alt">
+                <h3>clickTimeThresh</i></h3>
+                <code>public int clickTimeThresh</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; The number of milliseconds after the mousedown event to initiate the
+drag if we don't get a mouseup event. Default=1000                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="css"></a>
+                <div class="mdetail">
+                <h3>css</i></h3>
+                <code>public Object css</code>
+                <div class="mdetail-desc">
+                    A reference to the style property                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="el"></a>
+                <div class="mdetail alt">
+                <h3>el</i></h3>
+                <code>public Object el</code>
+                <div class="mdetail-desc">
+                    The element                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="id"></a>
+                <div class="mdetail">
+                <h3>id</i></h3>
+                <code>public Object id</code>
+                <div class="mdetail-desc">
+                    The element id                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="mode"></a>
+                <div class="mdetail alt">
+                <h3>mode</i></h3>
+                <code>public int mode</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; The current drag and drop mode.  Default: POINT                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="preventDefault"></a>
+                <div class="mdetail">
+                <h3>preventDefault</i></h3>
+                <code>public boolean preventDefault</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Flag to determine if we should prevent the default behavior of the
+events we define. By default this is true, but this can be set to
+false if you need the default behavior (not recommended)                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="stopPropagation"></a>
+                <div class="mdetail alt">
+                <h3>stopPropagation</i></h3>
+                <code>public boolean stopPropagation</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Flag to determine if we should stop the propagation of the events
+we generate. This is true by default but you may want to set it to
+false if the html element contains other features that require the
+mouse click.                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                            <a name="useCache"></a>
+                <div class="mdetail">
+                <h3>useCache</i></h3>
+                <code>public boolean useCache</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Set useCache to false if you want to force object the lookup of each
+drag and drop linked element constantly during a drag.                </div>
+                <div class="mdetail-def">This property is defined by DragDropMgr.</div>
+                </div>
+                        </div>
+        
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="getBestMatch"></a>
+                <div class="mdetail">
+                <h3>getBestMatch</i></h3>
+                <code>public function getBestMatch(&nbsp;<code>DragDrop[] dds</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Helper function for getting the best match from the list of drag
+and drop objects returned by the drag and drop events when we are
+in INTERSECT mode.  It returns either the first object that the
+cursor is over, or the object that has the greatest overlap with
+the dragged element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>dds</code> : DragDrop[]<div class="sub-desc">The array of drag and drop objects
+targeted</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>DragDrop</code><div class="sub-desc">The best single match</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getCss"></a>
+                <div class="mdetail alt">
+                <h3>getCss</i></h3>
+                <code>public function getCss(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated.</b> &lt;static&gt; Returns the style property for the DOM element (i.e.,
+document.getElById(id).style)
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">the id of the elment to get</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">The style property of the element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getDDById"></a>
+                <div class="mdetail">
+                <h3>getDDById</i></h3>
+                <code>public function getDDById(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Returns the DragDrop instance for a given id
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">the id of the DragDrop object</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>DragDrop</code><div class="sub-desc">the drag drop object, null if it is not found</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getElement"></a>
+                <div class="mdetail alt">
+                <h3>getElement</i></h3>
+                <code>public function getElement(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated.</b> &lt;static&gt; Returns the actual DOM element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">the id of the elment to get</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">The element</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getLocation"></a>
+                <div class="mdetail">
+                <h3>getLocation</i></h3>
+                <code>public function getLocation(&nbsp;<code>DragDrop oDD</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Returns a Region object containing the drag and drop element's position
+and size, including the padding configured for it
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>oDD</code> : DragDrop<div class="sub-desc">the drag and drop object to get the
+location for</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Ext.lib.Region</code><div class="sub-desc">a Region object representing the total area the element occupies, including any padding the instance is configured for.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getPosX"></a>
+                <div class="mdetail alt">
+                <h3>getPosX</i></h3>
+                <code>public function getPosX(&nbsp;<code>el the</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated.</b> &lt;static&gt; Returns the X position of an html element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : el<div class="sub-desc">element for which to get the position</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>int</code><div class="sub-desc">the X coordinate @for DragDropMgr</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getPosY"></a>
+                <div class="mdetail">
+                <h3>getPosY</i></h3>
+                <code>public function getPosY(&nbsp;<code>el the</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated.</b> &lt;static&gt; Returns the Y position of an html element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : el<div class="sub-desc">element for which to get the position</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>int</code><div class="sub-desc">the Y coordinate</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getRelated"></a>
+                <div class="mdetail alt">
+                <h3>getRelated</i></h3>
+                <code>public function getRelated(&nbsp;<code>DragDrop p_oDD</code>, <code>boolean bTargetsOnly</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Returns the drag and drop instances that are in all groups the
+passed in instance belongs to.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>p_oDD</code> : DragDrop<div class="sub-desc">the obj to get related data for</div></li><li><code>bTargetsOnly</code> : boolean<div class="sub-desc">if true, only return targetable objs</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>DragDrop[]</code><div class="sub-desc">the related instances</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getScrollLeft"></a>
+                <div class="mdetail">
+                <h3>getScrollLeft</i></h3>
+                <code>public function getScrollLeft()</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Gets the scrollLeft
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>int</code><div class="sub-desc">the document's scrollTop</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getScrollTop"></a>
+                <div class="mdetail alt">
+                <h3>getScrollTop</i></h3>
+                <code>public function getScrollTop()</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Gets the scrollTop
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>int</code><div class="sub-desc">the document's scrollTop</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="getStyle"></a>
+                <div class="mdetail">
+                <h3>getStyle</i></h3>
+                <code>public function getStyle(&nbsp;<code>HTMLElement el</code>, <code>string styleProp</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    <b>Deprecated.</b> &lt;static&gt; Returns the specified element style property
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : HTMLElement<div class="sub-desc">the element</div></li><li><code>styleProp</code> : string<div class="sub-desc">the style property</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>string</code><div class="sub-desc">The value of the style property</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="handleWasClicked"></a>
+                <div class="mdetail alt">
+                <h3>handleWasClicked</i></h3>
+                <code>public function handleWasClicked(&nbsp;<code>node the</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Recursively searches the immediate parent and all child nodes for
+the handle element in order to determine wheter or not it was
+clicked.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : node<div class="sub-desc">html element to inspect</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="isDragDrop"></a>
+                <div class="mdetail">
+                <h3>isDragDrop</i></h3>
+                <code>public function isDragDrop(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Utility function to determine if a given element has been
+registered as a drag drop item.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">the element id to check</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>boolean</code><div class="sub-desc">true if this element is a DragDrop item, false otherwise</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="isHandle"></a>
+                <div class="mdetail alt">
+                <h3>isHandle</i></h3>
+                <code>public function isHandle(&nbsp;<code>String id</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Utility function to determine if a given element has been
+registered as a drag drop handle for the given Drag Drop object.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>id</code> : String<div class="sub-desc">the element id to check</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>boolean</code><div class="sub-desc">true if this element is a DragDrop handle, false otherwise</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="isLegalTarget"></a>
+                <div class="mdetail">
+                <h3>isLegalTarget</i></h3>
+                <code>public function isLegalTarget(&nbsp;<code>DragDrop the</code>, <code>DragDrop the</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Returns true if the specified dd target is a legal target for
+the specifice drag obj
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : DragDrop<div class="sub-desc">drag obj</div></li><li><code>the</code> : DragDrop<div class="sub-desc">target</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>boolean</code><div class="sub-desc">true if the target is a legal target for the dd obj</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="isLocked"></a>
+                <div class="mdetail alt">
+                <h3>isLocked</i></h3>
+                <code>public function isLocked()</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Is drag and drop locked?
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>boolean</code><div class="sub-desc">True if drag and drop is locked, false otherwise.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="isTypeOfDD"></a>
+                <div class="mdetail">
+                <h3>isTypeOfDD</i></h3>
+                <code>public function isTypeOfDD(&nbsp;<code>Object the</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; My goal is to be able to transparently determine if an object is
+typeof DragDrop, and the exact subclass of DragDrop.  typeof
+returns "object", oDD.constructor.toString() always returns
+"DragDrop" and not the name of the subclass.  So for now it just
+evaluates a well-known variable in DragDrop.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : Object<div class="sub-desc">object to evaluate</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>boolean</code><div class="sub-desc">true if typeof oDD = DragDrop</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="lock"></a>
+                <div class="mdetail alt">
+                <h3>lock</i></h3>
+                <code>public function lock()</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Lock all drag and drop functionality
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="moveToEl"></a>
+                <div class="mdetail">
+                <h3>moveToEl</i></h3>
+                <code>public function moveToEl(&nbsp;<code>HTMLElement moveEl</code>, <code>HTMLElement targetEl</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Sets the x/y position of an element to the location of the
+target element.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>moveEl</code> : HTMLElement<div class="sub-desc">The element to move</div></li><li><code>targetEl</code> : HTMLElement<div class="sub-desc">The position reference element</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="numericSort"></a>
+                <div class="mdetail alt">
+                <h3>numericSort</i></h3>
+                <code>public function numericSort()</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Numeric array sort function
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="refreshCache"></a>
+                <div class="mdetail">
+                <h3>refreshCache</i></h3>
+                <code>public function refreshCache(&nbsp;<code>Object groups</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Refreshes the cache of the top-left and bottom-right points of the
+drag and drop objects in the specified group(s).  This is in the
+format that is stored in the drag and drop instance, so typical
+usage is:
+<code>
+Ext.dd.DragDropMgr.refreshCache(ddinstance.groups);
+</code>
+Alternatively:
+<code>
+Ext.dd.DragDropMgr.refreshCache({group1:true, group2:true});
+</code>
+@TODO this really should be an indexed array.  Alternatively this
+method could accept both.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>groups</code> : Object<div class="sub-desc">an associative array of groups to refresh</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="regDragDrop"></a>
+                <div class="mdetail alt">
+                <h3>regDragDrop</i></h3>
+                <code>public function regDragDrop(&nbsp;<code>DragDrop oDD</code>, <code>String sGroup</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Each DragDrop instance must be registered with the DragDropMgr.
+This is executed in DragDrop.init()
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>oDD</code> : DragDrop<div class="sub-desc">the DragDrop object to register</div></li><li><code>sGroup</code> : String<div class="sub-desc">the name of the group this element belongs to</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="regHandle"></a>
+                <div class="mdetail">
+                <h3>regHandle</i></h3>
+                <code>public function regHandle(&nbsp;<code>String sDDId</code>, <code>String sHandleId</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Each DragDrop handle element must be registered.  This is done
+automatically when executing DragDrop.setHandleElId()
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>sDDId</code> : String<div class="sub-desc">the DragDrop id this element is a handle for</div></li><li><code>sHandleId</code> : String<div class="sub-desc">the id of the element that is the drag
+handle</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="startDrag"></a>
+                <div class="mdetail alt">
+                <h3>startDrag</i></h3>
+                <code>public function startDrag(&nbsp;<code>x {int}</code>, <code>y {int}</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Fired when either the drag pixel threshol or the mousedown hold
+time threshold has been met.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>{int}</code> : x<div class="sub-desc">the X position of the original mousedown</div></li><li><code>{int}</code> : y<div class="sub-desc">the Y position of the original mousedown</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="stopEvent"></a>
+                <div class="mdetail">
+                <h3>stopEvent</i></h3>
+                <code>public function stopEvent(&nbsp;<code>Event e</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Utility to stop event propagation and event default, if these
+features are turned on.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>e</code> : Event<div class="sub-desc">the event as returned by this.getEvent()</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="swapNode"></a>
+                <div class="mdetail alt">
+                <h3>swapNode</i></h3>
+                <code>public function swapNode(&nbsp;<code>n1 the</code>, <code>n2 the</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Swap two nodes.  In IE, we use the native method, for others we
+emulate the IE behavior
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>the</code> : n1<div class="sub-desc">first node to swap</div></li><li><code>the</code> : n2<div class="sub-desc">other node to swap</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="unlock"></a>
+                <div class="mdetail">
+                <h3>unlock</i></h3>
+                <code>public function unlock()</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; Unlock all drag and drop functionality
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li>None.</li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>void</code></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                            <a name="verifyEl"></a>
+                <div class="mdetail alt">
+                <h3>verifyEl</i></h3>
+                <code>public function verifyEl(&nbsp;<code>HTMLElement el</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    &lt;static&gt; This checks to make sure an element exists and is in the DOM.  The
+main purpose is to handle cases where innerHTML is used to remove
+drag and drop objects from the DOM.  IE provides an 'unspecified
+error' when trying to access the offsetParent of such an element
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>el</code> : HTMLElement<div class="sub-desc">the element to check</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>boolean</code><div class="sub-desc">true if the element looks usable</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by DragDropMgr.</div>
+                </div>
+                        </div>
+        
+                
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>

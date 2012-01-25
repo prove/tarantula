@@ -1,0 +1,192 @@
+<html><head><title>ScriptTagProxy.js</title><link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/></head><body><h1>ScriptTagProxy.js</h1><pre class="highlighted"><code><i>/**
+ * @class Ext.data.ScriptTagProxy
+ * An implementation of Ext.data.DataProxy that reads a data object from a URL which may be <b>in</b> a domain
+ * other than the originating domain of the running page.&lt;br&gt;&lt;br&gt;
+ * &lt;p&gt;
+ * &lt;em&gt;Note that <b>if</b> you are retrieving data from a page that is <b>in</b> a domain that is NOT the same as the originating domain
+ * of the running page, you must use <b>this</b> class, rather than DataProxy.&lt;/em&gt;&lt;br&gt;&lt;br&gt;
+ * &lt;p&gt;
+ * The content passed back from a server resource requested by a ScriptTagProxy is executable JavaScript
+ * source code that is used as the source inside a &amp;lt;script&gt; tag.&lt;br&gt;&lt;br&gt;
+ * &lt;p&gt;
+ * In order <b>for</b> the browser to process the returned data, the server must wrap the data object
+ * <b>with</b> a call to a callback <b>function</b>, the name of which is passed as a parameter by the ScriptTagProxy.
+ * Below is a Java example <b>for</b> a servlet which returns data <b>for</b> either a ScriptTagProxy, or an HttpProxy
+ * depending on whether the callback name was passed:
+ * &lt;p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+boolean scriptTag = false;
+String cb = request.getParameter(&quot;callback&quot;);
+<b>if</b> (cb != null) {
+    scriptTag = true;
+    response.setContentType(&quot;text/javascript&quot;);
+} <b>else</b> {
+    response.setContentType(&quot;application/x-json&quot;);
+}
+Writer out = response.getWriter();
+<b>if</b> (scriptTag) {
+    out.write(cb + &quot;(&quot;);
+}
+out.print(dataBlock.toJsonString());
+<b>if</b> (scriptTag) {
+    out.write(&quot;);&quot;);
+}
+&lt;/pre&gt;&lt;/code&gt;
+ *
+ * @constructor
+ * @param {Object} config A configuration object.
+ */</i>
+Ext.data.ScriptTagProxy = <b>function</b>(config){
+    Ext.data.ScriptTagProxy.superclass.constructor.call(<b>this</b>);
+    Ext.apply(<b>this</b>, config);
+    <b>this</b>.head = document.getElementsByTagName(&quot;head&quot;)[0];
+};
+
+Ext.data.ScriptTagProxy.TRANS_ID = 1000;
+
+Ext.extend(Ext.data.ScriptTagProxy, Ext.data.DataProxy, {
+    <i>/**
+     * @cfg {String} url The URL from which to request the data object.
+     */</i>
+<i>// holder</i>
+<i>/***
+     * @cfg {Number} timeout (Optional) The number of milliseconds to wait <b>for</b> a response. Defaults to 30 seconds.
+     */</i>
+    timeout : 30000,
+    <i>/**
+     * @cfg {String} callbackParam (Optional) The name of the parameter to pass to the server which tells
+     * the server the name of the callback <b>function</b> set up by the load call to process the returned data object.
+     * Defaults to &quot;callback&quot;.&lt;p&gt;The server-side processing must read <b>this</b> parameter value, and generate
+     * javascript output which calls <b>this</b> named <b>function</b> passing the data object as its only parameter.
+     */</i>
+    callbackParam : &quot;callback&quot;,
+    <i>/**
+     *  @cfg {Boolean} nocache (Optional) Defaults to true. Disable cacheing by adding a unique parameter
+     * name to the request.
+     */</i>
+    nocache : true,
+
+    <i>/**
+     * Load data from the configured URL, read the data object into
+     * a block of Ext.data.Records using the passed Ext.data.DataReader implementation, and
+     * process that block using the passed callback.
+     * @param {Object} params An object containing properties which are to be used as HTTP parameters
+     * <b>for</b> the request to the remote server.
+     * @param {Ext.data.DataReader} reader The Reader object which converts the data
+     * object into a block of Ext.data.Records.
+     * @param {Function} callback The <b>function</b> into which to pass the block of Ext.data.Records.
+     * The <b>function</b> must be passed &lt;ul&gt;
+     * &lt;li&gt;The Record block object&lt;/li&gt;
+     * &lt;li&gt;The &quot;arg&quot; argument from the load <b>function</b>&lt;/li&gt;
+     * &lt;li&gt;A boolean success indicator&lt;/li&gt;
+     * &lt;/ul&gt;
+     * @param {Object} scope The scope <b>in</b> which to call the callback
+     * @param {Object} arg An optional argument which is passed to the callback as its second parameter.
+     */</i>
+    load : <b>function</b>(params, reader, callback, scope, arg){
+        <b>if</b>(this.fireEvent(&quot;beforeload&quot;, <b>this</b>, params) !== false){
+
+            <b>var</b> p = Ext.urlEncode(Ext.apply(params, <b>this</b>.extraParams));
+
+            <b>var</b> url = <b>this</b>.url;
+            url += (url.indexOf(&quot;?&quot;) != -1 ? &quot;&amp;&quot; : &quot;?&quot;) + p;
+            <b>if</b>(this.nocache){
+                url += &quot;&amp;_dc=&quot; + (<b>new</b> Date().getTime());
+            }
+            <b>var</b> transId = ++Ext.data.ScriptTagProxy.TRANS_ID;
+            <b>var</b> trans = {
+                id : transId,
+                cb : &quot;stcCallback&quot;+transId,
+                scriptId : &quot;stcScript&quot;+transId,
+                params : params,
+                arg : arg,
+                url : url,
+                callback : callback,
+                scope : scope,
+                reader : reader
+            };
+            <b>var</b> conn = <b>this</b>;
+
+            window[trans.cb] = <b>function</b>(o){
+                conn.handleResponse(o, trans);
+            };
+
+            url += String.format(&quot;&amp;{0}={1}&quot;, <b>this</b>.callbackParam, trans.cb);
+
+            <b>if</b>(this.autoAbort !== false){
+                <b>this</b>.abort();
+            }
+
+            trans.timeoutId = <b>this</b>.handleFailure.defer(<b>this</b>.timeout, <b>this</b>, [trans]);
+
+            <b>var</b> script = document.createElement(&quot;script&quot;);
+            script.setAttribute(&quot;src&quot;, url);
+            script.setAttribute(&quot;type&quot;, &quot;text/javascript&quot;);
+            script.setAttribute(&quot;id&quot;, trans.scriptId);
+            <b>this</b>.head.appendChild(script);
+
+            <b>this</b>.trans = trans;
+        }<b>else</b>{
+            callback.call(scope||<b>this</b>, null, arg, false);
+        }
+    },
+
+    <i>// private</i>
+    isLoading : <b>function</b>(){
+        <b>return</b> this.trans ? true : false;
+    },
+
+    <i>/**
+     * Abort the current server request.
+     */</i>
+    abort : <b>function</b>(){
+        <b>if</b>(this.isLoading()){
+            <b>this</b>.destroyTrans(<b>this</b>.trans);
+        }
+    },
+
+    <i>// private</i>
+    destroyTrans : <b>function</b>(trans, isLoaded){
+        <b>this</b>.head.removeChild(document.getElementById(trans.scriptId));
+        clearTimeout(trans.timeoutId);
+        <b>if</b>(isLoaded){
+            window[trans.cb] = undefined;
+            try{
+                <b>delete</b> window[trans.cb];
+            }catch(e){}
+        }<b>else</b>{
+            <i>// <b>if</b> hasn't been loaded, wait <b>for</b> load to remove it to prevent script error</i>
+            window[trans.cb] = <b>function</b>(){
+                window[trans.cb] = undefined;
+                try{
+                    <b>delete</b> window[trans.cb];
+                }catch(e){}
+            };
+        }
+    },
+
+    <i>// private</i>
+    handleResponse : <b>function</b>(o, trans){
+        <b>this</b>.trans = false;
+        <b>this</b>.destroyTrans(trans, true);
+        <b>var</b> result;
+        try {
+            result = trans.reader.readRecords(o);
+        }catch(e){
+            <b>this</b>.fireEvent(&quot;loadexception&quot;, <b>this</b>, o, trans.arg, e);
+            trans.callback.call(trans.scope||window, null, trans.arg, false);
+            <b>return</b>;
+        }
+        <b>this</b>.fireEvent(&quot;load&quot;, <b>this</b>, o, trans.arg);
+        trans.callback.call(trans.scope||window, result, trans.arg, true);
+    },
+
+    <i>// private</i>
+    handleFailure : <b>function</b>(trans){
+        <b>this</b>.trans = false;
+        <b>this</b>.destroyTrans(trans, false);
+        <b>this</b>.fireEvent(&quot;loadexception&quot;, <b>this</b>, null, trans.arg);
+        trans.callback.call(trans.scope||window, null, trans.arg, false);
+    }
+});</code></pre><hr><div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+    </body></html>

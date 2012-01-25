@@ -1,0 +1,261 @@
+<!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Ext.data.XmlReader</title>
+        <link rel="stylesheet" type="text/css" href="../resources/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../resources/print.css" media="print">
+        <!-- GC -->
+    </head>
+    <body>
+            <div class="body-wrap">
+        <div class="top-tools">
+        	<img src="../resources/print.gif" width="16" height="16" align="absmiddle">&nbsp;<a href="Ext.data.XmlReader.html" target="_blank">Print Friendly</a><br/>
+
+        </div>
+        <h1>Class Ext.data.XmlReader</h1>
+        <table cellspacing="0">
+            <tr><td class="label">Package:</td><td>Ext.data</td></tr>
+            <tr><td class="label">Class:</td><td>XmlReader</td></tr>
+                        <tr><td class="label">Extends:</td><td>Ext.data.DataReader</td></tr>
+                                    <tr><td class="label">Defined In:</td><td><a href="XmlReader.jss.html">XmlReader.js</a></td></tr>
+        </table>
+        <div class="description">
+            Data reader class to create an Array of <a ext:cls="Ext.data.Record" href="Ext.data.Record.html">Ext.data.Record</a> objects from an XML document
+based on mappings in a provided Ext.data.Record constructor.<br><br>
+<p>
+<em>Note that in order for the browser to parse a returned XML document, the Content-Type
+header in the HTTP response must be set to "text/xml".</em>
+<p>
+Example code:
+<pre><code>var RecordDef = Ext.data.Record.create([
+   {name: <em>'name'</em>, mapping: <em>'name'</em>},     <i>// <em>"mapping"</em> property not needed <b>if</b> it's the same as <em>"name"</em></i>
+   {name: <em>'occupation'</em>}                 <i>// This field will use <em>"occupation"</em> as the mapping.</i>
+]);
+<b>var</b> myReader = <b>new</b> Ext.data.XmlReader({
+   totalRecords: <em>"results"</em>, <i>// The element which contains the total dataset size (optional)</i>
+   record: <em>"row"</em>,           <i>// The repeated element which contains row information</i>
+   id: <em>"id"</em>                 <i>// The element within the row that provides an ID <b>for</b> the record (optional)</i>
+}, RecordDef);</code></pre>
+<p>
+This would consume an XML file like this:
+<pre><code>&lt;?xml?>
+&lt;dataset>
+ &lt;results>2&lt;/results>
+ &lt;row>
+   &lt;id>1&lt;/id>
+   &lt;name>Bill&lt;/name>
+   &lt;occupation>Gardener&lt;/name>
+ &lt;/row>
+ &lt;row>
+   &lt;id>2&lt;/id>
+   &lt;name>Ben&lt;/name>
+   &lt;occupation>Horticulturalist&lt;/occupation>
+ &lt;/row>
+&lt;/dataset></code></pre>        </div>
+        <br />
+        	<a href="#properties">Properties</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#methods">Methods</a>
+			&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#events">Events</a>
+        	        	&nbsp;&nbsp;-&nbsp;&nbsp;<a href="#configs">Config Options</a>
+        	        <hr />
+        <a name="properties"></a>
+        <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Property</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#xmlData">xmlData</a> : XMLDocument</td>
+        <td class="msource" rowspan="2">XmlReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">After any data loads/reads, the raw XML Document is available for further custom processing.</td>
+    </tr>
+            </table>
+                <a name="methods"></a>
+        <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Method</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><b>XmlReader</b>(&nbsp;<code>Object meta</code>, <code>Mixed recordType</code>&nbsp;)</td>
+        <td class="msource" rowspan="2">XmlReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a new XmlReader</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#read">read</a>(&nbsp;<code>Object response</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">XmlReader</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">This method is only used by a DataProxy which has retrieved data from a remote server.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#readRecords">readRecords</a>(&nbsp;<code>Object doc</code>&nbsp;) : Object</td>
+        <td class="msource" rowspan="2">XmlReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">Create a data block containing Ext.data.Records from an XML document.</td>
+    </tr>
+            </table>
+                <a name="events"></a>
+        <h2>Public Events</h2>
+        <div class="no-members">This class has no public events.</div>                <a name="configs"></a>
+        <h2>Config Options</h2>
+        <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Config Options</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-id">id</a> : String</td>
+        <td class="msource" rowspan="2">XmlReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The DomQuery path relative from the record element to the element that contains a record identifier value.</td>
+    </tr>
+        <tr class=" alt">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-record">record</a> : String</td>
+        <td class="msource" rowspan="2">XmlReader</td>
+    </tr>
+    <tr class=" alt">
+        <td class="mdesc">The DomQuery path to the repeated element which contains record information.</td>
+    </tr>
+        <tr class="">
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-success">success</a> : String</td>
+        <td class="msource" rowspan="2">XmlReader</td>
+    </tr>
+    <tr class="">
+        <td class="mdesc">The DomQuery path to the success attribute used by forms.</td>
+    </tr>
+        <tr class=" alt" expandable>
+        <td class="micon" rowspan="2">&nbsp;</td>
+        <td class="sig"><a class="mlink" href="#config-totalRecords">totalRecords</a> : String</td>
+        <td class="msource" rowspan="2">XmlReader</td>
+    </tr>
+    <tr class=" alt" expandable>
+        <td class="mdesc">The DomQuery path from which to retrieve the total number of records in the dataset. This is only needed if the whole...</td>
+    </tr>
+            </table>
+                            <h2 class="mdetail-head">Property Details</h2>
+            <div class="detail-wrap">
+                            <a name="xmlData"></a>
+                <div class="mdetail">
+                <h3>xmlData</i></h3>
+                <code>public XMLDocument xmlData</code>
+                <div class="mdetail-desc">
+                    After any data loads/reads, the raw XML Document is available for further custom processing.                </div>
+                <div class="mdetail-def">This property is defined by XmlReader.</div>
+                </div>
+                        </div>
+        
+                    <a name="XmlReader"></a>
+            <h2 class="mdetail-head">Constructor Details</h2>
+            <div class="detail-wrap">
+                <div class="mdetail">
+                <h3>XmlReader</i></h3>
+                <code>public function XmlReader(&nbsp;<code>Object meta</code>, <code>Mixed recordType</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                Create a new XmlReader                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>meta</code> : Object<div class="sub-desc">Metadata configuration options</div></li><li><code>recordType</code> : Mixed<div class="sub-desc">The definition of the data record type to produce. This can be either a valid
+Record subclass created with <a ext:cls="Ext.data.Record" ext:member="create" href="Ext.data.Record.html#create">Ext.data.Record.create</a>, or an array of objects with which to call
+Ext.data.Record.create. See the <a ext:cls="Ext.data.Record" href="Ext.data.Record.html">Ext.data.Record</a> class for more details.</div></li>                    </ul>
+                </div>
+                </div>
+                </div>
+            </div>
+        
+                    <h2 class="mdetail-head">Method Details</h2>
+            <div class="detail-wrap">
+                            <a name="read"></a>
+                <div class="mdetail">
+                <h3>read</i></h3>
+                <code>public function read(&nbsp;<code>Object response</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    This method is only used by a DataProxy which has retrieved data from a remote server.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>response</code> : Object<div class="sub-desc">The XHR object which contains the parsed XML document. The response is expected
+to contain a method called 'responseXML' that returns an XML document object.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">records A data block which is used by an {@link Ext.data.Store} as a cache of Ext.data.Records.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by XmlReader.</div>
+                </div>
+                            <a name="readRecords"></a>
+                <div class="mdetail alt">
+                <h3>readRecords</i></h3>
+                <code>public function readRecords(&nbsp;<code>Object doc</code>&nbsp;)</code>
+                <div class="mdetail-desc">
+                    Create a data block containing Ext.data.Records from an XML document.
+                <div class="mdetail-params">
+                    <strong>Parameters:</strong>
+                    <ul><li><code>doc</code> : Object<div class="sub-desc">A parsed XML document.</div></li>                    </ul>
+                    <strong>Returns:</strong>
+                    <ul>
+                        <li><code>Object</code><div class="sub-desc">records A data block which is used by an {@link Ext.data.Store} as a cache of Ext.data.Records.</div></li>
+                    </ul>
+                </div>
+                </div>
+                <div class="mdetail-def">This method is defined by XmlReader.</div>
+                </div>
+                        </div>
+        
+                            <h2 class="mdetail-head">Config Details</h2>
+            <div class="detail-wrap">
+                            <a name="config-id"></a>
+                <div class="mdetail">
+                <h3>id</i></h3>
+                <code>id : String</code>
+                <div class="mdetail-desc">
+                    The DomQuery path relative from the record element to the element that contains a record identifier value.                </div>
+                <div class="mdetail-def">This config option is defined by XmlReader.</div>
+                </div>
+                            <a name="config-record"></a>
+                <div class="mdetail alt">
+                <h3>record</i></h3>
+                <code>record : String</code>
+                <div class="mdetail-desc">
+                    The DomQuery path to the repeated element which contains record information.                </div>
+                <div class="mdetail-def">This config option is defined by XmlReader.</div>
+                </div>
+                            <a name="config-success"></a>
+                <div class="mdetail">
+                <h3>success</i></h3>
+                <code>success : String</code>
+                <div class="mdetail-desc">
+                    The DomQuery path to the success attribute used by forms.                </div>
+                <div class="mdetail-def">This config option is defined by XmlReader.</div>
+                </div>
+                            <a name="config-totalRecords"></a>
+                <div class="mdetail alt">
+                <h3>totalRecords</i></h3>
+                <code>totalRecords : String</code>
+                <div class="mdetail-desc">
+                    The DomQuery path from which to retrieve the total number of records in the dataset. This is only needed if the whole dataset is not passed in one go, but is being paged from the remote server.                </div>
+                <div class="mdetail-def">This config option is defined by XmlReader.</div>
+                </div>
+                        </div>
+        
+        </div>
+    <hr>
+    <div style="font-size:10px;text-align:center;color:gray;">Ext - Copyright &copy; 2006-2007 Ext JS, LLC<br />All rights reserved.</div>
+
+    </body>
+</html>
