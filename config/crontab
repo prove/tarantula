@@ -1,0 +1,6 @@
+MAILTO=""
+# m     h       dom mon dow     user    command
+0       22      *   *   7       testia  /opt/testia/current/tarantula/script/runner -e production "Cron.weekly"
+0       0       *   *   *       testia  /opt/testia/current/tarantula/script/runner -e production "Cron.daily"
+*/15    *       *   *   *       testia  /opt/testia/current/tarantula/script/runner -e production "Cron.every_15_min"
+
