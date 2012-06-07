@@ -12,7 +12,7 @@ namespace :db do
   
   desc "Backup the database. Use FILEPATH=... to change the path from default [/opt/testia/backup/tarantula/daily.sql]"
   task :backup => :environment do
-    archive = ENV['FILEPATH'] || "/opt/testia/backup/tarantula/daily.sql"
+    archive = ENV['FILEPATH'] || "/opt/tarantula/daily.sql"
     database, user, password = retrieve_db_info
     
     cmd = "/usr/bin/env mysqldump -u#{user} "
