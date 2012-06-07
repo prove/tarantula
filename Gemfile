@@ -13,6 +13,7 @@ gem 'system_timer'
 gem 'faker'
 gem 'json'
 gem 'rack', '1.0.1'
+gem 'rake', '~> 0.8.7'
 
 
 group :development do
