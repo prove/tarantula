@@ -5,10 +5,10 @@ namespace :server do
   task :start => :environment do
     raise "Provide port!" unless ENV['PORT']
     
-    pid_file = "#{RAILS_ROOT}/tmp/pids/app_server.#{ENV['PORT']}.pid"
+    pid_file = "#{Rails.root}/tmp/pids/app_server.#{ENV['PORT']}.pid"
     start = "/usr/bin/ruby /usr/bin/mongrel_rails start "+
             "-d -e production -p #{ENV['PORT']} -a 127.0.0.1 -P #{pid_file} "+
-            "-c #{RAILS_ROOT}"
+            "-c #{Rails.root}"
     
     # borrowed from http://codesnippets.joyent.com/posts/show/931
     if File.exist?(pid_file)
@@ -28,7 +28,7 @@ namespace :server do
     raise "Provide port!" unless ENV['PORT']
     
     stop = "/usr/bin/ruby /usr/bin/mongrel_rails stop -P "+
-           "#{RAILS_ROOT}/tmp/pids/app_server.#{ENV['PORT']}.pid"
+           "#{Rails.root}/tmp/pids/app_server.#{ENV['PORT']}.pid"
     
     sh stop
   end

@@ -16,7 +16,7 @@ class PDF
     opts = {:page_size => 'A4', :top_margin => 70}
     opts.merge!(@pdf_options[:opts_for_new]) if @pdf_options[:opts_for_new]
     pdf = Prawn::Document.new(opts)
-    pdf.font "#{RAILS_ROOT}/vendor/fonts/DejaVuSans.ttf"
+    pdf.font "#{Rails.root}/vendor/fonts/DejaVuSans.ttf"
     pdf.stroke_color = '777777'
 
     @pdf_options[:init].call(pdf) if @pdf_options[:init]

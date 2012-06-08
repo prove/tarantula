@@ -16,7 +16,7 @@ class ReportController < ApplicationController
                                     @current_user.test_area(@project).try(:id),
                                     @pa.try(:test_object_id))
     
-    if Rails.cache.exist?(@report.cache_key) or RAILS_ENV == 'development'
+    if Rails.cache.exist?(@report.cache_key) or Rails.env == 'development'
       render :json => @report.to_json
     else
       @report.send_later(:query)

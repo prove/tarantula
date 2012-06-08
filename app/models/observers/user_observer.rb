@@ -5,7 +5,7 @@ User observer.
 =end
 class UserObserver < ActiveRecord::Observer
   def after_create(user)
-    UserNotifier.deliver_signup_notification(user) if RAILS_ENV != 'test'
+    UserNotifier.deliver_signup_notification(user) if Rails.env != 'test'
   end
 
   def after_save(user)

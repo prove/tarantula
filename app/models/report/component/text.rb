@@ -33,9 +33,9 @@ module Report
       def to_pdf(pdf)
         if @sub_type == :h1
           pdf.pad_bottom(30) do
-            pdf.font "#{RAILS_ROOT}/vendor/fonts/DejaVuSans-Bold.ttf"
+            pdf.font "#{Rails.root}/vendor/fonts/DejaVuSans-Bold.ttf"
             pdf.text @value, :size => 18, :align => :center
-            pdf.font "#{RAILS_ROOT}/vendor/fonts/DejaVuSans.ttf"
+            pdf.font "#{Rails.root}/vendor/fonts/DejaVuSans.ttf"
           end
         elsif @sub_type == :h2 or @alt == :big
           pdf.pad_top(20) do

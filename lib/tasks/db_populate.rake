@@ -9,8 +9,8 @@ namespace :db do
     
     task :machinist => :environment do
       require 'machinist'
-      require File.join(RAILS_ROOT, 'spec', 'blueprint')
-      require File.join(RAILS_ROOT, 'spec', 'blueprint_projects')
+      require File.join(Rails.root, 'spec', 'blueprint')
+      require File.join(Rails.root, 'spec', 'blueprint_projects')
       
       # Don't send the new user mails!
       ActionMailer::Base.delivery_method = :test

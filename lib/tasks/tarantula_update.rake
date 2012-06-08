@@ -1,7 +1,7 @@
 
 namespace :tarantula do
   
-  desc "Update Tarantula. Run on RAILS_ROOT." 
+  desc "Update Tarantula. Run on rails root directory." 
   task :update => :environment do
     system('git fetch')
     
@@ -21,7 +21,7 @@ namespace :tarantula do
     
     system("git checkout #{last_tag}")
     Rake::Task['db:migrate'].execute
-    FileUtils.touch(File.join(RAILS_ROOT, 'tmp','restart.txt'))
+    FileUtils.touch(File.join(Rails.root, 'tmp','restart.txt'))
     system('/etc/init.d/delayed_job restart')
   end
 end

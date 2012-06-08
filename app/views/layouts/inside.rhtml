@@ -59,7 +59,7 @@ var LIST_LOAD_LIMIT = parseInt('<%= Testia::LOAD_LIMIT %>', 10);
         "effects.js",
         "swfobject.js",
         "ext/adapter/prototype/ext-prototype-adapter.js" %>
-    <%= if (ENV['RAILS_ENV'] == 'development')
+    <%= if (Rails.env == 'development')
           javascript_include_tag "ext/ext-all-debug.js"
         else
           javascript_include_tag "ext/ext-all.js"

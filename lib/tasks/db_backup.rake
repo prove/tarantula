@@ -1,12 +1,12 @@
 namespace :db do
   def retrieve_db_info
-    result = File.read "#{RAILS_ROOT}/config/database.yml"
+    result = File.read "#{Rails.root}/config/database.yml"
     result.strip!
     config_file = YAML::load(ERB.new(result).result)
     return [
-      config_file[RAILS_ENV]['database'],
-      config_file[RAILS_ENV]['username'],
-      config_file[RAILS_ENV]['password']
+      config_file[Rails.env]['database'],
+      config_file[Rails.env]['username'],
+      config_file[Rails.env]['password']
     ]
   end
   

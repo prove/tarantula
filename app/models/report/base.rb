@@ -1,6 +1,6 @@
-require_dependency "#{RAILS_ROOT}/app/models/report/ext"
-Dir.glob("#{RAILS_ROOT}/app/models/report/component/*.rb").each{|c| require_dependency c}
-Dir.glob("#{RAILS_ROOT}/app/models/report/ofc/*.rb").each{|c| require_dependency c}
+require_dependency "#{Rails.root}/app/models/report/ext"
+Dir.glob("#{Rails.root}/app/models/report/component/*.rb").each{|c| require_dependency c}
+Dir.glob("#{Rails.root}/app/models/report/ofc/*.rb").each{|c| require_dependency c}
 
 module Report
 

@@ -69,7 +69,7 @@ class BugTracker < ActiveRecord::Base
 
   def logger
     return @logger if @logger
-    @logger = Import::ImportLogger.new("#{RAILS_ROOT}/log/bug_trackers.log", 5,
+    @logger = Import::ImportLogger.new("#{Rails.root}/log/bug_trackers.log", 5,
                                        100.megabytes)
     @logger.markup = false
     @logger

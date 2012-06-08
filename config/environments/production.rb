@@ -1,30 +1,67 @@
-# Settings specified here will take precedence over those in config/environment.rb
+Tarantula::Application.configure do
+  # Settings specified here will take precedence over those in config/application.rb
 
-# The production environment is meant for finished, "live" apps.
-# Code is not reloaded between requests
-config.cache_classes = true
+  # Code is not reloaded between requests
+  config.cache_classes = true
 
-# Use a different logger for distributed setups
-# config.logger = SyslogLogger.new
+  # Full error reports are disabled and caching is turned on
+  config.consider_all_requests_local       = false
+  config.action_controller.perform_caching = true
 
-# Full error reports are disabled and caching is turned on
-config.action_controller.consider_all_requests_local = false
+  # Disable Rails's static asset server (Apache or nginx will already do this)
+  config.serve_static_assets = false
 
-config.action_controller.perform_caching             = false
+  # Compress JavaScripts and CSS
+  config.assets.compress = true
 
-config.cache_store = :mem_cache_store, '127.0.0.1', {:namespace => "testia_production"}
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = false
 
-# Enable serving of images, stylesheets, and javascripts from an asset server
-# config.action_controller.asset_host = "http://assets.example.com"
+  # Generate digests for assets URLs
+  config.assets.digest = true
 
+  # Defaults to nil and saved in location specified by config.assets.prefix
+  # config.assets.manifest = YOUR_PATH
 
-# http://pastie.org/169850
-# Use a different logger for distributed setups
-ObjectSpace.each_object(Mongrel::HttpServer) { |i| @port = i.port } rescue nil
+  # Specifies the header that your server uses for sending files
+  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
+  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
-# Need to be able to run this code during migrations or console
-if @port and @port.to_i > 0
-  config.logger = Logger.new File.expand_path(RAILS_ROOT+"/log/#{ENV['RAILS_ENV']}.#{@port}.log"), 5, 100.megabytes
-else
-  puts "Port could not be introspected; we must not be running Mongrel in this instance."
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  # config.force_ssl = true
+
+  # See everything in the log (default is :info)
+  # config.log_level = :debug
+
+  # Prepend all log lines with the following tags
+  # config.log_tags = [ :subdomain, :uuid ]
+
+  # Use a different logger for distributed setups
+  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+
+  # Use a different cache store in production
+  # config.cache_store = :mem_cache_store
+
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server
+  # config.action_controller.asset_host = "http://assets.example.com"
+
+  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+  # config.assets.precompile += %w( search.js )
+
+  # Disable delivery errors, bad email addresses will be ignored
+  # config.action_mailer.raise_delivery_errors = false
+
+  # Enable threaded mode
+  # config.threadsafe!
+
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation can not be found)
+  config.i18n.fallbacks = true
+
+  # Send deprecation notices to registered listeners
+  config.active_support.deprecation = :notify
+
+  # Log the query plan for queries taking more than this (works
+  # with SQLite, MySQL, and PostgreSQL)
+  # config.active_record.auto_explain_threshold_in_seconds = 0.5
 end

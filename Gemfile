@@ -1,7 +1,6 @@
 source "http://rubygems.org"
 
-gem "rails", "2.3.4"
-
+gem 'rails', '3.2.5'
 gem 'mysql'
 gem 'prawn', '~> 0.5.0.1'
 gem 'prawn-core', '~> 0.5.0.1', :require => 'prawn/core'
@@ -12,9 +11,16 @@ gem 'libxml-ruby', :require => 'libxml_ruby'
 gem 'system_timer'
 gem 'faker'
 gem 'json'
-gem 'rack', '1.0.1'
 gem 'rake', '~> 0.8.7'
+gem 'jquery-rails'
 
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'uglifier', '>= 1.0.3'
+end
 
 group :development do
   gem 'ruby-debug'
