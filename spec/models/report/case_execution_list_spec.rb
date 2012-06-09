@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/cacheable_report_spec.rb')
 
 describe Report::CaseExecutionList do
   def get_instance(opts={})
@@ -9,5 +8,5 @@ describe Report::CaseExecutionList do
     to = TestObject.make(:project => p)
     Report::CaseExecutionList.new(p.id, [to.id], nil) # ,conds
   end
-  it_should_behave_like "cacheable report"
+  it_behaves_like "cacheable report"
 end

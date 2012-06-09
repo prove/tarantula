@@ -1,12 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require RAILS_ROOT + '/vendor/plugins/attsets/spec/shared/attachment_host_spec.rb'
+require "#{Rails.root}/vendor/plugins/attsets/spec/shared/attachment_host_spec.rb"
 
 describe Project do
   def get_instance(atts={})
     c = Project.make(atts)
   end
 
-  it_should_behave_like "attachment host"
+  it_behaves_like "attachment host"
   
   it "#to_tree should return necessary data" do
     p = Project.make

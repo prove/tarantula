@@ -1,8 +1,6 @@
 # For versioned models which include the ChangeHistory model
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-
-describe "auditable", :shared => true do
+shared_examples_for "auditable" do
   describe "#change_history" do
     
     it "should return created as first history info" do

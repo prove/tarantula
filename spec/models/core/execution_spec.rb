@@ -1,6 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/taggable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/date_stamped.rb')
 
 describe Execution do
 
@@ -8,8 +6,8 @@ describe Execution do
     Execution.make(atts)
   end
 
-  it_should_behave_like "taggable"
-  it_should_behave_like "date stamped"
+  it_behaves_like "taggable"
+  it_behaves_like "date stamped"
 
   it "#to_tree should have necessary data" do
     data = Execution.make.to_tree

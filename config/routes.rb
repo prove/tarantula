@@ -10,68 +10,68 @@ Tarantula::Application.routes do
   resources :projects, :member => {
     :priorities => :get,
     :deleted => :delete, :products => :get},
-    :collection => {:deleted => :get} do |project|
+    :collection => {:deleted => :get} do
 
-    project.resources :users do |user|
-      user.resources :executions
-      user.resource :test_area
-      user.resource :test_object
-      user.resources :report_data
+    resources :users do
+      resources :executions
+      resource :test_area
+      resource :test_object
+      resources :report_data
     end
 
-    project.resources :test_sets do |tset|
-      tset.resources :cases, :collection => {:not_in_set => :get}
+    resources :test_sets do
+      resources :cases, :collection => {:not_in_set => :get}
     end
-    project.resources :attachments
-    project.resources :cases
-    project.resources :executions
-    project.resources :requirements
-    project.resources :tags
-    project.resources :tasks
-    project.resources :test_objects do |tob|
-      tob.resources :attachments
+    resources :attachments
+    resources :cases
+    resources :executions
+    resources :requirements
+    resources :tags
+    resources :tasks
+    resources :test_objects do
+      resources :attachments
     end
-    project.resources :test_areas
-    project.resources :bug_trackers, :member => {:products => :get}
-    project.resources :bugs
+    resources :test_areas
+    resources :bug_trackers, :member => {:products => :get}
+    resources :bugs
   end
 
-  resources :requirements do |req|
-    req.resources :cases, :only => [:index]
-    req.resources :attachments
+  resources :requirements do
+    resources :cases, :only => [:index]
+    resources :attachments
   end
 
-  resources :test_sets do |tset|
-    tset.resources :cases, :collection => {:not_in_set => :get}
+  resources :test_sets do
+    resources :cases, :collection => {:not_in_set => :get}
   end
 
-  resources :cases, :member => {:change_history => :get} do |tcase|
-    tcase.resources :attachments
-    tcase.resources :tasks
-    tcase.resources :requirements, :only => [:index]
+  resources :cases, :member => {:change_history => :get} do
+    resources :attachments
+    resources :tasks
+    resources :requirements, :only => [:index]
   end
 
   resources :case_executions, :has_many => :attachments
 
-  resources :executions do |texec|
-    texec.resources :case_executions
+  resources :executions do
+    resources :case_executions
   end
 
-  resources :test_objects, :only => [:show] do |tobs|
-    tobs.resources :attachments
+  resources :test_objects, :only => [:show] do
+    resources :attachments
   end
 
   resources :users, :member => {:selected_project => :put, :permissions => :get, :available_groups => :get},
-    :collection => {:deleted => :get} do |users|
-    users.resources :projects, :member => {:group => :get}, :collection => {:deleted => :get}
-    users.resources :executions
-    users.resources :tasks
+    :collection => {:deleted => :get} do
+    resources :projects, :member => {:group => :get}, :collection => {:deleted => :get}
+    resources :executions
+    resources :tasks
   end
 
   resources :bug_trackers, :member => {:products => :get}
 
   resources :customer_configs
-  match 'restart', 'customer_configs#restart'
+  # match 'restart', 'customer_configs#restart'
 
   resource :report, :member => {:dashboard => :get,
                                 :test_result_status => :get,

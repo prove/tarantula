@@ -1,7 +1,5 @@
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-
-describe "externally_identifiable", :shared => true do
+shared_examples_for "externally_identifiable" do
   
   it "should have external_id attribute" do
     get_instance.attributes.keys.should include('external_id')

@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/cacheable_report_spec.rb')
 
 describe Report::DailyFailedCases do
   def get_instance(opts={})
@@ -12,5 +11,5 @@ describe Report::DailyFailedCases do
     Report::DailyFailedCases.new(p.id, nil, nil, 1.week.ago.to_date, Date.today)
   end
   
-  it_should_behave_like "cacheable report"
+  it_behaves_like "cacheable report"
 end

@@ -27,8 +27,6 @@ group :development do
 end
 
 group :test do
-  gem "rspec", "1.3.2", :require => 'spec'
-  gem "rspec-rails", "1.3.2"
   gem "flexmock"
 end
 
@@ -36,3 +34,6 @@ group :production do
   gem 'passenger'
 end
 
+group :test, :development do
+  gem "rspec-rails", "~> 2.0"
+end

@@ -13,7 +13,7 @@ class PasswordReset < ActiveRecord::Base
   attr_accessor :name_or_email
   
   after_create :create_and_email_link
-  before_validation_on_create :find_user
+  before_validation(:on => :create) { find_user }
   validates_presence_of :user_id, :message => 'name or email address not found.'
   validate :allow_reset_only_once_per_day
   

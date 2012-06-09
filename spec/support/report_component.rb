@@ -1,6 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "report component", :shared => true do
+shared_examples_for "report component" do
   it "should respond to #to_json" do
     i = get_instance
     i.to_json

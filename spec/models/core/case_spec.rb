@@ -1,11 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require RAILS_ROOT + '/vendor/plugins/attsets/spec/shared/attachment_host_spec.rb'
-require File.expand_path(File.dirname(__FILE__) + '/../shared/taggable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/versioned_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/auditable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/externally_identifiable.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/date_stamped.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/prioritized.rb')
+require "#{Rails.root}/vendor/plugins/attsets/spec/shared/attachment_host_spec"
 
 describe Case do
 
@@ -23,13 +17,13 @@ describe Case do
     c
   end
 
-  it_should_behave_like "attachment host"
-  it_should_behave_like "taggable"
-  it_should_behave_like "versioned"
-  it_should_behave_like "auditable"
-  it_should_behave_like "externally_identifiable"
-  it_should_behave_like "date stamped"
-  it_should_behave_like "prioritized"
+  it_behaves_like "attachment host"
+  it_behaves_like "taggable"
+  it_behaves_like "versioned"
+  it_behaves_like "auditable"
+  it_behaves_like "externally_identifiable"
+  it_behaves_like "date stamped"
+  it_behaves_like "prioritized"
 
   describe "#avg_duration" do
     it "should call Case.total_avg_duration" do

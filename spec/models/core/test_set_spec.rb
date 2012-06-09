@@ -1,9 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/taggable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/versioned_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/externally_identifiable.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/date_stamped.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/prioritized.rb')
 
 describe TestSet do
   def get_instance(atts={})
@@ -16,11 +11,11 @@ describe TestSet do
     ts
   end
   
-  it_should_behave_like "taggable"
-  it_should_behave_like "versioned"
-  it_should_behave_like "externally_identifiable"
-  it_should_behave_like "date stamped"
-  it_should_behave_like "prioritized"
+  it_behaves_like "taggable"
+  it_behaves_like "versioned"
+  it_behaves_like "externally_identifiable"
+  it_behaves_like "date stamped"
+  it_behaves_like "prioritized"
   
   describe "#to_data" do
     it "should return necessary data" do

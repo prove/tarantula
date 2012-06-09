@@ -1,6 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "cacheable report", :shared => true do
+shared_examples_for "cacheable report" do
   
   it "#to_data should not raise" do
     get_instance.to_data

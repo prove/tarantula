@@ -1,7 +1,5 @@
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-
-describe "prioritized", :shared => true do
+shared_examples_for "prioritized" do
   it "should validate priority value" do
     invalid_val = Project::Priorities.map{|p| p[:value]}.max + 1
     i = get_instance

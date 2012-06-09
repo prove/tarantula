@@ -1,9 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require RAILS_ROOT + '/vendor/plugins/attsets/spec/shared/attachment_host_spec.rb'
-require File.expand_path(File.dirname(__FILE__) + '/../shared/taggable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/externally_identifiable.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/date_stamped.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/versioned_spec.rb')
+require "#{Rails.root}/vendor/plugins/attsets/spec/shared/attachment_host_spec"
+
 
 describe Requirement do
   def get_instance(atts={})
@@ -15,11 +12,11 @@ describe Requirement do
     r
   end
   
-  it_should_behave_like "attachment host"
-  it_should_behave_like "taggable"
-  it_should_behave_like "externally_identifiable"
-  it_should_behave_like "date stamped"
-  it_should_behave_like "versioned"
+  it_behaves_like "attachment host"
+  it_behaves_like "taggable"
+  it_behaves_like "externally_identifiable"
+  it_behaves_like "date stamped"
+  it_behaves_like "versioned"
   
   it "#to_data should return necessary data" do
     keys = Requirement.new.to_data.keys

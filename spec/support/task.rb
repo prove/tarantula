@@ -1,7 +1,5 @@
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-
-describe "task", :shared => true do
+shared_examples_for "task" do
   
   it "should respond to #item_class" do
     ic = get_instance.item_class

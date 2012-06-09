@@ -1,9 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/versioned_spec.rb')
 
 describe Step do
   def get_instance; Step.make; end
-  it_should_behave_like "versioned"
+  it_behaves_like "versioned"
   
   it "#to_data should contain needed attributes" do
     data = Step.make.to_data

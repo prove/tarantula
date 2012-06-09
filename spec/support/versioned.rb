@@ -1,10 +1,8 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-
 # The get_instance method should return an instance which has
 # a new_verioned_child (singleton) method defined which creates a valid child
 # (if has_and_belongs_to_many_versioned childs)
 
-describe "versioned", :shared => true do
+shared_examples_for "versioned" do
   def join_table_rows(host, assoc)
     jt = [host.class.to_s.tableize, assoc].sort.join('_')
     rows = ActiveRecord::Base.connection.select_all \

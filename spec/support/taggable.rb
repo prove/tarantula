@@ -1,6 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "taggable", :shared => true do
+shared_examples_for "taggable" do
   
   it "should hold tags" do
     @host = get_instance

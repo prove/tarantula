@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../../../spec/spec_helper')
 
-describe "attachment host", :shared => true do
+shared_examples_for "attachment host" do
   
   it "should return empty array when no attachments" do
     @host = get_instance

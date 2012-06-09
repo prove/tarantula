@@ -1,7 +1,5 @@
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-
-describe "date stamped", :shared => true do
+shared_examples_for "date stamped" do
   it "new instance should have date" do
     i = get_instance
     i.date.should be_kind_of(Date)

@@ -11,7 +11,7 @@ class Attachment < ActiveRecord::Base
   #  ACCESS_PATH = '/attachment_files' # under the public
   #  FILE_PATH = File.join(RAILS_ROOT, 'attachment_files')
   #else
-  ACCESS_PATH = FILE_PATH = File.join(RAILS_ROOT, 'attachment_files')
+  ACCESS_PATH = FILE_PATH = File.join(Rails.root, 'attachment_files')
   #end
 
   attr_accessor :file_data

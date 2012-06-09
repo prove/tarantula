@@ -1,7 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require RAILS_ROOT + '/vendor/plugins/attsets/spec/shared/attachment_host_spec.rb'
-require File.expand_path(File.dirname(__FILE__) + '/../shared/taggable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/date_stamped.rb')
+require "#{Rails.root}/vendor/plugins/attsets/spec/shared/attachment_host_spec"
+
 
 describe TestObject do
   
@@ -9,9 +8,9 @@ describe TestObject do
     TestObject.make(atts)
   end
   
-  it_should_behave_like "attachment host"
-  it_should_behave_like "taggable"
-  it_should_behave_like "date stamped"
+  it_behaves_like "attachment host"
+  it_behaves_like "taggable"
+  it_behaves_like "date stamped"
   
   it "#to_data should return required data" do
     keys = TestObject.new(:name => 'to', :project => Project.new).to_data.keys

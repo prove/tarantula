@@ -8,7 +8,7 @@ require 'faker'
 
 Sham.define do
   login                    { Faker::Name.first_name }
-  result(:unique => false) { ResultType.all.rand    }
+  result(:unique => false) { ResultType.all[rand(ResultType.all.size)] }
 end
 
 ###################################################
