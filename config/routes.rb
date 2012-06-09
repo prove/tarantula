@@ -1,58 +1,95 @@
-Tarantula::Application.routes.draw do
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
+ActionController::Routing::Routes.draw do |map|
+  map.connect '', :controller => "home", :action => "index"
 
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
+  map.resources :password_resets
 
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
+  map.resource :archive, :only => [:destroy, :create],
+    :path_prefix => '/projects/:project_id/:resources',
+    :controller => 'archives'
 
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  map.resources :projects, :member => {
+    :priorities => :get,
+    :deleted => :delete, :products => :get},
+    :collection => {:deleted => :get} do |project|
 
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+    project.resources :users do |user|
+      user.resources :executions
+      user.resource :test_area
+      user.resource :test_object
+      user.resources :report_data
+    end
 
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+    project.resources :test_sets do |tset|
+      tset.resources :cases, :collection => {:not_in_set => :get}
+    end
+    project.resources :attachments
+    project.resources :cases
+    project.resources :executions
+    project.resources :requirements
+    project.resources :tags
+    project.resources :tasks
+    project.resources :test_objects do |tob|
+      tob.resources :attachments
+    end
+    project.resources :test_areas
+    project.resources :bug_trackers, :member => {:products => :get}
+    project.resources :bugs
+  end
 
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
+  map.resources :requirements do |req|
+    req.resources :cases, :only => [:index]
+    req.resources :attachments
+  end
 
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  map.resources :test_sets do |tset|
+    tset.resources :cases, :collection => {:not_in_set => :get}
+  end
 
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  map.resources :cases, :member => {:change_history => :get} do |tcase|
+    tcase.resources :attachments
+    tcase.resources :tasks
+    tcase.resources :requirements, :only => [:index]
+  end
 
-  # See how all your routes lay out with "rake routes"
+  map.resources :case_executions, :has_many => :attachments
 
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+  map.resources :executions do |texec|
+    texec.resources :case_executions
+  end
+
+  map.resources :test_objects, :only => [:show] do |tobs|
+    tobs.resources :attachments
+  end
+
+  map.resources :users, :member => {:selected_project => :put, :permissions => :get, :available_groups => :get},
+    :collection => {:deleted => :get} do |users|
+    users.resources :projects, :member => {:group => :get}, :collection => {:deleted => :get}
+    users.resources :executions
+    users.resources :tasks
+  end
+
+  map.resources :bug_trackers, :member => {:products => :get}
+
+  map.resources :customer_configs
+  map.connect 'restart', :controller => 'customer_configs', :action => 'restart'
+
+  map.resource :report, :member => {:dashboard => :get,
+                                    :test_result_status => :get,
+                                    :results_by_test_object => :get,
+                                    :case_execution_list => :get,
+                                    :test_efficiency => :get,
+                                    :status => :get,
+                                    :requirement_coverage => :get,
+                                    :bug_trend => :get,
+                                    :workload => :get},
+               :controller => 'report'
+
+  map.resource :home, :member => {:login => [:get, :post],
+                                  :logout => :get,
+                                  :index => :get},
+               :controller => 'home'
+
+  map.resource :import, :member => {:doors => [:get, :post]},
+               :controller => 'import'
+
 end
