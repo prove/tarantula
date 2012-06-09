@@ -4,7 +4,7 @@ require "#{Rails.root}/vendor/plugins/attsets/spec/shared/attachment_host_spec"
 describe Case do
 
   before(:all) do
-    Rake.application.rake_require "db_create_views", [File.join(RAILS_ROOT, 'lib', 'tasks')]
+    Rake.application.rake_require "db_create_views", [File.join(Rails.root, 'lib', 'tasks')]
   end
 
   # for shared behaviours

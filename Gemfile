@@ -28,6 +28,7 @@ end
 
 group :test do
   gem "flexmock"
+  gem 'machinist', '>= 2.0.0.beta2'
 end
 
 group :production do

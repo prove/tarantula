@@ -1,15 +1,5 @@
 require 'machinist/active_record'
-require 'sham'
 require 'faker'
-
-###################################################
-# Shams                                           #
-###################################################
-
-Sham.define do
-  login                    { Faker::Name.first_name }
-  result(:unique => false) { ResultType.all[rand(ResultType.all.size)] }
-end
 
 ###################################################
 # Blueprints                                      #
@@ -124,7 +114,7 @@ class Execution < ActiveRecord::Base
                                             :position => c.position)
       ce.step_executions.each do |se|
         se.update_attributes(:result =>
-          ResultType.all.rand)
+          ResultType.all[rand(ResultType.all.size)])
       end
       ce.update_result(updater)
     end
