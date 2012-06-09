@@ -37,7 +37,7 @@ Tarantula::Application.configure do
   
   require 'ruby-debug'
 
-  ActiveSupport::Dependencies.load_once_paths += \
-    ["#{Rails.root}/app/models/report/dashboard_item",
-     "#{Rails.root}/app/models/result_type"]
+  #ActiveSupport::Dependencies.load_once_paths += \
+  #  ["#{Rails.root}/app/models/report/dashboard_item",
+  #   "#{Rails.root}/app/models/result_type"]
 end

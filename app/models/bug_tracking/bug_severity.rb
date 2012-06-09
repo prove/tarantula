@@ -36,8 +36,8 @@ class BugSeverity < ActiveRecord::Base
   validates_uniqueness_of :external_id, :scope => :bug_tracker_id
 
   # default ordering
-  named_scope :ordered, :order => 'sortkey ASC'
-  named_scope :at_least, lambda {|sev, bt_id|
+  scope :ordered, order('sortkey ASC')
+  scope :at_least, lambda {|sev, bt_id|
     { :conditions => "sortkey <= (select sortkey from bug_severities "+
                      "where name='#{sev}' and bug_tracker_id=#{bt_id})"}
   }

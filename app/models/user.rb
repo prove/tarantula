@@ -6,8 +6,8 @@ A user.
 
 =end
 class User < ActiveRecord::Base
-  named_scope :active, :conditions => { :deleted => 0 }
-  named_scope :deleted, :conditions => { :deleted => 1 }
+  scope :active, where(:deleted => 0)
+  scope :deleted, where(:deleted => 1)
   
   set_locking_column :version
   

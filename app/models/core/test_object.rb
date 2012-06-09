@@ -18,13 +18,12 @@ class TestObject < ActiveRecord::Base
   validates_presence_of :project_id, :date
   
   # default ordering
-  named_scope :ordered, 
-              :order => 'test_objects.date DESC, test_objects.created_at DESC'
+  scope :ordered, 
+              order('test_objects.date DESC, test_objects.created_at DESC')
   
-  named_scope :active, :conditions => { :deleted => 0, :archived => 0 },
-                       :order => 'date desc'
-  named_scope :deleted, :conditions => { :deleted => 1 },
-                       :order => 'date desc'
+  scope :active, where(:deleted => 0, :archived => 0).order('date desc')
+  
+  scope :deleted, where(:deleted => 1).order('date desc')
   
   # Return project's requirements for this test object.
   # Revert requirements to their last version which is applicable to 

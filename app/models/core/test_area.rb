@@ -10,7 +10,7 @@ class TestArea < ActiveRecord::Base
   
   validates_format_of :name, :with => /^[^,]+$/
   belongs_to :project
-  named_scope :ordered, :order => 'name ASC'
+  scope :ordered, order('name ASC')
   
   has_and_belongs_to_many :requirements, :select => 'requirements.*'
   has_and_belongs_to_many :test_sets, :select => 'test_sets.*'

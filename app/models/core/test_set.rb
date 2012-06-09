@@ -7,11 +7,11 @@ class TestSet < ActiveRecord::Base
   include TaggingExtensions
   include PriorityExtensions
 
-  named_scope :active, :conditions => { :deleted => 0, :archived => 0 }
-  named_scope :deleted, :conditions => { :deleted => 1 }
+  scope :active, where(:deleted => 0, :archived => 0)
+  scope :deleted, where(:deleted => 1)
 
   # default ordering
-  named_scope :ordered, :order => 'priority DESC, name ASC'
+  scope :ordered, order('priority DESC, name ASC')
 
   acts_as_versioned
   set_locking_column :version

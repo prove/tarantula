@@ -1,4 +1,4 @@
-require "#{RAILS_ROOT}/app/models/dashboard_item"
+require "#{Rails.root}/app/models/dashboard_item"
 
 
 DashboardItem.new(:overview,

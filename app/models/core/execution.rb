@@ -7,13 +7,13 @@ Execution. Reflects execution of a single test set.
 =end
 class Execution < ActiveRecord::Base
   include TaggingExtensions
-  named_scope :active, :conditions => { :deleted => 0, :archived => 0 }
-  named_scope :deleted, :conditions => { :deleted => 1 }
-  named_scope :completed, :conditions => {:completed => true}
-  named_scope :not_completed, :conditions => {:completed => false}
+  scope :active, where(:deleted => 0, :archived => 0)
+  scope :deleted, where(:deleted => 1)
+  scope :completed, where(:completed => true)
+  scope :not_completed, where(:completed => false)
 
   # default ordering
-  named_scope :ordered, :joins => [:test_object], :order => 'test_objects.date DESC'
+  scope :ordered, joins(:test_object).order('test_objects.date DESC')
 
   set_locking_column :version
 
