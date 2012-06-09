@@ -62,17 +62,17 @@ module Tarantula
     config.autoload_paths += [config.root.join('lib')]
     config.middleware.use "Authenticator", "Testia"
     config.logger = Logger.new("#{Rails.root}/log/#{Rails.env}.log", 5, 100_000000)
-    #config.load_paths += %W( #{Rails.root}/app/models/core
-    #                             #{Rails.root}/app/models/report
-    #                             #{Rails.root}/app/models/report/component
-    #                             #{Rails.root}/app/models/report/ofc
-    #                             #{Rails.root}/app/models/import
-    #                             #{Rails.root}/app/models/bug_tracking
-    #                             #{Rails.root}/app/models/bug_tracking/jira_integration
-    #                             #{Rails.root}/app/models/task
-    #                             #{Rails.root}/app/models/preference
-    #                             #{Rails.root}/app/models/observers
-    #                             #{Rails.root}/lib/smart_tag )
+    config.autoload_paths += %W( #{Rails.root}/app/models/core
+                                 #{Rails.root}/app/models/report
+                                 #{Rails.root}/app/models/report/component
+                                 #{Rails.root}/app/models/report/ofc
+                                 #{Rails.root}/app/models/import
+                                 #{Rails.root}/app/models/bug_tracking
+                                 #{Rails.root}/app/models/bug_tracking/jira_integration
+                                 #{Rails.root}/app/models/task
+                                 #{Rails.root}/app/models/preference
+                                 #{Rails.root}/app/models/observers
+                                 #{Rails.root}/lib/smart_tag )
     config.time_zone = 'Helsinki'
     config.action_controller.session = {
           :key => "testia_premo_session_id",
@@ -82,13 +82,13 @@ module Tarantula
           }
     config.active_record.observers = [:user_observer, :case_execution_observer, 
                                       :execution_observer, :tagging_observer]
-    config.after_initialize do
-      CustomerConfigsController.class_eval do
-        before_filter do |c|
-          c.require_permission(['ADMIN'])
-        end
-      end
-    end
+    #config.after_initialize do
+    #  CustomerConfigsController.class_eval do
+    #    before_filter do |c|
+    #      c.require_permission(['ADMIN'])
+    #    end
+    #  end
+    #end
     
     # ActionMailer::Base.smtp_settings = CustomerConfig.smtp
     ActionMailer::Base.raise_delivery_errors = false
