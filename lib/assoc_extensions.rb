@@ -93,13 +93,13 @@ module AssocExtensions
       input_obs = [input_obs] unless input_obs.is_a? Array
 
       ob_keys = ActiveSupport::OrderedHash.new
-      ob_keys['id'] = "#{proxy_reflection.class_name.underscore}_id"
-      ob_keys['version'] = "#{proxy_reflection.class_name.underscore}_version"
-      proxy_owner.class.send("#{proxy_reflection.name}_join_fields").each do |f|
+      ob_keys['id'] = "#{proxy_association.reflection.class_name.underscore}_id"
+      ob_keys['version'] = "#{proxy_association.reflection.class_name.underscore}_version"
+      proxy_association.owner.class.send("#{proxy_association.reflection.name}_join_fields").each do |f|
         ob_keys[f] = f
       end
 
-      join_table = proxy_reflection.options[:join_table]
+      join_table = proxy_association.reflection.options[:join_table]
 
       # Add new records. Delete duplicates
       obs = input_obs.uniq
@@ -107,10 +107,10 @@ module AssocExtensions
       return current unless obs.size > 0
 
       val_strings = get_val_strings(obs, ob_keys)
-
+      
       ActiveRecord::Base.connection.execute(
-         "INSERT INTO #{join_table} (#{proxy_owner.class.to_s.underscore}"+
-         "_id,#{proxy_owner.class.to_s.underscore}_version,"+
+         "INSERT INTO #{join_table} (#{proxy_association.owner.class.to_s.underscore}"+
+         "_id,#{proxy_association.owner.class.to_s.underscore}_version,"+
          "#{ob_keys.values.join(',')}) VALUES #{val_strings.join(',')}"
         )
       current
@@ -118,15 +118,15 @@ module AssocExtensions
     alias_method :push, :<<
 
     def active
-      do_query(proxy_reflection.options[:finder_sql]+ " AND a.deleted = '0'")
+      do_query(proxy_association.reflection.options[:finder_sql]+ " AND a.deleted = '0'")
     end
 
     def deleted
-      do_query(proxy_reflection.options[:finder_sql]+ " AND a.deleted = '1'")
+      do_query(proxy_association.reflection.options[:finder_sql]+ " AND a.deleted = '1'")
     end
 
     def with(sql)
-      do_query(proxy_reflection.options[:finder_sql]+" "+sql)
+      do_query(proxy_association.reflection.options[:finder_sql]+" "+sql)
     end
 
 
@@ -155,12 +155,12 @@ module AssocExtensions
       val_strings = []
 
       obs.each do |o|
-        if proxy_reflection.class_name != o.class.to_s
-          raise "Invalid type, expected #{proxy_reflection.class_name}, "+
+        if proxy_association.reflection.class_name != o.class.to_s
+          raise "Invalid type, expected #{proxy_association.reflection.class_name}, "+
                 "got #{o.class.to_s}"
         end
         o.save! if o.new_record? # fail early if not valid
-        vals = [proxy_owner.id.to_s, proxy_owner.version.to_s]
+        vals = [proxy_association.owner.id.to_s, proxy_association.owner.version.to_s]
         ob_keys.each do |k,v|
           a_val = o.send(k)
           raise "nil #{k} for #{o.class.to_s} (id #{o.id})" unless a_val
@@ -172,12 +172,12 @@ module AssocExtensions
     end
 
     def current
-      proxy_owner.send proxy_reflection.table_name
+      proxy_association.owner.send proxy_association.reflection.table_name
     end
 
     def convert_query_to_proxy(sql)
       ret = sql.gsub(/#\{(.+?)\.(.+?)\}/) do |match|
-        proxy_owner.send($2).to_s
+        proxy_association.owner.send($2).to_s
       end
     end
 
