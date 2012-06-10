@@ -12,7 +12,7 @@ end
 class Project < ActiveRecord::Base
   def self.make_with_cases(atts)
     cases_count = atts.delete(:cases)
-    p = Project.make(atts)
+    p = Project.make!(atts)
     cases_count.times do
       Case.make_with_steps(:project => p)
     end
@@ -55,7 +55,7 @@ end
 class TestSet < ActiveRecord::Base
   def self.make_with_cases(atts={}, case_atts={})
     cases_count = atts.delete(:cases) || rand(5)+1
-    ts = TestSet.make(atts)
+    ts = TestSet.make!(atts)
     cases_count.times do |i|
       ts.cases << Case.make_with_steps({:position => i+1, :project => ts.project}.merge(case_atts))
     end
@@ -68,7 +68,7 @@ Requirement.blueprint do
   external_id { "#{Requirement.count}"     }
   date        { Date.today                 }
   project     { Project.make               }
-  created_by  { User.make.id               }
+  created_by  { User.make!.id              }
 end
 
 Case.blueprint do
@@ -82,9 +82,9 @@ end
 class Case < ActiveRecord::Base
   def self.make_with_steps(atts={})
     steps_count = atts.delete(:steps) || rand(5)+1
-    c = Case.make(atts)
+    c = Case.make!(atts)
     steps_count.times do |i|
-      c.steps << Step.make(:position => i)
+      c.steps << Step.make!(:position => i)
     end
     c
   end
@@ -105,9 +105,9 @@ end
 class Execution < ActiveRecord::Base
   def self.make_with_runs(atts={})
     cases_count = atts.delete(:cases) || rand(5)+1
-    e = Execution.make(atts)
+    e = Execution.make!(atts)
     test_set = TestSet.make_with_cases(:cases => cases_count)
-    updater = User.make
+    updater = User.make!
     test_set.cases.each do |c|
       ce = CaseExecution.create_with_steps!(:execution => e,
                                             :case_id => c.id,
@@ -142,11 +142,11 @@ class CaseExecution < ActiveRecord::Base
       atts[:executed_at] ||= Time.now
       atts[:executor] ||= User.make
     end
-    ce = CaseExecution.make(atts)
+    ce = CaseExecution.make!(atts)
 
     ce.test_case.steps.each do |step|
-      ce.step_executions << StepExecution.make(:result => ce.result,
-                                               :step => step)
+      ce.step_executions << StepExecution.make!(:result => ce.result,
+                                                :step => step)
     end
     ce
   end
