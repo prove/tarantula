@@ -55,7 +55,7 @@ module AssocExtensions
 
       finder_sql += " ORDER BY #{args[:order]}" unless args[:order].blank?
 
-      has_and_belongs_to_many assoc, :finder_sql => finder_sql,
+      has_and_belongs_to_many assoc, :finder_sql => proc {finder_sql},
                                      :extend => AssocExtensions::Versioned
 
       # always revert if necessary
@@ -161,6 +161,8 @@ module AssocExtensions
         end
         o.save! if o.new_record? # fail early if not valid
         vals = [proxy_association.owner.id.to_s, proxy_association.owner.version.to_s]
+        raise "Association owner not saved" if proxy_association.owner.id.nil?
+        
         ob_keys.each do |k,v|
           a_val = o.send(k)
           raise "nil #{k} for #{o.class.to_s} (id #{o.id})" unless a_val
