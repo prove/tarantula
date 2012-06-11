@@ -22,13 +22,13 @@ end
 
 TestArea.blueprint do
   name    { "TestArea #{TestArea.count}" }
-  project { Project.make }
+  project { Project.make! }
 end
 
 TestObject.blueprint do
   name    { "TestArea #{TestObject.count}" }
   date    { Date.today }
-  project { Project.make }
+  project { Project.make! }
 end
 
 User.blueprint do
@@ -47,7 +47,7 @@ end
 
 TestSet.blueprint do
   name     { "TestSet #{TestSet.count}" }
-  project  { Project.make               }
+  project  { Project.make!              }
   priority { 0                          }
   date     { Date.today                 }
 end
@@ -67,16 +67,16 @@ Requirement.blueprint do
   name        { "req #{Requirement.count}" }
   external_id { "#{Requirement.count}"     }
   date        { Date.today                 }
-  project     { Project.make               }
+  project     { Project.make!              }
   created_by  { User.make!.id              }
 end
 
 Case.blueprint do
   title      { Faker::Lorem.words(rand(5)+1).join(' ') }
   date       { Date.today                              }
-  project    { Project.make                            }
-  created_by { User.make                               }
-  updated_by { User.make                               }
+  project    { Project.make!                           }
+  created_by { User.make!                              }
+  updated_by { User.make!                              }
 end
 
 class Case < ActiveRecord::Base
@@ -98,8 +98,8 @@ end
 Execution.blueprint do
   name        { Faker::Lorem.words(rand(5)+1).join(' ') }
   date        { Date.today                              }
-  test_object { TestObject.make                         }
-  project     { Project.make                            }
+  test_object { TestObject.make!                        }
+  project     { Project.make!                           }
 end
 
 class Execution < ActiveRecord::Base
@@ -124,23 +124,24 @@ class Execution < ActiveRecord::Base
 end
 
 CaseExecution.blueprint do
-  test_case { Case.make      }
-  execution { Execution.make }
+  test_case { Case.make!     }
+  execution { Execution.make!}
   result    { NotRun         }
-  executor  { User.make }
+  executor  { User.make!     }
   position  { rand(100)+1    }
 end
 
 StepExecution.blueprint do
   result { NotRun    }
-  step   { Step.make }
+  step   { Step.make!}
 end
 
 class CaseExecution < ActiveRecord::Base
   def self.make_with_result(atts={})
     if atts[:result] != NotRun
       atts[:executed_at] ||= Time.now
-      atts[:executor] ||= User.make
+      atts[:executor] ||= User.make!
+      atts[:execution] ||= Execution.make!
     end
     ce = CaseExecution.make!(atts)
 
@@ -193,7 +194,7 @@ Jira.blueprint do
   db_name   { 'bug_db_name'   }
   db_user   { 'bug_db_user'   }
   db_passwd { 'bug_db_passwd' }
-  import_source { ImportSource.make }
+  import_source { ImportSource.make! }
   mock      { true }
 end
 
@@ -219,26 +220,26 @@ class BugTracker < ActiveRecord::Base
 end
 
 Bug.blueprint do |bug|
-  bug_tracker    { Bugzilla.make                                     }
-  severity       { BugSeverity.make(:bug_tracker => bug.bug_tracker) }
+  bug_tracker    { Bugzilla.make!                                    }
+  severity       { BugSeverity.make!(:bug_tracker => bug.bug_tracker)}
   bug_product_id { rand(5)+1                                         }
   external_id    { "#{Bug.count}"                                    }
 end
 
 BugSeverity.blueprint do
-  bug_tracker { Bugzilla.make                       }
+  bug_tracker { Bugzilla.make!                      }
   external_id { "#{BugSeverity.count}"              }
   name        { "bug severity #{BugSeverity.count}" }
 end
 
 BugProduct.blueprint do
-  bug_tracker { Bugzilla.make                     }
+  bug_tracker { Bugzilla.make!                    }
   external_id { "#{BugProduct.count}"             }
   name        { "bug product #{BugProduct.count}" }
 end
 
 BugComponent.blueprint do
-  bug_product { BugProduct.make                       }
+  bug_product { BugProduct.make!                      }
   external_id { "#{BugComponent.count}"               }
   name        { "bug component #{BugComponent.count}" }
 end

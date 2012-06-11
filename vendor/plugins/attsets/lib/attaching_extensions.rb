@@ -14,10 +14,10 @@ module AttachingExtensions
     
     host.has_many :all_attachment_sets, :class_name => 'AttachmentSet',
                   :as => :host, :order => 'id DESC',
-                  :conditions => 'host_version <= #{self.version}'
+        :conditions => proc {"host_version <= #{self.version}"}
 
     host.has_one :attachment_set, :as => :host, :order => 'id DESC',
-                 :conditions => 'host_version <= #{self.version}'
+        :conditions => proc {"host_version <= #{self.version}"}
     
     host.delegate :attachments, :to => '(self.attachment_set or return [])'    
   end

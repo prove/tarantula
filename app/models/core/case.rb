@@ -441,7 +441,8 @@ class Case < ActiveRecord::Base
   # returns test object that this case was last passed in
   def last_passed
     ce = self.case_executions.find(
-      :first, :conditions => {:result => Passed, 'executions.deleted' => false},
+      :first, :conditions => {:result => Passed.to_s, 
+                              'executions.deleted' => false},
       :order => 'executed_at desc', :joins => :execution,
       :include => {:execution => :test_object})
     ce ? ce.execution.test_object : nil
@@ -450,7 +451,7 @@ class Case < ActiveRecord::Base
   # returns test object that this case was last tested in
   def last_tested
     ce = self.case_executions.find(
-      :first, :conditions => {:result => (ResultType.all - [NotRun]),
+      :first, :conditions => {:result => (ResultType.all - [NotRun]).map(:to_s),
                               'executions.deleted' => false},
       :order => 'executed_at desc', :joins => :execution,
       :include => {:execution => :test_object})
@@ -467,7 +468,7 @@ class Case < ActiveRecord::Base
   # returns _execution_ this case last failed in
   def last_failed_exec
     ce = self.case_executions.find(
-      :first, :conditions => {:result => Failed, 'executions.deleted' => false},
+      :first, :conditions => {:result => Failed.to_s, 'executions.deleted' => false},
       :order => 'executed_at desc', :joins => :execution,
       :include => :execution)
     ce ? ce.execution : nil

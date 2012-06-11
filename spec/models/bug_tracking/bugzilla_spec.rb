@@ -3,15 +3,15 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe Bugzilla do
   describe "#bugs_for_project" do
     it "should return project's bugs" do
-      bt = Bugzilla.make
-      p = Project.make(:bug_tracker => bt)
+      bt = Bugzilla.make!
+      p = Project.make!(:bug_tracker => bt)
       bt.products.create!(:name => 'prod1', :external_id => 1)
       bt.products.create!(:name => 'prod2', :external_id => 2)
       bt.products.create!(:name => 'prod3', :external_id => 3)
       p.bug_products << bt.products[0]
       p.bug_products << bt.products[1]
 
-      BugSeverity.make(:bug_tracker => bt)
+      BugSeverity.make!(:bug_tracker => bt)
 
       bt.bugs.create!(:name => 'bug1', :product => bt.products[0], :external_id => '1',
                       :severity => bt.severities.first, :status => 'NEW')
@@ -25,19 +25,19 @@ describe Bugzilla do
     end
 
     it "should return only bugs for specific product if user forced.." do
-      bt = Bugzilla.make
-      p = Project.make(:bug_tracker => bt)
+      bt = Bugzilla.make!
+      p = Project.make!(:bug_tracker => bt)
       bt.products.create!(:name => 'prod1', :external_id => 1)
       bt.products.create!(:name => 'prod2', :external_id => 2)
       bt.products.create!(:name => 'prod3', :external_id => 3)
       p.bug_products << bt.products[0]
       p.bug_products << bt.products[1]
       p.test_areas.create!(:name => 'ta', :bug_products => [p.bug_products.first])
-      user = User.make
+      user = User.make!
       user.project_assignments.create(:project_id => p.id, :group => 'TEST_ENGINEER',
                                       :test_area => p.test_areas.first,
                                       :test_area_forced => true)
-      BugSeverity.make(:bug_tracker => bt)
+      BugSeverity.make!(:bug_tracker => bt)
       bt.bugs.create!(:name => 'bug1', :product => bt.products[0], :external_id => '1',
                       :severity => bt.severities.first, :status => 'NEW')
       bt.bugs.create!(:name => 'bug2', :product => bt.products[1], :external_id => '2',
@@ -51,7 +51,7 @@ describe Bugzilla do
   end
 
   it "#to_tree should return necessary data" do
-    bt = Bugzilla.make
+    bt = Bugzilla.make!
     result = bt.to_tree
     result.size.should == 2
     result.should have_key(:id)
@@ -59,7 +59,7 @@ describe Bugzilla do
   end
 
   it "#to_data should return necessary data" do
-    bt = Bugzilla.make
+    bt = Bugzilla.make!
     result = bt.to_data
     result.size.should == 11
     result.should have_key(:id)
@@ -84,8 +84,8 @@ describe Bugzilla do
 
   describe "#products_for_project" do
     it "#should return product info if project has no test area assoc." do
-      bt = Bugzilla.make
-      p = Project.make(:bug_tracker => bt)
+      bt = Bugzilla.make!
+      p = Project.make!(:bug_tracker => bt)
       bt.products.create!(:name => 'foo', :external_id => '1')
       bt.products.create!(:name => 'bar', :external_id => '2')
       bt = flexmock(bt, :products_for_classification => bt.products)
@@ -101,8 +101,8 @@ describe Bugzilla do
     end
 
     it "#should return also test area info if project has a test area assoc." do
-      bt = Bugzilla.make
-      p = Project.make(:bug_tracker => bt)
+      bt = Bugzilla.make!
+      p = Project.make!(:bug_tracker => bt)
       bt.products.create!(:name => 'foo', :external_id => '1')
       bt.products.create!(:name => 'bar', :external_id => '2')
       bt = flexmock(bt, :products_for_classification => bt.products)
@@ -125,7 +125,7 @@ describe Bugzilla do
   end
 
   it "#refresh! should call inits" do
-    bt = flexmock(Bugzilla.make)
+    bt = flexmock(Bugzilla.make!)
     bt.should_receive(:init_products).with(true).once
     bt.should_receive(:init_severities).with(true).once
     bt.should_receive(:init_components).with(true).once
@@ -139,11 +139,11 @@ describe Bugzilla do
                                                 'component_id' => '8',
                                                 'bug_id' => 'new_bug'}])
       mock_db = flexmock(Bugzilla::MockDB.new)
-      bt = flexmock(Bugzilla.make, :active_product_ids => ['1', '2'],
+      bt = flexmock(Bugzilla.make!, :active_product_ids => ['1', '2'],
                     :db => mock_db)
 
-      prod = BugProduct.make(:bug_tracker => bt, :external_id => '15')
-      BugComponent.make(:bug_product => prod, :external_id => '8')
+      prod = BugProduct.make!(:bug_tracker => bt, :external_id => '15')
+      BugComponent.make!(:bug_product => prod, :external_id => '8')
 
       mock_db.should_receive(:bugzilla_severities).twice.and_return([{'value' => 'sev_val', 'id' => '123'}])
       mock_db.should_receive(:bugzilla_profiles).once.and_return([])

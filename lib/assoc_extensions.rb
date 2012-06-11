@@ -48,14 +48,15 @@ module AssocExtensions
       join_table = [ass, base.tableize].sort.join('_')
 
       finder_sql =
-        'SELECT a.*'+ijf_str+' FROM '+ass+' a, '+
-        "#{join_table} "+'jt WHERE a.id = jt.'+sin+'_id AND '+
-        'jt.'+base.underscore+'_id = #{self.id} AND jt.'+base.underscore+
-        '_version = #{self.version}'
+        
 
-      finder_sql += " ORDER BY #{args[:order]}" unless args[:order].blank?
+      #finder_sql += " ORDER BY #{args[:order]}" unless args[:order].blank?
 
-      has_and_belongs_to_many assoc, :finder_sql => proc {finder_sql},
+      has_and_belongs_to_many assoc, :finder_sql => proc {
+      "SELECT a.*"+ijf_str+" FROM "+ass+" a, "+
+        "#{join_table} "+"jt WHERE a.id = jt."+sin+"_id AND "+
+        "jt."+base.underscore+"_id = #{self.id} AND jt."+base.underscore+
+        "_version = #{self.version}"},
                                      :extend => AssocExtensions::Versioned
 
       # always revert if necessary
