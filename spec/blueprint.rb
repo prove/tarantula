@@ -219,11 +219,11 @@ class BugTracker < ActiveRecord::Base
   end
 end
 
-Bug.blueprint do |bug|
-  bug_tracker    { Bugzilla.make!                                    }
-  severity       { BugSeverity.make!(:bug_tracker => bug.bug_tracker)}
-  bug_product_id { rand(5)+1                                         }
-  external_id    { "#{Bug.count}"                                    }
+Bug.blueprint do
+  bug_tracker    { Bugzilla.make!                                       }
+  severity       { BugSeverity.make!(:bug_tracker => object.bug_tracker)}
+  product        { BugProduct.make!(:bug_tracker => object.bug_tracker) }
+  external_id    { "#{Bug.count}"                                       }
 end
 
 BugSeverity.blueprint do

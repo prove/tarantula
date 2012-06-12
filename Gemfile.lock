@@ -108,7 +108,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (0.9.2.2)
+    rake (0.8.7)
     rbx-require-relative (0.0.9)
     rdoc (3.12)
       json (~> 1.4)
@@ -175,7 +175,7 @@ DEPENDENCIES
   prawn-format (~> 0.2.0.1)
   prawn-layout (~> 0.2.0.1)
   rails (= 3.2.5)
-  rake (>= 0.9)
+  rake (~> 0.8.7)
   rspec-rails (~> 2.0)
   ruby-debug
   sass-rails (~> 3.2.3)

@@ -11,7 +11,7 @@ gem 'libxml-ruby', :require => 'libxml_ruby'
 gem 'system_timer'
 gem 'faker'
 gem 'json'
-gem 'rake','>= 0.9' #, '~> 0.8.7'
+gem 'rake', '~> 0.8.7'
 gem 'jquery-rails'
 gem "therubyracer"
 gem 'delayed_job_active_record'
