@@ -23,7 +23,7 @@ class PasswordReset < ActiveRecord::Base
     self.user.new_random_password
     self.user.save!
     # send password via email
-    UserNotifier.deliver_new_password(self, self.user.password)
+    UserNotifier.new_password(self, self.user.password).deliver
     update_attribute :activated, true
   end
   
@@ -36,7 +36,7 @@ class PasswordReset < ActiveRecord::Base
   def create_and_email_link
     self.update_attribute(:link,
       Digest::MD5.hexdigest("#{user.name}#{Time.now.to_i}#{rand(10000)}"))
-    UserNotifier.deliver_password_reset_link(self)
+    UserNotifier.password_reset_link(self).deliver
   end
   
   def allow_reset_only_once_per_day
