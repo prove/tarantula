@@ -1,7 +1,7 @@
   class JiraIssue < ActiveRecord::Base
   UDMargin = 5.minutes # update margin
-  set_table_name 'jiraissue'
-  set_primary_key 'ID'
+  self.table_name = 'jiraissue'
+  self.primary_key = 'ID'
 
   belongs_to :project, :class_name => 'JiraProject', :foreign_key => 'PROJECT'
   belongs_to :priority, :class_name => 'JiraPriority', :foreign_key => 'PRIORITY'

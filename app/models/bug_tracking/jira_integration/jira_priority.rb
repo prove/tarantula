@@ -1,6 +1,6 @@
 class JiraPriority < ActiveRecord::Base
-  set_table_name 'priority'
-  set_primary_key 'ID'
+  self.table_name = 'priority'
+  self.primary_key = 'ID'
 
   has_many :issues, :class_name => 'JiraIssue', :foreign_key => 'priority'
 

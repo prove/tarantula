@@ -5,8 +5,8 @@ describe ReportDataController do
   #Delete this example and add some real ones
   it "should return data with #show" do
     log_in
-    p = Project.make
-    u = User.make
+    p = Project.make!
+    u = User.make!
     rdata = Report::Data.create!(:project => p, :user => u, 
                                  :key => 'foobar', :data => {:foo => 'bar'})
     

@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe TestSet do
   def get_instance(atts={})
-    ts = TestSet.make(atts)
+    ts = TestSet.make!(atts)
     def ts.new_versioned_child
       Case.new(:title => 'a case', :position => rand(100)+1,
                :project => self.project, :date => Date.today)
@@ -19,7 +19,7 @@ describe TestSet do
   
   describe "#to_data" do
     it "should return necessary data" do
-      data = TestSet.make.to_data
+      data = TestSet.make!.to_data
       data.should have_key('name')
       data.should have_key('date')
       data.should have_key('updated_at')
@@ -38,7 +38,7 @@ describe TestSet do
     end
   
     it "should return necessary data [brief mode]" do
-      data = TestSet.make.to_data(:brief)
+      data = TestSet.make!.to_data(:brief)
       data.should have_key(:name)
       data.should have_key(:id)
       data.should have_key(:date)
@@ -54,7 +54,7 @@ describe TestSet do
   end
   
   it "#to_tree should return necessary data" do
-    data = TestSet.make.to_tree
+    data = TestSet.make!.to_tree
     data.should have_key(:text)
     data.should have_key(:leaf)
     data.should have_key(:dbid)

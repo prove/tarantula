@@ -176,7 +176,7 @@ module ActiveRecord #:nodoc:
           cattr_accessor :versioned_class_name, :versioned_foreign_key, :versioned_table_name, :versioned_inheritance_column, 
             :version_column, :max_version_limit, :track_changed_attributes, :version_condition, :version_sequence_name, :non_versioned_columns,
             :version_association_options
-            
+          
           # legacy
           alias_method :non_versioned_fields,  :non_versioned_columns
           alias_method :non_versioned_fields=, :non_versioned_columns=
@@ -270,7 +270,7 @@ module ActiveRecord #:nodoc:
           
           versioned_class.cattr_accessor :original_class
           versioned_class.original_class = self
-          versioned_class.set_table_name versioned_table_name
+          versioned_class.send(:table_name=, versioned_table_name)
           versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym, 
             :class_name  => "::#{self.to_s}", 
             :foreign_key => versioned_foreign_key

@@ -4,7 +4,7 @@ shared_examples_for "auditable" do
   describe "#change_history" do
     
     it "should return created as first history info" do
-      user = User.make
+      user = User.make!
       i = get_instance(:updated_by => user.id)
       hist = i.change_history
       hist.size.should == 1
@@ -12,14 +12,14 @@ shared_examples_for "auditable" do
     end
     
     it "should return 'unknown' for user where change has no user" do
-      user = User.make
+      user = User.make!
       i = get_instance
       hist = i.change_history
       hist.first[:user].should == 'unknown'
     end
     
     it "should return user, time, and comment for a single change" do
-      user = User.make
+      user = User.make!
       i = get_instance(:updated_by => user.id)
       i.change_comment = 'a comment'
       i.updater = user
@@ -34,8 +34,8 @@ shared_examples_for "auditable" do
     end
     
     it "should return multiple changes if present" do
-      user = User.make
-      bob = User.make(:login => 'bob fleming')
+      user = User.make!
+      bob = User.make!(:login => 'bob fleming')
       i = get_instance(:updated_by => user.id)
       i.change_comment = 'a comment'
       i.updater = user

@@ -15,6 +15,7 @@ gem 'rake','>= 0.9' #, '~> 0.8.7'
 gem 'jquery-rails'
 gem "therubyracer"
 gem 'delayed_job_active_record'
+gem 'memcache'
 
 # Gems used only for assets and not required
 # in production environments by default.

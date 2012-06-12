@@ -5,11 +5,11 @@ describe "SmartTag" do
   describe "TaggingExtensions#find_with_tags integration" do
     
     it "should find AlwaysFailed" do
-      p = Project.make
-      c = Case.make(:project => p)
-      c2 = Case.make(:project => p)
-      to = TestObject.make(:project => p)
-      e = Execution.make(:project => p, :test_object => to)
+      p = Project.make!
+      c = Case.make!(:project => p)
+      c2 = Case.make!(:project => p)
+      to = TestObject.make!(:project => p)
+      e = Execution.make!(:project => p, :test_object => to)
       
       CaseExecution.make_with_result(:result => Passed,
                                      :execution => e,
@@ -23,11 +23,11 @@ describe "SmartTag" do
     end
     
     it "should find Failed" do
-      p = Project.make
-      c = Case.make(:project => p)
-      c2 = Case.make(:project => p)
-      to = TestObject.make(:project => p)
-      e = Execution.make(:project => p, :test_object => to)
+      p = Project.make!
+      c = Case.make!(:project => p)
+      c2 = Case.make!(:project => p)
+      to = TestObject.make!(:project => p)
+      e = Execution.make!(:project => p, :test_object => to)
       
       CaseExecution.make_with_result(:result => Passed,
                                      :execution => e,
@@ -41,10 +41,10 @@ describe "SmartTag" do
     end
     
     it "should find NeverTested" do
-      p = Project.make
-      c = Case.make(:project => p)
-      c2 = Case.make(:project => p)
-      e = Execution.make(:project => p)
+      p = Project.make!
+      c = Case.make!(:project => p)
+      c2 = Case.make!(:project => p)
+      e = Execution.make!(:project => p)
       
       CaseExecution.make_with_result(:result => Passed,
                                      :execution => e,
@@ -55,11 +55,11 @@ describe "SmartTag" do
     end
     
     it "should find NotImplemented" do
-      p = Project.make
-      c = Case.make(:project => p)
-      c2 = Case.make(:project => p)
-      to = TestObject.make(:project => p)
-      e = Execution.make(:project => p, :test_object => to)
+      p = Project.make!
+      c = Case.make!(:project => p)
+      c2 = Case.make!(:project => p)
+      to = TestObject.make!(:project => p)
+      e = Execution.make!(:project => p, :test_object => to)
       
       CaseExecution.make_with_result(:result => Passed,
                                      :execution => e,
@@ -73,9 +73,9 @@ describe "SmartTag" do
     end
     
     it "should find Untagged" do
-      p = Project.make
-      c = Case.make(:project => p)
-      c2 = Case.make(:project => p)
+      p = Project.make!
+      c = Case.make!(:project => p)
+      c2 = Case.make!(:project => p)
       c2.tag_with('tagged')
       Case.find_with_tags([], :project => p,
                              :smart_tags => [SmartTag::Untagged]).should == [c]

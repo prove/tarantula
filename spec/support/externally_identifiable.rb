@@ -10,8 +10,8 @@ shared_examples_for "externally_identifiable" do
     scope = i.class.external_id_scope
     start_count = i.class.count - 1
     i.destroy
-    sc1 = scope.to_s.classify.constantize.send(:make)
-    sc2 = scope.to_s.classify.constantize.send(:make)
+    sc1 = scope.to_s.classify.constantize.send(:make!)
+    sc2 = scope.to_s.classify.constantize.send(:make!)
     i1 = get_instance(:external_id => 'e1', scope => sc1)
     i2 = get_instance(:external_id => 'e2', scope => sc2)
     i1.class.count.should == start_count + 2

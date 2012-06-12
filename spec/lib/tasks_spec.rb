@@ -5,7 +5,7 @@ describe "lib/tasks" do
     
     before(:all) do
       Rake.application.rake_require "testia_db", 
-        [File.join(RAILS_ROOT, 'lib', 'tasks')]
+        [File.join(Rails.root, 'lib', 'tasks')]
     end
     
     it ":check_integrity should make some checks" do

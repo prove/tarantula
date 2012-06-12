@@ -6,9 +6,9 @@ describe Report::TestEfficiency do
       return Report::TestEfficiency.new(1, 4, [1,2])
     end                                    
     
-    p = Project.make
-    to = TestObject.make(:project => p)
-    ta = TestArea.make(:project => p)
+    p = Project.make!
+    to = TestObject.make!(:project => p)
+    ta = TestArea.make!(:project => p)
     Report::TestEfficiency.new(p.id, ta.id, [to.id])
   end
   

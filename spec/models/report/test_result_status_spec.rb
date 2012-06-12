@@ -6,9 +6,9 @@ describe Report::TestResultStatus do
       return Report::TestResultStatus.new(1, 4, 1)
     end                                    
     
-    p = Project.make
-    to = TestObject.make(:project => p)
-    ta = TestArea.make(:project => p)
+    p = Project.make!
+    to = TestObject.make!(:project => p)
+    ta = TestArea.make!(:project => p)
     Report::TestResultStatus.new(p.id, ta.id, to.id)
   end
   

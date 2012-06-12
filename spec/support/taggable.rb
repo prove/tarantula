@@ -3,8 +3,8 @@ shared_examples_for "taggable" do
   
   it "should hold tags" do
     @host = get_instance
-    t1 = Tag.make :name => 'tag1', :project => @host.project, :taggable_type => @host.class.to_s
-    t2 = Tag.make :name => 'tag2', :project => @host.project, :taggable_type => @host.class.to_s
+    t1 = Tag.make! :name => 'tag1', :project => @host.project, :taggable_type => @host.class.to_s
+    t2 = Tag.make! :name => 'tag2', :project => @host.project, :taggable_type => @host.class.to_s
     @host.tags << t1
     @host.tags << t2
     @host.tags.count.should == 2    

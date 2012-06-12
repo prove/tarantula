@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   scope :active, where(:deleted => 0)
   scope :deleted, where(:deleted => 1)
   
-  set_locking_column :version
+  self.locking_column = :version
   
   Groups = { 
     :test_engineer     => 'TEST_ENGINEER',

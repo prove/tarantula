@@ -4,7 +4,7 @@ describe Report::Results do
   def get_instance(opts={})
     return Report::Results.new(1, ["",{}]) if opts[:static]
     
-    p = Project.make
+    p = Project.make!
     Report::Results.new(p.id, ["",{}])
   end
 

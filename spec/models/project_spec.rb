@@ -1,5 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require "#{Rails.root}/vendor/plugins/attsets/spec/shared/attachment_host_spec.rb"
+require "#{Rails.root}/lib/attsets/spec/shared/attachment_host_spec.rb"
 
 describe Project do
   def get_instance(atts={})

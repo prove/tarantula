@@ -85,18 +85,18 @@ module Tarantula
     #      }
     config.active_record.observers = [:user_observer, :case_execution_observer, 
                                       :execution_observer, :tagging_observer]
-    #config.after_initialize do
-    #  CustomerConfigsController.class_eval do
-    #    before_filter do |c|
-    #      c.require_permission(['ADMIN'])
-    #    end
-    #  end
-    #end
-    
-    # ActionMailer::Base.smtp_settings = CustomerConfig.smtp
+    config.after_initialize do
+      CustomerConfigsController.class_eval do
+        before_filter do |c|
+          c.require_permission(['ADMIN'])
+        end
+      end
+      ActionMailer::Base.smtp_settings = CustomerConfig.smtp
+    end
+
     ActionMailer::Base.raise_delivery_errors = false
     ActiveRecord::Base.logger.level = Logger::INFO if Rails.env == 'production'
-    
+
   end
 end
 
@@ -134,3 +134,4 @@ BT_CONFIG = {
     :closed_statuses => ['CLOSED']
   }
 }
+

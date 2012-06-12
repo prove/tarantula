@@ -1,5 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require "#{Rails.root}/vendor/plugins/attsets/spec/shared/attachment_host_spec"
+require "#{Rails.root}/lib/attsets/spec/shared/attachment_host_spec"
 
 describe Case do
 

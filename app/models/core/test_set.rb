@@ -14,7 +14,7 @@ class TestSet < ActiveRecord::Base
   scope :ordered, order('priority DESC, name ASC')
 
   acts_as_versioned
-  set_locking_column :version
+  self.locking_column = :version
 
   belongs_to :project
   has_and_belongs_to_many :test_areas

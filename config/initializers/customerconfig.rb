@@ -1,5 +1,9 @@
 # Include hook code here
 
+Dir.glob("#{Rails.root}/lib/customerconfig/app/**/*.rb") do |path|
+  require path
+end
+
 if CustomerConfig.table_exists?
   failing = []
   

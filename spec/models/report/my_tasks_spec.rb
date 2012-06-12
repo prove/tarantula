@@ -4,8 +4,8 @@ describe Report::MyTasks do
   def get_instance(opts={})
     return Report::MyTasks.new(1) if opts[:static]
     
-    u = User.make
-    p = Project.make
+    u = User.make!
+    p = Project.make!
     Task::Base.create!(:resource => u,
                        :creator  => u,
                        :assignee => u,

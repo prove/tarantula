@@ -15,7 +15,7 @@ class Execution < ActiveRecord::Base
   # default ordering
   scope :ordered, joins(:test_object).order('test_objects.date DESC')
 
-  set_locking_column :version
+  self.locking_column = :version
 
   belongs_to :test_object
   belongs_to :project

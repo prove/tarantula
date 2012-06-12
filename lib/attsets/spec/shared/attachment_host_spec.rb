@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../../../../spec/spec_helper')
+require "spec_helper"
 
 shared_examples_for "attachment host" do
   

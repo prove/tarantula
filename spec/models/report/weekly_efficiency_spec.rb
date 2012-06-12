@@ -7,7 +7,7 @@ describe Report::WeeklyEfficiency do
                                           Date.parse('2009-01-31'))
     end                                    
     
-    p = Project.make(:bug_tracker => Bugzilla.make)
+    p = Project.make!(:bug_tracker => Bugzilla.make!)
     Report::WeeklyEfficiency.new(p.id, nil, nil, 1.week.ago.to_date, Date.today)
   end
   

@@ -7,7 +7,7 @@ Task base class.
 
 =end
 class Base < ActiveRecord::Base
-  set_table_name 'tasks'
+  self.table_name = 'tasks'
   validates_presence_of :resource_id, :resource_type, :project_id, 
                         :created_by, :assigned_to
   belongs_to :project

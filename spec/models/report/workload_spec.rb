@@ -6,7 +6,7 @@ describe Report::Workload do
       return Report::Workload.new(1)
     end                                    
     
-    p = Project.make
+    p = Project.make!
     Report::Workload.new(p.id)
   end
   

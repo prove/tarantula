@@ -7,7 +7,7 @@ describe Report::DailyFailedCases do
                                           Date.parse('2009-01-31'))
     end                                    
     
-    p = Project.make
+    p = Project.make!
     Report::DailyFailedCases.new(p.id, nil, nil, 1.week.ago.to_date, Date.today)
   end
   
