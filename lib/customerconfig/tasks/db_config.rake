@@ -1,7 +1,7 @@
 namespace :db do
 
   desc "Ask and set application configuration variables & configure servers"
-  task :config => ['db:config:app', 'db:config:servers', 'db:config:generate']
+  task :config => ['db:config:app']
 
   namespace :config do
 
@@ -91,53 +91,6 @@ namespace :db do
       end
     end
 
-    desc "Configure web and application servers."
-    task :servers => [:environment] do
-      puts "\nSERVERS"
-
-      CustomerConfig.web_port = CC.ask("Web server port", CustomerConfig.web_port, 3000).to_i
-      CustomerConfig.use_ssl = ([true, 'y', 'Y'].include?(CC.ask("Use SSL (y/n)", CustomerConfig.use_ssl, false)))
-
-      if CustomerConfig.use_ssl
-        CustomerConfig.redirect_port = CC.ask("Redirect http to https from "+
-                                              "port (give zero or empty, if "+
-                                              "you don't want to redirect)",
-                                              CustomerConfig.redirect_port).to_i
-      end
-
-      CustomerConfig.app_servers = CC.ask("Number of application servers", CustomerConfig.app_servers, 3).to_i
-      CustomerConfig.app_port = CC.ask("First application server port", CustomerConfig.app_port, CustomerConfig.web_port+1).to_i
-    end
-
-    desc "Generate configs from templates (nginx / monit)."
-    task :generate => :environment do
-      rails_path = Pathname.new(RAILS_ROOT)
-      monit_path = rails_path.join('../conf/monit.d')
-      nginx_path = rails_path.join('../conf/nginx.d')
-
-      # these instance variables are used by the ERB config templates
-      @app_name = RAILS_ROOT.split('/')[-2,2].join('-')
-      @monitrc_path     = monit_path.join("#{@app_name}").to_s
-      FileUtils.mkdir_p(monit_path.to_s)
-      @nginx_conf_path  = nginx_path.join("#{@app_name}").to_s
-      FileUtils.mkdir_p(nginx_path.to_s)
-      @web_port    = CustomerConfig.web_port
-      @ssl         = CustomerConfig.use_ssl
-      @redirect_port = CustomerConfig.redirect_port
-      @app_servers = CustomerConfig.app_servers
-      @app_port    = CustomerConfig.app_port
-
-      @tarantula_user = CC.ask("Which user will be running Tarantula processes?", "testia")
-
-      content = ERB.new(File.read(File.join(File.dirname(__FILE__), '..', 'lib', 'monitrc.erb'))).result
-      File.open(@monitrc_path, 'w') {|f| f.write content}
-      puts "Wrote #{@monitrc_path}"
-
-      content = ERB.new(File.read(File.join(File.dirname(__FILE__), '..', 'lib', 'nginx.conf.erb'))).result
-      File.open(@nginx_conf_path, 'w') {|f| f.write content}
-      puts "Wrote #{@nginx_conf_path}"
-    end
-
     task :soft => :environment do
       if CustomerConfig.table_exists?
         not_set = CustomerConfig.find(:all, :conditions => {:value => nil})
@@ -150,7 +103,6 @@ namespace :db do
           puts
           puts '*'*79
         end
-        Rake::Task['db:config:generate'].invoke
       else
         Rake::Task['db:config'].invoke
       end
