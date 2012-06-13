@@ -41,9 +41,8 @@ class BugTracker < ActiveRecord::Base
     end
     return nil if container.nil?
 
-    bug_data = container.bugs.send(bscope, self[:type]).ordered.find(:all,
-      :conditions => {:bug_product_id => test_area ? test_area.bug_product_ids : proj.bug_product_ids},
-      :include => :severity)
+    bug_data = container.bugs.send(bscope, self[:type]).ordered.
+      where(:bug_product_id => test_area ? test_area.bug_product_ids : proj.bug_product_ids).includes(:severity)
 
     bug_data.each do |bug|
       key = bug.instance_eval(hash_by)
@@ -65,7 +64,8 @@ class BugTracker < ActiveRecord::Base
   private
 
   # override in subclass with a real implementation
-  def ping; raise "pong" end
+  def ping; end
+  def refresh!; end
 
   def logger
     return @logger if @logger

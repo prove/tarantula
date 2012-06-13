@@ -17,12 +17,11 @@ describe ReportDataController do
   
   it "should create/update data with #create" do
     log_in
-    flexmock(Report::Data).should_receive(:create!).once.with(
-      :project_id => '1', :user_id => '2', :key => 'foobar', :data => {:dippa => 'dui'})
+    flexmock(Report::Data).should_receive(:create!).once
     
     post 'create', :project_id => 1, :user_id => 2, 
                    :key => 'foobar', 'dippa' => 'dui'
-    
+    response.should be_success
   end
   
 end

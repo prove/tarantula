@@ -115,7 +115,8 @@ describe Execution do
     end
 
     it "should remove old cases that are to be removed on update" do
-      e = Execution.make_with_runs(:cases => 1)
+      e = Execution.make_with_runs(:cases => 1, 
+                                   :test_object => TestObject.make!)
       old_ce = e.case_executions.first
       old_ce.should_not be_nil
 
