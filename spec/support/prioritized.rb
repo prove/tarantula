@@ -5,7 +5,7 @@ shared_examples_for "prioritized" do
     i = get_instance
     i.priority = invalid_val
     i.save
-    i.errors.on(:priority).should_not be_empty
+    i.errors[:priority].should_not be_empty
   end
   
   it "#priority_name should return priority name" do

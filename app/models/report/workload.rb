@@ -56,8 +56,8 @@ class Workload < Report::Base
     
     # Unassigned
     unassigned = CaseExecution.find(:all, :conditions => {:execution_id => eids,
-                                                          :result       => NotRun,
-                                                          :assigned_to  => nil})
+                                                       :result => NotRun.db,
+                                                       :assigned_to => nil})
     if unassigned.size > 0
       rows << {:name => 'Unassigned',
                :cases => unassigned.size,

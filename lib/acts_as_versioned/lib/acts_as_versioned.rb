@@ -187,7 +187,7 @@ module ActiveRecord #:nodoc:
           end
 
           send :attr_accessor, :aav_changed_attributes
-
+          send :attr_accessor, :type
           self.versioned_class_name         = options[:class_name]  || "Version"
           self.versioned_foreign_key        = options[:foreign_key] || self.to_s.foreign_key
           self.versioned_table_name         = options[:table_name]  || "#{table_name_prefix}#{base_class.name.demodulize.underscore}_versions#{table_name_suffix}"
@@ -269,6 +269,7 @@ module ActiveRecord #:nodoc:
           end
           
           versioned_class.cattr_accessor :original_class
+          versioned_class.send(:attr_accessor, 'versioned_type')
           versioned_class.original_class = self
           versioned_class.send(:table_name=, versioned_table_name)
           versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym, 
@@ -366,9 +367,9 @@ module ActiveRecord #:nodoc:
           end
           
           if orig_model.is_a?(self.class.versioned_class)
-            new_model[new_model.class.inheritance_column] = orig_model[self.class.versioned_inheritance_column]
+            new_model.send(new_model.class.inheritance_column+'=', orig_model[self.class.versioned_inheritance_column])
           elsif new_model.is_a?(self.class.versioned_class)
-            new_model[self.class.versioned_inheritance_column] = orig_model[orig_model.class.inheritance_column]
+            new_model.send(self.class.versioned_inheritance_column+"=", orig_model[orig_model.class.inheritance_column])
           end
         end
         

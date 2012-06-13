@@ -46,17 +46,16 @@ module AssocExtensions
       ijf.each { |f| ijf_str += ", jt.#{f}" }
 
       join_table = [ass, base.tableize].sort.join('_')
-
-      finder_sql =
-        
-
-      #finder_sql += " ORDER BY #{args[:order]}" unless args[:order].blank?
-
+      
       has_and_belongs_to_many assoc, :finder_sql => proc {
-      "SELECT a.*"+ijf_str+" FROM "+ass+" a, "+
+        finder_sql = 
+        "SELECT a.*"+ijf_str+" FROM "+ass+" a, "+
         "#{join_table} "+"jt WHERE a.id = jt."+sin+"_id AND "+
         "jt."+base.underscore+"_id = #{self.id} AND jt."+base.underscore+
-        "_version = #{self.version}"},
+        "_version = #{self.version}"
+        finder_sql += " ORDER BY #{args[:order]}" unless args[:order].blank?
+        finder_sql
+      },
                                      :extend => AssocExtensions::Versioned
 
       # always revert if necessary

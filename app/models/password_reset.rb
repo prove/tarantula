@@ -43,7 +43,7 @@ class PasswordReset < ActiveRecord::Base
     uid = self.user.try(:id) || 'NULL'
     resets = PasswordReset.find(:all, 
       :conditions => "user_id=#{uid} and created_at >= '#{Date.today-1} 00:00:00'")
-    self.errors.add_to_base('Password already reset!') unless resets.empty?
+    self.errors[:base] << 'Password already reset!' unless resets.empty?
   end
   
 end

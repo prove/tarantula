@@ -24,8 +24,8 @@ describe Bug do
 
   describe ".all_linked" do
     it "should return all bugs linked to steps" do
-      bt = Bugzilla.make!(:severities => [BugSeverity.make],
-                          :products => [BugProduct.make])
+      bt = Bugzilla.make!(:severities => [BugSeverity.make!],
+                          :products => [BugProduct.make!])
       p = Project.make!(:bug_tracker => bt)
       bug = bt.bugs.create!(:external_id => "#{Bug.count}",
                             :severity    => bt.severities.first,

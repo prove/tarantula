@@ -141,6 +141,7 @@ shared_examples_for "versioned" do
         size.should == 2
       
       @host.save!
+      @host.reload
       @host.send("#{versioned_assoc.singularize}_ids").\
         should == []
       

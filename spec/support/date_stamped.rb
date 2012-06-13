@@ -9,7 +9,7 @@ shared_examples_for "date stamped" do
     i = get_instance
     i.date = nil
     i.save
-    i.errors.on(:date).should_not be_nil
+    i.errors[:date].should_not be_nil
   end
   
 end
