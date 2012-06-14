@@ -44,7 +44,7 @@ class AttachmentsControllerBase < ApplicationController
     file_data, file_names, atts = get_file_data_file_names_and_attributes(klass)
 
     file_data = [file_data] unless file_data.is_a?(Array)
-
+    
     Attachment.transaction do
       file_data.each_with_index do |d,i|
         unless file_names.empty?
@@ -52,6 +52,7 @@ class AttachmentsControllerBase < ApplicationController
         else
           atts.merge!({:file_data => d})
         end
+        
         attachment = klass.create!(atts)
         @host.attach(attachment)
         att_data << attachment.to_data
