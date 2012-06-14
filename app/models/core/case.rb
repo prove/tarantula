@@ -31,8 +31,7 @@ class Case < ActiveRecord::Base
   has_and_belongs_to_many_versioned :requirements
 
   has_many :case_executions, :class_name => 'CaseExecution',
-           :foreign_key => 'case_id', :order => '`created_at` DESC',
-           :dependent => :destroy
+           :foreign_key => 'case_id', :dependent => :destroy
 
   has_many :step_executions, :through => :case_executions
 
@@ -467,7 +466,7 @@ class Case < ActiveRecord::Base
 
   # returns _execution_ this case last failed in
   def last_failed_exec
-    ce = self.case_executions.first(:conditions => ["result = :res and executions.deleted = :f", {:res => Failed.db,:f => false}], :order => 'case_executions.executed_at desc', :joins => :execution)
+    ce = self.case_executions.first(:conditions => ["result = :res and executions.deleted = :f", {:res => Failed.db,:f => false}], :order => 'case_executions.executed_at desc', :include => :execution)
     ce ? ce.execution : nil
   end
 
