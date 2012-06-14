@@ -1,16 +1,22 @@
 Tarantula::Application.routes do
-  match '', :to => "home#index"
+  root :to => "home#index"
 
   resources :password_resets
 
   resource :archive, :only => [:destroy, :create],
-    :path_prefix => '/projects/:project_id/:resources',
+    :path => '/projects/:project_id/:resources',
     :controller => 'archives'
 
-  resources :projects, :member => {
-    :priorities => :get,
-    :deleted => :delete, :products => :get},
-    :collection => {:deleted => :get} do
+  resources :projects do
+    member do
+      get :priorities
+      delete :deleted
+      get :products
+    end
+    
+    collection do
+      get :deleted
+    end
 
     resources :users do
       resources :executions
@@ -20,7 +26,11 @@ Tarantula::Application.routes do
     end
 
     resources :test_sets do
-      resources :cases, :collection => {:not_in_set => :get}
+      resources :cases do
+        collection do
+          get :not_in_set
+        end
+      end
     end
     resources :attachments
     resources :cases
@@ -32,7 +42,13 @@ Tarantula::Application.routes do
       resources :attachments
     end
     resources :test_areas
-    resources :bug_trackers, :member => {:products => :get}
+    
+    resources :bug_trackers do
+      member do
+        get :products
+      end
+    end
+    
     resources :bugs
   end
 
@@ -42,16 +58,25 @@ Tarantula::Application.routes do
   end
 
   resources :test_sets do
-    resources :cases, :collection => {:not_in_set => :get}
+    resources :cases do
+      collection do
+        get :not_in_set
+      end
+    end
   end
 
-  resources :cases, :member => {:change_history => :get} do
+  resources :case do
+    member do
+      get :change_history
+    end
     resources :attachments
     resources :tasks
     resources :requirements, :only => [:index]
   end
 
-  resources :case_executions, :has_many => :attachments
+  resources :case_executions do
+    resources :attachments
+  end
 
   resources :executions do
     resources :case_executions
@@ -61,35 +86,65 @@ Tarantula::Application.routes do
     resources :attachments
   end
 
-  resources :users, :member => {:selected_project => :put, :permissions => :get, :available_groups => :get},
-    :collection => {:deleted => :get} do
-    resources :projects, :member => {:group => :get}, :collection => {:deleted => :get}
+  resources :users do
+    member do
+      put :selected_project
+      get :permissions
+      get :available_groups
+    end
+    collection do
+      get :deleted
+    end
+    
+    resources :projects do
+      member do
+        get :group
+      end
+      collection do
+        get :deleted
+      end
+    end
     resources :executions
     resources :tasks
   end
 
-  resources :bug_trackers, :member => {:products => :get}
+  resources :bug_trackers do
+    member do
+      get :products
+    end
+  end
 
   resources :customer_configs
-  # match 'restart', 'customer_configs#restart'
+  match 'restart', :to => 'customer_configs#restart'
+  
+  resource :report, :controller => 'report' do
+    member do
+      get :dashboard
+      get :test_result_status
+      get :results_by_test_object
+      get :case_execution_list
+      get :test_efficiency
+      get :status
+      get :requirement_coverage
+      get :bug_trend
+      get :workload
+    end
+  end
+  
+  resource :home, :controller => 'home' do
+    member do
+      get :login
+      post :login
+      get :logout
+      get :index
+    end
+  end               
 
-  resource :report, :member => {:dashboard => :get,
-                                :test_result_status => :get,
-                                :results_by_test_object => :get,
-                                :case_execution_list => :get,
-                                :test_efficiency => :get,
-                                :status => :get,
-                                :requirement_coverage => :get,
-                                :bug_trend => :get,
-                                :workload => :get},
-               :controller => 'report'
-
-  resource :home, :member => {:login => [:get, :post],
-                                  :logout => :get,
-                                  :index => :get},
-               :controller => 'home'
-
-  resource :import, :member => {:doors => [:get, :post]},
-           :controller => 'import'
+  resource :import, :controller => 'import' do
+    member do
+      get :doors
+      post :doors
+    end
+  end
 
 end
