@@ -105,6 +105,7 @@ end
 class Execution < ActiveRecord::Base
   def self.make_with_runs(atts={})
     cases_count = atts.delete(:cases) || rand(5)+1
+    atts[:test_object] ||= TestObject.make!
     e = Execution.make!(atts)
     test_set = TestSet.make_with_cases(:cases => cases_count)
     updater = User.make!
@@ -154,7 +155,7 @@ class CaseExecution < ActiveRecord::Base
 end
 
 class Attachment < ActiveRecord::Base
-  def self.make
+  def self.make!
     c = Attachment.count
     ActiveRecord::Base.connection.execute(
       "INSERT INTO attachments (orig_filename, created_at) VALUES ('foo.bar',"+

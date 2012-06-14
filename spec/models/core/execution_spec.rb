@@ -99,8 +99,8 @@ describe Execution do
       ce.should_receive(:update_attributes!).once
       flexmock(CaseExecution).should_receive(:find).once.
         with(:first, Hash).and_return(ce)
-      flexmock(CaseExecution).should_receive(:find).once.
-          with(:all, Hash).and_return([])
+      flexmock(CaseExecution).should_receive(:all).once.
+          with(Hash).and_return([])
       e.update_with_assignments!({'some att' => 'some val'}, [{'id' => 1}], 'a_tag')
     end
 
@@ -115,8 +115,7 @@ describe Execution do
     end
 
     it "should remove old cases that are to be removed on update" do
-      e = Execution.make_with_runs(:cases => 1, 
-                                   :test_object => TestObject.make!)
+      e = Execution.make_with_runs(:cases => 1)
       old_ce = e.case_executions.first
       old_ce.should_not be_nil
 

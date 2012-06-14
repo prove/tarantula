@@ -9,7 +9,7 @@ shared_examples_for "attachment host" do
   
   it "#attach should add an attachment" do
     @host = get_instance
-    a = Attachment.make
+    a = Attachment.make!
     @host.all_attachment_sets.size.should == 0
     @host.attach(a)
     @host.reload.attachments.should include(a)
@@ -18,7 +18,7 @@ shared_examples_for "attachment host" do
   
   it "#unattach should remove an attachment" do
     @host = get_instance
-    a1 = Attachment.make
+    a1 = Attachment.make!
     @host.attach(a1)
     @host.reload.attachments.should include(a1)
     @host.unattach(a1)
@@ -29,10 +29,10 @@ shared_examples_for "attachment host" do
   
   it "should handle multiple attachments" do
     @host = get_instance
-    a = Attachment.make
-    a2 = Attachment.make
-    a3 = Attachment.make
-    a4 = Attachment.make
+    a = Attachment.make!
+    a2 = Attachment.make!
+    a3 = Attachment.make!
+    a4 = Attachment.make!
     @host.attach(a)
     @host.attach(a2)
     @host.attach(a3)
@@ -49,10 +49,10 @@ shared_examples_for "attachment host" do
     @host = get_instance
     @host2 = get_instance
     @host3 = get_instance
-    a = Attachment.make
-    a2 = Attachment.make
-    a3 = Attachment.make
-    a4 = Attachment.make
+    a = Attachment.make!
+    a2 = Attachment.make!
+    a3 = Attachment.make!
+    a4 = Attachment.make!
     @host.attach(a)
     @host2.attach(a3)
     @host.attach(a2)

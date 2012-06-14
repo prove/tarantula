@@ -467,7 +467,7 @@ class Case < ActiveRecord::Base
 
   # returns _execution_ this case last failed in
   def last_failed_exec
-    ce = self.case_executions.where(:result => Failed.db, 'executions.deleted' => false).order('case_executions.executed_at desc').includes(:execution).first
+    ce = self.case_executions.first(:conditions => ["result = :res and executions.deleted = :f", {:res => Failed.db,:f => false}], :order => 'case_executions.executed_at desc', :joins => :execution)
     ce ? ce.execution : nil
   end
 
