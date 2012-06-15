@@ -44,13 +44,12 @@ function save_image(id) {
 var LIST_LOAD_LIMIT = parseInt('<%= Testia::LOAD_LIMIT %>', 10);
 </script>
 
-<%= stylesheet_link_tag "../javascripts/ext/resources/css/ext-all.css",
-    "../javascripts/ext/resources/css/xtheme-vista.css",
+<%= stylesheet_link_tag "ext/ext-all.css",
+    "ext/xtheme-vista.css",
     'accordion.css',
     'Ext.testia.ListPanel.css',
     'Ext.testia.AttachmentForm.css',
-    'main.css',
-    :cache => 'cached_all' %>
+    'main.css' %>
 
     <title>Testia Tarantula</title>
 
@@ -129,7 +128,7 @@ var LIST_LOAD_LIMIT = parseInt('<%= Testia::LOAD_LIMIT %>', 10);
 	<link rel="stylesheet" type="text/css" href="stylesheets/ie-only.css" />
 <![endif]-->
 
-    <link rel="SHORTCUT ICON" href="/images/favicon.ico" />
+    <link rel="SHORTCUT ICON" href="<%= asset_path 'favicon.ico' %>" />
     <script type="text/javascript">
     //<![CDATA[
 
@@ -584,7 +583,7 @@ Ext.testia.GUI = function() {
         this.testobjects_list.reload();
     }, this);
 
-    Ext.BLANK_IMAGE_URL = createUrl('/images/s.gif');
+    Ext.BLANK_IMAGE_URL = createUrl('<%= asset_path "s.gif" %>');
 
     Ext.Ajax.timeout = AJAX_TIMEOUT;
 
@@ -1470,7 +1469,7 @@ var newLayout = function() {
         menuItem = Ext.get('menuitem_'+menu);
         menuItem.setStyle(
              "background",
-             "url('../images/tarantula/menuitem_selected_bg.gif') no-repeat left");
+             "url('<%= asset_path "tarantula/menuitem_selected_bg.gif" %>') no-repeat left");
     };
 
     function openSubMenu(menu){
@@ -1648,9 +1647,9 @@ var importDoors = function (){
 		</div>
                 <div id="notification-area">
                   <div id="load-indicator" style="float:left;margin-top:18px;margin-left:10px;">
-                    <img src="../javascripts/ext/resources/images/default/tree/loading.gif" alt="Loading..." />
+                    <img src="<%= asset_path 'loading.gif' %>" alt="Loading..." />
                   </div>
-    <img src="/images/testia/bad_network.gif" title="Couldn't retrieve data. Network connection may lag or server is down." id="bad-network" style="display:none;float:left;margin-top:14px;margin-left:10px;cursor:pointer;" />
+    <img src="<%= asset_path 'testia/bad_network.gif' %>" title="Couldn't retrieve data. Network connection may lag or server is down." id="bad-network" style="display:none;float:left;margin-top:14px;margin-left:10px;cursor:pointer;" />
                 </div>
 
 		<div id="tag-selector">

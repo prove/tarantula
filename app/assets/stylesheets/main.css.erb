@@ -129,7 +129,7 @@ a:hover {
 
 .dashboard_item h1.report-item, .dashboard_item h2.report-item,
 #reports h2.report-item  {
-    background:#000 url(../images/tarantula/menu_bg.gif) repeat scroll left center;
+    background:#000 url(<%= asset_path 'tarantula/menu_bg.gif' %>) repeat scroll left center;
     color: #fff;
     font-size: 16px;
     font-weight: bold;
@@ -206,7 +206,7 @@ p.report-item-parameters, .project-status .report-item5 {
     clear: both !important;
     padding: 3px;
     color: #000;
-    background:transparent url(../images/tarantula/submenu_bg.gif) repeat-x;
+    background:transparent url(<%= asset_path 'tarantula/submenu_bg.gif' %>) repeat-x;
     border-bottom: 1px solid #ccc;
 }
 
@@ -275,7 +275,7 @@ div.dialog p {
 
 .x-form-field{
 	border: 1px solid #e3e1e1;
-	background: #ffffff url("../images/tarantula/input_bg.gif")
+	background: #ffffff url(<%= asset_path "tarantula/input_bg.gif" %>)
         repeat-x left top;
 /*	padding-top: 4px;*/
 }
@@ -293,7 +293,7 @@ div.dialog p {
 
 .x-layout-panel-west, .x-dock-panel .x-dock-panel-body, .x-dock-body,
 .x-dlg-bd .x-dock-body {
-  background: #fff; /* url('../images/treebg.png') repeat-y left;*/
+  background: #fff; /* url(<%= asset_path 'treebg.png' %>) repeat-y left;*/
 }
 
 .x-unselectable, .x-unselectable * {
@@ -388,7 +388,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 /* Orange stripe on top of screen */
 #top-stripe{
   height: 8px;
-  background: url("../images/tarantula/header_bg.gif") repeat-x top;
+  background: url(<%= asset_path "tarantula/header_bg.gif" %>) repeat-x top;
 }
 
 #header-actions{
@@ -398,7 +398,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
        */
     height: 82px; /* Target height - 5 pixels */
     background-color: white;
-    background-image: url("../images/tarantula/tarantula.jpg");
+    background-image: url(<%= asset_path "tarantula/tarantula.jpg" %>);
     background-repeat: no-repeat;
 }
 
@@ -408,7 +408,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 	height: 55px;
         margin-left: 105px;
         margin-top: 10px;
-  	background: url("../images/tarantula/logo.gif") no-repeat;
+  	background: url(<%= asset_path "tarantula/logo.gif" %>) no-repeat;
 }
 
 #project-select{
@@ -423,7 +423,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 	left: 0px;
  	width: 260px;  /* was 270   400 */
 	height: 35px;
-  	background: url("../images/tarantula/project_left.gif") no-repeat;
+  	background: url(<%= asset_path "tarantula/project_left.gif" %>) no-repeat;
         background-position: bottom left;
         z-index: 0;
 }
@@ -444,7 +444,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
         float: left;
  	width: 8px;
 	height: 35px;
-  	background: url("../images/tarantula/project_right.gif") no-repeat;
+  	background: url(<%= asset_path "tarantula/project_right.gif" %>) no-repeat;
         background-position: bottom right;
 }
 
@@ -460,7 +460,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 	left: 85px;         /* was 100  */
  	width: 170px;       /* WAS 300*/
 	height: 26px;
-  	background: url("../images/tarantula/projectsel_left.gif") no-repeat;
+  	background: url(<%= asset_path "tarantula/projectsel_left.gif" %>) no-repeat;
 }
 
 /*
@@ -478,13 +478,13 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 #project-select-center div img{
 	width: 30px;
 	height: 26px;
-  	background: url("../images/tarantula/drop.gif") no-repeat;
+  	background: url(<%= asset_path "tarantula/drop.gif" %>) no-repeat;
 	border: 0px;
         margin-left: -4px;
         margin-top: -1px;
 }
 #project-select-center div img:hover{
-  	background: url("../images/tarantula/drop_over.gif") no-repeat;
+  	background: url(<%= asset_path "tarantula/drop_over.gif" %>) no-repeat;
 }
 
 
@@ -501,14 +501,14 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
         z-index: 9000;
 	top: 59px;
 	right: 29px;
-  	background: url("../images/tarantula/buttons/GIF/user.gif") no-repeat left;
+  	background: url(<%= asset_path "tarantula/buttons/GIF/user.gif" %>) no-repeat left;
 }
 
 #menu{
     /* Menu contains both black menua area (41pixels),
        as well as space for mouseover image effect above and below menu. */
     height: 55px;
-    background: url("../images/tarantula/menu_bg.gif") repeat left;
+    background: url(<%= asset_path "tarantula/menu_bg.gif" %>) repeat left;
     border: 0;
 
 }
@@ -523,7 +523,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 	width: 109px;
 	height: 55px;
 	float: left;
-  	/* background: url("../images/tarantula/menuitem_selected_bg.gif")
+  	/* background: url(<%= asset_path "tarantula/menuitem_selected_bg.gif" %>)
            no-repeat left; */
 }
 
@@ -577,7 +577,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 
 #submenu{
     height: 25px;
-    background: url("../images/tarantula/submenu_bg.gif") repeat left;
+    background: url(<%= asset_path "tarantula/submenu_bg.gif" %>) repeat left;
 /*    border-bottom: 1px solid #cccccc;*/
     border-bottom: 1px solid #bbbbbb;
     font-size: 12px;
@@ -652,7 +652,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 .x-layout-tools-button-over{
     	border: none;
  	background: #f5f5f5;
-/*url(../images/vista/layout/panel-title-bg.gif) repeat-x;*/
+/*url(<%= asset_path 'vista/layout/panel-title-bg.gif' %>) repeat-x;*/
 }
 
 
@@ -660,14 +660,14 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 	width: 18px;
 	height: 18px;
 	background-image:url(
-            "../images/tarantula/buttons/GIF/arrow_left.gif");
+            <%= asset_path "tarantula/buttons/GIF/arrow_left.gif" %>);
 }
 
 .x-layout-expand-west {
 	width: 18px;
 	height: 18px;
 	background-image:url(
-            "../images/tarantula/buttons/GIF/arrow_right.gif");
+            <%= asset_path "tarantula/buttons/GIF/arrow_right.gif" %>);
 }
 
 .x-layout-collapsed-west {
@@ -685,7 +685,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 	width: 18px;
 	height: 18px;
 	background-image:url(
-            "../images/tarantula/buttons/GIF/arrow_up.gif");
+            <%= asset_path "tarantula/buttons/GIF/arrow_up.gif" %>);
 	margin-right: 2px;
 }
 
@@ -693,7 +693,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 	width: 18px;
 	height: 18px;
 	background-image:url(
-            "../images/tarantula/buttons/GIF/arrow_down.gif");
+            <%= asset_path "tarantula/buttons/GIF/arrow_down.gif" %>);
 	margin-right: 2px;
 }
 
@@ -703,7 +703,7 @@ div.x-dock-panel-body div.x-toolbar.x-small-editor table {
 	padding-left: 15px;
 	padding-right: 15px;
 	background: white url(
-            "../images/tarantula/pixel_e4e4e4.gif") repeat-y center;
+            <%= asset_path "tarantula/pixel_e4e4e4.gif" %>) repeat-y center;
 	color: black;
         padding-top: 0;
         margin-top: 0;
@@ -752,7 +752,7 @@ div#exec_steps_tb .x-toolbar {
 	width: 18px;
 	height: 18px;
 	background-image:url(
-            "../images/tarantula/buttons/GIF/Cycle.gif");
+            <%= asset_path "tarantula/buttons/GIF/Cycle.gif" %>);
         margin-top: 2px;
 	margin-left: 14px;
 }
@@ -813,57 +813,57 @@ div#exec_steps_tb .x-toolbar {
 
 .tarantula-btn-new, .tarantula-btn-new .x-btn-over {
     /*
-    background-image: url("../images/tarantula/buttons/GIF/add.gif");
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/add.gif" %>);
     */
-    background-image: url("../images/tarantula/buttons/GIF/add.gif");
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/add.gif" %>);
 }
 
 .tarantula-btn-edit, .tarantula-btn-edit .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/tool.gif");
+        <%= asset_path "tarantula/buttons/GIF/tool.gif" %>);
 }
 
 .tarantula-btn-save, .tarantula-btn-save .x-btn-over {
-    background-image: url("../images/tarantula/buttons/GIF/ok.gif");
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/ok.gif" %>);
 }
 
 .tarantula-btn-cancel, .tarantula-btn-cancel .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/close.gif");
+        <%= asset_path "tarantula/buttons/GIF/close.gif" %>);
 }
 
 .tarantula-btn-delete, .tarantula-btn-delete .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/Recycle.gif");
+        <%= asset_path "tarantula/buttons/GIF/Recycle.gif" %>);
 }
 
 .tarantula-btn-copy, .tarantula-btn-copy .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/object_11.gif");
+        <%= asset_path "tarantula/buttons/GIF/object_11.gif" %>);
 }
 
 .tarantula-btn-paste, .tarantula-btn-paste .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/object_10.gif");
+        <%= asset_path "tarantula/buttons/GIF/object_10.gif" %>);
 }
 
 .tarantula-btn-view, .tarantula-btn-view .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/zoomin.gif");
+        <%= asset_path "tarantula/buttons/GIF/zoomin.gif" %>);
 }
 
 .tarantula-btn-remove, .tarantula-btn-remove .x-btn-over {
-    background-image: url("../images/tarantula/buttons/GIF/del.gif");
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/del.gif" %>);
 }
 
 .tarantula-btn-purge, .tarantula-btn-purge .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/object_15.gif");
+        <%= asset_path "tarantula/buttons/GIF/object_15.gif" %>);
 }
 
 .tarantula-btn-assign, .tarantula-btn-assign .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/user.gif");
+        <%= asset_path "tarantula/buttons/GIF/user.gif" %>);
 }
 
 
@@ -871,7 +871,7 @@ div#exec_steps_tb .x-toolbar {
 
 .x-toolbar .tarantula-btn-prev, .tarantula-btn-prev .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/object_06.gif");
+        <%= asset_path "tarantula/buttons/GIF/object_06.gif" %>);
 }
 
 
@@ -884,7 +884,7 @@ div#exec_steps_tb .x-toolbar {
     width: 18px;
     height: 18px;
     background-image: url(
-        "../images/tarantula/buttons/GIF/object_07.gif");
+        <%= asset_path "tarantula/buttons/GIF/object_07.gif" %>);
     background-repeat: no-repeat;
     background-position: right center;
 }
@@ -899,37 +899,37 @@ div#exec_steps_tb .x-toolbar {
 
 .tarantula-btn-note, .tarantula-btn-note .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/about.gif");
+        <%= asset_path "tarantula/buttons/GIF/about.gif" %>);
 }
 
 .tarantula-btn-pause, .tarantula-btn-pause .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/pause.gif");
+        <%= asset_path "tarantula/buttons/GIF/pause.gifa" %>);
 }
 
 .tarantula-btn-pass, .tarantula-btn-pass .x-btn-over {
     background-image: url(
-        "../images/famfamfam/accept.png");
+        <%= asset_path "famfamfam/accept.png" %>);
 }
 
 .tarantula-btn-skip, .tarantula-btn-skip .x-btn-over {
     background-image: url(
-        "../images/famfamfam/error_go.png");
+        <%= asset_path "famfamfam/error_go.png" %>);
 }
 
 .tarantula-btn-fail, .tarantula-btn-fail .x-btn-over {
     background-image: url(
-        "../images/famfamfam/cancel.png");
+        <%= asset_path "famfamfam/cancel.png" %>);
 }
 
 .tarantula-btn-notimplemented, .tarantula-btn-notimplemented .x-btn-over {
     background-image: url(
-        "../images/famfamfam/plugin.png");
+        <%= asset_path "famfamfam/plugin.png" %>);
 }
 
 .tarantula-btn-clear, .tarantula-btn-clear .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/del.gif");
+        <%= asset_path "tarantula/buttons/GIF/del.gif" %>);
 }
 
 
@@ -937,7 +937,7 @@ div#exec_steps_tb .x-toolbar {
 
 .tarantula-btn-report, .tarantula-btn-report .x-btn-over {
     background-image: url(
-        "../images/tarantula/buttons/GIF/charts.gif");
+        <%= asset_path "tarantula/buttons/GIF/charts.gif" %>);
 }
 
 
@@ -1406,7 +1406,7 @@ div.testia-task-items div.add {
 
 div.testia-task-items ul.commands {
     border-bottom: 5px solid #ececec;
-    background: #eee url(../images/tarantula/submenu_bg.gif) repeat scroll left center;
+    background: #eee url(<%= asset_path 'tarantula/submenu_bg.gif' %>) repeat scroll left center;
     padding-top: 5px;
 }
 
@@ -1436,7 +1436,7 @@ table.history {
 }
 table.history thead { background: 000; }
 table.history thead tr {
-    background: #000 url(../images/tarantula/menu_bg.gif) repeat scroll left center;
+    background: #000 url(<%= asset_path 'tarantula/menu_bg.gif' %>) repeat scroll left center;
     color: #fff;
     margin: 0 !important;
     padding: 5px;
@@ -1447,16 +1447,16 @@ table.history th {
     padding: 3px 3px 3px 20px;
 }
 table.history th.date {
-    background: transparent url(../images/famfamfam/date.png) no-repeat 10px center;
+    background: transparent url(<%= asset_path 'famfamfam/date.png' %>) no-repeat 10px center;
     padding-left: 30px;
     width: 9.5em;
 }
 table.history th.user {
-    background: url(../images/famfamfam/user_gray.png) no-repeat left center;
+    background: url(<%= asset_path 'famfamfam/user_gray.png' %>) no-repeat left center;
     width: 6em;
 }
 table.history th.comment {
-    background: url(../images/famfamfam/comment.png) no-repeat left center;
+    background: url(<%= asset_path 'famfamfam/comment.png' %>) no-repeat left center;
 }
 table.history tr.odd {
     background: #eee;
