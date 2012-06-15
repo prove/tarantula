@@ -8,7 +8,7 @@
 
 .ext-el-mask-msg {
     border:1px solid #aaa;
-    background: #ddd url(../images/default/box/tb.gif) repeat-x 0 -16px;
+    background: #ddd url(<%= asset_path 'default/box/tb.gif' %>) repeat-x 0 -16px;
 }
 .ext-el-mask-msg div {
     border:1px solid #ccc;
@@ -18,10 +18,10 @@
  */
 .x-menu {
 	border-color: #999 #999 #999 #999;
-    background-image:url(../images/gray/menu/menu.gif);
+    background-image:url(<%= asset_path 'gray/menu/menu.gif' %>);
 }
 .x-menu-item-arrow{
-	background-image:url(../images/gray/menu/menu-parent.gif);
+	background-image:url(<%= asset_path 'gray/menu/menu-parent.gif' %>);
 }
 .x-menu-item {
 	color:#222;
@@ -49,25 +49,25 @@
 	color:#333333;
 }
 .x-tabs-top .x-tabs-strip a.x-tabs-right {
-	background:transparent url(../images/vista/tabs/tab-sprite.gif) no-repeat right -50px;
+	background:transparent url(<%= asset_path 'vista/tabs/tab-sprite.gif' %>) no-repeat right -50px;
 }
 .x-tabs-top .x-tabs-strip a .x-tabs-left{
-	background:transparent url(../images/vista/tabs/tab-sprite.gif) no-repeat 0px -150px;
+	background:transparent url(<%= asset_path 'vista/tabs/tab-sprite.gif' %>) no-repeat 0px -150px;
 }
 .x-tabs-top .x-tabs-strip .on .x-tabs-right {
-	 background: url(../images/vista/tabs/tab-sprite.gif) no-repeat right 0;
+	 background: url(<%= asset_path 'vista/tabs/tab-sprite.gif' %>) no-repeat right 0;
 }
 .x-tabs-top .x-tabs-strip .on .x-tabs-left{
-	 background: url(../images/vista/tabs/tab-sprite.gif) no-repeat 0px -100px;
+	 background: url(<%= asset_path 'vista/tabs/tab-sprite.gif' %>) no-repeat 0px -100px;
 }
 .x-tabs-strip .x-tabs-closable .close-icon{
-	background-image:url(../images/vista/layout/tab-close.gif);
+	background-image:url(<%= asset_path 'vista/layout/tab-close.gif' %>);
 }
 .x-tabs-strip .on .close-icon{
-	background-image:url(../images/vista/layout/tab-close-on.gif);
+	background-image:url(<%= asset_path 'vista/layout/tab-close-on.gif' %>);
 }
 .x-tabs-strip .x-tabs-closable .close-over{
-	background-image:url(../images/vista/layout/tab-close-on.gif);
+	background-image:url(<%= asset_path 'vista/layout/tab-close-on.gif' %>);
 }
 .x-tabs-body {
     border:1px solid #b3b6b0;
@@ -78,10 +78,10 @@
 	background:#4f4f4f;
 }
 .x-tabs-bottom .x-tabs-strip a.x-tabs-right {
-	background:transparent url(../images/vista/tabs/tab-btm-inactive-right-bg.gif) no-repeat bottom right;
+	background:transparent url(<%= asset_path 'vista/tabs/tab-btm-inactive-right-bg.gif' %>) no-repeat bottom right;
 }
 .x-tabs-bottom .x-tabs-strip a .x-tabs-left{
-	background:transparent url(../images/vista/tabs/tab-btm-inactive-left-bg.gif) no-repeat bottom left;
+	background:transparent url(<%= asset_path 'vista/tabs/tab-btm-inactive-left-bg.gif' %>) no-repeat bottom left;
 }
 .x-tabs-bottom .x-tabs-wrap {
 	border-bottom:0 none;
@@ -89,10 +89,10 @@
 	border-top:1px solid #b3b6b0;
 }
 .x-tabs-bottom .x-tabs-strip .on .x-tabs-right {
-	 background: url(../images/vista/tabs/tab-btm-right-bg.gif) no-repeat bottom left;
+	 background: url(<%= asset_path 'vista/tabs/tab-btm-right-bg.gif' %>) no-repeat bottom left;
 }
 .x-tabs-bottom .x-tabs-strip .on .x-tabs-left {
-	 background: url(../images/vista/tabs/tab-btm-left-bg.gif) no-repeat bottom right;
+	 background: url(<%= asset_path 'vista/tabs/tab-btm-left-bg.gif' %>) no-repeat bottom right;
 }
 
 .x-tabs-bottom .x-tabs-body {
@@ -113,17 +113,17 @@
    filter: alpha(opacity=30);
 }
 .x-dlg .x-dlg-hd {
-	background: url(../images/vista/basic-dialog/hd-sprite.gif) repeat-x 0 -82px;
+	background: url(<%= asset_path 'vista/basic-dialog/hd-sprite.gif' %>) repeat-x 0 -82px;
 	background-color:#333333;
 	zoom:1;
 }
 .x-dlg .x-dlg-hd-left {
 	opacity:.95;-moz-opacity:.95;filter:alpha(opacity=90);
-	background: url(../images/vista/basic-dialog/hd-sprite.gif) no-repeat 0 -41px;
+	background: url(<%= asset_path 'vista/basic-dialog/hd-sprite.gif' %>) no-repeat 0 -41px;
 	zoom:1;
 }
 .x-dlg .x-dlg-hd-right {
-	background: url(../images/vista/basic-dialog/hd-sprite.gif) no-repeat right 0;
+	background: url(<%= asset_path 'vista/basic-dialog/hd-sprite.gif' %>) no-repeat right 0;
 	zoom:1;
 }
 .x-dlg .x-dlg-dlg-body{
@@ -154,17 +154,17 @@
 }
 .x-dlg .x-dlg-bg-center {
 	padding: 0px 4px 4px 4px;
-	background:transparent url(../images/vista/basic-dialog/bg-center.gif) repeat-x bottom;
+	background:transparent url(<%= asset_path 'vista/basic-dialog/bg-center.gif' %>) repeat-x bottom;
 	zoom:1;
 }
 .x-dlg .x-dlg-bg-left{
 	padding-left:4px;
-	background:transparent url(../images/vista/basic-dialog/bg-left.gif) no-repeat bottom left;
+	background:transparent url(<%= asset_path 'vista/basic-dialog/bg-left.gif' %>) no-repeat bottom left;
 	zoom:1;
 }
 .x-dlg .x-dlg-bg-right{
 	padding-right:4px;
-	background:transparent url(../images/vista/basic-dialog/bg-right.gif) no-repeat bottom right;
+	background:transparent url(<%= asset_path 'vista/basic-dialog/bg-right.gif' %>) no-repeat bottom right;
 	zoom:1;
 }
 .x-dlg .x-tabs-top .x-tabs-body{
@@ -178,70 +178,70 @@
 	border:0 none;
 }
 .x-dlg .x-dlg-close {
-    background-image:url(../images/vista/basic-dialog/close.gif);
+    background-image:url(<%= asset_path 'vista/basic-dialog/close.gif' %>);
 }
 .x-dlg .x-dlg-collapse {
-    background-image:url(../images/vista/basic-dialog/collapse.gif);
+    background-image:url(<%= asset_path 'vista/basic-dialog/collapse.gif' %>);
 }
 .x-dlg-collapsed .x-dlg-collapse {
-    background-image:url(../images/vista/basic-dialog/expand.gif);
+    background-image:url(<%= asset_path 'vista/basic-dialog/expand.gif' %>);
 }
 .x-dlg div.x-resizable-handle-east{
-	background-image:url(../images/vista/s.gif);
+	background-image:url(<%= asset_path 'vista/s.gif' %>);
 	border:0 none;
 }
 .x-dlg div.x-resizable-handle-south{
-	background-image:url(../images/vista/s.gif);
+	background-image:url(<%= asset_path 'vista/s.gif' %>);
 	border:0 none;
 }
 .x-dlg div.x-resizable-handle-west{
-	background-image:url(../images/vista/s.gif);
+	background-image:url(<%= asset_path 'vista/s.gif' %>);
 	border:0 none;
 }
 .x-dlg div.x-resizable-handle-southeast{
-	background-image:url(../images/vista/s.gif);
+	background-image:url(<%= asset_path 'vista/s.gif' %>);
 	background-position: bottom right;
 	width:8px;
 	height:8px;
 	border:0;
 }
 .x-dlg div.x-resizable-handle-southwest{
-	background-image:url(../images/vista/s.gif);
+	background-image:url(<%= asset_path 'vista/s.gif' %>);
 	background-position: top right;
 	margin-left:1px;
 	margin-bottom:1px;
 	border:0;
 }
 .x-dlg div.x-resizable-handle-north{
-	background-image:url(../images/vista/s.gif);
+	background-image:url(<%= asset_path 'vista/s.gif' %>);
 	border:0 none;
 }
 
 /* QuickTips */
 
 .x-tip .x-tip-top {
-	background-image: url(../images/vista/qtip/tip-sprite.gif);
+	background-image: url(<%= asset_path 'vista/qtip/tip-sprite.gif' %>);
 }
 .x-tip .x-tip-top-left {
-	background-image: url(../images/vista/qtip/tip-sprite.gif);
+	background-image: url(<%= asset_path 'vista/qtip/tip-sprite.gif' %>);
 }
 .x-tip .x-tip-top-right {
-	background-image: url(../images/vista/qtip/tip-sprite.gif);
+	background-image: url(<%= asset_path 'vista/qtip/tip-sprite.gif' %>);
 }
 .x-tip .x-tip-ft {
-	background-image: url(../images/vista/qtip/tip-sprite.gif);
+	background-image: url(<%= asset_path 'vista/qtip/tip-sprite.gif' %>);
 }
 .x-tip .x-tip-ft-left {
-	background-image: url(../images/vista/qtip/tip-sprite.gif);
+	background-image: url(<%= asset_path 'vista/qtip/tip-sprite.gif' %>);
 }
 .x-tip .x-tip-ft-right {
-	background-image: url(../images/vista/qtip/tip-sprite.gif);
+	background-image: url(<%= asset_path 'vista/qtip/tip-sprite.gif' %>);
 }
 .x-tip .x-tip-bd-left {
-	background-image: url(../images/vista/qtip/tip-sprite.gif);
+	background-image: url(<%= asset_path 'vista/qtip/tip-sprite.gif' %>);
 }
 .x-tip .x-tip-bd-right {
-	background-image: url(../images/vista/qtip/tip-sprite.gif);
+	background-image: url(<%= asset_path 'vista/qtip/tip-sprite.gif' %>);
 }
 
 .x-tip .x-tip-bd-inner {
@@ -269,7 +269,7 @@
     background-color:#f3f2e7;
 }
 .x-layout-panel-hd{
-    background-image: url(../images/vista/layout/panel-title-bg.gif);
+    background-image: url(<%= asset_path 'vista/layout/panel-title-bg.gif' %>);
     border-bottom:1px solid #b5bac1;
     color:white;
 }
@@ -278,26 +278,26 @@
 }
 .x-layout-tools-button-over{
     border:1px solid #4c535c;
-	 background:#9f9f9f url(../images/vista/layout/panel-title-bg.gif) repeat-x;
+	 background:#9f9f9f url(<%= asset_path 'vista/layout/panel-title-bg.gif' %>) repeat-x;
 }
 .x-layout-close{
-    background-image:url(../images/vista/layout/tab-close.gif);
+    background-image:url(<%= asset_path 'vista/layout/tab-close.gif' %>);
 }
 
 .x-layout-stick{
-    background-image:url(../images/vista/layout/stick.gif);
+    background-image:url(<%= asset_path 'vista/layout/stick.gif' %>);
 }
 .x-layout-collapse-west,.x-layout-expand-east{
-    background-image:url(../images/vista/layout/collapse.gif);
+    background-image:url(<%= asset_path 'vista/layout/collapse.gif' %>);
 }
 .x-layout-expand-west,.x-layout-collapse-east{
-    background-image:url(../images/vista/layout/expand.gif);
+    background-image:url(<%= asset_path 'vista/layout/expand.gif' %>);
 }
 .x-layout-collapse-north,.x-layout-expand-south{
-    background-image:url(../images/vista/layout/ns-collapse.gif);
+    background-image:url(<%= asset_path 'vista/layout/ns-collapse.gif' %>);
 }
 .x-layout-expand-north,.x-layout-collapse-south{
-    background-image:url(../images/vista/layout/ns-expand.gif);
+    background-image:url(<%= asset_path 'vista/layout/ns-expand.gif' %>);
 }
 .x-layout-split-h{
     background:#9f9f9f;
@@ -324,7 +324,7 @@
 	border: 2px solid #4c535c;
 }
 .x-layout-panel-proxy {
-	background-image: url(../images/vista/layout/gradient-bg.gif);
+	background-image: url(<%= asset_path 'vista/layout/gradient-bg.gif' %>);
 	background-color:#f3f2e7;
 	border:1px dashed #4c535c;
 }
@@ -335,35 +335,35 @@
 /** Resizable */
 
 .x-resizable-over .x-resizable-handle-east, .x-resizable-pinned .x-resizable-handle-east{
-    background:url(../images/vista/sizer/e-handle.gif);
+    background:url(<%= asset_path 'vista/sizer/e-handle.gif' %>);
 	 background-position: left;
 }
 .x-resizable-over .x-resizable-handle-east, .x-resizable-pinned .x-resizable-handle-west{
-    background:url(../images/vista/sizer/e-handle.gif);
+    background:url(<%= asset_path 'vista/sizer/e-handle.gif' %>);
 	 background-position: left;
 }
 .x-resizable-over .x-resizable-handle-south, .x-resizable-pinned .x-resizable-handle-south{
-    background:url(../images/vista/sizer/s-handle.gif);
+    background:url(<%= asset_path 'vista/sizer/s-handle.gif' %>);
     background-position: top;
 }
 .x-resizable-over .x-resizable-handle-south, .x-resizable-pinned .x-resizable-handle-north{
-    background:url(../images/vista/sizer/s-handle.gif);
+    background:url(<%= asset_path 'vista/sizer/s-handle.gif' %>);
     background-position: top;
 }
 .x-resizable-over .x-resizable-handle-southeast, .x-resizable-pinned .x-resizable-handle-southeast{
-    background:url(../images/vista/sizer/se-handle.gif);
+    background:url(<%= asset_path 'vista/sizer/se-handle.gif' %>);
     background-position: top left;
 }
 .x-resizable-over .x-resizable-handle-northwest,.x-resizable-pinned .x-resizable-handle-northwest{
-    background:url(../images/vista/sizer/nw-handle.gif);
+    background:url(<%= asset_path 'vista/sizer/nw-handle.gif' %>);
     background-position:bottom right;
 }
 .x-resizable-over .x-resizable-handle-northeast,.x-resizable-pinned .x-resizable-handle-northeast{
-    background:url(../images/vista/sizer/ne-handle.gif);
+    background:url(<%= asset_path 'vista/sizer/ne-handle.gif' %>);
     background-position: bottom left;
 }
 .x-resizable-over .x-resizable-handle-southwest,.x-resizable-pinned .x-resizable-handle-southwest{
-    background:url(../images/vista/sizer/sw-handle.gif);
+    background:url(<%= asset_path 'vista/sizer/sw-handle.gif' %>);
     background-position: top right;
 }
 .x-resizable-proxy{
@@ -373,14 +373,14 @@
 /** Toolbar */
 .x-toolbar{
 	border:0 none;
-	background: #efefe3 url(../images/vista/toolbar/gray-bg.gif) repeat-x;
+	background: #efefe3 url(<%= asset_path 'vista/toolbar/gray-bg.gif' %>) repeat-x;
 	padding:3px;
 }
 .x-toolbar .ytb-button-over{
 	border:1px solid transparent;
 	border-bottom:1px solid #bbbbbb;
 	border-top:1px solid #eeeeee;
-	background:#9f9f9f url(../images/vista/grid/grid-vista-hd.gif) repeat-x;
+	background:#9f9f9f url(<%= asset_path 'vista/grid/grid-vista-hd.gif' %>) repeat-x;
 }
 
 .x-paging-info {
@@ -418,10 +418,10 @@
 	height:auto;
 }
 .x-grid-split {
-	background-image: url(../images/vista/grid/grid-split.gif);
+	background-image: url(<%= asset_path 'vista/grid/grid-split.gif' %>);
 }
 .x-grid-header{
-	background: url(../images/vista/grid/grid-vista-hd.gif);
+	background: url(<%= asset_path 'vista/grid/grid-vista-hd.gif' %>);
 	border:0 none;
     border-bottom:1px solid #555;
 }
@@ -460,7 +460,7 @@
 	padding-bottom: 2px;
 }
 .x-dd-drag-proxy .x-grid-hd-inner{
-	background: url(../images/vista/grid/grid-vista-hd.gif) repeat-x;
+	background: url(<%= asset_path 'vista/grid/grid-vista-hd.gif' %>) repeat-x;
 	height:22px;
 	width:120px;
 }
@@ -469,27 +469,27 @@
 }
 /* toolbar */
 .x-toolbar .ytb-sep{
-	background-image: url(../images/vista/grid/grid-split.gif);
+	background-image: url(<%= asset_path 'vista/grid/grid-split.gif' %>);
 }
 
 .x-toolbar .x-btn-over .x-btn-left{
-	background:url(../images/vista/toolbar/tb-btn-sprite.gif) no-repeat 0 0px;
+	background:url(<%= asset_path 'vista/toolbar/tb-btn-sprite.gif' %>) no-repeat 0 0px;
 }
 .x-toolbar .x-btn-over .x-btn-right{
-	background:url(../images/vista/toolbar/tb-btn-sprite.gif) no-repeat 0 -21px;
+	background:url(<%= asset_path 'vista/toolbar/tb-btn-sprite.gif' %>) no-repeat 0 -21px;
 }
 .x-toolbar .x-btn-over .x-btn-center{
-	background:url(../images/vista/toolbar/tb-btn-sprite.gif) repeat-x 0 -42px;
+	background:url(<%= asset_path 'vista/toolbar/tb-btn-sprite.gif' %>) repeat-x 0 -42px;
 }
 
 .x-toolbar .x-btn-click .x-btn-left, .x-toolbar .x-btn-pressed .x-btn-left, .x-toolbar .x-btn-menu-active .x-btn-left{
-	background:url(../images/vista/toolbar/tb-btn-sprite.gif) no-repeat 0 -63px;
+	background:url(<%= asset_path 'vista/toolbar/tb-btn-sprite.gif' %>) no-repeat 0 -63px;
 }
 .x-toolbar .x-btn-click .x-btn-right, .x-toolbar .x-btn-pressed .x-btn-right, .x-toolbar .x-btn-menu-active .x-btn-right{
-	background:url(../images/vista/toolbar/tb-btn-sprite.gif) no-repeat 0 -84px;
+	background:url(<%= asset_path 'vista/toolbar/tb-btn-sprite.gif' %>) no-repeat 0 -84px;
 }
 .x-toolbar .x-btn-click .x-btn-center, .x-toolbar .x-btn-pressed .x-btn-center, .x-toolbar .x-btn-menu-active .x-btn-center{
-	background:url(../images/vista/toolbar/tb-btn-sprite.gif) repeat-x 0 -105px;
+	background:url(<%= asset_path 'vista/toolbar/tb-btn-sprite.gif' %>) repeat-x 0 -105px;
 }
 
 /* combo box */
@@ -498,7 +498,7 @@
     background:#dddddd;
 }
 .x-combo-list-hd {
-    background-image: url(../images/vista/layout/panel-title-bg.gif);
+    background-image: url(<%= asset_path 'vista/layout/panel-title-bg.gif' %>);
     border-bottom:1px solid #b5bac1;
     color:white;
 }
