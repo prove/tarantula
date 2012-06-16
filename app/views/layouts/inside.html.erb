@@ -44,12 +44,12 @@ function save_image(id) {
 var LIST_LOAD_LIMIT = parseInt('<%= Testia::LOAD_LIMIT %>', 10);
 </script>
 
-<%= stylesheet_link_tag "ext/ext-all.css",
-    "ext/xtheme-vista.css",
-    'accordion.css',
-    'Ext.testia.ListPanel.css',
+<%= stylesheet_link_tag "ext/ext-all.css.erb",
+    "ext/xtheme-vista.css.erb",
+    'accordion.css.erb',
+    'Ext.testia.ListPanel.css.erb',
     'Ext.testia.AttachmentForm.css',
-    'main.css' %>
+    'main.css.erb' %>
 
     <title>Testia Tarantula</title>
 
