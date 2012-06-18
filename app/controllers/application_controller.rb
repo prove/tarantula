@@ -5,7 +5,7 @@
 #require 'ruby-prof'
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  # protect_from_forgery
   before_filter :set_current_user_and_project, :except => [:login]
   before_filter :apply_currents
   before_filter :clean_data

@@ -339,6 +339,12 @@ describe Case do
 
     a_case.update_with_steps!(atts, steps, tags)
   end
+  
+  it "#update_with_steps should update date properly" do
+    c = Case.make(:date => 1.month.ago)
+    c.update_with_steps!({:date => "2011-11-09T00:00:00"}, [])
+    c.date.should == Date.parse("2011-11-09T00:00:00")
+  end
 
   it "#destroying a case should destroy all its steps" do
     c = Case.make!(:steps => [Step.make!, Step.make!])

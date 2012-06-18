@@ -28,16 +28,14 @@ class CasesController < ApplicationController
       @test_set = TestSet.find(params[:test_set_id])
       if( params[:allcases])
         ret = @test_set.cases.
-          with("ORDER BY COALESCE('cases_test_sets.position', 0) ASC").
+          order("COALESCE('cases_test_sets.position', 0) ASC").
           map{ |c| c.to_data(:brief) }
         ret.compact!
       else
-        conds = "ORDER BY COALESCE('cases_test_sets.position', 0) ASC" +
-          " LIMIT #{@offset*local_limit}, #{local_limit}"
-        conds = ("AND a.title LIKE '%#{@filter}%' "+conds) if @filter
+        conds = ""
+        conds += ("AND a.title LIKE '%#{@filter}%' "+conds) if @filter
 
-        ret = @test_set.cases.with(conds).
-                map{ |c| c.to_tree.merge(:order => c.position)}
+        ret = @test_set.cases.where(conds).order("COALESCE('cases_test_sets.position', 0) ASC").limit("#{@offset*local_limit}, #{local_limit}").map{ |c| c.to_tree.merge(:order => c.position)}
       end
     else
       ret = get_tagged_items(Case)
@@ -96,7 +94,6 @@ class CasesController < ApplicationController
   #   Saves changes to the case.
   #
   def update
-
     if params[:data]
       # Incoming data in json encoded format.
       @data.symbolize_keys!

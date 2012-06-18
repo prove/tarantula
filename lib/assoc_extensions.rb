@@ -27,7 +27,7 @@ module AssocExtensions
 
       # add getters and setters for included join fields
       code = ""
-      self.send("#{assoc}_join_fields").each do |jf|
+      (self.send("#{assoc}_join_fields") || []).each do |jf|
         code += "
           define_method(:#{jf}) do
             (self['#{jf}'] =~ /^[0-9]*$/) ? self['#{jf}'].to_i : self['#{jf}']
@@ -116,19 +116,6 @@ module AssocExtensions
       current
     end
     alias_method :push, :<<
-
-    def active
-      do_query(proxy_association.reflection.options[:finder_sql]+ " AND a.deleted = '0'")
-    end
-
-    def deleted
-      do_query(proxy_association.reflection.options[:finder_sql]+ " AND a.deleted = '1'")
-    end
-
-    def with(sql)
-      do_query(proxy_association.reflection.options[:finder_sql]+" "+sql)
-    end
-
 
     # N.B. This marks objects deleted 'globally'
     def delete(obs)

@@ -127,7 +127,7 @@ class CaseExecutionList < Report::Base
   def create_data(ce_data, comments)
     data = []
     ce_data.each do |ce|
-      title = ce.case_title
+      title = ce.testcase.title
       title += " (#{ce.failed_steps_info})" if ce.result == Failed
       e_at = ce.executed_at
       data << {
