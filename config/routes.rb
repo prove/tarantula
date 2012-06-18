@@ -65,7 +65,7 @@ Tarantula::Application.routes do
     end
   end
 
-  resources :case do
+  resources :cases do
     member do
       get :change_history
     end
