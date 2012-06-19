@@ -9,6 +9,6 @@ describe Report::Component::Table do
   
   it "#to_csv should return csv" do
     tbl = get_instance
-    CSV.parse(tbl.to_csv, ';').should == [['foo', 'bar'], ['1','2'], ['5','6']]
+    CSV.parse(tbl.to_csv, :col_sep => ';').should == [['foo', 'bar'], ['1','2'], ['5','6']]
   end
 end

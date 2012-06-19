@@ -256,7 +256,7 @@ class Execution < ActiveRecord::Base
     valid_step_ids = self.case_executions.map(&:step_execution_ids).flatten
 
     transaction do
-      CSV.parse(file.read, delimiter) do |cells|
+      CSV.parse(file.read, :col_sep => delimiter) do |cells|
         next if cells[5].blank?
         raise "Invalid CSV: Step id not valid (#{cells[5]})" \
           unless valid_step_ids.include?(cells[5].to_i)

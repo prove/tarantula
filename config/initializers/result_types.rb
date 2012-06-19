@@ -1,3 +1,4 @@
+require "#{Rails.root}/lib/result_type"
 
 Passed =  ResultType.new(:db => 'PASSED',  
                          :ui => 'PASSED',

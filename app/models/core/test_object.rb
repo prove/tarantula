@@ -24,7 +24,7 @@ class TestObject < ActiveRecord::Base
   scope :active, where(:deleted => 0, :archived => 0).order('date desc')
   
   scope :deleted, where(:deleted => 1).order('date desc')
-  
+
   # Return project's requirements for this test object.
   # Revert requirements to their last version which is applicable to 
   # this test_object, i.e. which was not updated after self.date

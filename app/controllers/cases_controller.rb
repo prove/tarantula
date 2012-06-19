@@ -35,7 +35,7 @@ class CasesController < ApplicationController
         conds = ""
         conds += ("AND a.title LIKE '%#{@filter}%' "+conds) if @filter
 
-        ret = @test_set.cases.where(conds).order("COALESCE('cases_test_sets.position', 0) ASC").limit("#{@offset*local_limit}, #{local_limit}").map{ |c| c.to_tree.merge(:order => c.position)}
+        ret = @test_set.cases.where(conds).order("COALESCE('cases_test_sets.position', 0) ASC").limit("#{@offset*local_limit}, #{local_limit}").select('cases.*, cases_test_sets.position').map{ |c| c.to_tree.merge(:order => c.position)}
       end
     else
       ret = get_tagged_items(Case)

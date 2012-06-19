@@ -45,7 +45,8 @@ module Report
           csv.chop!
           csv << line_feed
         end
-        "\xEF\xBB\xBF"+csv # Byte-order mark
+        csv
+        #"\xEF\xBB\xBF"+csv # Byte-order mark
       end
 
       def to_pdf(pdf)

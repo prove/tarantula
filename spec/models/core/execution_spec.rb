@@ -120,6 +120,7 @@ describe Execution do
       old_ce.should_not be_nil
 
       c = Case.make!
+
       e.update_with_assignments!(e.attributes, [{'id' => c.id, 'position' => 1}])
       e.reload
       e.case_executions.size.should == 1

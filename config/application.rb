@@ -75,7 +75,7 @@ module Tarantula
                                  #{Rails.root}/lib/smart_tag 
                                  #{Rails.root}/lib/acts_as_versioned/lib
                                  #{Rails.root}/lib/customerconfig/app/models
-                                 #{Rails.root}/lib/validates_email_format_of/lib)
+                                 )
     config.time_zone = 'Helsinki'
     #config.action_controller.session = {
     #      :key => "testia_premo_session_id",

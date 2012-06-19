@@ -16,7 +16,7 @@ module Report
       def method_missing(meth, *args)
         meth_name = meth.to_s
         if meth_name =~ /(.*)=$/
-          @field_hash[meth_name.chop] = *args
+          @field_hash[meth_name.chop] = args.first
         else
           @field_hash[meth_name]
         end
