@@ -87,7 +87,7 @@ Ext.extend(Ext.testia.AttachmentForm, Ext.form.Form, {
             '<img class="x-testia-icon" src="'+Ext.BLANK_IMAGE_URL+'"></td>',
             '<td class="x-testia-deleteicon">',
             '<a id="delete-{id}" href="#"><img src="' +
-                createUrl('/images/famfamfam/bin_closed.png'),
+                createUrl('<%= asset_path "famfamfam/bin_closed.png" %>'),
             '"></a></td></tr>'
         ]);
         inp = this.attachments.last();
