@@ -1,7 +1,7 @@
 
 class ImportController < ApplicationController
 
-  layout nil
+  layout false
 
   # Uses following parameters
   # file::              the csv file to import
