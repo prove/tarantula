@@ -1,5 +1,9 @@
 Tarantula::Application.routes do
   root :to => "home#index"
+  
+  resource :archive, :only => [:destroy, :create],
+    :path => '/projects/:project_id/:resources/archive',
+    :controller => 'archives'
 
   resources :password_resets
 
@@ -142,9 +146,5 @@ Tarantula::Application.routes do
       post :doors
     end
   end
-
-  resource :archive, :only => [:destroy, :create],
-    :path => '/projects/:project_id/:resources/archive',
-    :controller => 'archives'
 
 end

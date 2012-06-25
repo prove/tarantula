@@ -6,8 +6,10 @@ module SmartTag
     
     def self.conditions(klass, project, test_area)
       c_ids = []
-
+      
       bt = project.bug_tracker
+      raise "No bug tracker" unless bt
+      
       bt_type = bt[:type].downcase        
       cc = CustomerConfig.find(:first, :conditions => {
                                  :name => bt_type.downcase + '_fixed_statuses'})
