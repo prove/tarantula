@@ -3,10 +3,6 @@ Tarantula::Application.routes do
 
   resources :password_resets
 
-  resource :archive, :only => [:destroy, :create],
-    :path => '/projects/:project_id/:resources',
-    :controller => 'archives'
-
   resources :projects do
     member do
       get :priorities
@@ -146,5 +142,9 @@ Tarantula::Application.routes do
       post :doors
     end
   end
+
+  resource :archive, :only => [:destroy, :create],
+    :path => '/projects/:project_id/:resources/archive',
+    :controller => 'archives'
 
 end
