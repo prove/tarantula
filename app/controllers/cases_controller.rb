@@ -27,15 +27,15 @@ class CasesController < ApplicationController
     elsif (params[:test_set_id])
       @test_set = TestSet.find(params[:test_set_id])
       if( params[:allcases])
-        ret = @test_set.cases.
-          order("COALESCE('cases_test_sets.position', 0) ASC").
+        ret = @test_set.cases.sort{|a,b| a.position <=> b.position}.
           map{ |c| c.to_data(:brief) }
         ret.compact!
       else
-        conds = ""
-        conds += ("AND a.title LIKE '%#{@filter}%' "+conds) if @filter
-
-        ret = @test_set.cases.where(conds).order("COALESCE('cases_test_sets.position', 0) ASC").limit("#{@offset*local_limit}, #{local_limit}").select('cases.*, cases_test_sets.position').map{ |c| c.to_tree.merge(:order => c.position)}
+        ret = @test_set.cases
+        ret = ret.select{|c| c.title =~ /#{@filter}/} if @filter
+        ret = ret.sort{|a,b| a.position <=> b.position }
+        # TODO: offset and limit
+        ret = ret.map{ |c| c.to_tree.merge(:order => c.position)}
       end
     else
       ret = get_tagged_items(Case)
