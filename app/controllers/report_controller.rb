@@ -17,7 +17,7 @@ class ReportController < ApplicationController
                                     @pa.try(:test_object_id))
     
     if Rails.cache.exist?(@report.cache_key) or Rails.env == 'development'
-      render :json => @report.to_json
+      render :json => @report
     else
       @report.send_later(:query)
       render :nothing => true, :status => 202 # accepted
@@ -137,7 +137,7 @@ class ReportController < ApplicationController
         @report.tables.csv_export_url = "/report/#{params[:action]}.csv?#{request.query_string}&table="
         @report.charts.image_post_url = \
           "/projects/#{@project.id}/attachments?type=ChartImage&key="
-        render :json => @report.to_json
+        render :json => @report
       end
 
       format.csv do

@@ -13,11 +13,11 @@ class BugTrackersController < ApplicationController
   end
 
   def index
-    render :json => {:data => BugTracker.find(:all).map(&:to_tree)}.to_json
+    render :json => {:data => BugTracker.find(:all).map(&:to_tree)}.as_json
   end
 
   def show
-    render :json => {:data => BugTracker.find(params[:id]).to_data}.to_json
+    render :json => {:data => BugTracker.find(params[:id]).to_data}.as_json
   end
 
   def create
@@ -82,7 +82,7 @@ class BugTrackersController < ApplicationController
     bt = BugTracker.find(params[:id])
     bt.refresh!
     prods = bt.products_for_project(project, params[:project_name])
-    render :json => "{\"data\":#{prods.to_json}}"
+    render :json => "{\"data\":#{prods.as_json}}"
   end
 
 end

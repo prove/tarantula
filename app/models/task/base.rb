@@ -42,8 +42,8 @@ class Base < ActiveRecord::Base
   def item_class; resource.class.to_s; end
   def item_name; resource.name; end
   
-  def to_json(opts={})
-    self.to_data.to_json(opts)
+  def as_json(opts=nil)
+    self.to_data.as_json(opts)
   end
   
   # redefine in subclasses

@@ -56,7 +56,7 @@ class ExecutionsController < ApplicationController
       return
     end
 
-    render :json => "{\"data\": #{@active.map{|a| a.to_data(:brief)}.to_json}}"
+    render :json => "{\"data\": #{@active.map{|a| a.to_data(:brief)}.as_json}}"
   end
 
   # ===HTTP POST /executions
@@ -86,7 +86,7 @@ class ExecutionsController < ApplicationController
       send_data(csv, :filename => "#{@execution.name.gsub(' ','_')}.csv",
                      :disposition => 'attachment')
     else
-      render :json => '{"data":[' + @execution.to_data.to_json + ']}'
+      render :json => '{"data":[' + @execution.to_data.as_json + ']}'
     end
   end
 

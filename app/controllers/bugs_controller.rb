@@ -6,7 +6,7 @@ class BugsController < ApplicationController
   def index
     @bt.fetch_bugs
     bugs = @bt.bugs_for_project(@project, @current_user)
-    render :json => "{\"data\": #{bugs.map(&:to_data).to_json}}"
+    render :json => "{\"data\": #{bugs.map(&:to_data).as_json}}"
   end
   
   # POST /projects/:project_id/bugs

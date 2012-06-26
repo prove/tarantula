@@ -59,11 +59,11 @@ module Report
       def image_post_url; @chart[:image_post_url]; end
       def image_post_url=(url); @chart[:image_post_url] = url; end
       
-      def to_json(options={})
+      def as_json(options=nil)
         if no_data?
-          Report::Component::Text.new(:p, '--- No chart data! ---').to_json
+          Report::Component::Text.new(:p, '--- No chart data! ---').as_json(options)
         else
-          @chart.merge(:key => self.key).to_json(options)
+          @chart.merge(:key => self.key).as_json(options)
         end
       end
     

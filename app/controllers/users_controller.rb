@@ -82,11 +82,11 @@ class UsersController < ApplicationController
     ret = ''
     @user = User.find(params[:id])
     if (@user.admin?)
-      ret = "{\"data\": #{[{:project_name => 'ALL', :group => 'ADMIN'}].to_json} }"
+      ret = "{\"data\": #{[{:project_name => 'ALL', :group => 'ADMIN'}].as_json} }"
     else
       @permissions = @user.project_assignments.find(
         :all, :joins => :project, :conditions => {'projects.deleted' => false})
-      ret = "{\"data\": #{@permissions.to_json(:only => [:group], :methods => [:project_name])} }"
+      ret = "{\"data\": #{@permissions.as_json(:only => [:group], :methods => [:project_name])} }"
     end
     render :json => ret
   end
@@ -152,7 +152,7 @@ class UsersController < ApplicationController
   #   Lists user groups for permission selection combobox in project editor.
   def available_groups
     render :json => "{\"data\": #{User::Groups.collect {|k,v|
-      {:value => v, :text => k.to_s.humanize() }}.to_json} }"
+      {:value => v, :text => k.to_s.humanize() }}.as_json} }"
   end
 
   private

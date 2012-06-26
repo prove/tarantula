@@ -10,9 +10,9 @@ module Report
         @format = format_hash
       end
 
-      def to_json(options={})
+      def as_json(options=nil)
         {:type => 'format',
-         :format => @format}.to_json
+         :format => @format}.as_json(options)
       end
 
       def to_pdf(pdf)

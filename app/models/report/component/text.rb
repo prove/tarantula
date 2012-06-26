@@ -22,12 +22,12 @@ module Report
         @value = new_val
       end
 
-      def to_json(options={})
+      def as_json(options=nil)
         ret  = {:type     => "text_#{sub_type}",
                 :value    => @value,
                 :editable => @editable}
         ret.merge!(:key => self.key) if self.key
-        ret.to_json
+        ret.as_json(options)
       end
 
       def to_pdf(pdf)

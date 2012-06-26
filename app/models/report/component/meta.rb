@@ -7,8 +7,8 @@ module Report
         @field_hash = field_hash
       end
   
-      def to_json(options={})
-        {:type => 'meta'}.merge(@field_hash).to_json(options)
+      def as_json(options=nil)
+        {:type => 'meta'}.merge(@field_hash).as_json(options)
       end
       
       def to_pdf(pdf); end

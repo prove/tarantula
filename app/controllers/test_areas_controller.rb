@@ -8,7 +8,7 @@ class TestAreasController < ApplicationController
     
     if current_ta and current_ta.forced
       data = [current_ta.to_tree.merge!({:selected => true, :forced => true})]
-      render :json => "{\"data\":#{data.to_json}}"
+      render :json => "{\"data\":#{data.as_json}}"
       return
     end
     
@@ -19,7 +19,7 @@ class TestAreasController < ApplicationController
       end
       tadata
     end
-    render :json => "{\"data\":#{data.to_json}}"
+    render :json => "{\"data\":#{data.as_json}}"
   end
   
   # GET /projects/:project_id/users/:user_id/test_area
@@ -31,7 +31,7 @@ class TestAreasController < ApplicationController
     else
       data = {:id => nil}
     end
-    render :json => "\{\"data\": [#{data.to_json}]}"
+    render :json => "\{\"data\": [#{data.as_json}]}"
   end
   
   # PUT /projects/:project_id/users/:user_id/test_area?test_area_id=X

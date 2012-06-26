@@ -12,7 +12,7 @@ Base class for all reports.
 =end
 class Base
   include Report::Ext
-
+  
   # Valid components (also needs to be loaded for caching/marshal)
 
   VALID_COMPONENTS = [ Report::Component::Text,
@@ -97,9 +97,9 @@ class Base
   end
 
   # wraps components in a 'report' element and converts to json
-  def to_json
+  def as_json(options=nil)
     self.query unless @data
-    {:type => 'report', :components => @data}.to_json
+    {:type => 'report', :components => @data}.as_json(options)
   end
 
   # make the query (a template method)

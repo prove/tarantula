@@ -21,8 +21,8 @@ class Execution
     raise "#to_data not implemented!"
   end
   
-  def to_json(opts={})
-    self.to_data.to_json(opts)
+  def as_json(opts=nil)
+    self.to_data.as_json(opts)
   end
   
   def name; "Execution"; end
