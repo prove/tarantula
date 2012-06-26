@@ -97,8 +97,8 @@
         Add created objects to test area
       </td>
       <td>
-        <%= select_tag "test_area", '<option value="">(none)</option>' +
-	    options_from_collection_for_select(@test_areas, :id, :name, @data[:test_area].to_i)%>
+        <%= select_tag "test_area", ('<option value="">(none)</option>' +
+	    options_from_collection_for_select(@test_areas, :id, :name, @data[:test_area].to_i)).html_safe %>
       </td>
     </tr>
 	
