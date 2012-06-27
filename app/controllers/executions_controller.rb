@@ -86,7 +86,7 @@ class ExecutionsController < ApplicationController
       send_data(csv, :filename => "#{@execution.name.gsub(' ','_')}.csv",
                      :disposition => 'attachment')
     else
-      render :json => {:data => @execution.to_data}
+      render :json => {:data => [@execution.to_data]}
     end
   end
 
