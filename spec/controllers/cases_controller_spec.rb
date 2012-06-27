@@ -15,7 +15,7 @@ describe CasesController do
 
     it "GET should render all cases if test_set id and params[:all_cases]" do
       c = flexmock('mock case', :to_data => 'case data')
-      cases = flexmock('cases', :order => [c])
+      cases = flexmock('cases', :sort => [c])
       ts = flexmock('mock test set', :cases => cases)
       flexmock(TestSet).should_receive(:find).and_return(ts)
 
