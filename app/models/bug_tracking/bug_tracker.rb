@@ -16,6 +16,9 @@ to_data:: return data for tracker
 
 =end
 class BugTracker < ActiveRecord::Base
+  attr_accessible :type, :name, :base_url, :db_host, :db_name, :db_user,
+                  :db_passwd, :sync_project_with_classification, :last_fetched
+  
   has_many :severities, :class_name => 'BugSeverity', :dependent => :destroy
   has_many :products, :class_name => 'BugProduct', :dependent => :destroy
   has_many :bug_components, :through => :products
