@@ -35,7 +35,7 @@ class TestObjectsController < ApplicationController
       else
         data = []
       end
-      render :json => "{\"data\": #{data.as_json}}"
+      render :json => {:data => data}
     else
       render :json => {:data => [@test_object.to_data]} 
     end
