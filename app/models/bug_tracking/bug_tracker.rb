@@ -43,9 +43,16 @@ class BugTracker < ActiveRecord::Base
       name = "Current"
     end
     return nil if container.nil?
-
-    bug_data = container.bugs.send(bscope, self[:type]).ordered.
-      where(:bug_product_id => test_area ? test_area.bug_product_ids : proj.bug_product_ids).includes(:severity)
+    
+    bug_data = nil
+    if bscope == :s_open
+      bug_data = container.bugs.send(:s_open, self.type)
+    elsif bscope == :not_closed
+      bug_data = container.bugs.send(:not_closed, self.type)
+    else
+      bug_data = container.bugs
+    end
+    bug_data = bug_data.ordered.where(:bug_product_id => test_area ? test_area.bug_product_ids : proj.bug_product_ids).includes(:severity)
 
     bug_data.each do |bug|
       key = bug.instance_eval(hash_by)
