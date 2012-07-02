@@ -4,4 +4,10 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+module ::Tarantula
+  class Application
+    include Rake::DSL
+  end
+end
+
 Tarantula::Application.load_tasks
