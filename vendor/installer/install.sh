@@ -76,12 +76,11 @@ if [ $(id -u) -gt 0 ]; then
     exit 1
 fi
 
-
 TARANTULA_REPO="git://github.com/prove/tarantula.git"
 
 which lsb_release > /dev/null 2> /dev/null
 if [ $? -gt 0 ]; then
-    error_msg "lsb_release not found. Please install redhat-lsb.( # yum install redhat-lsb )"
+    error_msg "lsb_release not found. Please install redhat-lsb.( # yum install redhat-lsb ) and try again"
 fi
 DISTRO=$(lsb_release -a 2> /dev/null | grep "Distributor ID" | sed "s/.*\:\s//")
 
@@ -128,27 +127,6 @@ fi
 pgrep mysql > /dev/null
 if [ $? -gt 0 ]; then
     /etc/init.d/mysqld start
-fi
-
-# Check gem version and update if needed
-if [ -z "$(gem -v | grep 1.4.2)" ]; then
-    echo "Updating rubygems to 1.4.2..."
-    gem uninstall rubygems-update
-    gem install rubygems-update -v=1.4.2
-    if [ "$DISTRO" = "Debian" ] \
-        || [ "$DISTRO" = "Ubuntu" ]; then
-        apt-get remove -y rubygems
-    fi
-    update_rubygems
-    if [ "$DISTRO" = "Debian" ] \
-        || [ "$DISTRO" = "Ubuntu" ]; then
-        update-alternatives --quiet --install /usr/bin/gem gem \
-            /usr/bin/gem1.8 180 \
-            --slave /usr/share/man/man1/gem.1.gz gem.1.gz \
-            /usr/share/man/man1/gem1.8.1.gz \
-            --slave /etc/bash_completion.d/gem bash_completion_gem \
-            /etc/bash_completion.d/gem1.8
-    fi
 fi
 
 # Install bundler and passenger globally if they are not present which
@@ -252,4 +230,3 @@ elif [ "$DISTRO" = "Fedora" ] \
     generate_config /etc/httpd/conf.d/tarantula.conf
     echo "Compile Apache native mod_passenger as root by running: "$(bold_text "passenger-install-apache2-module")" and restart Apache: "$(bold_text "service httpd restart")
 fi
-

@@ -24,6 +24,28 @@ GNU GPLv3.
 
 ## Installation
 
+### Install RVM
+
+Latest Tarantula uses Rails 3.2.* and Ruby 1.9.3. Easiest way to use
+those in CentOS is using [Ruby Version Manager](http://rvm.io). If you
+don't already have RVM installed, use following instructions,
+otherwise skip to [Install Tarantula](#install-tarantula)
+
+Install RVM dependencies:
+
+```
+yum install make gcc readline-devel
+```
+
+Install RVM system wide:
+
+```
+curl -L https://get.rvm.io | sudo bash -s stable --rails
+```
+
+<a name="install-tarantula"></a>
+### Install Tarantula
+
 Login as root.
 
 Activate required extra repositories:
@@ -50,21 +72,10 @@ SELINUX=disabled
 Download and execute installation script:
 
 ```shell
-wget https://raw.github.com/prove/tarantula/master/vendor/installer/install.sh
-chmod u+x install.sh
-./install.sh
+curl -L https://raw.github.com/prove/tarantula/master/vendor/installer/install.sh | bash
 ```
 
-Install reports following error.  This can be disregarded.
-
-```
-ERROR:  While executing gem ... (Gem::InstallError)
-    cannot uninstall, check `gem list -d rubygems-update`
-Successfully installed rubygems-update-1.4.2
-1 gem installed
-```
-
-Also, some installation tasks (bundler, rubygems may take long
+Some installation tasks (bundler, rubygems may take long
 time. Please be patient.)
 
 Press **Enter** to accept default value for user account to be used to run
@@ -76,18 +87,17 @@ Which user will be running Tarantula processes? [apache]
 
 After a while, installation is complete:
 
-```
-Done installing packages and Tarantula files
 
-Verify/edit database settings in file:  /opt/tarantula/rails/config/database.yml
-If db settings are OK run
-RAILS_ENV=production rake tarantula:install in Rails root (/opt/tarantula/rails) to initialize DB.
+    Done installing packages and Tarantula files
 
-Usable passenger configuration generated to /etc/httpd/conf.d/tarantula.conf
+    Verify/edit database settings in file:  /opt/tarantula/rails/config/database.yml
+    If db settings are OK run
+    RAILS_ENV=production rake tarantula:install in Rails root (/opt/tarantula/rails) to initialize DB.
 
-Compile Apache native mod_passenger as root by running:
-passenger-install-apache2-module and restart Apache: service httpd restart
-```
+    Usable passenger configuration generated to /etc/httpd/conf.d/tarantula.conf
+
+    Compile Apache native mod_passenger as root by running:
+    passenger-install-apache2-module and restart Apache: service httpd restart
 
 You can ignore instructions above. All necessary steps are listed
 below.
