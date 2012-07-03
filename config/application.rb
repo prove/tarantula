@@ -55,12 +55,12 @@ module Tarantula
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    
+
     config.assets.paths << Rails.root.join("app", "assets", "swf")
-    
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     config.autoload_paths += [config.root.join('lib')]
     config.middleware.use "Authenticator", "Testia"
     config.logger = Logger.new("#{Rails.root}/log/#{Rails.env}.log", 5, 100_000000)
@@ -74,7 +74,7 @@ module Tarantula
                                  #{Rails.root}/app/models/task
                                  #{Rails.root}/app/models/preference
                                  #{Rails.root}/app/models/observers
-                                 #{Rails.root}/lib/smart_tag 
+                                 #{Rails.root}/lib/smart_tag
                                  #{Rails.root}/lib/acts_as_versioned/lib
                                  #{Rails.root}/lib/customerconfig/app/models
                                  )
@@ -85,7 +85,7 @@ module Tarantula
     #                 "phrasesome secret phrasesome secret phrasesome secret" +
     #                 "phrasesome secret phrase"
     #      }
-    config.active_record.observers = [:user_observer, :case_execution_observer, 
+    config.active_record.observers = [:user_observer, :case_execution_observer,
                                       :execution_observer, :tagging_observer]
     config.after_initialize do
       CustomerConfigsController.class_eval do
@@ -97,14 +97,12 @@ module Tarantula
     end
 
     ActionMailer::Base.raise_delivery_errors = false
-    ActiveRecord::Base.logger.level = Logger::INFO if Rails.env == 'production'
-
   end
 end
 
 ######################################################################
 # TESTIA CONFIGURATION BEGINS
-  
+
 module Testia
   VERSION = File.read(File.join(Rails.root, 'VERSION')).chomp
 end
@@ -136,4 +134,3 @@ BT_CONFIG = {
     :closed_statuses => ['CLOSED']
   }
 }
-

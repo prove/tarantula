@@ -14,7 +14,7 @@ gem 'rake'
 gem 'jquery-rails'
 gem "therubyracer"
 gem 'delayed_job_active_record'
-gem 'memcache'
+gem 'memcache-client'
 gem 'rb-readline'
 
 # Gems used only for assets and not required
