@@ -1,6 +1,6 @@
 namespace :tarantula do
   desc "Initialize and install new Tarantula instance"
-  task :install => ['db:setup', 'delayed_job:install', :environment] do
+  task :install => ['db:setup', 'delayed_job:install', 'assets:precompile', :environment] do
     Rake::Task['db:config:app'].invoke
     # Prompt about initial data and generate if needed
     Rake::Task['tarantula:init_db'].execute
