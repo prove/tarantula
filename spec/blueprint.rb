@@ -244,4 +244,3 @@ BugComponent.blueprint do
   external_id { "#{BugComponent.count}"               }
   name        { "bug component #{BugComponent.count}" }
 end
-

@@ -109,7 +109,7 @@ describe Execution do
       e.should_receive(:update_attributes!).once
       e.should_receive(:tag_with).once.with('a_tag')
       Case.make!(:id => 1)
-      
+
       flexmock(CaseExecution).should_receive(:create_with_steps!).once
       e.update_with_assignments!({'some att' => 'some val'}, [{'id' => 1}], 'a_tag')
     end
@@ -205,4 +205,3 @@ describe Execution do
   end
 
 end
-
