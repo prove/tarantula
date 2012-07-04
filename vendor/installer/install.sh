@@ -103,7 +103,8 @@ if [ "$DISTRO" = "Fedora" ] \
     echo "Installing dependencies with yum..."
     yum install gcc irb mysql-devel pcre openssl libxml2-devel memcached \
         mysql-server ruby ruby-devel rubygems zlib-devel git \
-        gcc-c++ curl-devel zlib-devel httpd-devel apr-devel apr-util-devel httpd
+        gcc-c++ curl-devel zlib-devel httpd-devel apr-devel apr-util-devel httpd \
+        system-config-firewall-tui
     DEFAULT_APACHE_USER="apache"
 elif [ "$DISTRO" = "Ubuntu" ] \
     || [ "$DISTRO" = "Debian" ]; then
@@ -129,17 +130,12 @@ if [ $? -gt 0 ]; then
     /etc/init.d/mysqld start
 fi
 
-# Install bundler and passenger globally if they are not present which
-# will handle all other gem installs and dependencies
+# Install bundler globally which will handle all other gem installs
+# and dependencies
 which bundle > /dev/null 2> /dev/null
 if [ $? -gt 0 ]; then
     echo "Installing Bundler..."
     gem install bundler > /dev/null 2> /dev/null
-fi
-which passenger-install-apache2-module > /dev/null 2> /dev/null
-if [ $? -gt 0 ]; then
-    echo "Installing Passenger..."
-    gem install passenger > /dev/null 2> /dev/null
 fi
 
 VERSION="$1"
