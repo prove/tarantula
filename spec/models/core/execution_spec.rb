@@ -1,18 +1,16 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/taggable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/date_stamped.rb')
 
 describe Execution do
 
   def get_instance(atts={})
-    Execution.make(atts)
+    Execution.make!(atts)
   end
 
-  it_should_behave_like "taggable"
-  it_should_behave_like "date stamped"
+  it_behaves_like "taggable"
+  it_behaves_like "date stamped"
 
   it "#to_tree should have necessary data" do
-    data = Execution.make.to_tree
+    data = Execution.make!.to_tree
     data.keys.should include(:text)
     data.keys.should include(:leaf)
     data.keys.should include(:dbid)
@@ -27,7 +25,7 @@ describe Execution do
     case_execs = [flexmock('ce1', :assignee => 'u1'),
                   flexmock('ce2', :assignee => 'u1'),
                   flexmock('ce3', :assignee => 'u2')]
-    e = flexmock(Execution.make, :case_executions => case_execs)
+    e = flexmock(Execution.make!, :case_executions => case_execs)
     e.assigned_to.should == ['u1', 'u2']
   end
 
@@ -44,7 +42,7 @@ describe Execution do
       ts = TestSet.make_with_cases(:cases => 50)
       c1 = ts.cases[0]
       c2 = ts.cases[1]
-      to = TestObject.make(:project => ts.project)
+      to = TestObject.make!(:project => ts.project)
       atts = { :name => 'a new execution',
               :test_object => to,
               :project_id => ts.project_id,
@@ -56,11 +54,11 @@ describe Execution do
 
       # make some new versions of the test set here
       ts.save!
-      ts.cases << [Case.make(:project => ts.project, :position => 1),
-                   Case.make(:project => ts.project, :position => 2)]
+      ts.cases << [Case.make!(:project => ts.project, :position => 1),
+                   Case.make!(:project => ts.project, :position => 2)]
       # alter some cases
-      c1.steps << [Step.make(:position => 1)]
-      c2.steps << [Step.make(:position => 1), Step.make(:position => 2)]
+      c1.steps << [Step.make!(:position => 1)]
+      c2.steps << [Step.make!(:position => 1), Step.make!(:position => 2)]
 
       e = Execution.create_with_assignments!(atts, case_data, 1)
       e.case_executions.count.should == 50
@@ -75,7 +73,7 @@ describe Execution do
 
     it "should tolerate NULL positions for steps" do
       ts = TestSet.make_with_cases(:cases => 5)
-      to = TestObject.make(:project => ts.project)
+      to = TestObject.make!(:project => ts.project)
 
       # make some null positions
       ActiveRecord::Base.connection.execute(
@@ -94,24 +92,24 @@ describe Execution do
   end
   describe "#update_with_assignments!" do
     it "should update old case execs" do
-      e = flexmock(Execution.make)
+      e = flexmock(Execution.make!)
       e.should_receive(:update_attributes!).once
       e.should_receive(:tag_with).once.with('a_tag')
       ce = flexmock('case exec', :[]= => nil, :each => [])
       ce.should_receive(:update_attributes!).once
       flexmock(CaseExecution).should_receive(:find).once.
         with(:first, Hash).and_return(ce)
-      flexmock(CaseExecution).should_receive(:find).once.
-          with(:all, Hash).and_return([])
+      flexmock(CaseExecution).should_receive(:all).once.
+          with(Hash).and_return([])
       e.update_with_assignments!({'some att' => 'some val'}, [{'id' => 1}], 'a_tag')
     end
 
     it "should create new case execs" do
-      e = flexmock(Execution.make)
+      e = flexmock(Execution.make!)
       e.should_receive(:update_attributes!).once
       e.should_receive(:tag_with).once.with('a_tag')
-      Case.make(:id => 1)
-      
+      Case.make!(:id => 1)
+
       flexmock(CaseExecution).should_receive(:create_with_steps!).once
       e.update_with_assignments!({'some att' => 'some val'}, [{'id' => 1}], 'a_tag')
     end
@@ -121,7 +119,8 @@ describe Execution do
       old_ce = e.case_executions.first
       old_ce.should_not be_nil
 
-      c = Case.make
+      c = Case.make!
+
       e.update_with_assignments!(e.attributes, [{'id' => c.id, 'position' => 1}])
       e.reload
       e.case_executions.size.should == 1
@@ -141,41 +140,41 @@ describe Execution do
 
   describe "#update_from_csv" do
     it "should update result and comment from csv" do
-      e = Execution.make
-      ce = CaseExecution.make(:execution => e)
-      se = StepExecution.make(:case_execution => ce)
+      e = Execution.make!
+      ce = CaseExecution.make!(:execution => e)
+      se = StepExecution.make!(:case_execution => ce)
 
       csv = "headerline...\r\n"+
             "\"some\";\"shite\";;;;;;;;;;;;;;\r\n"+
             ";;;;;#{se.id};action;result;X;;;;;bug;some comment\r\n"
-      e.update_from_csv(StringIO.new(csv), User.make)
+      e.update_from_csv(StringIO.new(csv), User.make!)
       se.reload
       se.result.should == Passed
       se.comment.should == 'some comment'
     end
 
     it "should update result and comment from csv (2)" do
-      e = Execution.make
-      ce = CaseExecution.make(:execution => e)
-      se = StepExecution.make(:case_execution => ce)
+      e = Execution.make!
+      ce = CaseExecution.make!(:execution => e)
+      se = StepExecution.make!(:case_execution => ce)
 
       csv = "headerline...\r\n"+
             "\"some\";\"shite\";;;;;;;;;;;;;;\r\n"+
             ";;;;;#{se.id};action;result;;;X;;;;\r\n"
-      e.update_from_csv(StringIO.new(csv), User.make)
+      e.update_from_csv(StringIO.new(csv), User.make!)
       se.reload
       se.result.should == Skipped
     end
 
     it "should raise if step_id does not belong to execution" do
-      e = Execution.make
-      ce = CaseExecution.make(:execution => e)
-      se = StepExecution.make(:case_execution => ce)
+      e = Execution.make!
+      ce = CaseExecution.make!(:execution => e)
+      se = StepExecution.make!(:case_execution => ce)
 
       csv = "headerline...\r\n"+
             "\"some\";\"shite\";;;;;;;;;;;\r\n"+
             ";;;;;#{se.id+10};action;result;;;X;;;;\r\n"
-      lambda{e.update_from_csv(StringIO.new(csv), User.make)}.should \
+      lambda{e.update_from_csv(StringIO.new(csv), User.make!)}.should \
         raise_error(StandardError, "Invalid CSV: Step id not valid (#{se.id+10})")
     end
 
@@ -195,10 +194,10 @@ describe Execution do
 
   describe "#save" do
     it "should update related cases' timestamps" do
-      c = Case.make
+      c = Case.make!
       stamp = c.updated_at
       sleep(1)
-      ce = CaseExecution.make(:test_case => c)
+      ce = CaseExecution.make!(:test_case => c)
       e = Execution.create(:case_executions => [ce])
       e.save
       c.reload.updated_at.should_not == stamp
@@ -206,4 +205,3 @@ describe Execution do
   end
 
 end
-

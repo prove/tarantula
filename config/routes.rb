@@ -1,95 +1,150 @@
-ActionController::Routing::Routes.draw do |map|
-  map.connect '', :controller => "home", :action => "index"
-
-  map.resources :password_resets
-
-  map.resource :archive, :only => [:destroy, :create],
-    :path_prefix => '/projects/:project_id/:resources',
+Tarantula::Application.routes do
+  root :to => "home#index"
+  
+  resource :archive, :only => [:destroy, :create],
+    :path => '/projects/:project_id/:resources/archive',
     :controller => 'archives'
 
-  map.resources :projects, :member => {
-    :priorities => :get,
-    :deleted => :delete, :products => :get},
-    :collection => {:deleted => :get} do |project|
+  resources :password_resets
 
-    project.resources :users do |user|
-      user.resources :executions
-      user.resource :test_area
-      user.resource :test_object
-      user.resources :report_data
+  resources :projects do
+    member do
+      get :priorities
+      delete :deleted
+      get :products
+    end
+    
+    collection do
+      get :deleted
     end
 
-    project.resources :test_sets do |tset|
-      tset.resources :cases, :collection => {:not_in_set => :get}
+    resources :users do
+      resources :executions
+      resource :test_area
+      resource :test_object
+      resources :report_data
     end
-    project.resources :attachments
-    project.resources :cases
-    project.resources :executions
-    project.resources :requirements
-    project.resources :tags
-    project.resources :tasks
-    project.resources :test_objects do |tob|
-      tob.resources :attachments
+
+    resources :test_sets do
+      resources :cases do
+        collection do
+          get :not_in_set
+        end
+      end
     end
-    project.resources :test_areas
-    project.resources :bug_trackers, :member => {:products => :get}
-    project.resources :bugs
+    resources :attachments
+    resources :cases
+    resources :executions
+    resources :requirements
+    resources :tags
+    resources :tasks
+    resources :test_objects do
+      resources :attachments
+    end
+    resources :test_areas
+    
+    resources :bug_trackers do
+      member do
+        get :products
+      end
+    end
+    
+    resources :bugs
   end
 
-  map.resources :requirements do |req|
-    req.resources :cases, :only => [:index]
-    req.resources :attachments
+  resources :requirements do
+    resources :cases, :only => [:index]
+    resources :attachments
   end
 
-  map.resources :test_sets do |tset|
-    tset.resources :cases, :collection => {:not_in_set => :get}
+  resources :test_sets do
+    resources :cases do
+      collection do
+        get :not_in_set
+      end
+    end
   end
 
-  map.resources :cases, :member => {:change_history => :get} do |tcase|
-    tcase.resources :attachments
-    tcase.resources :tasks
-    tcase.resources :requirements, :only => [:index]
+  resources :cases do
+    member do
+      get :change_history
+    end
+    resources :attachments
+    resources :tasks
+    resources :requirements, :only => [:index]
   end
 
-  map.resources :case_executions, :has_many => :attachments
-
-  map.resources :executions do |texec|
-    texec.resources :case_executions
+  resources :case_executions do
+    resources :attachments
   end
 
-  map.resources :test_objects, :only => [:show] do |tobs|
-    tobs.resources :attachments
+  resources :executions do
+    resources :case_executions
   end
 
-  map.resources :users, :member => {:selected_project => :put, :permissions => :get, :available_groups => :get},
-    :collection => {:deleted => :get} do |users|
-    users.resources :projects, :member => {:group => :get}, :collection => {:deleted => :get}
-    users.resources :executions
-    users.resources :tasks
+  resources :test_objects, :only => [:show] do
+    resources :attachments
   end
 
-  map.resources :bug_trackers, :member => {:products => :get}
+  resources :users do
+    member do
+      put :selected_project
+      get :permissions
+      get :available_groups
+    end
+    collection do
+      get :deleted
+    end
+    
+    resources :projects do
+      member do
+        get :group
+      end
+      collection do
+        get :deleted
+      end
+    end
+    resources :executions
+    resources :tasks
+  end
 
-  map.resources :customer_configs
-  map.connect 'restart', :controller => 'customer_configs', :action => 'restart'
+  resources :bug_trackers do
+    member do
+      get :products
+    end
+  end
 
-  map.resource :report, :member => {:dashboard => :get,
-                                    :test_result_status => :get,
-                                    :results_by_test_object => :get,
-                                    :case_execution_list => :get,
-                                    :test_efficiency => :get,
-                                    :status => :get,
-                                    :requirement_coverage => :get,
-                                    :bug_trend => :get,
-                                    :workload => :get},
-               :controller => 'report'
+  resources :customer_configs
+  match 'restart', :to => 'customer_configs#restart'
+  
+  resource :report, :controller => 'report' do
+    member do
+      get :dashboard
+      get :test_result_status
+      get :results_by_test_object
+      get :case_execution_list
+      get :test_efficiency
+      get :status
+      get :requirement_coverage
+      get :bug_trend
+      get :workload
+    end
+  end
+  
+  resource :home, :controller => 'home' do
+    member do
+      get :login
+      post :login
+      get :logout
+      get :index
+    end
+  end               
 
-  map.resource :home, :member => {:login => [:get, :post],
-                                  :logout => :get,
-                                  :index => :get},
-               :controller => 'home'
-
-  map.resource :import, :member => {:doors => [:get, :post]},
-               :controller => 'import'
+  resource :import, :controller => 'import' do
+    member do
+      get :doors
+      post :doors
+    end
+  end
 
 end

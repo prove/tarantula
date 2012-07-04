@@ -34,7 +34,7 @@ class Workload < Report::Base
     
     project.users.sort{|a,b| a.name <=> b.name}.each do |user|
       ces = CaseExecution.find(:all, :conditions => {:execution_id => eids,
-                                                     :result       => NotRun,
+                                                     :result       => NotRun.db,
                                                      :assigned_to  => user.id})
       cases = ces.size
       duration = Case.total_avg_duration(ces.map(&:case_id))
@@ -56,8 +56,8 @@ class Workload < Report::Base
     
     # Unassigned
     unassigned = CaseExecution.find(:all, :conditions => {:execution_id => eids,
-                                                          :result       => NotRun,
-                                                          :assigned_to  => nil})
+                                                       :result => NotRun.db,
+                                                       :assigned_to => nil})
     if unassigned.size > 0
       rows << {:name => 'Unassigned',
                :cases => unassigned.size,

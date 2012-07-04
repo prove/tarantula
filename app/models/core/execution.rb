@@ -7,15 +7,15 @@ Execution. Reflects execution of a single test set.
 =end
 class Execution < ActiveRecord::Base
   include TaggingExtensions
-  named_scope :active, :conditions => { :deleted => 0, :archived => 0 }
-  named_scope :deleted, :conditions => { :deleted => 1 }
-  named_scope :completed, :conditions => {:completed => true}
-  named_scope :not_completed, :conditions => {:completed => false}
+  scope :active, where(:deleted => 0, :archived => 0)
+  scope :deleted, where(:deleted => 1)
+  scope :completed, where(:completed => true)
+  scope :not_completed, where(:completed => false)
 
   # default ordering
-  named_scope :ordered, :joins => [:test_object], :order => 'test_objects.date DESC'
+  scope :ordered, joins(:test_object).order('test_objects.date DESC')
 
-  set_locking_column :version
+  self.locking_column = :version
 
   belongs_to :test_object
   belongs_to :project
@@ -203,8 +203,10 @@ class Execution < ActiveRecord::Base
     cases = self.class.remove_duplicates(cases)
 
     transaction do
-      atts['test_object'] = \
-        self.project.test_objects.find_or_create_by_name(atts['test_object'])
+      if atts['test_object'].class == String
+        atts['test_object'] = self.project.test_objects.
+          find_or_create_by_name(atts['test_object'])
+      end
 
       self.update_attributes!(atts)
 
@@ -256,7 +258,7 @@ class Execution < ActiveRecord::Base
     valid_step_ids = self.case_executions.map(&:step_execution_ids).flatten
 
     transaction do
-      CSV.parse(file.read, delimiter) do |cells|
+      CSV.parse(file.read, :col_sep => delimiter) do |cells|
         next if cells[5].blank?
         raise "Invalid CSV: Step id not valid (#{cells[5]})" \
           unless valid_step_ids.include?(cells[5].to_i)

@@ -60,7 +60,7 @@ describe ApplicationController do
   describe "#test_area_permissions" do
     it "should raise if no test area permissions" do
       log_in
-      req = Requirement.make
+      req = Requirement.make!
       ta = flexmock('test area', :forced => true,
                     :name => 'ta', :project_id => req.project_id,
                     :requirement_ids => [])
@@ -75,7 +75,7 @@ describe ApplicationController do
 
     it "should return true if test area permissions ok" do
       log_in
-      req = flexmock(Requirement.make)
+      req = flexmock(Requirement.make!)
       ta = flexmock('test area', :forced => true,
                     :name => 'ta', :project_id => req.project_id,
                     :requirement_ids => [req.id])
@@ -90,7 +90,7 @@ describe ApplicationController do
 
     it "should return true if no forced test area" do
       log_in
-      req = Requirement.make
+      req = Requirement.make!
       ta = flexmock('test area', :forced => false,
                     :name => 'ta', :project_id => req.project_id)
       flexmock(Requirement).should_receive(:find).once.and_return(req)

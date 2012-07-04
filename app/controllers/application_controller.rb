@@ -5,6 +5,7 @@
 #require 'ruby-prof'
 
 class ApplicationController < ActionController::Base
+  # protect_from_forgery
   before_filter :set_current_user_and_project, :except => [:login]
   before_filter :apply_currents
   before_filter :clean_data
@@ -15,13 +16,13 @@ class ApplicationController < ActionController::Base
   end
 
   # Give more information in case of JSON parse error
-  rescue_from ActiveSupport::JSON::ParseError do |exception|
-    render :json => exception.message +
-      ": Testia is unable to handle some special characters or character " +
-      "combinations. Please check content for special characters " +
-      "and modify or remove them.",
-    :status => :forbidden
-  end
+  #rescue_from ActiveSupport::JSON::ParseError do |exception|
+  #  render :json => exception.message +
+  #    ": Testia is unable to handle some special characters or character " +
+  #    "combinations. Please check content for special characters " +
+  #    "and modify or remove them.",
+  #  :status => :forbidden
+  #end
 
   # For tag error, display just message (Tag propably fails because of
   # illegal characters validation, and error message would look bad

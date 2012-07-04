@@ -1,15 +1,16 @@
-# This file is auto-generated from the current state of the database. Instead of editing this file, 
-# please use the migrations feature of Active Record to incrementally modify your database, and
-# then regenerate this schema definition.
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your database schema. If you need
-# to create the application database on another system, you should be using db:schema:load, not running
-# all the migrations from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# Note that this schema.rb definition is the authoritative source for your
+# database schema. If you need to create the application database on another
+# system, you should be using db:schema:load, not running all the migrations
+# from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129095025) do
+ActiveRecord::Schema.define(:version => 20120612070020) do
 
   create_table "attachment_sets", :force => true do |t|
     t.datetime "created_at"
@@ -146,22 +147,19 @@ ActiveRecord::Schema.define(:version => 20111129095025) do
     t.string   "url"
   end
 
+  add_index "bugs", ["bug_component_id"], :name => "bugs_bug_component"
   add_index "bugs", ["bug_component_id"], :name => "index_bugs_on_bug_component_id"
+  add_index "bugs", ["bug_product_id"], :name => "bugs_bug_product"
   add_index "bugs", ["bug_product_id"], :name => "index_bugs_on_bug_product_id"
+  add_index "bugs", ["bug_severity_id"], :name => "bugs_bug_severity"
   add_index "bugs", ["bug_severity_id"], :name => "index_bugs_on_bug_severity_id"
+  add_index "bugs", ["bug_tracker_id"], :name => "bugs_bug_tracker"
   add_index "bugs", ["bug_tracker_id"], :name => "index_bugs_on_bug_tracker_id"
   add_index "bugs", ["external_id"], :name => "index_bugs_on_external_id"
+  add_index "bugs", ["id"], :name => "bugs_id", :unique => true
   add_index "bugs", ["lastdiffed"], :name => "index_bugs_on_lastdiffed"
   add_index "bugs", ["priority"], :name => "index_bugs_on_priority"
   add_index "bugs", ["status"], :name => "index_bugs_on_status"
-
-  add_index "bugs", ["bug_component_id"], :name => "bugs_bug_component"
-  
-  add_index "bugs", ["bug_product_id"], :name => "bugs_bug_product"
-  add_index "bugs", ["bug_severity_id"], :name => "bugs_bug_severity"
-
-  add_index "bugs", ["bug_tracker_id"], :name => "bugs_bug_tracker"
-  add_index "bugs", ["id"], :name => "bugs_id", :unique => true
 
   create_table "case_avg_duration", :id => false, :force => true do |t|
     t.integer "case_id",                                      :default => 0, :null => false
@@ -297,6 +295,7 @@ ActiveRecord::Schema.define(:version => 20111129095025) do
     t.string   "locked_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "queue"
   end
 
   add_index "delayed_jobs", ["locked_by"], :name => "index_delayed_jobs_on_locked_by"
@@ -448,7 +447,8 @@ ActiveRecord::Schema.define(:version => 20111129095025) do
     t.integer  "order"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "deleted",    :default => false
+    t.boolean  "deleted",     :default => false
+    t.string   "external_id"
   end
 
   add_index "step_versions", ["case_id"], :name => "index_step_versions_on_case_id"
@@ -457,10 +457,11 @@ ActiveRecord::Schema.define(:version => 20111129095025) do
   create_table "steps", :force => true do |t|
     t.text     "action"
     t.text     "result"
-    t.integer  "version",    :default => 0
+    t.integer  "version",     :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "deleted",    :default => false
+    t.boolean  "deleted",     :default => false
+    t.string   "external_id"
   end
 
   create_table "taggings", :force => true do |t|

@@ -1,3 +1,5 @@
+require File.join(Rails.root, 'lib/customerconfig/rake_helper')
+
 namespace :db do
   namespace :config do
 

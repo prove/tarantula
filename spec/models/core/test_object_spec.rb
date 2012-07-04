@@ -1,17 +1,16 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require RAILS_ROOT + '/vendor/plugins/attsets/spec/shared/attachment_host_spec.rb'
-require File.expand_path(File.dirname(__FILE__) + '/../shared/taggable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/date_stamped.rb')
+require "#{Rails.root}/lib/attsets/spec/shared/attachment_host_spec"
+
 
 describe TestObject do
   
   def get_instance(atts={})
-    TestObject.make(atts)
+    TestObject.make!(atts)
   end
   
-  it_should_behave_like "attachment host"
-  it_should_behave_like "taggable"
-  it_should_behave_like "date stamped"
+  it_behaves_like "attachment host"
+  it_behaves_like "taggable"
+  it_behaves_like "date stamped"
   
   it "#to_data should return required data" do
     keys = TestObject.new(:name => 'to', :project => Project.new).to_data.keys
@@ -54,7 +53,7 @@ describe TestObject do
   end
   
   it "#update_with_tags should call update_attributes! and tag_with" do
-    to = flexmock(TestObject.make)
+    to = flexmock(TestObject.make!)
     to.should_receive(:update_attributes!).once.with({'att1' => 'val1'})
     to.should_receive(:tag_with).once.with('tags')
     to.update_with_tags({'att1' => 'val1'}, 'tags')
@@ -62,18 +61,18 @@ describe TestObject do
   
   describe "#requirements" do
     it "should return requirements with date less than or equal" do
-      p = Project.make
-      to = TestObject.make(:project => p, :date => Date.today)
-      req1 = Requirement.make(:project => p, :date => Date.today-10)
-      req2 = Requirement.make(:project => p, :date => Date.today)
-      req3 = Requirement.make(:project => p, :date => Date.today+1)
+      p = Project.make!
+      to = TestObject.make!(:project => p, :date => Date.today)
+      req1 = Requirement.make!(:project => p, :date => Date.today-10)
+      req2 = Requirement.make!(:project => p, :date => Date.today)
+      req3 = Requirement.make!(:project => p, :date => Date.today+1)
       to.requirements.should == [req1,req2]
     end
     
     it "should select the highest version from req where updated_at < test object's date" do
-      p = Project.make
-      to = TestObject.make(:project => p, :date => Date.today-1)
-      req = Requirement.make(:project => p, :date => Date.today-10, 
+      p = Project.make!
+      to = TestObject.make!(:project => p, :date => Date.today-1)
+      req = Requirement.make!(:project => p, :date => Date.today-10, 
                                        :updated_at => 5.days.ago.to_date)
       req.version.should == 1
       req.update_attributes!({:name => 'name change'})

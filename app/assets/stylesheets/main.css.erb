@@ -1,0 +1,1474 @@
+body {
+    margin: 0pt;
+    padding: 0pt;
+    background: white none repeat scroll 0%;
+    -moz-background-clip: initial;
+    -moz-background-origin: initial;
+    -moz-background-inline-policy: initial;
+    font-family: Trebuchet MS, Arial, sans-serif;
+    font-size:  14px;
+}
+
+
+#main{
+    height:502px;
+    width:1022px;
+    float:left;
+}
+
+
+.x-form-item {
+    font-family: Trebuchet MS, Arial, sans-serif;
+    font-size:  14px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+
+/* Button default color (login page) */
+.x-btn-center {
+    color: #000;
+}
+
+
+.ext-strict{
+    background-color: white;
+}
+
+td, th {
+    font-family: Trebuchet MS, Arial, sans-serif;
+    font-size:  14x;
+}
+p {
+    font-family: Trebuchet MS, Arial, sans-serif;
+    font-size:  14px;
+}
+
+a, h1, h2, h3, h4, h5, h6 {
+    font-family: Trebuchet MS, Arial, sans-serif;
+}
+
+
+.x-layout-panel-center .x-layout-panel-body {
+    /* Fix scrolling issues in IE 7. Ticket #694
+     *  - relatively positioned elements don't scroll properly inside
+     *    overflow: auto elements if those elements doesn't also
+     *    have position: relative.
+     *    < http://www.webdeveloper.com/forum/showthread.php?t=114891 >
+     *  - overflow: auto is set to this element in ext layout code inside.rhtml
+     */
+    position: relative;
+}
+
+
+/* Div containing form area, including toolbar */
+#center1-div {
+    padding: 0;
+    margin: 0;
+}
+
+/* Div for form, excluding toolbar */
+#content {
+    padding: 0 0 40px 0;
+    margin: 0;
+}
+
+
+/* Format item as hyperlink */
+.emulate-link {
+    color: #ea6e04;
+    /* font-weight: bold;*/
+    cursor: pointer;
+}
+
+.emulate-link:hover {
+    color: #994700;
+}
+
+
+
+table.default {
+    border-collapse: collapse;
+}
+
+
+/* For emulating ext style forms/fieldsets in server provided forms (import)*/
+
+/*
+  Add some margin for views, which use whole content area
+  Margins are normally defined by ExtJs elements, but
+  some views do not render ext defined margins (Doors import, dasboard)
+  */
+
+.tarantula-form, #monitor_boxes, #reports {
+    margin: 16px 0 0 0;
+    padding: 0 0 30px 0;
+}
+
+.label, .tarantula-form th, .tarantula-form label {
+    color:#555555;
+    font-size:12px;
+    font-weight:bold;
+}
+
+
+
+
+a:link, a:visited {text-decoration: none; color: #ea6e04;}
+a:hover {
+    color: #994700;
+}
+
+
+/* DASHBOARD AND REPORTS */
+
+
+.dashboard_item p.report-item {
+    clear: left;
+}
+
+.dashboard_item h1.report-item, .dashboard_item h2.report-item,
+#reports h2.report-item  {
+    background:#000 url(<%= asset_path 'tarantula/menu_bg.gif' %>) repeat scroll left center;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 !important;
+    padding: 5px;
+    clear: both;
+}
+
+#reports h3.report-item  {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 !important;
+    padding: 5px;
+    clear: both;
+}
+
+
+/* Default size for report text boxes */
+#reports textarea.x-form-textarea {
+    width: 780px !important;
+    height: 140px !important;
+}
+
+/* Project status */
+/* Date and name fields */
+#reports div.report-item6 textarea.x-form-textarea,
+#reports div.report-item7 textarea.x-form-textarea {
+    height: 1em !important;
+}
+/* Summary section - 3 fields fill one report page*/
+#reports div.report-item13 textarea.x-form-textarea,
+#reports div.report-item15 textarea.x-form-textarea,
+#reports div.report-item17 textarea.x-form-textarea {
+    height: 110px !important;
+}
+
+/* Testing cov by to, open defects - not so much space available after graph.*/
+#reports div.report-item44 textarea.x-form-textarea,
+#reports div.report-item55 textarea.x-form-textarea {
+    height: 45px !important;
+}
+
+
+
+
+
+/*div#reports .report-group:first-child h1:first-child {
+  color: #000;
+  background: none;
+  }*/
+
+.dashboard_item .report-group {
+    border: 1px solid #ff9955;
+    width: 48%;
+    margin: 1em 5px 1em 5px;
+}
+
+.dashboard_item .report-group.even {
+    float: left;
+    clear: left;
+}
+
+.dashboard_item .report-group.odd {
+    float: right;
+    clear: right;
+}
+
+.dashboard_item .report-item {
+    margin: 1em;
+}
+
+p.report-item-parameters, .project-status .report-item5 {
+    margin: 0 0 1em 0 !important;
+    clear: both !important;
+    padding: 3px;
+    color: #000;
+    background:transparent url(<%= asset_path 'tarantula/submenu_bg.gif' %>) repeat-x;
+    border-bottom: 1px solid #ccc;
+}
+
+.dashboard_item .dashboard-overview.report-item {
+    margin: 0;
+}
+
+.overview_block {
+    float: left;
+    margin: 0 10px 5px 10px;
+}
+
+.overview_block p {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.overview_block small {
+    font-weight: normal;
+    font-size: 12px;
+    color: #555555
+}
+
+/* Status reports */
+.project-status .dashboard-overview {
+    clear: both;
+}
+
+.project-status p.report-item {
+    clear: both;
+}
+
+.report-item tr.priority_1 {
+    background: #ffd4d4;
+}
+
+.report-item tr.priority_-1 {
+    background: #eafff7;
+}
+
+#reports div.report-item {
+    margin: 1em 1em 1.5em 1em;
+}
+
+#reports p.report-item {
+    margin: 0 1em 1.5em 1em;
+}
+
+/* Style applied for texts in dialog. */
+div.dialog p {
+    padding: 1em 1em 0.5em 1em;
+}
+
+/* Style applied for fields in dialog. */
+.dialogFormItem {
+    padding: 0.5em 1em 0 1em;
+}
+
+
+
+/* Style for Ext.testia.ComboDialog */
+.dialogForm {
+    padding: 1em 1em 0 1em;
+}
+
+
+.x-form-field{
+    border: 1px solid #e3e1e1;
+    background: #ffffff url(<%= asset_path "tarantula/input_bg.gif" %>)
+    repeat-x left top;
+/*	padding-top: 4px;*/
+}
+
+/* buttons */
+
+.x-btn-text{
+    color: #666666;
+    font-size: 14px;
+}
+
+.x-dlg {
+    z-index: 10000;
+}
+
+.x-layout-panel-west, .x-dock-panel .x-dock-panel-body, .x-dock-body,
+.x-dlg-bd .x-dock-body {
+    background: #fff; /* url(<%= asset_path 'treebg.png' %>) repeat-y left;*/
+}
+
+.x-unselectable, .x-unselectable * {
+    -moz-user-select: -moz-none;
+}
+
+.x-dock-panel .x-layout-panel-hd input.x-form-text {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+}
+
+.x-layout-panel .x-tabs-body {
+    background-color:white;
+    height:100%;
+    overflow:visible;
+    margin: 0;
+    border: none;
+}
+
+.x-grid-hd-row td, .x-grid-row td {
+    white-space: normal;
+    vertical-align: middle;
+}
+
+.x-item-disabled {
+    color: gray;
+    cursor: default;
+    opacity: 1.0;
+    -moz-opacity: 1.0;
+    filter: alpha(opacity=100);
+}
+
+#report-form .x-item-disabled {
+    opacity: .6;
+    -moz-opacity: .6;
+    filter: alpha(opacity=60);
+}
+
+.x-item-disabled a.x-menu-item {
+    color: gray;
+    cursor: default;
+    opacity: .6;
+    -moz-opacity: .6;
+    filter: alpha(opacity=60);
+}
+
+
+/* Fixes #292 in IE7 */
+.x-menu-item-icon {
+    margin: 0;
+    padding: 0 11px 0 0;
+}
+/* End fix #292 */
+
+
+
+.x-tabs-strip .x-tabs-text {
+    font-size:12px;
+}
+
+tr.testia-grid-row-red div {
+    color: red;
+
+}
+
+
+
+.x-dock-panel .x-layout-panel-hd {
+    background: #f5f5f5;
+    border-bottom: 1px solid #cccccc;
+}
+
+.x-dock-panel .x-dock-panel-body-docked {
+    border-bottom: 1px solid #cccccc;
+}
+.x-grid-topbar .x-toolbar {
+    background: #f5f5f5;
+}
+
+div.x-dock-panel-body div.x-toolbar.x-small-editor table {
+    /*width: 100%;*/
+    margin: 0;
+    padding: 0;
+}
+
+.x-toolbar.x-small-editor input {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Orange stripe on top of screen */
+#top-stripe{
+    height: 8px;
+    background: url(<%= asset_path "tarantula/header_bg.gif" %>) repeat-x top;
+}
+
+#header-actions{
+    /* White space area above menu is 87 pixels.
+       5 pixels from that is claimed by menu background image.
+       (Used by menu for displaying image on menu mouseover effect.)
+       */
+    height: 82px; /* Target height - 5 pixels */
+    background-color: white;
+    background-image: url(<%= asset_path "tarantula/tarantula.jpg" %>);
+    background-repeat: no-repeat;
+}
+
+#tarantula-text-logo{
+    float: left;
+    width: 231px;
+    height: 55px;
+    margin-left: 105px;
+    margin-top: 10px;
+    background: url(<%= asset_path "tarantula/logo.gif" %>) no-repeat;
+}
+
+#project-select{
+    position: absolute;
+    top: 7px;
+    right: 282px; /*was   370 420*/
+}
+
+#project-select-left{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 260px;  /* was 270   400 */
+    height: 35px;
+    background: url(<%= asset_path "tarantula/project_left.gif" %>) no-repeat;
+    background-position: bottom left;
+    z-index: 0;
+}
+
+/* Project text */
+#project-select-left div{
+    font-size: 16px;
+    padding: 3px 0 0 21px;
+    color: white;
+}
+
+
+
+#project-select-right{
+    position: absolute;
+    top: 0px;
+    left: 255px;      /*was 350 ,400*/
+    float: left;
+    width: 8px;
+    height: 35px;
+    background: url(<%= asset_path "tarantula/project_right.gif" %>) no-repeat;
+    background-position: bottom right;
+}
+
+
+/* "Currently selected project" area,
+   displays rounded selection box background image
+   */
+
+#project-select-center{
+
+    position: absolute;
+    top: 0px;
+    left: 85px;         /* was 100  */
+    width: 170px;       /* WAS 300*/
+    height: 26px;
+    background: url(<%= asset_path "tarantula/projectsel_left.gif" %>) no-repeat;
+}
+
+/*
+  Ext generated combobox.
+  Set some margin on left, to prevent item
+  from overlapping bacground image.
+  */
+#project-select-center div {
+    margin-left: 4px;
+    margin-top: 2px;
+}
+
+
+/* Configure project dropdown combobox */
+#project-select-center div img{
+    width: 30px;
+    height: 26px;
+    background: url(<%= asset_path "tarantula/drop.gif" %>) no-repeat;
+    border: 0px;
+    margin-left: -4px;
+    margin-top: -1px;
+}
+#project-select-center div img:hover{
+    background: url(<%= asset_path "tarantula/drop_over.gif" %>) no-repeat;
+}
+
+
+
+#project-select-center div input{
+    border: 0;
+    font-size: 15px;
+}
+
+
+
+#profile{
+    position: absolute;
+    z-index: 9000;
+    top: 59px;
+    right: 29px;
+    background: url(<%= asset_path "tarantula/buttons/GIF/user.gif" %>) no-repeat left;
+}
+
+#menu{
+    /* Menu contains both black menua area (41pixels),
+       as well as space for mouseover image effect above and below menu. */
+    height: 55px;
+    background: url(<%= asset_path "tarantula/menu_bg.gif" %>) repeat left;
+    border: 0;
+
+}
+
+#menumargin{
+    float: left;
+    width: 30px;
+    height: 1px;
+}
+
+.menuitem{
+    width: 109px;
+    height: 55px;
+    float: left;
+/* background: url(<%= asset_path "tarantula/menuitem_selected_bg.gif" %>)
+   no-repeat left; */
+}
+
+.menuitem div{
+    text-align: center;
+    color: white;
+    padding-top: 16px;
+    font-size: 17px;
+    cursor:pointer;
+}
+
+.disabled div{
+    color: gray;
+}
+
+.enabled div{
+    color: white;
+}
+
+#tag-selector{
+    float: right;
+    margin-right: 25px;
+    margin-top: 15px;
+    width: 250px;
+}
+
+#tag-selector-title{
+    color: white;
+    font-size: 17px;
+    margin-right: 10px;
+    margin-top: 1px;
+}
+
+#tag-selector span {
+    float: left;
+}
+
+#tag-selector span div input.x-item-disabled {
+    background: #cccccc;
+}
+
+#tag-selector div.x-form-field-wrap, #tag-selector div.x-form-field-wrap img {
+    position: static;
+}
+
+#tag-selector div.x-form-field-wrap input {
+    vertical-align: top;
+}
+
+
+
+#submenu{
+    height: 25px;
+    background: url(<%= asset_path "tarantula/submenu_bg.gif" %>) repeat left;
+    /*    border-bottom: 1px solid #cccccc;*/
+    border-bottom: 1px solid #bbbbbb;
+    font-size: 12px;
+}
+
+
+.submenu-items span{
+    margin-left: 20px;
+    color: #ea6e04;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submenu-items span:hover {
+    color: #994700;
+}
+
+.x-layout-panel {
+    border:none;
+}
+
+
+
+/* Explorer */
+
+.x-layout-panel-west, .x-layout-collapsed-west {
+    margin: 0;
+    border: 1px solid #cccccc;
+}
+
+.x-layout-panel-center {
+    margin: 0;
+    border: 1px solid #cccccc;
+}
+
+
+.x-layout-panel-hd {
+    background-image: none;
+    color: white;
+    background-color: #ececec;
+    height: 32px;
+    padding-top: 3px;
+}
+
+.x-layout-panel-hd-text {
+    color:black;
+    font-family: Trebuchet MS, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 10px;
+
+
+}
+
+.x-dock-panel-title-text {
+    color: #ea6e04;
+    margin-left: 4px;
+}
+
+.x-dock-panel-title-text:hover {
+    color: #994700;
+}
+
+
+
+.x-layout-tools-button {
+    float:right;
+    margin:5px;
+    padding: 2px;
+}
+
+.x-layout-tools-button-over{
+    border: none;
+    background: #f5f5f5;
+/*url(<%= asset_path 'vista/layout/panel-title-bg.gif' %>) repeat-x;*/
+}
+
+
+.x-layout-collapse-west{
+    width: 18px;
+    height: 18px;
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/arrow_left.gif" %>);
+}
+
+.x-layout-expand-west {
+    width: 18px;
+    height: 18px;
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/arrow_right.gif" %>);
+}
+
+.x-layout-collapsed-west {
+    background-color: #ececec;
+    width: 30px;
+    margin:0;
+}
+
+.x-layout-collapsed-west .x-layout-collapsed-tools {
+    left:5px;
+    top: 5px;
+}
+
+.x-layout-collapse-south {
+    width: 18px;
+    height: 18px;
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/arrow_up.gif" %>);
+    margin-right: 2px;
+}
+
+.x-layout-collapse-east {
+    width: 18px;
+    height: 18px;
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/arrow_down.gif" %>);
+    margin-right: 2px;
+}
+
+
+.x-layout-split{
+    width: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: white url(<%= asset_path "tarantula/pixel_e4e4e4.gif" %>) repeat-y center;
+    color: black;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.x-form fieldset{
+    border: 0;
+}
+
+
+
+.x-toolbar {
+    /* Fix toolbar bouncing in IE */
+    position: static;
+    background-image: none;
+    background-color: #ececec;
+    margin: 1px;
+    border-bottom: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    height: 24px;
+    padding-top: 7px;
+}
+
+div#toolbar .x-toolbar {
+    border-top: none;
+}
+
+div#exec_steps_tb .x-toolbar {
+    border: 1px solid #cccccc;
+}
+
+
+
+.x-toolbar .ytb-text {
+    color:black;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 20px;
+    vertical-align: center;
+}
+
+
+/* Refresh button in navigator */
+.tarantula-button-refresh{
+    width: 18px;
+    height: 18px;
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/Cycle.gif" %>);
+    margin-top: 2px;
+    margin-left: 14px;
+}
+
+
+.x-layout-panel-west div.x-listpanel {
+    padding-left: 13px;
+}
+
+/* Toolbar buttons */
+/*
+  .x-toolbar .x-btn button, .x-btn{
+  */
+
+
+.x-toolbar .x-btn-text{
+    font-family: Trebuchet MS, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.x-toolbar .x-btn{
+    margin-left: 4px;
+    background-position: 5px center;
+    background-repeat: no-repeat;
+}
+
+
+.x-toolbar button {
+    color: #ea6e04
+}
+
+
+.x-toolbar .x-item-disabled button {
+    color: #ea6e04;
+    opacity: .3;
+    filter: alpha(opacity='30');
+    cursor:default;
+}
+
+.x-toolbar .x-btn-over button{
+    color: #994700;
+}
+
+/* Do not display EXT standard icon onmouseover */
+.x-toolbar .x-btn-over .x-btn-left,
+.x-toolbar .x-btn-over .x-btn-center,
+.x-toolbar .x-btn-over .x-btn-right {
+    background-image: none;
+}
+
+
+/* Add space for images */
+.x-toolbar .x-btn-left i{
+    width: 25px;
+}
+
+
+.tarantula-btn-new, .tarantula-btn-new .x-btn-over {
+    /*
+      background-image: url(<%= asset_path "tarantula/buttons/GIF/add.gif" %>);
+      */
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/add.gif" %>);
+}
+
+.tarantula-btn-edit, .tarantula-btn-edit .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/tool.gif" %>);
+}
+
+.tarantula-btn-save, .tarantula-btn-save .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/ok.gif" %>);
+}
+
+.tarantula-btn-cancel, .tarantula-btn-cancel .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/close.gif" %>);
+}
+
+.tarantula-btn-delete, .tarantula-btn-delete .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/Recycle.gif" %>);
+}
+
+.tarantula-btn-copy, .tarantula-btn-copy .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/object_11.gif" %>);
+}
+
+.tarantula-btn-paste, .tarantula-btn-paste .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/object_10.gif" %>);
+}
+
+.tarantula-btn-view, .tarantula-btn-view .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/zoomin.gif" %>);
+}
+
+.tarantula-btn-remove, .tarantula-btn-remove .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/del.gif" %>);
+}
+
+.tarantula-btn-purge, .tarantula-btn-purge .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/object_15.gif" %>);
+}
+
+.tarantula-btn-assign, .tarantula-btn-assign .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/user.gif" %>);
+}
+
+
+/* Prev and Next buttons */
+
+.x-toolbar .tarantula-btn-prev, .tarantula-btn-prev .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/object_06.gif" %>);
+}
+
+
+
+/* For next button, image is on right side */
+.x-toolbar .tarantula-btn-next .x-btn-left i{
+    width: 0px;
+}
+.x-toolbar .tarantula-btn-next .x-btn-right i{
+    width: 18px;
+    height: 18px;
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/object_07.gif" %>);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.x-toolbar .tarantula-btn-next {
+    margin-left: -2px;   /* Closer to prev button */
+}
+
+
+
+
+
+.tarantula-btn-note, .tarantula-btn-note .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/about.gif" %>);
+}
+
+.tarantula-btn-pause, .tarantula-btn-pause .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/pause.gif" %>);
+}
+
+.tarantula-btn-pass, .tarantula-btn-pass .x-btn-over {
+    background-image: url(<%= asset_path "famfamfam/accept.png" %>);
+}
+
+.tarantula-btn-skip, .tarantula-btn-skip .x-btn-over {
+    background-image: url(<%= asset_path "famfamfam/error_go.png" %>);
+}
+
+.tarantula-btn-fail, .tarantula-btn-fail .x-btn-over {
+    background-image: url(<%= asset_path "famfamfam/cancel.png" %>);
+}
+
+.tarantula-btn-notimplemented, .tarantula-btn-notimplemented .x-btn-over {
+    background-image: url(<%= asset_path "famfamfam/plugin.png" %>);
+}
+
+.tarantula-btn-clear, .tarantula-btn-clear .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/del.gif" %>);
+}
+
+
+
+
+.tarantula-btn-report, .tarantula-btn-report .x-btn-over {
+    background-image: url(<%= asset_path "tarantula/buttons/GIF/charts.gif" %>);
+}
+
+
+
+
+
+.x-form-item {
+    margin-left:7px;
+}
+
+.x-form-item label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #555555;
+
+}
+
+x-form-field {
+    font-size: 12px;
+}
+
+.tarantula-field-required{
+    font-size: 14px;
+}
+
+.x-grid-topbar .x-toolbar {
+
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+
+
+}
+
+.x-dock-panel .x-grid-topbar .x-toolbar {
+    border: none;
+}
+
+.x-grid-header {
+    background: none;
+    border: none;
+}
+
+.x-grid-hd {
+    /*
+      border-bottom: 1px solid #cccccc;
+      border-right: 1px solid #cccccc;
+      */
+    border: none;
+}
+
+
+.x-grid-split {
+    background: none;
+}
+
+.x-grid-hd-inner {
+    border: 0px;
+}
+
+td.x-grid-hd {
+    background-color: #f5f5f5;
+}
+
+td.x-grid-hd div div {
+    font-weight: bold;
+    color: #555555;
+    background-color: #f5f5f5;
+}
+
+
+.x-grid-cell-text {
+    font-size: 12px;
+    padding: 8px;
+}
+
+.x-grid-col-0 div {
+    font-weight: bold;
+}
+
+
+table.tarantula-execution, table.tarantula-execution-steps {
+    border: none none;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.tarantula-execution td, table.tarantula-execution th{
+    border-bottom: 1px solid #eeeeee;
+    border-right: 1px solid #eeeeee;
+    border-top: 0 0;
+    border-left: 0 0;
+    padding: 5px;
+}
+
+
+/* Case Name */
+table.tarantula-execution .header {
+    font-size:18px;
+    font-weight:bold;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+}
+
+table.tarantula-execution .label {
+    color:#555555;
+    font-size:14px;
+    font-weight:bold;
+    width: 200px;
+    padding-left: 15px;
+}
+
+
+table.tarantula-execution .data,{
+    color:#000000;
+    font-size:14px;
+}
+
+table.tarantula-execution #attachments {
+    margin: 0;
+}
+
+
+table.tarantula-execution #attachments td {
+    border:0;
+    padding: 0;
+}
+
+
+
+/*Step headers*/
+table.tarantula-execution-steps th, table.tarantula-execution-steps td {
+    padding: 5px;
+    vertical-align: middle;
+    border-bottom: 1px solid #cccccc;
+}
+
+table.tarantula-execution-steps td {
+    vertical-align: top;
+    border-bottom: 1px solid #cccccc;
+}
+
+
+
+table.tarantula-execution-steps th, table.tarantula-execution-steps th:hover  {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555555;
+    background-color: #f5f5f5;
+}
+
+
+
+#exec_steps_tb {
+
+    position: fixed;
+    bottom: 3px;
+    right: 3px;
+    z-index: 9000;
+
+}
+
+
+
+table.tarantula-execution-steps {
+    margin-top: 30px;
+}
+
+.tarantula-execution-steps tr:hover {
+    background: #eeeeee;
+}
+
+.tarantula-execution-steps th:hover {
+    background: none;
+}
+
+.tarantula-execution-steps {
+    color:#000000;
+    font-size:12px;
+    font-weight: normal;
+    cursor: default;
+}
+
+
+tr.tarantula-execution-step-current{
+    background-color: #ffffd2;
+    font-size: 16px;
+    color: black;
+    border: 2px solid black;
+}
+
+/* Set borders on IE? */
+tr.tarantula-execution-step-current td{
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.tarantula-execution-steps-ordinal {
+    color:#555555;
+    font-size:14px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+div.x-tree {
+    overflow: auto;
+}
+
+
+/* Login page */
+
+#loginform {
+    padding: 230px 0px 0 50%;
+    width: 240px;
+}
+
+
+#loginform img {
+    padding-bottom: 25px;
+}
+
+#loginform .x-form-field {
+    width: 95px;
+}
+
+#loginform .error {
+    padding: 0.5em;
+    color: #f00;
+}
+
+#loginform .x-form-btns table {
+    margin: 0.5em auto;
+}
+
+#forgot .x-form-ct {
+    width: 95px;
+}
+
+#forgot .x-form-element {
+    padding: 0;
+    width: 90px;
+}
+
+#forgot .x-form-btns > table {
+    margin: -3em 0 0 130px;
+}
+
+#forgot {
+    height: 50px;
+}
+
+div.version {
+    position: absolute;
+    top: 580px;
+    left: 28%;
+    background-color: transparent;
+/*margin: 120px 0 0 -350px;*/
+}
+
+div.version p {
+    font-size: 12px;
+    color:#F89C4F;
+}
+
+
+.gridconstraints {
+    height: 500px;
+    width: 510px;
+}
+
+.usergridconstraints {
+    width: 310px;
+    height: 300px;
+}
+
+.errorExplanation p {
+    color: red;
+}
+
+.errorExplanation ul li {
+    margin-left: 1.5em;
+    list-style-type: disc;
+}
+
+
+.tab-content .x-form .x-form-btns-ct .x-form-btns-center {
+    text-align: left;
+}
+
+.tab-content .x-form .x-form-btns-ct .x-form-btns-center table {
+    margin: 0.5em 0 0.5em;
+}
+
+/* Hide boxes from disabled form fields */
+#form input.x-form-field.x-item-disabled,
+#form textarea.x-form-field.x-item-disabled {
+    border: none;
+    background: none;
+    color: #000;
+}
+#form input.x-form-field.x-item-disabled + img {
+    display: none;
+}
+#form textarea.x-form-field.x-item-disabled {
+    height: auto;
+    overflow: hidden;
+}
+
+/* === Design view
+ */
+
+.steps .x-grid-header table, .steps .x-grid-body table {
+    width: 100%;
+}
+
+.attachments .x-form .x-form-btns-ct .x-form-btns-center table {
+    margin: 0 0 0 5px;
+}
+
+.attachments .x-testia-attachment-btn-add {
+    margin: 0 !important;
+}
+
+/* Optional fields in Requirement design */
+table.optional th {
+    color: #555555;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+table.optional {
+    margin: 0 0 15px 15px;
+}
+
+/* Workload report in execution assignment */
+fieldset.assignset
+{
+    width: 500px;
+    float: left;
+}
+
+.assignset .x-form-clear {
+    clear: none;
+}
+
+div.workload-report
+{
+    margin: 15px 0 1em 1em;
+}
+
+#cases-grid
+{
+    clear: left;
+}
+
+
+/* === Reports
+ */
+
+#reports h1 {
+    font-size: 20px;
+    margin-top: 30px;
+}
+#reports h2 {
+    font-size: 14px;
+    margin-top: 6px;
+}
+#reports h3 {
+    font-size: 10px;
+    margin-top: 6px;
+}
+
+
+/* Shared with Dashboard */
+#reports table, .dashboard_item table {
+    border-collapse: collapse;
+    margin-top: 6px;
+}
+/*
+  #reports table th, #reports table td,
+  .dashboard_item th, .dashboard_item td
+  */
+div.tbl th, div.tbl td
+{
+    border: 1px solid #cccccc;
+    font-family: courier;
+    text-align: center;
+    padding: 5px 10px 5px 10px;
+}
+/* Header cells (th and first td of each row) */
+div.tbl th
+{
+    font-family: Trebuchet MS, Arial, sans-serif;
+    background-color: #eeeeee;
+    text-align: center;
+}
+div.tbl td:first-child
+{
+    font-family: Trebuchet MS, Arial, sans-serif;
+    background-color: #eeeeee;
+    text-align: left;
+}
+.report-item table tr.collapsable {
+    background-color: #f7f7f7;
+}
+
+
+
+
+
+
+#reports table tr.odd td {
+    background: #ddd;
+}
+
+
+/* Export to csv links */
+div.tbl a {
+    font-size: 12px;
+}
+
+div.tbl {
+    margin-bottom: 24px;
+}
+
+/* ==Tasklist component==
+ *
+ * Set all paren items to position: static */
+
+div.x-layout-panel-north {
+    position: static;
+}
+
+div.testia-task-items {
+    position: absolute;
+    z-index: 30000;
+    max-width: 450px;
+    right: 0;
+    background: #fff;
+    border: 2px solid #fe8e2f;
+}
+
+ul.testia-task-items {
+    overflow: auto;
+    max-height: 400px !important;
+}
+
+ul.testia-task-items li {
+    list-style-type: none;
+    padding: 0 1em 0 1em;
+}
+
+ul.testia-task-items li.odd {
+    background: #fed;
+}
+
+ul.testia-task-items li .assignee {
+    color: #00f;
+}
+
+div.testia-task-items div.add {
+    border-top: 5px solid #ececec;
+}
+
+div.testia-task-items ul.commands {
+    border-bottom: 5px solid #ececec;
+    background: #eee url(<%= asset_path 'tarantula/submenu_bg.gif' %>) repeat scroll left center;
+    padding-top: 5px;
+}
+
+div.testia-task-items ul.commands li {
+    display: inline;
+    background: transparent;
+}
+
+div.testia-task-items ul.commands li.selected {
+    display: inline;
+    background: #fff;
+}
+
+div.testia-task-items div.add, div.testia-task-items ul.commands li {
+    padding: 3px 10px 3px 10px;
+}
+
+div.task-dialog {
+    margin: 0;
+    padding: 0;
+}
+
+/* Case history dialog */
+table.history {
+    width: 100%;
+    border-collapse: collapse;
+}
+table.history thead { background: 000; }
+table.history thead tr {
+    background: #000 url(<%= asset_path 'tarantula/menu_bg.gif' %>) repeat scroll left center;
+    color: #fff;
+    margin: 0 !important;
+    padding: 5px;
+}
+table.history th {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px 3px 3px 20px;
+}
+table.history th.date {
+    background: transparent url(<%= asset_path 'famfamfam/date.png' %>) no-repeat 10px center;
+    padding-left: 30px;
+    width: 9.5em;
+}
+table.history th.user {
+    background: url(<%= asset_path 'famfamfam/user_gray.png' %>) no-repeat left center;
+    width: 6em;
+}
+table.history th.comment {
+    background: url(<%= asset_path 'famfamfam/comment.png' %>) no-repeat left center;
+}
+table.history tr.odd {
+    background: #eee;
+}
+table.history td { padding: 3px; }
+table.history td.date { padding-left: 10px; }
+table.history td.user { padding-left: 20px; }
+
+
+/* Special styles for TestGrid */
+
+#test .x-toolbar .x-btn-left {
+    display: none;
+}
+
+/* Priority hilighting for grid rows */
+.x-grid-row.priority_1 {
+    background: #ffd4d4;
+}
+
+.x-grid-row.x-grid-row-alt.priority_1 {
+    background: #ffc4c4;
+}
+
+.x-grid-row.priority_-1 {
+    background: #eafff7;
+}
+
+.x-grid-row.x-grid-row-alt.priority_-1 {
+    background: #eaf7ff;
+}
+
+input.importDialogForm {
+    margin: 1em;
+}
+
+#users-grid {
+    margin-top: 30px;
+}

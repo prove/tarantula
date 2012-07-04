@@ -11,14 +11,14 @@ class Case < ActiveRecord::Base
 
   alias_attribute :name, :title
 
-  named_scope :active, :conditions => { :deleted => 0, :archived => 0 }
-  named_scope :deleted, :conditions => { :deleted => 1 }
+  scope :active, where(:deleted => 0, :archived => 0)
+  scope :deleted, where(:deleted => 1)
 
   # default ordering
-  named_scope :ordered, :order => 'priority DESC, title ASC'
+  scope :ordered, order('priority DESC, title ASC')
 
   acts_as_versioned
-  set_locking_column :version
+  self.locking_column = :version
 
   belongs_to :project
   has_and_belongs_to_many :test_areas
@@ -31,8 +31,7 @@ class Case < ActiveRecord::Base
   has_and_belongs_to_many_versioned :requirements
 
   has_many :case_executions, :class_name => 'CaseExecution',
-           :foreign_key => 'case_id', :order => '`created_at` DESC',
-           :dependent => :destroy
+           :foreign_key => 'case_id', :dependent => :destroy
 
   has_many :step_executions, :through => :case_executions
 
@@ -441,7 +440,8 @@ class Case < ActiveRecord::Base
   # returns test object that this case was last passed in
   def last_passed
     ce = self.case_executions.find(
-      :first, :conditions => {:result => Passed, 'executions.deleted' => false},
+      :first, :conditions => {:result => Passed.to_s, 
+                              'executions.deleted' => false},
       :order => 'executed_at desc', :joins => :execution,
       :include => {:execution => :test_object})
     ce ? ce.execution.test_object : nil
@@ -450,7 +450,7 @@ class Case < ActiveRecord::Base
   # returns test object that this case was last tested in
   def last_tested
     ce = self.case_executions.find(
-      :first, :conditions => {:result => (ResultType.all - [NotRun]),
+      :first, :conditions => {:result => (ResultType.all - [NotRun]).map(&:db),
                               'executions.deleted' => false},
       :order => 'executed_at desc', :joins => :execution,
       :include => {:execution => :test_object})
@@ -466,10 +466,7 @@ class Case < ActiveRecord::Base
 
   # returns _execution_ this case last failed in
   def last_failed_exec
-    ce = self.case_executions.find(
-      :first, :conditions => {:result => Failed, 'executions.deleted' => false},
-      :order => 'executed_at desc', :joins => :execution,
-      :include => :execution)
+    ce = self.case_executions.first(:conditions => ["result = :res and executions.deleted = :f", {:res => Failed.db,:f => false}], :order => 'case_executions.executed_at desc', :include => :execution)
     ce ? ce.execution : nil
   end
 
@@ -490,18 +487,18 @@ class Case < ActiveRecord::Base
           :conditions => {:test_object_id => test_object_ids})
       end
       test_object_ids.each do |to_id|
-        res = CaseExecution.find(:all,
-          :joins => {:execution => :test_object},
-          :conditions => ["case_id=:case_id AND "+
+        res = CaseExecution.where(
+                         ["case_id=:case_id AND "+
                           "test_objects.id=:to_id AND "+
                           "executions.id IN (:eids) AND "+
                           "result not in (:not_counted)",
                           {:case_id => self.id,
                            :to_id => to_id,
                            :eids => eids,
-                           :not_counted => [NotRun, Skipped]}],
-          :select => :result,
-          :order => 'case_executions.executed_at desc')
+                           :not_counted => [NotRun.db, Skipped.db]}]).
+          joins(:execution => :test_object).
+          select(:result).
+          order('case_executions.executed_at desc')
         break unless res.empty?
       end
       res.map{|r| r.result.db}

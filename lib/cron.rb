@@ -3,7 +3,7 @@ require 'rake'
 =begin rdoc
 
 Call Cron modules methods in cron tab, for example:
-0 0	* 	* 	*		 /RAILS_ROOT/script/runner -e production "Cron.daily"
+0 0	* 	* 	*		 /Rails.root/script/runner -e production "Cron.daily"
 
 =end
 module Cron
@@ -27,7 +27,7 @@ module Cron
     
     # dump db
     Rake.application.rake_require "db_backup", 
-                                  [File.join(RAILS_ROOT, 'lib', 'tasks')]
+                                  [File.join(Rails.root, 'lib', 'tasks')]
     Rake::Task['db:backup'].execute(nil)
   end
   

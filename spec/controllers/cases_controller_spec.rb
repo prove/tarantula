@@ -15,7 +15,7 @@ describe CasesController do
 
     it "GET should render all cases if test_set id and params[:all_cases]" do
       c = flexmock('mock case', :to_data => 'case data')
-      cases = flexmock([c], :with => [c])
+      cases = flexmock('cases', :sort => [c])
       ts = flexmock('mock test set', :cases => cases)
       flexmock(TestSet).should_receive(:find).and_return(ts)
 
@@ -25,15 +25,12 @@ describe CasesController do
     end
 
     it "GET should render test set's cases with filter if test_set_id" do
-      mock_case = flexmock('mock case', :to_tree => { :key => 'val' },
-                           :position => 1)
-
-      ts = flexmock('mock test set', 'cases.with' => [mock_case])
-      flexmock(TestSet).should_receive(:find).and_return(ts)
-
-      get 'index', { :test_set_id => 1 }
-      response.body.should == [:key => 'val',
-                               :order => 1].to_json
+      ts = TestSet.make!
+      c = Case.make!(:position => 1)
+      ts.cases << c
+      
+      get 'index', { :test_set_id => ts.id }
+      response.body.should == [c.to_tree.merge(:order => 1)].to_json
     end
   end
 

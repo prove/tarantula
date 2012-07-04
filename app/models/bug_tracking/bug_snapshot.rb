@@ -12,12 +12,10 @@ class BugSnapshot < ActiveRecord::Base
 
   validates_presence_of :bug_id, :bug_tracker_snapshot_id
 
-  named_scope :ordered, :order => 'CAST(external_id AS UNSIGNED) DESC'
-  # Add all as named_scope so it can be chained with ordered scope
-  named_scope :all, :conditions => {}
+  scope :ordered, order('CAST(external_id AS UNSIGNED) DESC')
   # NOTE: Both :not_closed and :s_open needed because verified status is not considered
   # to be either one.
-  named_scope :not_closed, lambda{|bt_type|
+  scope :not_closed, lambda{|bt_type|
     c = CustomerConfig.find(:first, :conditions => {
                               :name => bt_type.downcase + '_closed_statuses'})
     if c
@@ -27,7 +25,7 @@ class BugSnapshot < ActiveRecord::Base
     end
     {:conditions => "status NOT IN (#{conds.map{|t|"'%s'"%t}.join(',')})"}
   }
-  named_scope :s_open, lambda{|bt_type|
+  scope :s_open, lambda{|bt_type|
     c = CustomerConfig.find(:first, :conditions => {
                               :name => bt_type.downcase + '_open_statuses'})
     if c

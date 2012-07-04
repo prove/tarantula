@@ -21,11 +21,11 @@ Report: Dashboard. A composite report of preferred items.
     
     def to_pdf; raise "no pdf available!"; end
     def to_csv(*args); raise "no csv available!"; end
-    def to_json
+    def as_json(options=nil)
       self.query unless @data
       @data.map do |comp_set|
-        {:type => 'report', :components => comp_set}
-      end.to_json
+        {:type => 'report', :components => comp_set}.as_json(options)
+      end
     end
     
     protected

@@ -69,7 +69,7 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
 
-    render :json => "{\"data\":[#{@project.to_data.to_json}]}"
+    render :json => {:data => [@project.to_data]}
   end
 
   # Return user's permission group from project.
@@ -83,7 +83,7 @@ class ProjectsController < ApplicationController
       ret = (@assignment ? @assignment.group : 'NONE')
     end
 
-    render :json => {:data => ret}.to_json
+    render :json => {:data => ret}
   end
 
   def update
@@ -111,7 +111,7 @@ class ProjectsController < ApplicationController
   end
 
   def priorities
-    render :json => "{\"data\": #{Project::Priorities.to_json}}"
+    render :json => {:data => Project::Priorities}
   end
 
   def products
@@ -125,7 +125,7 @@ class ProjectsController < ApplicationController
       products = project.bug_products
     end
 
-    render :json => "{\"data\": #{products.map(&:to_data).to_json}}"
+    render :json => {:data => products.map(&:to_data)}
   end
 
   private

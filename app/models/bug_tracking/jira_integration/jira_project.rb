@@ -1,6 +1,6 @@
 class JiraProject < ActiveRecord::Base
-  set_table_name 'project'
-  set_primary_key 'ID'
+  self.table_name = 'project'
+  self.primary_key = 'ID'
 
   has_many :issues, :class_name => 'JiraIssue', :foreign_key => 'PROJECT'
 

@@ -127,12 +127,12 @@ class CaseExecutionList < Report::Base
   def create_data(ce_data, comments)
     data = []
     ce_data.each do |ce|
-      title = ce.case_title
+      title = ce.test_case.title
       title += " (#{ce.failed_steps_info})" if ce.result == Failed
       e_at = ce.executed_at
       data << {
-        :test_object => ce.to_name,
-        :exec_name => ce.exec_name,
+        :test_object => ce.execution.test_object.name,
+        :exec_name => ce.execution.name,
         :case_title => title,
         :execution_time => e_at ? e_at.strftime('%Y-%m-%d %H:%M') : nil,
         :executed_by => ce.executed_by,

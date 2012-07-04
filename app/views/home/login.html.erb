@@ -1,0 +1,68 @@
+<div id="loginform">
+  <img src="<%= asset_path 'tarantula/logo.gif' %>" alt="Testia Tarantula" />
+
+  <div style="margin-left: 10px">
+    <%= form_tag(:controller => 'home', :action => 'login') do %>
+    <div class="x-form-ct">
+      <div class="x-form-item">
+        <label for="login">Username</label>
+        <div class="x-form-element">
+          <%= text_field_tag 'login', '', :class => 'x-form-text x-form-field' %>
+        </div>
+      </div>
+      <div class="x-form-item">
+        <label for="password">Password</label>
+        <div class="x-form-element">
+          <%= password_field_tag 'password', '', :class => 'x-form-text x-form-field' %>
+        </div>
+      </div>
+      <%= submit_tag 'Log in', :style => 'display:none;' %>
+    </div>
+    <div class="x-form-btns-ct">
+      <div onclick="document.forms[0].submit();" class="x-form-btns">
+        <table cellspacing="0">
+          <tbody>
+            <tr><td class="x-form-btn-td">
+                <table cellspacing="0" cellpadding="0" border="0" style="width: 75px;" class="x-btn-wrap x-btn">
+                  <tbody>
+                    <tr><td class="x-btn-left"/>
+                      <td class="x-btn-center">
+                        <em>
+                          Login
+                        </em>
+                      </td>
+                      <td class="x-btn-right">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </td></tr>
+          </tbody>
+        </table>
+        <div class="x-clear"/>
+      </div>
+    </div>
+    <% end %>
+    <div style="margin: 10px 0 0 0;"><%= flash[:notice] %></div>
+  </div>
+
+  <div id="forgot_link" style="margin: 50px 0 0 10px; font-size: 15px;">
+    <%= link_to_function "Forgot Password?", "Element.toggle('forgot');" %>
+  </div>
+
+  <div id="forgot" style="margin: 10px 0 0 10px; font-size: 12px; display:none;">
+    Please enter your user name or email address:<br/>
+    <%= form_tag :url => '/password_resets', :remote => true do -%>
+    <%= text_field_tag :name_or_email, '', :class => 'x-form-text x-form-field' %>
+    <%= submit_tag 'Send' %>
+    <% end %>
+    <div id="errors"></div>
+  </div>
+
+  <div class="version">
+    <p>Release <%= Testia::VERSION %></p>
+    <p class="copyright">Copyright &copy; 2008-2011, Prove Testia Oy</p>
+    <p>Licensed under GPL Version 3</p>
+  </div>
+
+</div>

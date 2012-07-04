@@ -63,7 +63,7 @@ class DashboardResults < Report::Base
     not_run_ids = Case.find(:all, :select => 'DISTINCT cases.id', 
                             :joins => {:case_executions => :execution},
                             :conditions => [conds[0]+" and case_executions.result=:r",
-                                            conds[1].merge(:r => NotRun)]).map(&:id)
+                                            conds[1].merge(:r => NotRun.db)]).map(&:id)
     
     add_component(tbl)
     text "Estimated duration for cases not run: #{Case.total_avg_duration(not_run_ids).to_duration}"

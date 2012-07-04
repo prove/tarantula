@@ -1,21 +1,20 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/externally_identifiable.rb')
 
 
 describe Bug do
   def get_instance(atts={})
-    Bug.make(atts)
+    Bug.make!(atts)
   end
 
-  it_should_behave_like "externally_identifiable"
+  it_behaves_like "externally_identifiable"
 
   it "#deleted should always return false" do
     Bug.new.deleted.should == false
   end
 
   it "#to_data should return required data" do
-    bt = Bugzilla.make
-    bug = Bug.make(:bug_tracker => bt)
+    bt = Bugzilla.make!
+    bug = Bug.make!(:bug_tracker => bt)
     keys = bug.to_data.keys
     keys.should include(:id)
     keys.should include(:name)
@@ -25,9 +24,9 @@ describe Bug do
 
   describe ".all_linked" do
     it "should return all bugs linked to steps" do
-      bt = Bugzilla.make(:severities => [BugSeverity.make],
-                         :products => [BugProduct.make])
-      p = Project.make(:bug_tracker => bt)
+      bt = Bugzilla.make!(:severities => [BugSeverity.make!],
+                          :products => [BugProduct.make!])
+      p = Project.make!(:bug_tracker => bt)
       bug = bt.bugs.create!(:external_id => "#{Bug.count}",
                             :severity    => bt.severities.first,
                             :product     => bt.products.first)

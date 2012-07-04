@@ -1,13 +1,13 @@
-class JiraIssue < ActiveRecord::Base
+  class JiraIssue < ActiveRecord::Base
   UDMargin = 5.minutes # update margin
-  set_table_name 'jiraissue'
-  set_primary_key 'ID'
+  self.table_name = 'jiraissue'
+  self.primary_key = 'ID'
 
   belongs_to :project, :class_name => 'JiraProject', :foreign_key => 'PROJECT'
   belongs_to :priority, :class_name => 'JiraPriority', :foreign_key => 'PRIORITY'
   belongs_to :status, :class_name => 'JiraStatus', :foreign_key => 'issuestatus'
 
-  named_scope :recent_from_projects, lambda {|prids, last_fetched, force_update|
+  scope :recent_from_projects, lambda {|prids, last_fetched, force_update|
     conds = "PROJECT IN (#{prids.join(',')})"
     c = CustomerConfig.jira_defect_types
     if c
@@ -21,11 +21,11 @@ class JiraIssue < ActiveRecord::Base
       conds += " AND ((UPDATED IS null) OR "+
         "(UPDATED >= '#{(last_fetched-UDMargin).to_s(:db)}'))"
     end
-    {:conditions => conds}
+    where(conds)
   }
 
-  named_scope :from_projects, lambda {|prids|
-    {:conditions => {'PROJECT' => prids}}
+  scope :from_projects, lambda {|prids|
+    where('PROJECT' => prids)
   }
 
   def to_data

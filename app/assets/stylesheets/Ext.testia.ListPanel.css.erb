@@ -1,0 +1,169 @@
+
+div.x-listpath {
+  background: #eeeeee;
+}
+
+div.x-listpath ul  {
+
+}
+
+div.x-listpath ul li {
+    padding-left: 20px;
+    display: inline;
+    background: url(<%= asset_path 'famfamfam/tag_orange.png' %>) no-repeat left;
+}
+
+
+
+
+
+
+/* TODO: Ensure that following fixes to the path list wordwrap works
+in IE also */
+div.x-listpath ul li:after {content: "\A";}
+div.x-listpath ul li a span {
+    white-space: pre;
+    font-size: 14px;
+}
+
+div.x-listpanel {
+  overflow: auto;
+  max-height: 300px;
+  border: none;
+}
+
+#accordion-panel div.x-listpanel {
+  max-height: none !important;
+}
+
+ul.x-listpanel {
+  min-height: 100px;
+}
+
+ul.x-listpanel li {
+  /*display: block;*/
+  list-style: none outside;
+    font-size: 12px;
+  padding: 2px 0 2px 20px;
+  margin: 0 4px 0 4px;
+  -moz-user-select:none;
+}
+
+ul.x-listpanel li .flags {
+    float: right;
+}
+
+ul.x-listpanel li a {
+  color: #000;
+    font-weight: normal;
+  /*-moz-user-focus:normal;*/
+  -moz-user-select:none;
+  /*display: block;*/
+}
+
+ul.x-listpanel li a:focus {
+  background: #ddd;
+}
+
+ul.x-listpanel li.x-listpanel-tag {
+  margin: 0 4px 0 4px;
+  padding: 2px 0 2px 20px;
+  background: url(<%= asset_path 'famfamfam/tag_green.png' %>) no-repeat left;
+}
+
+ul.x-listpanel li.x-listpanel-smarttag {
+  margin: 0 4px 0 4px;
+  padding: 2px 0 2px 20px;
+  background: url(<%= asset_path 'famfamfam/tag_blue.png' %>) no-repeat left;
+}
+
+ul.x-listpanel li.x-listpanel-trash {
+  margin: 0 4px 0 4px;
+  padding: 2px 0 2px 20px;
+  background: url(<%= asset_path 'famfamfam/bin.png' %>) no-repeat left;
+}
+
+ul.x-listpanel li.x-listpanel-archive {
+  margin: 0 4px 0 4px;
+  padding: 2px 0 2px 20px;
+  background: url(<%= asset_path 'famfamfam/compress.png' %>) no-repeat left;
+}
+
+ul.x-listpanel li.x-listpanel-item, ul.x-listpanel li.x-listpanel-case {
+    background: url(<%= asset_path 'famfamfam/page_white_text.png' %>) no-repeat left;
+}
+
+ul.x-listpanel li.x-listpanel-item.x-listpanel-user {
+    background: url(<%= asset_path 'famfamfam/user_green.png' %>) no-repeat left;
+}
+
+
+.x-dd-drop-nodrop, .x-dd-drop-ok, .x-dd-drop-ok-add, .x-tree-drop-ok-between {
+  list-style-type: none;
+}
+
+/*ul.x-listpanel li.even {
+  background-color: #ddd;
+  filter:alpha(opacity=80);
+  -moz-opacity:0.8;
+  opacity: 0.8;
+}*/
+
+ul.x-listpanel li.hilight.x-listpanel-item,
+ul.x-listpanel li.hilight.x-listpanel-case {
+  background: url(<%= asset_path 'famfamfam/page_white_star.png' %>) no-repeat left;
+  color: red;
+}
+
+ul.x-listpanel li.x-listpanel-item.x-listpanel-selected a,
+ul.x-listpanel li.x-listpanel-case.x-listpanel-selected a {
+  background-color: #00f;
+  color: #fff;
+}
+
+#exec2-tree ul.x-listpanel li.x-listpanel-item,
+.executions-list ul.x-listpanel li.x-listpanel-item {
+  background: url(<%= asset_path 'famfamfam/cog_go.png' %>) no-repeat left;
+}
+
+#sets-tree ul.x-listpanel li.x-listpanel-item,
+.sets-list ul.x-listpanel li.x-listpanel-item {
+  background: url(<%= asset_path 'famfamfam/book_gray.png' %>) no-repeat left;
+}
+
+#reqs-tree ul.x-listpanel li.x-listpanel-item,
+.requirements-list ul.x-listpanel li.x-listpanel-item {
+  background: url(<%= asset_path 'famfamfam/script.png' %>) no-repeat left;
+}
+
+#project-tree ul.x-listpanel li.x-listpanel-item,
+.projects-list ul.x-listpanel li.x-listpanel-item {
+  background: url(<%= asset_path 'famfamfam/bricks.png' %>) no-repeat left;
+}
+
+#testobjects-list ul.x-listpanel li.x-listpanel-item,
+.testobjects-list ul.x-listpanel li.x-listpanel-item {
+    background: url(<%= asset_path 'famfamfam/database_table.png' %>) no-repeat left;
+}
+
+
+/* List item priorities */
+#cases-tree ul.x-listpanel li.x-listpanel-item.priority_1,
+#cases_in_set ul.x-listpanel li.x-listpanel-item.priority_1,
+ul.x-listpanel li.x-listpanel-case.priority_1 {
+    background: url(<%= asset_path 'famfamfam/page_red_text.png' %>) no-repeat left;
+}
+
+#cases-tree ul.x-listpanel li.x-listpanel-item.priority_-1,
+#cases_in_set ul.x-listpanel li.x-listpanel-item.priority_-1,
+ul.x-listpanel li.x-listpanel-case.priority_-1 {
+    background: url(<%= asset_path 'famfamfam/page_green_text.png' %>) no-repeat left;
+}
+
+#sets-tree ul.x-listpanel li.x-listpanel-item.priority_-1 {
+    background: url(<%= asset_path 'famfamfam/book_green.png' %>) no-repeat left;
+}
+
+#sets-tree ul.x-listpanel li.x-listpanel-item.priority_1 {
+    background: url(<%= asset_path 'famfamfam/book_red.png' %>) no-repeat left;
+}

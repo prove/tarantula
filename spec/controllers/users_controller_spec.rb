@@ -6,17 +6,17 @@ describe UsersController do
     it "should list all users if logged in as admin" do
       log_in
 
-      p1 = Project.make
-      u1 = User.make(:login => 'user1')
+      p1 = Project.make!
+      u1 = User.make!(:login => 'user1')
       u1.project_assignments.create!(:project => p1,
                                    :group => 'TEST_ENGINEER')
-      p2 = Project.make
-      u2 = User.make(:login => 'user2')
+      p2 = Project.make!
+      u2 = User.make!(:login => 'user2')
       u2.project_assignments.create!(:project => p2,
                                    :group => 'MANAGER')
 
-      p3 = Project.make
-      u3 = User.make(:login => 'user3')
+      p3 = Project.make!
+      u3 = User.make!(:login => 'user3')
       u3.project_assignments.create!(:project => p3,
                                      :group => 'TEST_DESIGNER')
 
@@ -29,14 +29,14 @@ describe UsersController do
 
     it "should list only users from common projects for non admin user" do
       log_in({:admin => false, :group => 'MANAGER_VIEW_ONLY'})
-      p1 = Project.make
-      u1 = User.make(:login => 'user1')
+      p1 = Project.make!
+      u1 = User.make!(:login => 'user1')
       u1.project_assignments.create!(:project => p1,
                                    :group => 'TEST_ENGINEER')
       controller.instance_variable_get(:@current_user).project_assignments.create!(:project => p1,
                                                                                  :group => 'MANAGER_VIEW_ONLY')
-      p2 = Project.make
-      u2 = User.make(:login => 'user2')
+      p2 = Project.make!
+      u2 = User.make!(:login => 'user2')
       u2.project_assignments.create!(:project => Project.last,
                                    :group => 'TEST_ENGINEER')
 
@@ -48,14 +48,14 @@ describe UsersController do
 
     it "should list users from given project if logged in user is included to that project." do
       log_in({:admin => false, :group => 'MANAGER_VIEW_ONLY'})
-      p1 = Project.make
-      u1 = User.make(:login => 'user1')
+      p1 = Project.make!
+      u1 = User.make!(:login => 'user1')
       u1.project_assignments.create!(:project => p1,
                                    :group => 'TEST_ENGINEER')
       controller.instance_variable_get(:@current_user).project_assignments.create!(:project => p1,
                                                                                  :group => 'MANAGER_VIEW_ONLY')
-      p2 = Project.make
-      u2 = User.make(:login => 'user2')
+      p2 = Project.make!
+      u2 = User.make!(:login => 'user2')
       u2.project_assignments.create!(:project => Project.last,
                                      :group => 'TEST_ENGINEER')
 
@@ -99,7 +99,7 @@ describe UsersController do
 
   it "#show should return user data" do
     log_in
-    u = User.make
+    u = User.make!
     get 'show', :id => u.id
     response.body.should == {:data => [u.to_data]}.to_json
   end

@@ -187,7 +187,7 @@ class CaseExecution < ActiveRecord::Base
   end
 
   def failed_steps_info
-    failed = self.step_executions.find(:all, :conditions => {:result => Failed})
+    failed = self.step_executions.find(:all, :conditions => {:result => Failed.to_s})
     return nil if failed.empty?
     info = "FAILED: "
     info += failed.map{|f| "step #{f.position}, #{f.step.action}"}.join('; ')

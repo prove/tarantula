@@ -13,10 +13,10 @@ class Project < ActiveRecord::Base
                 {:name => 'normal', :value => 0},
                 {:name => 'low',    :value => -1}]
 
-  named_scope :active, :conditions => { :deleted => 0 }
-  named_scope :deleted, :conditions => { :deleted => 1 }
+  scope :active, where(:deleted => 0)
+  scope :deleted, where(:deleted => 1)
 
-  set_locking_column :version
+  self.locking_column = :version
   has_many :assignments, :class_name => 'ProjectAssignment',
            :dependent => :destroy, :conditions => "`group` != 'ADMIN'"
   has_many :users, :through => :assignments

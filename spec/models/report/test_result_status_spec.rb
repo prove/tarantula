@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/cacheable_report_spec.rb')
 
 describe Report::TestResultStatus do
   def get_instance(opts={})
@@ -7,11 +6,11 @@ describe Report::TestResultStatus do
       return Report::TestResultStatus.new(1, 4, 1)
     end                                    
     
-    p = Project.make
-    to = TestObject.make(:project => p)
-    ta = TestArea.make(:project => p)
+    p = Project.make!
+    to = TestObject.make!(:project => p)
+    ta = TestArea.make!(:project => p)
     Report::TestResultStatus.new(p.id, ta.id, to.id)
   end
   
-  it_should_behave_like "cacheable report"
+  it_behaves_like "cacheable report"
 end

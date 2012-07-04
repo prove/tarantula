@@ -1,15 +1,5 @@
 require 'machinist/active_record'
-require 'sham'
 require 'faker'
-
-###################################################
-# Shams                                           #
-###################################################
-
-Sham.define do
-  login                    { Faker::Name.first_name }
-  result(:unique => false) { ResultType.all.rand    }
-end
 
 ###################################################
 # Blueprints                                      #
@@ -22,7 +12,7 @@ end
 class Project < ActiveRecord::Base
   def self.make_with_cases(atts)
     cases_count = atts.delete(:cases)
-    p = Project.make(atts)
+    p = Project.make!(atts)
     cases_count.times do
       Case.make_with_steps(:project => p)
     end
@@ -32,13 +22,13 @@ end
 
 TestArea.blueprint do
   name    { "TestArea #{TestArea.count}" }
-  project { Project.make }
+  project { Project.make! }
 end
 
 TestObject.blueprint do
   name    { "TestArea #{TestObject.count}" }
   date    { Date.today }
-  project { Project.make }
+  project { Project.make! }
 end
 
 User.blueprint do
@@ -57,7 +47,7 @@ end
 
 TestSet.blueprint do
   name     { "TestSet #{TestSet.count}" }
-  project  { Project.make               }
+  project  { Project.make!              }
   priority { 0                          }
   date     { Date.today                 }
 end
@@ -65,7 +55,7 @@ end
 class TestSet < ActiveRecord::Base
   def self.make_with_cases(atts={}, case_atts={})
     cases_count = atts.delete(:cases) || rand(5)+1
-    ts = TestSet.make(atts)
+    ts = TestSet.make!(atts)
     cases_count.times do |i|
       ts.cases << Case.make_with_steps({:position => i+1, :project => ts.project}.merge(case_atts))
     end
@@ -77,24 +67,24 @@ Requirement.blueprint do
   name        { "req #{Requirement.count}" }
   external_id { "#{Requirement.count}"     }
   date        { Date.today                 }
-  project     { Project.make               }
-  created_by  { User.make.id               }
+  project     { Project.make!              }
+  created_by  { User.make!.id              }
 end
 
 Case.blueprint do
   title      { Faker::Lorem.words(rand(5)+1).join(' ') }
   date       { Date.today                              }
-  project    { Project.make                            }
-  created_by { User.make                               }
-  updated_by { User.make                               }
+  project    { Project.make!                           }
+  created_by { User.make!                              }
+  updated_by { User.make!                              }
 end
 
 class Case < ActiveRecord::Base
   def self.make_with_steps(atts={})
     steps_count = atts.delete(:steps) || rand(5)+1
-    c = Case.make(atts)
+    c = Case.make!(atts)
     steps_count.times do |i|
-      c.steps << Step.make(:position => i)
+      c.steps << Step.make!(:position => i)
     end
     c
   end
@@ -108,23 +98,24 @@ end
 Execution.blueprint do
   name        { Faker::Lorem.words(rand(5)+1).join(' ') }
   date        { Date.today                              }
-  test_object { TestObject.make                         }
-  project     { Project.make                            }
+  test_object { TestObject.make!                        }
+  project     { Project.make!                           }
 end
 
 class Execution < ActiveRecord::Base
   def self.make_with_runs(atts={})
     cases_count = atts.delete(:cases) || rand(5)+1
-    e = Execution.make(atts)
+    atts[:test_object] ||= TestObject.make!
+    e = Execution.make!(atts)
     test_set = TestSet.make_with_cases(:cases => cases_count)
-    updater = User.make
+    updater = User.make!
     test_set.cases.each do |c|
       ce = CaseExecution.create_with_steps!(:execution => e,
                                             :case_id => c.id,
                                             :position => c.position)
       ce.step_executions.each do |se|
         se.update_attributes(:result =>
-          ResultType.all.rand)
+          ResultType.all[rand(ResultType.all.size)])
       end
       ce.update_result(updater)
     end
@@ -134,36 +125,37 @@ class Execution < ActiveRecord::Base
 end
 
 CaseExecution.blueprint do
-  test_case { Case.make      }
-  execution { Execution.make }
+  test_case { Case.make!     }
+  execution { Execution.make!}
   result    { NotRun         }
-  executor  { User.make }
+  executor  { User.make!     }
   position  { rand(100)+1    }
 end
 
 StepExecution.blueprint do
   result { NotRun    }
-  step   { Step.make }
+  step   { Step.make!}
 end
 
 class CaseExecution < ActiveRecord::Base
   def self.make_with_result(atts={})
     if atts[:result] != NotRun
       atts[:executed_at] ||= Time.now
-      atts[:executor] ||= User.make
+      atts[:executor] ||= User.make!
+      atts[:execution] ||= Execution.make!
     end
-    ce = CaseExecution.make(atts)
+    ce = CaseExecution.make!(atts)
 
     ce.test_case.steps.each do |step|
-      ce.step_executions << StepExecution.make(:result => ce.result,
-                                               :step => step)
+      ce.step_executions << StepExecution.make!(:result => ce.result,
+                                                :step => step)
     end
     ce
   end
 end
 
 class Attachment < ActiveRecord::Base
-  def self.make
+  def self.make!
     c = Attachment.count
     ActiveRecord::Base.connection.execute(
       "INSERT INTO attachments (orig_filename, created_at) VALUES ('foo.bar',"+
@@ -203,7 +195,7 @@ Jira.blueprint do
   db_name   { 'bug_db_name'   }
   db_user   { 'bug_db_user'   }
   db_passwd { 'bug_db_passwd' }
-  import_source { ImportSource.make }
+  import_source { ImportSource.make! }
   mock      { true }
 end
 
@@ -228,28 +220,27 @@ class BugTracker < ActiveRecord::Base
   end
 end
 
-Bug.blueprint do |bug|
-  bug_tracker    { Bugzilla.make                                     }
-  severity       { BugSeverity.make(:bug_tracker => bug.bug_tracker) }
-  bug_product_id { rand(5)+1                                         }
-  external_id    { "#{Bug.count}"                                    }
+Bug.blueprint do
+  bug_tracker    { Bugzilla.make!                                       }
+  severity       { BugSeverity.make!(:bug_tracker => object.bug_tracker)}
+  product        { BugProduct.make!(:bug_tracker => object.bug_tracker) }
+  external_id    { "#{Bug.count}"                                       }
 end
 
 BugSeverity.blueprint do
-  bug_tracker { Bugzilla.make                       }
+  bug_tracker { Bugzilla.make!                      }
   external_id { "#{BugSeverity.count}"              }
   name        { "bug severity #{BugSeverity.count}" }
 end
 
 BugProduct.blueprint do
-  bug_tracker { Bugzilla.make                     }
+  bug_tracker { Bugzilla.make!                    }
   external_id { "#{BugProduct.count}"             }
   name        { "bug product #{BugProduct.count}" }
 end
 
 BugComponent.blueprint do
-  bug_product { BugProduct.make                       }
+  bug_product { BugProduct.make!                      }
   external_id { "#{BugComponent.count}"               }
   name        { "bug component #{BugComponent.count}" }
 end
-

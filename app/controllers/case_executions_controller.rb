@@ -16,7 +16,7 @@ class CaseExecutionsController < ApplicationController
     render :json => @execution.case_executions.find(:all,
                                        :joins => 'LEFT JOIN case_versions ON case_versions.version = case_executions.case_version AND case_versions.case_id = case_executions.case_id',
                                        :include => [:test_case, :executor]).
-      to_json(:only => [:id, :case_id, :case_version, :execution_id,
+      as_json(:only => [:id, :case_id, :case_version, :execution_id,
                         :result, :duration, :position, :assigned_to, :executed_at],
               :methods => [:history, :title, :time_estimate, :executed_by])
   end

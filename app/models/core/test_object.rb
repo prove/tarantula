@@ -18,14 +18,13 @@ class TestObject < ActiveRecord::Base
   validates_presence_of :project_id, :date
   
   # default ordering
-  named_scope :ordered, 
-              :order => 'test_objects.date DESC, test_objects.created_at DESC'
+  scope :ordered, 
+              order('test_objects.date DESC, test_objects.created_at DESC')
   
-  named_scope :active, :conditions => { :deleted => 0, :archived => 0 },
-                       :order => 'date desc'
-  named_scope :deleted, :conditions => { :deleted => 1 },
-                       :order => 'date desc'
+  scope :active, where(:deleted => 0, :archived => 0).order('date desc')
   
+  scope :deleted, where(:deleted => 1).order('date desc')
+
   # Return project's requirements for this test object.
   # Revert requirements to their last version which is applicable to 
   # this test_object, i.e. which was not updated after self.date
@@ -93,21 +92,20 @@ class TestObject < ActiveRecord::Base
     
     if only_active
       conds[0] += " and result != :res"
-      conds[1].merge!({:res => NotRun})
+      conds[1].merge!({:res => NotRun.db})
     end
     
-    TestObject.ordered.find(:all, :select => 'distinct test_objects.*',
-      :joins => {:executions => :case_executions},
-      :conditions => conds)
+    TestObject.ordered.where(conds).select('distinct test_objects.*').
+      joins(:executions => :case_executions)
   end
   
   def self.active_date_range(test_objects)
     conds = ["test_objects.id in (:tobs) and result != :re", 
-            {:re => NotRun, :tobs => test_objects.map(&:id)}]
-    start_ce = CaseExecution.find(:first, :conditions => conds,
-      :order => 'executed_at asc', :joins => {:execution => :test_object})
-    end_ce = CaseExecution.find(:first, :conditions => conds,
-      :order => 'executed_at desc', :joins => {:execution => :test_object})
+            {:re => NotRun.db, :tobs => test_objects.map(&:id)}]
+    start_ce = CaseExecution.joins(:execution => :test_object).where(conds).
+      order('executed_at asc').first
+    end_ce = CaseExecution.joins(:execution => :test_object).where(conds).
+      order('executed_at desc').first
     sday = (start_ce ? start_ce.executed_at.to_date : nil)
     eday = (end_ce ? end_ce.executed_at.to_date : nil)
     return nil if !sday or !eday

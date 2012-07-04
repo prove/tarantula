@@ -5,7 +5,7 @@ describe "lib/tasks" do
     
     before(:all) do
       Rake.application.rake_require "testia_db", 
-        [File.join(RAILS_ROOT, 'lib', 'tasks')]
+        [File.join(Rails.root, 'lib', 'tasks')]
     end
     
     it ":check_integrity should make some checks" do
@@ -24,7 +24,7 @@ describe "lib/tasks" do
   
   describe "db" do
     it ":create_views should create necessary views" do
-      Rake.application.rake_require "db_create_views", [File.join(RAILS_ROOT, 'lib', 'tasks')]
+      Rake.application.rake_require "db_create_views", [File.join(Rails.root, 'lib', 'tasks')]
       
       Rake::Task['db:create_views'].execute(nil)
       ActiveRecord::Base.connection.tables.should \
