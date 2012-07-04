@@ -6,10 +6,10 @@ A user.
 
 =end
 class User < ActiveRecord::Base
-  named_scope :active, :conditions => { :deleted => 0 }
-  named_scope :deleted, :conditions => { :deleted => 1 }
+  scope :active, where(:deleted => 0)
+  scope :deleted, where(:deleted => 1)
   
-  set_locking_column :version
+  self.locking_column = :version
   
   Groups = { 
     :test_engineer     => 'TEST_ENGINEER',
@@ -32,7 +32,8 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password,                   :if => :password_required?  
     
   validates_length_of       :login,    :within => 3..40
-  validates_email_format_of :email
+  validates :email, :presence => true, :uniqueness => true, 
+            :email_format => true
   
   
   validates_uniqueness_of   :login, :case_sensitive => false

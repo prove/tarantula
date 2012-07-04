@@ -1,0 +1,295 @@
+// -*- encoding: utf-8 -*-
+
+Ext.namespace('Ext.testia');
+
+/**
+  * Ext.testia.AttachmentForm
+  *   Form for handling file attachments in resources. Ie. test data for cases
+  *   etc.
+  *
+  * @class Ext.testia.AttachmentForm
+  * @extends Ext.form.Form
+  * @constructor
+  * @param {HTML element} el
+  * @param {object} config
+  * @cfg {String} urlTemplate Url for attachment list, and posting new
+  *   attachments. '/cases/%p/attachments/%i' etc. %p is the parent id
+  *   and %i is replaced with attachment id in the delete operation.
+  *   REST style requests are used.
+  *   GET /cases/1/attachments
+  *     JSON array containing attachment info
+  *   POST /cases/1/attachments
+  *     Upload single file
+  *   DELETE /cases/1/attachments/2
+  *     Remove attachment from the case, and if it's not attached to any other
+  *     cases delete file from server.
+  */
+Ext.testia.AttachmentForm = function(el,config) {
+    config = config || {};
+
+    Ext.apply(config, {fileUpload: true, labelWidth: 0,
+                       cls: 'x-testia-attachment'});
+
+    if (config.urlTemplate) {
+        this.urlTemplate = config.urlTemplate;
+        delete(config.urlTemplate);
+    }
+
+    Ext.testia.AttachmentForm.superclass.constructor.call(this, config);
+    this.el = el;
+    this.inputs = [];
+    this.attachments = [];
+    this.uploading = false;
+};
+
+Ext.extend(Ext.testia.AttachmentForm, Ext.form.Form, {
+    disabled: undefined,
+    //
+    urlTemplate: undefined,
+    // array of attachment objects.
+    // {name: filename to display,
+    //  url: file url
+    // input: form input element associated to file, only with new file
+    // deleted: true, if file is deleted from the case}
+    attachments: undefined,
+    inputsEl: undefined,
+    inputs: undefined,
+    // Element for attachment list
+    // .----------------+----------+--------------.
+    // |                | Name     | Actions      |
+    // |----------------+----------+--------------|
+    // | [icon/preview] | filename | [del button] |
+    // '----------------+----------+--------------'
+    listEl: undefined,
+    uploading: undefined,
+    downloading: undefined,
+
+    // Creates file input element which is used for uploads
+    createFileInput: function() {
+        var nid = Ext.id();
+        var input = Ext.DomHelper.append(this.inputsEl, {
+            tag: 'input',
+            type: 'file',
+            size: 0,
+            id: nid,
+            name: 'file_data[]'
+        }, true);
+        this.inputs.push(input);
+        // call fileadded for other listeners
+        this.fireEvent('fileadded', this, nid);
+        input.dom.disabled = this.disabled;
+        return input;
+    },
+
+    addTableRow: function() {
+        var t = new Ext.Template([
+            '<tr id="row-{id}"><td class="x-unselectable {cls}">',
+            '<img class="x-testia-icon" src="'+Ext.BLANK_IMAGE_URL+'"></td>',
+            '<td class="x-testia-deleteicon">',
+            '<a id="delete-{id}" href="#"><img src="' +
+                createUrl('<%= asset_path "famfamfam/bin_closed.png" %>'),
+            '"></a></td></tr>'
+        ]);
+        inp = this.attachments.last();
+        inp.id = Ext.id();
+        var row = t.append(this.listEl, inp, true);
+        var name = row.child('td.x-unselectable');
+        if (inp.url) {
+            Ext.DomHelper.append(name, {tag:'a', href:inp.url,
+                                        target:'_blank', html: inp.name});
+        } else {
+            Ext.DomHelper.append(name, {tag:'span', html:inp.name});
+        }
+        var button = row.child('td.x-testia-deleteicon a');
+        button.on('click', function(e,t) {
+            if (this.disabled) { return false; }
+
+            var att = this.attachments.filter(function(a) {
+                if (a.id === t.parentNode.id.match(/delete-(.*)$/)[1]) {
+                    return true;
+                }
+                return false;
+            })[0];
+            // If att.input exists file is added recently and isn't updated to
+            // the serverside. Then deleting all client references
+            // (input element, attachment object and table row) is sufficient
+            if (att.input !== undefined) {
+                this.inputs.splice(this.inputs.indexOf(att.input), 1);
+                this.attachments.splice(this.attachments.indexOf(att), 1);
+                att.input.remove();
+            } else {
+                // Attachment is already uploaded to
+                // serverside. Remove table row and mark attachment
+                // object as deleted to be able to update status to
+                // the server.
+                att.deleted = true;
+            }
+            Ext.get('row-'+att.id).remove();
+            this.fireEvent('filedeleted', this, att);
+        }, this);
+    },
+
+    render: function() {
+        Ext.DomHelper.useDom = true;
+        this.addButton( {text: "Add", cls: "x-testia-attachment-btn-add"}, function() {
+            if (!Ext.isEmpty(this.inputs.last().getValue())) {
+                this.onFileAdded();
+            }
+        }, this);
+        Ext.testia.AttachmentForm.superclass.render.call(this, Ext.get(this.el));
+        // Add hidden iframe for submit response
+        //var tmp = Ext.DomHelper.append(this.el, {tag:'iframe',
+        //    style:'display:none;'}, true);
+        //tmp.dom.name = tmp.id;
+        //this.el.dom.setAttribute('target', tmp.id);
+        //this.el.dom.setAttribute('enctype','multipart/form-data');
+        this.inputsEl = Ext.DomHelper.append(this.el.child('.x-form-ct'),
+            {
+                tag:'div',cls:'x-testia-browse', children: [
+                    {tag: 'p',cls: 'x-testia-browse', html: "Attachments"}
+                ]
+            },
+        true);
+
+        this.listEl = Ext.DomHelper.append(this.el, {tag:'table', cls:'x-testia-attachment-list',
+                                                     children: [
+                                                         {tag:'tbody'}
+                                                     ]}, true);
+
+        this.listEl = this.listEl.child('tbody');
+        this.createFileInput();
+    },
+
+    disable: function() {
+        this.inputs.last().dom.disabled = true;
+        Ext.each(this.buttons, function(i) {
+            i.disable();
+        }, this);
+        this.disabled = true;
+    },
+
+    enable: function() {
+        this.inputs.last().dom.disabled = false;
+        Ext.each(this.buttons, function(i) {
+            i.enable();
+        }, this);
+        this.disabled = false;
+    },
+
+    resetContent: function() {
+        Ext.each(this.inputs, function(i) {
+            i.remove();
+        }, this);
+        this.listEl.clearContent();
+        this.inputs = [];
+        this.attachments = [];
+        this.createFileInput();
+    },
+
+    upload: function(parent_id) {
+        var finished_count = 0;
+        var deleted = this.attachments.filter(function(a) {
+            return a.deleted;
+        });
+        var delUrl = this.urlTemplate.replace('%p', parent_id);
+        Ext.each(deleted, function(i) {
+            Ext.Ajax.request({
+                url: delUrl.replace('%i', i.dbid),
+                method: 'delete',
+                scope: this,
+                callback: function() {
+                    finished_count++;
+                }
+            });
+        }, this);
+        this.url = delUrl.replace('/%i','');
+        var added = this.attachments.filter(function(a) {
+            if (a.input) {
+                return true;
+            }
+            return false;
+        });
+
+        // Callback for upload form. Reloads attachments
+        // with proper url references to new ones.
+        var cb = function(id) {
+            // Workaround for IE
+            if (Ext.isIE && Ext.Ajax.isLoading(id)) {
+                cb.defer(500, this, [id]);
+                return;
+            }
+
+            if (deleted.length == finished_count) {
+                this.uploading = false;
+                this.load(parent_id);
+                this.fireEvent('uploadcomplete', this, true);
+            } else {
+                cb.defer(500, this, [id]);
+            }
+        };
+        if (added.length > 0) {
+            this.uploading = true;
+            var trans_id = this.submit({
+                url: this.url,
+                method: 'post',
+                enctype:'multipart/form-data',
+                scope: this,
+                // For some odd reason callback: cb isn't working for upload form in FF
+                // IE ignores these, that's why theres another workaround for IE
+                success: cb,
+                failure: cb
+            });
+            // Stupid workaround for IE which isn't able
+            // to call success or failure callbacks in upload form.
+            if (Ext.isIE) {
+                cb.defer(500, this, [trans_id]);
+            }
+        } else {
+            this.fireEvent('uploadcomplete', this, false);
+        }
+    },
+
+    load: function(parent_id) {
+        if (this.uploading || this.downloading) {
+            return;
+        }
+        this.downloading = true;
+        this.resetContent();
+        Ext.Ajax.request({
+            url: this.urlTemplate.replace(
+                '%p', parent_id).replace('%i',''),
+            method: 'get',
+            scope: this,
+            success: function(r) {
+                data = Ext.decode(r.responseText);
+                Ext.each(data, function(i) {
+                    if (i.id && !i.dbid) {i.dbid = i.id;}
+                    this.attachments.push(i);
+                    this.addTableRow();
+                }, this);
+                this.downloading = false;
+            }
+        });
+    },
+
+    // Default handler for file additions
+    onFileAdded: function() {
+        Ext.each(this.inputs, function(i) {
+            i.setDisplayed(false);
+        }, this);
+
+        var inp = this.inputs.last();
+
+        this.attachments.push({
+            id: inp.id,
+            name: inp.getValue(),
+            cls: '',
+            input: inp,
+            url:'',
+            deleted:false});
+        //   2. add element and delete action button in the list
+        this.addTableRow();
+        // create new input to enable adding more files.
+        this.createFileInput();
+    }
+});

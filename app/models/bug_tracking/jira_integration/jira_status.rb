@@ -1,6 +1,6 @@
 class JiraStatus < ActiveRecord::Base
-  set_table_name 'issuestatus'
-  set_primary_key 'ID'
+  self.table_name = 'issuestatus'
+  self.primary_key = 'ID'
 
   has_many :issues, :class_name => 'JiraIssue', :foreign_key => 'issuestatus'
 

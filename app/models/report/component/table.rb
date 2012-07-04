@@ -24,12 +24,12 @@ module Report
         @data.flatten.empty?
       end
 
-      def to_json(options={})
+      def as_json(options=nil)
         ret = {:type    => @type,
                :columns => @columns.map{|k,v| [k,v]},
                :data    => @data}
         ret.merge!(:csv_export_url => @csv_export_url) if @csv_export_url
-        ret.to_json(options)
+        ret.as_json(options)
       end
 
       def to_csv(delimiter=';', line_feed="\r\n")
@@ -45,7 +45,8 @@ module Report
           csv.chop!
           csv << line_feed
         end
-        "\xEF\xBB\xBF"+csv # Byte-order mark
+        csv
+        #"\xEF\xBB\xBF"+csv # Byte-order mark
       end
 
       def to_pdf(pdf)

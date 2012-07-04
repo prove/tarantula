@@ -2,7 +2,7 @@ module Report
   
   # POST:able report data for editable report fields
   class Data < ActiveRecord::Base
-    set_table_name 'report_data'
+    self.table_name = 'report_data'
     belongs_to :user
     belongs_to :project
     

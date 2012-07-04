@@ -86,13 +86,13 @@ describe ExecutionsController do
 
   describe "#require_test_area" do
     it "should not raise if project has no test areas" do
-      project = Project.make
+      project = Project.make!
       ec = ExecutionsController.new
       ec.instance_eval {require_test_area({}, project)}
     end
 
     it "should raise if project has test areas and no matching test_area_id" do
-      project = Project.make
+      project = Project.make!
       project.test_areas.create! :name => 'ta'
       ec = ExecutionsController.new
 
@@ -101,9 +101,9 @@ describe ExecutionsController do
     end
 
     it "should not raise if project has test areas and matching id found" do
-      project = Project.make
+      project = Project.make!
       ta = project.test_areas.create! :name => 'ta'
-      e = Execution.make(:project => project)
+      e = Execution.make!(:project => project)
       e.tag_with('ta')
 
       ec = ExecutionsController.new

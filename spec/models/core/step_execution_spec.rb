@@ -3,8 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe StepExecution do
   
   it "#to_data should have necessary fields" do
-    se = StepExecution.make(:step => Step.make,
-                            :case_execution => CaseExecution.make)
+    se = StepExecution.make!(:step => Step.make!,
+                             :case_execution => CaseExecution.make!)
     
     data = se.to_data
     data.should have_key(:id)

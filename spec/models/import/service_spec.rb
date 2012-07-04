@@ -2,8 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe Import::Service do
   it "create_entity uses create_policy for unique external_id" do
-    p = Project.make
-    Case.make(:external_id => 'id1', :project => p)
+    p = Project.make!
+    Case.make!(:external_id => 'id1', :project => p)
     flexmock(Case).should_receive(:create!).never
     
     Import::Service.instance.create_entity(Case, {:external_id => 'id1', 
@@ -11,8 +11,8 @@ describe Import::Service do
   end
   
   it "create_entity uses create_policy for unique external_id, 2" do
-    p = Project.make
-    Case.make(:external_id => 'id1', :project => p)
+    p = Project.make!
+    Case.make!(:external_id => 'id1', :project => p)
     flexmock(Case).should_receive(:create!).once
     
     Import::Service.instance.create_entity(Case, {:external_id => 'id2', 
@@ -22,17 +22,17 @@ describe Import::Service do
   describe "#find_ext_entity" do
     it "should find if entity with external_id exists in scope" do
       is = Import::Service.instance
-      bt = Bugzilla.make
-      prod = BugProduct.make(:bug_tracker => bt, :external_id => "eid")
+      bt = Bugzilla.make!
+      prod = BugProduct.make!(:bug_tracker => bt, :external_id => "eid")
       is.find_ext_entity(BugProduct, {:external_id => "eid",
                                       :bug_tracker_id => bt.id}).should == prod
     end
     
     it "should not find if entity with external_id does not exist in scope" do
       is = Import::Service.instance
-      bt = Bugzilla.make
-      bt2 = Bugzilla.make
-      prod = BugProduct.make(:bug_tracker => bt, :external_id => "eid")
+      bt = Bugzilla.make!
+      bt2 = Bugzilla.make!
+      prod = BugProduct.make!(:bug_tracker => bt, :external_id => "eid")
       is.find_ext_entity(BugProduct, {:external_id => "eid",
                                       :bug_tracker_id => bt2.id}).should == nil
     end

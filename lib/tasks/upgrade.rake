@@ -1,7 +1,7 @@
 namespace :tarantula do
   desc "Upgrade this Tarantula installation to given version"
   task :upgrade do
-    system("cd #{RAILS_ROOT}; git pull")
+    system("cd #{Rails.root}; git pull")
     unless ENV['VERSION'].blank?
       system("git checkout #{ENV['VERSION']}")
     end

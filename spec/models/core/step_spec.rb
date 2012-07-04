@@ -1,12 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/versioned_spec.rb')
 
 describe Step do
-  def get_instance; Step.make; end
-  it_should_behave_like "versioned"
+  def get_instance; Step.make!; end
+  it_behaves_like "versioned"
   
   it "#to_data should contain needed attributes" do
-    data = Step.make.to_data
+    data = Step.make!.to_data
     data.keys.should include(:id)
     data.keys.should include(:action)
     data.keys.should include(:result)
@@ -17,14 +16,14 @@ describe Step do
   
   describe "#update_if_needed" do
     it "should not update if nothing changed" do
-      s = flexmock(Step.make)
+      s = flexmock(Step.make!)
       s.should_receive(:save).and_raise('save should not have been called')
       s.update_if_needed(s.attributes)
       s.version.should == 1
     end
     
     it "should update if attributes changed" do
-      s = Step.make(:action => 'a1', :result => 'r1', :position => '1')
+      s = Step.make!(:action => 'a1', :result => 'r1', :position => '1')
       s.version.should == 1
       s.update_if_needed(:action => 'a2', :result => 'r1', :position => '1')
       s.version.should == 2
@@ -37,21 +36,21 @@ describe Step do
   
   describe "#history" do
     it "should return 3 last step executions" do
-      s = Step.make
-      e = Execution.make
-      ce = CaseExecution.make(:execution => e)
-      se1 = StepExecution.make(:step => s, :comment => '1',
-                                          :case_execution => ce,
-                                          :result => Passed)
-      se2 = StepExecution.make(:step => s, :comment => '2',
-                                          :case_execution => ce,
-                                          :result => Failed)
-      se3 = StepExecution.make(:step => s, :comment => '3',
-                                          :case_execution => ce,
-                                          :result => Passed)
-      se4 = StepExecution.make(:step => s, :comment => '4',
-                                          :case_execution => ce,
-                                          :result => Passed)
+      s = Step.make!
+      e = Execution.make!
+      ce = CaseExecution.make!(:execution => e)
+      se1 = StepExecution.make!(:step => s, :comment => '1',
+                                            :case_execution => ce,
+                                            :result => Passed)
+      se2 = StepExecution.make!(:step => s, :comment => '2',
+                                            :case_execution => ce,
+                                            :result => Failed)
+      se3 = StepExecution.make!(:step => s, :comment => '3',
+                                            :case_execution => ce,
+                                            :result => Passed)
+      se4 = StepExecution.make!(:step => s, :comment => '4',
+                                            :case_execution => ce,
+                                            :result => Passed)
       hist = s.history
       hist[0][:comment].should == '4'
       hist[1][:comment].should == '3'
@@ -60,21 +59,21 @@ describe Step do
     end
     
     it "should exclude the step execution given as argument" do
-      s = Step.make
-      e = Execution.make
-      ce = CaseExecution.make(:execution => e)
-      se1 = StepExecution.make(:step => s, :comment => '1',
-                                          :case_execution => ce,
-                                          :result =>  Passed)
-      se2 = StepExecution.make(:step => s, :comment => '2',
-                                          :case_execution => ce,
-                                          :result => Passed)
-      se3 = StepExecution.make(:step => s, :comment => '3',
-                                          :case_execution => ce,
-                                          :result => Failed)
-      se4 = StepExecution.make(:step => s, :comment => '4',
-                                          :case_execution => ce,
-                                          :result => Passed)
+      s = Step.make!
+      e = Execution.make!
+      ce = CaseExecution.make!(:execution => e)
+      se1 = StepExecution.make!(:step => s, :comment => '1',
+                                            :case_execution => ce,
+                                            :result =>  Passed)
+      se2 = StepExecution.make!(:step => s, :comment => '2',
+                                            :case_execution => ce,
+                                            :result => Passed)
+      se3 = StepExecution.make!(:step => s, :comment => '3',
+                                            :case_execution => ce,
+                                            :result => Failed)
+      se4 = StepExecution.make!(:step => s, :comment => '4',
+                                            :case_execution => ce,
+                                            :result => Passed)
       hist = s.history(se4)
       hist[0][:comment].should == '3'
       hist[1][:comment].should == '2'
@@ -83,12 +82,12 @@ describe Step do
     end
     
     it "should exclude not run step executions" do
-        s = Step.make
-        e = Execution.make
-        ce = CaseExecution.make(:execution => e)
-        se1 = StepExecution.make(:step => s, :comment => '1',
-                                            :case_execution => ce,
-                                            :result => NotRun)
+        s = Step.make!
+        e = Execution.make!
+        ce = CaseExecution.make!(:execution => e)
+        se1 = StepExecution.make!(:step => s, :comment => '1',
+                                              :case_execution => ce,
+                                              :result => NotRun)
         s.history.size.should == 0
     end
     

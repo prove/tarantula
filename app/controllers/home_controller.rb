@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-  filter_parameter_logging :password
   
   def index
     if request.xhr? == true

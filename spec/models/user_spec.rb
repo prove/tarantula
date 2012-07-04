@@ -2,13 +2,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe User do
   def get_instance(atts={})
-    User.make(atts)
+    User.make!(atts)
   end
   
   it "#allowed_in_project? should tell if user is allowed in project "+
      "with given rights" do
-    p = Project.make
-    u = User.make
+    p = Project.make!
+    u = User.make!
     u.allowed_in_project?(p, ['GUEST']).should be_false
     
     ProjectAssignment.create(:project_id => p.id, :user_id => u.id,
@@ -20,7 +20,7 @@ describe User do
   end
   
   it "#to_data should return necessary data" do
-    u = User.make
+    u = User.make!
     keys = u.to_data.keys
     keys.size.should ==  10
     keys.should include(:id)
@@ -36,7 +36,7 @@ describe User do
   end
 
   it "#to_tree should return necessary data" do
-    u = User.make
+    u = User.make!
     keys = u.to_tree.keys
     keys.size.should == 6
     keys.should include(:dbid)
@@ -49,8 +49,8 @@ describe User do
   
   describe "#set_test_area" do
     it "it should set test area" do
-      u = User.make
-      p = Project.make
+      u = User.make!
+      p = Project.make!
       ta = TestArea.new(:name => 'area1')
       p.test_areas <<  ta
       p.assignments << ProjectAssignment.new(:user => u, :group => 'MANAGER')
@@ -62,14 +62,14 @@ describe User do
     end
     
     it "should not reset test object" do
-      u = User.make
-      p = Project.make
-      to = TestObject.make(:project => p)
-      to2 = TestObject.make(:project => p)
-      ta = TestArea.make(:project => p, :name => 'area1')
+      u = User.make!
+      p = Project.make!
+      to = TestObject.make!(:project => p)
+      to2 = TestObject.make!(:project => p)
+      ta = TestArea.make!(:project => p, :name => 'area1')
       pa = ProjectAssignment.create!(:user => u, :project => p, :test_object => to, 
                                      :test_area => ta, :group => 'MANAGER')
-      ta2 = TestArea.make(:project => p, :name => 'area2')
+      ta2 = TestArea.make!(:project => p, :name => 'area2')
       u.set_test_area(p.id, ta2.id)
       pa.reload
       pa.test_area.should == ta2
@@ -78,7 +78,7 @@ describe User do
   end
   
   it "#execution_tasks should create task for each user's not run execution" do
-    u = User.make
+    u = User.make!
     e = flexmock('execution', 'case_executions.count' => 1)
     flexmock(Execution).should_receive(:find).once.and_return([e, e])
     flexmock(Task::Execution).should_receive(:new).twice.with(e, u, 1)

@@ -3,12 +3,12 @@ module Preference
   
   # Preference base class.
   class Base < ActiveRecord::Base
-    set_table_name 'preferences'
+    self.table_name = 'preferences'
     belongs_to :user
     belongs_to :project # optional
     
-    named_scope :dashboard, :conditions => {:type => 'Dashboard'}
-    named_scope :for_project, lambda {|p| {:conditions => {:project_id => p.id}}}
+    scope :dashboard, where(:type => 'Dashboard')
+    scope :for_project, lambda {|p| where(:project_id => p.id)}
     
     # Serializing assignment
     def data=(d)

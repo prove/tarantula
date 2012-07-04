@@ -14,7 +14,7 @@ class Tag < ActiveRecord::Base
   has_many :taggings, :dependent => :destroy
   belongs_to :project
   
-  named_scope :ordered, :order => 'name ASC'
+  scope :ordered, order('name ASC')
   
   # used in application controller
   class Error < StandardError

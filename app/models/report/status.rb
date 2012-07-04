@@ -18,7 +18,7 @@ class Status < Report::Base
   def pdf_options
     opts = {:opts_for_new => {:page_layout => :landscape}}
     
-    img_path = "#{RAILS_ROOT}/public/images/customer_logo.png"
+    img_path = "#{Rails.root}/public/images/customer_logo.png"
     
     if File.exists?(img_path)
       init = Proc.new do |pdf|

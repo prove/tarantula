@@ -33,9 +33,9 @@ module Report
         @name
       end
 
-      def to_json(options={})
+      def as_json(options=nil)
         {:type     => "parameters",
-         :value    => @phash}.to_json
+         :value    => @phash}.as_json(options)
       end
 
       def to_pdf(pdf)

@@ -1,0 +1,113 @@
+
+/* infopanel/accordion classes */
+
+.x-dock-panel {
+    /* turn IE layout mode on */
+    /*zoom:1;*/
+    width: 100%;
+}
+
+.x-dock-panel .x-dock-panel-body {
+    background-color: white;
+    font: normal 8pt tahoma,verdana,helvetica;
+    color: black;
+    width: 100%;
+    /* position:relative; */
+    /*top: 0;*/
+    /* turn IE layout mode on */
+    /*zoom:1;*/
+}
+
+.x-dock-panel .x-dock-panel-body-docked {
+    border-bottom: 1px solid #A9BFD3;
+}
+
+.x-dock-panel .x-dock-panel-body-undocked {
+    border-left: 1px solid #A9BFD3;
+    border-right: 1px solid #A9BFD3;
+    border-bottom: 1px solid #A9BFD3;
+}
+
+.x-dock-panel .x-dock-panel-body-collapsed {
+}
+
+.x-dock-panel .x-dock-panel-body-expanded {
+}
+
+.x-dock-panel .x-dock-panel-title-over {
+    background-position: 0 -5px; 
+}
+.x-dock-panel .x-dock-panel-icon,
+.x-dock-panel-ghost .x-dock-panel-icon {
+    background-position: 3px 50%;
+    background-repeat: no-repeat;
+    padding-left: 23px;
+}
+.x-dock-body, .x-dlg-bd .x-dock-body {
+    background-color: #f7f7fd;
+    /* position: relative; */
+    /*top: 0;*/
+    /*left: 0;*/
+}
+
+.x-dock-body-dragover, x-dlg-bd .x-dock-body-dragover {
+    background: #f0f0f6;
+}
+.x-dock-panel .x-window-header-text 
+, .x-dlg-proxy .x-window-header-text {
+    cursor: pointer;
+}
+.x-dock-panel .x-dock-panel-title-dragover {
+    background-position: 0 -12px;
+    color: white ! important;
+}
+
+.x-dock-panel .x-dock-panel-title-collapsed {
+}
+
+.x-dock-panel .x-dock-panel-title-expanded {
+}
+
+.x-dock-panel .x-layout-stuck {
+    background-image: url(<%= asset_path 'stuck.gif' %>);
+}
+
+.x-dock-panel .x-layout-panel-hd {
+    position: static;
+}
+
+.x-dock-panel .x-dock-panel-title-pinned {
+    cursor: default;
+}
+
+.x-dock-panel .x-dock-panel-toolbar {
+}
+
+.x-dock-panel .x-dock-panel-toolbar-bottom {
+    position: absolute;
+    bottom: -1px;
+}
+
+.x-dock-panel .x-dock-panel-toolbar .x-toolbar {
+    /* turn IE layout mode on */
+    /*zoom:1;*/
+}
+
+/* IE 1px combo arrow tweak */
+.x-dock-panel .x-form-text {
+    vertical-align: top;
+}
+
+.x-dock-panel-ghost {
+    background:#cbddf3;
+    border-top: 0;
+    /* position: relative; */
+    /*top: 0;*/
+    opacity:.65;
+    -moz-opacity:.65;
+    filter:alpha(opacity=65);
+}
+
+/* end of file */
+
+

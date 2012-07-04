@@ -7,7 +7,7 @@ Task base class.
 
 =end
 class Base < ActiveRecord::Base
-  set_table_name 'tasks'
+  self.table_name = 'tasks'
   validates_presence_of :resource_id, :resource_type, :project_id, 
                         :created_by, :assigned_to
   belongs_to :project
@@ -15,12 +15,11 @@ class Base < ActiveRecord::Base
   belongs_to :assignee, :foreign_key => 'assigned_to', :class_name => 'User'
   belongs_to :creator, :foreign_key => 'created_by', :class_name => 'User'
   
-  named_scope :unfinished, :conditions => {:finished => false}
-  named_scope :finished, :conditions => {:finished => true}
-  named_scope :ordered, :order => 'updated_at desc'
-  named_scope :active, :conditions => 
-    ["finished=0 or (finished=1 and updated_at > :time)", 
-    {:time => 2.weeks.ago}]
+  scope :unfinished, where(:finished => false)
+  scope :finished, where(:finished => true)
+  scope :ordered, order('updated_at desc')
+  scope :active, where(["finished=0 or (finished=1 and updated_at > :time)", 
+                       {:time => 2.weeks.ago}])
   
   def to_data
     {:id => self.id,
@@ -43,8 +42,8 @@ class Base < ActiveRecord::Base
   def item_class; resource.class.to_s; end
   def item_name; resource.name; end
   
-  def to_json(opts={})
-    self.to_data.to_json(opts)
+  def as_json(opts=nil)
+    self.to_data.as_json(opts)
   end
   
   # redefine in subclasses

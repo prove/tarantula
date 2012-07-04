@@ -5,7 +5,7 @@ Step of a case.
 =end
 class Step < ActiveRecord::Base
   acts_as_versioned
-  set_locking_column :version
+  self.locking_column = :version
 
   has_and_belongs_to_many_versioned :cases, :include_join_fields => [:position]
   

@@ -16,6 +16,9 @@ to_data:: return data for tracker
 
 =end
 class BugTracker < ActiveRecord::Base
+  attr_accessible :type, :name, :base_url, :db_host, :db_name, :db_user,
+                  :db_passwd, :sync_project_with_classification, :last_fetched
+  
   has_many :severities, :class_name => 'BugSeverity', :dependent => :destroy
   has_many :products, :class_name => 'BugProduct', :dependent => :destroy
   has_many :bug_components, :through => :products
@@ -40,10 +43,16 @@ class BugTracker < ActiveRecord::Base
       name = "Current"
     end
     return nil if container.nil?
-
-    bug_data = container.bugs.send(bscope, self[:type]).ordered.find(:all,
-      :conditions => {:bug_product_id => test_area ? test_area.bug_product_ids : proj.bug_product_ids},
-      :include => :severity)
+    
+    bug_data = nil
+    if bscope == :s_open
+      bug_data = container.bugs.send(:s_open, self.type)
+    elsif bscope == :not_closed
+      bug_data = container.bugs.send(:not_closed, self.type)
+    else
+      bug_data = container.bugs
+    end
+    bug_data = bug_data.ordered.where(:bug_product_id => test_area ? test_area.bug_product_ids : proj.bug_product_ids).includes(:severity)
 
     bug_data.each do |bug|
       key = bug.instance_eval(hash_by)
@@ -65,11 +74,12 @@ class BugTracker < ActiveRecord::Base
   private
 
   # override in subclass with a real implementation
-  def ping; raise "pong" end
+  def ping; end
+  def refresh!; end
 
   def logger
     return @logger if @logger
-    @logger = Import::ImportLogger.new("#{RAILS_ROOT}/log/bug_trackers.log", 5,
+    @logger = Import::ImportLogger.new("#{Rails.root}/log/bug_trackers.log", 5,
                                        100.megabytes)
     @logger.markup = false
     @logger

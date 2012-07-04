@@ -9,7 +9,7 @@ class Requirement < ActiveRecord::Base
   include TaggingExtensions
   
   acts_as_versioned
-  set_locking_column :version
+  self.locking_column = :version
   
   belongs_to :project
   has_and_belongs_to_many_versioned :cases
@@ -26,10 +26,10 @@ class Requirement < ActiveRecord::Base
     :message => 'id has already been taken'
   
   # default ordering
-  named_scope :ordered, :order => 'name ASC'
+  scope :ordered, order('name ASC')
   
-  named_scope :active, :conditions => { :deleted => 0, :archived => 0 }
-  named_scope :deleted, :conditions => { :deleted => 1 }
+  scope :active, where(:deleted => 0, :archived => 0)
+  scope :deleted, where(:deleted => 1)
   
   def to_data
     {

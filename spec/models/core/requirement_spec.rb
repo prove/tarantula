@@ -1,13 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require RAILS_ROOT + '/vendor/plugins/attsets/spec/shared/attachment_host_spec.rb'
-require File.expand_path(File.dirname(__FILE__) + '/../shared/taggable_spec.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/externally_identifiable.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/date_stamped.rb')
-require File.expand_path(File.dirname(__FILE__) + '/../shared/versioned_spec.rb')
+require "#{Rails.root}/lib/attsets/spec/shared/attachment_host_spec"
+
 
 describe Requirement do
   def get_instance(atts={})
-    r = Requirement.make(atts)
+    r = Requirement.make!(atts)
     def r.new_versioned_child
       Case.new(:project => Project.last, :title => 'child case', :date => Date.today)
     end
@@ -15,11 +12,11 @@ describe Requirement do
     r
   end
   
-  it_should_behave_like "attachment host"
-  it_should_behave_like "taggable"
-  it_should_behave_like "externally_identifiable"
-  it_should_behave_like "date stamped"
-  it_should_behave_like "versioned"
+  it_behaves_like "attachment host"
+  it_behaves_like "taggable"
+  it_behaves_like "externally_identifiable"
+  it_behaves_like "date stamped"
+  it_behaves_like "versioned"
   
   it "#to_data should return necessary data" do
     keys = Requirement.new.to_data.keys
@@ -79,9 +76,9 @@ describe Requirement do
   end
   
   it "should keep earlier version's cases with #update_keeping_cases" do
-    req = Requirement.make
-    case1 = Case.make
-    case2 = Case.make
+    req = Requirement.make!
+    case1 = Case.make!
+    case2 = Case.make!
     req.cases << case1 << case2
     req.cases.should == [case1, case2]
     req.version.should == 1
@@ -92,28 +89,28 @@ describe Requirement do
   
   describe "#cases_on_test_area" do
     it "should return [] if no cases belonging to test area" do
-      p = Project.make
-      ta = TestArea.make(:project => p)
-      req = Requirement.make(:project => p)
+      p = Project.make!
+      ta = TestArea.make!(:project => p)
+      req = Requirement.make!(:project => p)
     
       req.cases_on_test_area(ta).should == []
     end
     
     it "should return cases belonging to test area" do
-      p = Project.make
-      ta = TestArea.make(:project => p)
-      c = Case.make(:project => p, :test_areas => [ta])
-      req = Requirement.make(:project => p)
+      p = Project.make!
+      ta = TestArea.make!(:project => p)
+      c = Case.make!(:project => p, :test_areas => [ta])
+      req = Requirement.make!(:project => p)
       req.cases << c
       
       req.cases_on_test_area(ta).should == [c]
     end
     
     it "should not return cases that don't belong to test area" do
-      p = Project.make
-      ta = TestArea.make(:project => p)
-      c = Case.make(:project => p)
-      req = Requirement.make(:project => p)
+      p = Project.make!
+      ta = TestArea.make!(:project => p)
+      c = Case.make!(:project => p)
+      req = Requirement.make!(:project => p)
       req.cases << c
       
       req.cases_on_test_area(ta).should == []
@@ -126,41 +123,41 @@ describe Requirement do
     end
     
     it "should return [req] if only req given" do
-      r = Requirement.make
+      r = Requirement.make!
       Requirement.id_sort!([r]).should == [r]
     end
     
     it "should sort if external_id number" do
-      r1 = Requirement.make(:external_id => "5")
-      r2 = Requirement.make(:external_id => "3")
+      r1 = Requirement.make!(:external_id => "5")
+      r2 = Requirement.make!(:external_id => "3")
       Requirement.id_sort!([r1,r2]).should == [r2,r1]      
     end
     
     it "should sort pure numbers before mixed's" do
-      r1 = Requirement.make(:external_id => "REQ03")
-      r2 = Requirement.make(:external_id => "5")
+      r1 = Requirement.make!(:external_id => "REQ03")
+      r2 = Requirement.make!(:external_id => "5")
       Requirement.id_sort!([r1,r2]).should == [r2,r1]
     end
     
     it "should sort mixeds [1]" do
-      r1 = Requirement.make(:external_id => "REQ03")
-      r2 = Requirement.make(:external_id => "REQ05")
+      r1 = Requirement.make!(:external_id => "REQ03")
+      r2 = Requirement.make!(:external_id => "REQ05")
       Requirement.id_sort!([r1,r2]).should == [r1,r2]
     end
     
     it "should sort mixeds [2]" do
-      r1 = Requirement.make(:external_id => "REQ03")
-      r2 = Requirement.make(:external_id => "FP1")
-      r3 = Requirement.make(:external_id => "REQ05")
+      r1 = Requirement.make!(:external_id => "REQ03")
+      r2 = Requirement.make!(:external_id => "FP1")
+      r3 = Requirement.make!(:external_id => "REQ05")
       Requirement.id_sort!([r1,r2,r3]).should == [r2,r1,r3]
     end
     
     it "should sort numbers and mixeds" do
-      r1 = Requirement.make(:external_id => "100")
-      r2 = Requirement.make(:external_id => "54")
-      r3 = Requirement.make(:external_id => "REQ100")
-      r4 = Requirement.make(:external_id => "REQ21")
-      r5 = Requirement.make(:external_id => "FP01")
+      r1 = Requirement.make!(:external_id => "100")
+      r2 = Requirement.make!(:external_id => "54")
+      r3 = Requirement.make!(:external_id => "REQ100")
+      r4 = Requirement.make!(:external_id => "REQ21")
+      r5 = Requirement.make!(:external_id => "FP01")
       Requirement.id_sort!([r1,r2,r3,r4,r5]).should == [r2,r1,r5,r4,r3]
     end
     
