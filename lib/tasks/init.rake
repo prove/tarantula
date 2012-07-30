@@ -4,7 +4,7 @@ namespace :tarantula do
     " Create also default project."
   task :init_db => :environment do
 
-    project = Project.create!(:name => "Default Project")
+    project = Project.find_or_create_by_name("Default Project")
 
     Admin.create!(
       :email => CustomerConfig.admin_email,
