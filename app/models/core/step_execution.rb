@@ -9,8 +9,8 @@ class StepExecution < ActiveRecord::Base
   belongs_to :case_execution
 
   belongs_to :creator,
-	     :class_name => 'User',
-	     :foreign_key => 'created_by'
+             :class_name => 'User',
+             :foreign_key => 'created_by'
 
   belongs_to :bug
 
@@ -62,11 +62,11 @@ class StepExecution < ActiveRecord::Base
   end
 
   def to_csv(delimiter=';', line_feed="\r\n")
-    vals = ['']*5 + [self.id.to_s, self.step.action, self.step.result] +
-      ResultType.all.map{|rt| self.result == rt ? 'X' : ''} +
-      [(self.bug ? self.bug.to_s : ''), self.comment]
-
-    vals.map{|v| v.blank? ? '': "\"#{v}\""}.join(delimiter)
+    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      csv << ['']*5 + [self.id.to_s, self.step.action, self.step.result] +
+        ResultType.all.map{|rt| self.result == rt ? 'X' : ''} +
+        [(self.bug ? self.bug.to_s : ''), self.comment]
+    end
   end
 
   def result; ResultType.send(self['result']); end

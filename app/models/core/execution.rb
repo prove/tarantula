@@ -242,14 +242,13 @@ class Execution < ActiveRecord::Base
   end
 
   def to_csv(delimiter=';', line_feed="\r\n")
-    columns = ['Id', 'Case', 'Objective', 'Test data',
-               'Preconditions and assumptions',
-               'Step Id', 'Action', 'Expected Result']+
-      ResultType.all.map(&:rep) + ['Defect', 'Comment']
-    csv = columns.map{|c| "\"#{c}\""}.join(delimiter) + line_feed
-    csv += self.case_executions.map{|ce| ce.to_csv(delimiter, line_feed)}.\
-      join(line_feed)
-    "\xEF\xBB\xBF" + csv ### see wikipedia Byte-order mark (BOM)
+    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      csv << ['Id', 'Case', 'Objective', 'Test data',
+              'Preconditions and assumptions',
+              'Step Id', 'Action', 'Expected Result']+
+        ResultType.all.map(&:rep) + ['Defect', 'Comment']
+    end
+    ret += self.case_executions.map{ |ce| ce.to_csv(delimiter, line_feed) }.join
   end
 
   def update_from_csv(file, user, delimiter=';', line_feed="\r\n")

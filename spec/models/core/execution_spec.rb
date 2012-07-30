@@ -136,6 +136,16 @@ describe Execution do
       e.should_receive(:case_executions).once.and_return([case_exec])
       e.to_csv
     end
+
+    it "should handle text fields with new line characters" do
+      c = Case.make!(:test_data => "Jotain\n\nToinen kappale")
+      e = Execution.make!
+      ce = CaseExecution.make!(:execution => e, :test_case => c)
+
+      csv = e.to_csv
+      data = CSV.parse(csv, :col_sep => ';', :row_sep => "\r\n")
+      data[1][3].should == c.test_data
+    end
   end
 
   describe "#update_from_csv" do

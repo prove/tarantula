@@ -440,7 +440,7 @@ class Case < ActiveRecord::Base
   # returns test object that this case was last passed in
   def last_passed
     ce = self.case_executions.find(
-      :first, :conditions => {:result => Passed.to_s, 
+      :first, :conditions => {:result => Passed.to_s,
                               'executions.deleted' => false},
       :order => 'executed_at desc', :joins => :execution,
       :include => {:execution => :test_object})

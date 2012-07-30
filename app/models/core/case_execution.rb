@@ -178,12 +178,11 @@ class CaseExecution < ActiveRecord::Base
   end
 
   def to_csv(delimiter=';', line_feed="\r\n")
-    csv = [id, title, objective, test_data, preconditions_and_assumptions].map do |c|
-      "\"#{c}\""
-    end.join(delimiter) + line_feed
-    csv += self.step_executions.map{|se| se.to_csv(delimiter, line_feed)}.\
-      join(line_feed)
-    csv
+    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      csv << [id, title, objective, test_data, preconditions_and_assumptions]
+
+    end
+    ret += self.step_executions.map{|se| se.to_csv(delimiter, line_feed)}.join
   end
 
   def failed_steps_info
