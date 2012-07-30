@@ -154,7 +154,7 @@ describe Execution do
       ce = CaseExecution.make!(:execution => e)
       se = StepExecution.make!(:case_execution => ce)
 
-      csv = "headerline...\r\n"+
+      csv = "Id;Case;Objective;Test data;Preconditions and assumptions;Step Id;Action;Expected Result;Passed;Failed;Skipped;Not Implemented;Not Run;Defect;Comment\r\n"+
             "\"some\";\"shite\";;;;;;;;;;;;;;\r\n"+
             ";;;;;#{se.id};action;result;X;;;;;bug;some comment\r\n"
       e.update_from_csv(StringIO.new(csv), User.make!)
@@ -168,7 +168,7 @@ describe Execution do
       ce = CaseExecution.make!(:execution => e)
       se = StepExecution.make!(:case_execution => ce)
 
-      csv = "headerline...\r\n"+
+      csv = "Id;Case;Objective;Test data;Preconditions and assumptions;Step Id;Action;Expected Result;Passed;Failed;Skipped;Not Implemented;Not Run;Defect;Comment\r\n"+
             "\"some\";\"shite\";;;;;;;;;;;;;;\r\n"+
             ";;;;;#{se.id};action;result;;;X;;;;\r\n"
       e.update_from_csv(StringIO.new(csv), User.make!)
@@ -181,7 +181,7 @@ describe Execution do
       ce = CaseExecution.make!(:execution => e)
       se = StepExecution.make!(:case_execution => ce)
 
-      csv = "headerline...\r\n"+
+      csv = "Id;Case;Objective;Test data;Preconditions and assumptions;Step Id;Action;Expected Result;Passed;Failed;Skipped;Not Implemented;Not Run;Defect;Comment\r\n"+
             "\"some\";\"shite\";;;;;;;;;;;\r\n"+
             ";;;;;#{se.id+10};action;result;;;X;;;;\r\n"
       lambda{e.update_from_csv(StringIO.new(csv), User.make!)}.should \
