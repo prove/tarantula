@@ -252,25 +252,26 @@ class Execution < ActiveRecord::Base
   end
 
   def update_from_csv(file, user, delimiter=';', line_feed="\r\n")
-    file.gets # get rid of the header
-
     valid_step_ids = self.case_executions.map(&:step_execution_ids).flatten
 
     transaction do
-      CSV.parse(file.read, :col_sep => delimiter) do |cells|
-        next if cells[5].blank?
-        raise "Invalid CSV: Step id not valid (#{cells[5]})" \
-          unless valid_step_ids.include?(cells[5].to_i)
+      CSV.parse(file.read, :col_sep => delimiter, :row_sep => line_feed, :headers => true, :return_headers => false) do |cells|
+        Rails.logger.debug cells.inspect
+        next if cells['Step Id'].blank?
+        unless valid_step_ids.include?(cells['Step Id'].to_i)
+          raise "Invalid CSV: Step id not valid (#{cells['Step Id']})"
+        end
 
         se = StepExecution.find(cells[5])
-        cells[8, ResultType.all.size].each_with_index do |r,i|
-          if !r.blank?
-            se.result = ResultType.all[i]
+
+        ResultType.all.each do |r|
+          if !cells[r.rep].blank?
+            se.result = r
             break
           end
         end
-        comment_idx = 8 + ResultType.all.size + 1
-        se.comment = cells[comment_idx] unless cells[comment_idx].blank?
+
+        se.comment = cells['Comment'] unless cells['Comment'].blank?
         se.save!
       end
 
