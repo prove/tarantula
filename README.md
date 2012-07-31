@@ -51,8 +51,8 @@ Login as root.
 Activate required extra repositories:
 
 ```shell
-wget http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-5.noarch.rpm
-rpm -i epel-release-6-5.noarch.rpm
+wget http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm
+rpm -i epel-release-6-7.noarch.rpm
 ```
 
 SELinux needs to be disabled to allow Apache web server to run
