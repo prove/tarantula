@@ -34,7 +34,7 @@ otherwise skip to [Install Tarantula](#install-tarantula)
 Install RVM dependencies:
 
 ```
-yum install make gcc readline-devel
+yum install make gcc readline-devel zlib-devel openssl-devel
 ```
 
 Install RVM system wide:
@@ -69,10 +69,17 @@ Change SELINUX setting in file to disabled:
 SELINUX=disabled
 ```
 
+Set default Ruby with RVM:
+
+```shell
+rvm use 1.9.3
+```
+
 Download and execute installation script:
 
 ```shell
-curl -L https://raw.github.com/prove/tarantula/master/vendor/installer/install.sh | bash
+wget https://raw.github.com/prove/tarantula/master/vendor/installer/install.sh
+bash install.sh
 ```
 
 Some installation tasks (bundler, rubygems may take long
@@ -106,7 +113,7 @@ Go to rails directory and run application install script to create databases etc
 
 ```shell
 cd /opt/tarantula/rails
-RAILS_ENV=production bundle exec rake tarantula:install
+RAILS_ENV=production rake tarantula:install
 ```
 
 You are prompted for some settings (host running tarantula, email

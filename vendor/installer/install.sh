@@ -138,6 +138,9 @@ if [ $? -gt 0 ]; then
     gem install bundler > /dev/null 2> /dev/null
 fi
 
+echo "Installing Passenger..."
+gem install passenger > /dev/null 2> /dev/null
+
 VERSION="$1"
 
 if [ -z "$VERSION" ]; then
