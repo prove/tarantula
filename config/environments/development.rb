@@ -34,10 +34,4 @@ Tarantula::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
-  
-#  require 'ruby-debug'
-
-  #ActiveSupport::Dependencies.load_once_paths += \
-  #  ["#{Rails.root}/app/models/report/dashboard_item",
-  #   "#{Rails.root}/app/models/result_type"]
 end

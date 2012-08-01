@@ -9,5 +9,10 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require ext/ext-all
+ *= require ext/xtheme-vista
+ *= require main
+ *= require accordion
+ *= require Ext.testia.AttachmentForm
+ *= require Ext.testia.ListPanel
  */

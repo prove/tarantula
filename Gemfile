@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem 'rails', '3.2.6'
+gem 'rails', '~> 3.2.6'
 gem 'mysql'
 gem 'prawn', '~> 0.5.0.1'
 gem 'prawn-core', '~> 0.5.0.1', :require => 'prawn/core'
@@ -12,8 +12,9 @@ gem 'faker'
 gem 'json'
 gem 'rake'
 gem 'jquery-rails'
-gem "therubyracer"
+gem 'therubyracer'
 gem 'delayed_job_active_record'
+gem 'daemons'
 gem 'memcache-client'
 gem 'rb-readline'
 
