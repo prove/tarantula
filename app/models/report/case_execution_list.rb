@@ -136,7 +136,7 @@ class CaseExecutionList < Report::Base
         :case_title => title,
         :execution_time => e_at ? e_at.strftime('%Y-%m-%d %H:%M') : nil,
         :executed_by => ce.executed_by,
-        :duration => ce.duration,
+        :duration => "%.2f" % (ce.duration.to_f / 60),
         :result => "#{ce.result.ui} [#{ce.test_case.priority_name[0..0].capitalize}]",
         :comments => comments[ce.id],
         :defects => ce.bugs_to_s,
