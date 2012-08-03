@@ -6,6 +6,9 @@ namespace :tarantula do
 
     project = Project.find_or_create_by_name("Default Project")
 
+    ActionMailer::Base.smtp_settings = CustomerConfig.smtp
+    Testia::ADMIN_EMAIL = CustomerConfig.admin_email
+
     Admin.create!(
       :email => CustomerConfig.admin_email,
       :login => "admin",
