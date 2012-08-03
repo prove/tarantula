@@ -2,6 +2,8 @@
 # chkconfig: 2345 80 05
 # description: Tarantula Delayed Job
 
+source /usr/local/rvm/scripts/rvm
+
 case "$1" in
   start)
        echo -n "Starting delayed job.."
