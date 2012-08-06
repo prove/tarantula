@@ -7,7 +7,7 @@ module CC
   end
 
   def self.ask(message, old_val=nil, default=nil)
-    return old_val if !old_val.nil? and !RECONFIG_CUSTOMER
+    return old_val if !old_val.blank? and !RECONFIG_CUSTOMER
 
     if !old_val.nil?
       puts "#{message} [#{old_val}]"

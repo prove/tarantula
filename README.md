@@ -51,11 +51,10 @@ Login as root.
 Activate required extra repositories:
 
 ```shell
-wget http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm
-rpm -i epel-release-6-7.noarch.rpm
+yum install http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm
 ```
 
-SELinux needs to be disabled to allow Apache web server to run
+SELinux has to be in permissive mode to allow Apache web server to run
 Ruby-on-Rails applications on Passenger module. Edit config file with
 e.g. nano text editor:
 
@@ -63,10 +62,10 @@ e.g. nano text editor:
 nano /etc/selinux/config
 ```
 
-Change SELINUX setting in file to disabled:
+Change SELINUX setting in file to permissive:
 
 ```shell
-SELINUX=disabled
+SELINUX=permissive
 ```
 
 Set default Ruby with RVM:
