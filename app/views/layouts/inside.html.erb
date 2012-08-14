@@ -1309,6 +1309,19 @@ Ext.extend(Ext.testia.GUI, Ext.util.Observable, {
             var titleTb = new Ext.Toolbar("toolbar");
             titleTb.addField(new Ext.Toolbar.TextItem("Doors Import"));
             break;
+        case 'adminbackup':
+            // Just remove toolbar, if any.
+            // This might needs more robust handling...
+            this.clearToolbar();
+            MainContent = null;
+            this.formFunc = null;
+            this.maincontent.load( createUrl("/backups/new"));
+
+            // Set toolbar
+            Ext.get('toolbar')
+            var titleTb = new Ext.Toolbar("toolbar");
+            titleTb.addField(new Ext.Toolbar.TextItem("Backup"));
+            break;
         }
 
 
@@ -1654,6 +1667,9 @@ var importDoors = function (){
                     </span>
                     <span onclick="javascript:newLayout.subMenuSelected('admin','admindefects')">
                         Defect Trackers
+                    </span>
+		    <span onclick="javascript:newLayout.subMenuSelected('admin','adminbackup')">
+                        Backup
                     </span>
                 </div>
         </div>
