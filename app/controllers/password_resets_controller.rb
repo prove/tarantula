@@ -22,13 +22,11 @@ class PasswordResetsController < ApplicationController
   # POST /password_resets
   def create
     pr = PasswordReset.create(:name_or_email => params[:name_or_email])
-    render :update do |page|
-      if pr.errors.empty?
-        page.replace_html 'forgot', 'You have been sent a link to reset your password.'
-        page.replace_html 'forgot_link', ''
-      else
-        page.replace_html 'errors', pr.errors.full_messages.join(', ')
-      end
+    
+    if pr.errors.empty?
+      render :js => "Element.replace('forgot', 'You have been sent a link to reset your password.'); Element.replace('forgot_link', '');"
+    else
+      render :js => "Element.update('errors', '"+pr.errors.full_messages.join(', ')+"');"
     end
   end
 
