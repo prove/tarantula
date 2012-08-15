@@ -203,7 +203,7 @@ class Execution < ActiveRecord::Base
     cases = self.class.remove_duplicates(cases)
 
     transaction do
-      if atts['test_object'].class == String
+      if atts['test_object'].respond_to?(:to_str)
         atts['test_object'] = self.project.test_objects.
           find_or_create_by_name(atts['test_object'])
       end

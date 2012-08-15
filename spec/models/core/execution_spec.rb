@@ -126,6 +126,16 @@ describe Execution do
       e.case_executions.size.should == 1
       e.case_executions.first.case_id.should == c.id
     end
+
+    it "should accept ActiveSuport::Safebuffer as test object name" do
+      e = Execution.make_with_runs(:cases => 1)
+      c = Case.make!
+      to = TestObject.make!(:project => e.project, :name => "TO X")
+      to_name = ActiveSupport::SafeBuffer.new("TO X")
+      e.update_with_assignments!(e.attributes.merge('test_object' => to_name),
+                                 ['id' => c.id, 'position' => 1])
+      e.test_object.should == to
+    end
   end
 
   describe "#to_csv" do
