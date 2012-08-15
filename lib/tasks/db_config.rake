@@ -22,7 +22,7 @@ namespace :db do
       # This email will be used as Admin user's mail address
       CustomerConfig.admin_email = ENV['EMAIL']
       # This will be from address in automatic notifications
-      CusotmerConfig.notification_email = ENV['NOTIFEMAIL']
+      CustomerConfig.notification_email = ENV['NOTIFEMAIL']
 
       CustomerConfig.smtp = {
         :address => 'localhost',
