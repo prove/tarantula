@@ -1,5 +1,5 @@
 #! /bin/bash
-# chkconfig: 2345 80 05
+# chkconfig: 345 80 05
 # description: Tarantula Delayed Job
 
 source /usr/local/rvm/scripts/rvm
