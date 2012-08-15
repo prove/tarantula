@@ -8,11 +8,10 @@
  * that they are correctly related to actual installation
  * directory on serverside.
  *
- * Installation directory is specified in config/environment.rb
- *
+ * config.relative_url_root is determined by Rails
  */
 function createUrl( url) {
-    return '<%= Testia::WWW_PATH %>' + url;
+    return '<%= controller.config.relative_url_root %>' + url;
 }
 
 function hasOwnProperties(o) {
@@ -381,7 +380,7 @@ Ext.namespace('Ext.testia');
 Ext.testia.GUI = function() {
     // Initialize cookie provider
     this.chartCookies = new Ext.state.CookieProvider({
-        path: '/',
+        //path: '/',
         expires: new Date(new Date().getTime()+(1000*60*60*24*60)) // 30 days
         //domain:
     });
@@ -511,7 +510,7 @@ Ext.testia.GUI = function() {
         this.testobjects_list.reload();
     }, this);
 
-    Ext.BLANK_IMAGE_URL = createUrl('<%= asset_path "s.gif" %>');
+    Ext.BLANK_IMAGE_URL = '<%= asset_path "s.gif" %>';
 
     Ext.Ajax.timeout = AJAX_TIMEOUT;
 
@@ -1549,7 +1548,7 @@ var importDoors = function (){
                         &nbsp;|&nbsp;
                         <a href="https://getsatisfaction.com/prove" class="emulate-link" target="_blank">Support</a>
                         &nbsp;|&nbsp;
-                        <a href="<%= Testia::WWW_PATH %>/home/logout" class="emulate-link">Log Out</a>
+                        <%= link_to "Log Out", :controller => 'home', :action => :logout, :class => 'emulate-link' %>
                         &nbsp;|&nbsp;
                 </div>
         </div>
@@ -1668,7 +1667,7 @@ var importDoors = function (){
                     <span onclick="javascript:newLayout.subMenuSelected('admin','admindefects')">
                         Defect Trackers
                     </span>
-		    <span onclick="javascript:newLayout.subMenuSelected('admin','adminbackup')">
+                    <span onclick="javascript:newLayout.subMenuSelected('admin','adminbackup')">
                         Backup
                     </span>
                 </div>

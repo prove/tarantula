@@ -11,15 +11,6 @@ module Testia
   port = CustomerConfig.port.blank? ? '' : ":#{CustomerConfig.port}"
   WWW_SERVER="#{CustomerConfig.protocol}://#{CustomerConfig.host}#{port}"
 
-  # WWW server directory from where Testia application is available.
-  # If application is installed to www root, this is empty string.
-  # If application is available from subdir, specify directory with
-  # leading slash. E.g. WWW_PATH = '/testia'
-  #
-  # Used by client to address requests correctly.
-  #
-  WWW_PATH= ''
-
   # Set email address which is used as from address for automatic
   # notifications.  Try to use notification_email setting from
   # customer_configs table and fallback to admin_email setting.

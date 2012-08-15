@@ -79,12 +79,7 @@ module Tarantula
                                  #{Rails.root}/lib/customerconfig/app/models
                                  )
     config.time_zone = 'Helsinki'
-    #config.action_controller.session = {
-    #      :key => "testia_premo_session_id",
-    #      :secret => "xxxx1.1 release phrasesome secret phrasesome secret" +
-    #                 "phrasesome secret phrasesome secret phrasesome secret" +
-    #                 "phrasesome secret phrase"
-    #      }
+
     config.active_record.observers = [:user_observer, :case_execution_observer,
                                       :execution_observer, :tagging_observer]
     config.after_initialize do

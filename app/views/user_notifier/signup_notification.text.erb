@@ -3,12 +3,12 @@ Your Tarantula (Test Management Tool) account has been created.
   Username: <%= @user.login %>
   Password: <%= @user.password %>
 
-You can login at < <%= Testia::WWW_SERVER %><%= Testia::WWW_PATH %> >.
+You can login at < <%= root_url :host => CustomerConfig.host, :only_path => false %> >.
 
 Please login and change password from Edit Profile link.
 
-This email was automatically generated and sent. If you 
-received this email by error, please delete the message from your 
+This email was automatically generated and sent. If you
+received this email by error, please delete the message from your
 system and/or reply to Tarantula Administrator (<%= Testia::ADMIN_EMAIL %>).
 
 Thank you.
