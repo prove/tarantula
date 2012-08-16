@@ -14,13 +14,13 @@ class Authenticator
     end
 
     def call(env)
-      return unauthorized unless User.find_by_id(env['rack.session'][:user_id])
+      return unauthorized(env) unless User.find_by_id(env['rack.session'][:user_id])
       @app.call(env)
     end
 
     private
-    def unauthorized
-      [ 302, {'Content-type' => 'text/plain', 'Location' => '/home/login',
+    def unauthorized(env)
+      [ 302, {'Content-type' => 'text/plain', 'Location' => env['SCRIPT_NAME'] + '/home/login',
               'Content-length' => '0'}, []]
     end
   end
