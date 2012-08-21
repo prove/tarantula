@@ -7,6 +7,7 @@ module SmartTag
           SmartTag::NeverTested,
           SmartTag::NoLinkedCases,
           SmartTag::NotImplemented,
+          SmartTag::NotLinkedToExecution,
           SmartTag::NotLinkedToReq,
           SmartTag::Resolved,
           SmartTag::Untagged]
