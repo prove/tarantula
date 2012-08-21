@@ -579,7 +579,7 @@ Ext.ux.ListPanel = function(el, config, initial_load) {
             this.itemContext.add(
                 new Ext.menu.Item({
                     text:'Add tags',
-                    icon:createUrl('<%= asset_path "famfamfam/tag_blue.png" %>'),
+                    icon: '<%= asset_path "famfamfam/tag_blue.png" %>',
                     scope: this,
                     handler: function() {
                         var t;
@@ -624,7 +624,7 @@ Ext.ux.ListPanel = function(el, config, initial_load) {
                 // TODO: Change text between Delete/Undelete depending on
                 // current folder.
                 text:'(Un)delete item(s)',
-                icon:createUrl('<%= asset_path "famfamfam/bin.png" %>'),
+                icon:'<%= asset_path "famfamfam/bin.png" %>',
                 scope: this,
                 handler: function(c,e) {
                     if (this.deleteItems) {
@@ -648,7 +648,7 @@ Ext.ux.ListPanel = function(el, config, initial_load) {
                     // TODO: Change text between Delete/Undelete depending on
                     // current folder.
                     text:'(Un)archive item(s)',
-                    icon:createUrl('<%= asset_path "famfamfam/compress.png" %>'),
+                    icon:'<%= asset_path "famfamfam/compress.png" %>',
                     scope: this,
                     handler: function(c,e) {
                         this.archiveItems();
@@ -663,7 +663,6 @@ Ext.ux.ListPanel = function(el, config, initial_load) {
             this.tagContext.add(
                 new Ext.menu.Item({
                     text:'Rename tag',
-                    //icon:createUrl('/images/famfamfam/tag_blue.png'),
                     scope: this,
                     handler: function() {
                         if (Ext.isEmpty(this.tagUrl)) {return;}
@@ -690,7 +689,7 @@ Ext.ux.ListPanel = function(el, config, initial_load) {
                     // TODO: Change text between Delete/Undelete depending on
                     // current folder.
                     text:'Delete tag',
-                    icon:createUrl('<%= asset_path "famfamfam/bin.png" %>'),
+                    icon:'<%= asset_path "famfamfam/bin.png" %>',
                     scope: this,
                     handler: function() {
                         Ext.MessageBox.confirm("Confirm deletion", "Really delete tag?",
@@ -1168,4 +1167,3 @@ Ext.extend(Ext.ux.ListPanel, Ext.ContentPanel, {
     }
 
 }); // end of extend
-
