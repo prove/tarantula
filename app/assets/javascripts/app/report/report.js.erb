@@ -582,9 +582,8 @@ Report.prototype.renderChart = function(el, chart) {
             }
             h = 300;
         }
-        tmpSWF = swfobject.embedSWF(
-            createUrl('<%= asset_path "ofc2ichor.swf" %>'), cEl.id,
-            "100%","100%","9.0.0", createUrl('<%= asset_path "expressinstall.swf" %>'),
+        tmpSWF = swfobject.embedSWF('<%= asset_path "ofc2ichor.swf" %>', cEl.id,
+            "100%","100%","9.0.0", '<%= asset_path "expressinstall.swf" %>',
             {"data-file":"", "id":cEl.id}, {wmode:'transparent'});
         var res = new Ext.Resizable(wrapEl, {height: h, width: w});
         res.corner.el.setSize(6,6);
