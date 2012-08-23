@@ -108,7 +108,7 @@ describe UsersController do
     it "should update user's own data" do
       log_in
       data = {'foo' => 'bar'}
-      u = flexmock('user', :id => 1)
+      u = flexmock('user', :id => 1, :admin? => false)
       u.should_receive(:update_attributes!).once.with(data)
       flexmock(User).should_receive(:find).once.and_return(u)
       put 'update', {:id => @user.id, :data => data.to_json}
@@ -117,7 +117,7 @@ describe UsersController do
     it "should update other user's data if admin (also admin flag)" do
       log_in
       data = {'foo' => 'bar', 'admin' => true}
-      u = flexmock('user', :id => 1)
+      u = flexmock('user', :id => 1, :admin? => false)
       u.should_receive(:update_attributes!).once.with(data)
       flexmock(User).should_receive(:find).once.and_return(u)
       put 'update', {:id => @user.id+1, :data => data.to_json}
@@ -138,6 +138,23 @@ describe UsersController do
       flexmock(User).should_receive(:find).once.and_return(u)
       put 'update', {:id => @user.id, :data => data.to_json}
     end
+    
+    it "should remove admin assignments when admin rights are removed" do
+      log_in
+      u = Admin.make!
+      p = Project.make!
+      p2 = Project.make!
+      ProjectAssignment.create!(:project => p, :user => u, :group => 'ADMIN')
+      ProjectAssignment.create!(:project => p2, :user => u, :group => 'ADMIN')
+      data = u.attributes.merge('admin' => 0)
+      put 'update', {:id => u.id, :data => data.to_json}
+      # now the user u should be normal non-admin user
+      ProjectAssignment.where(:project_id => p.id, :user_id => u.id).\
+        should be_empty
+      ProjectAssignment.where(:project_id => p2.id, :user_id => u.id).\
+        should be_empty
+    end
+    
   end
 
   it "#destroy should mark user deleted" do

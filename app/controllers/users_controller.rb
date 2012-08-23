@@ -114,10 +114,13 @@ class UsersController < ApplicationController
   def update
     raise "Permission denied." unless \
       ((@current_user.id == params[:id].to_i) or @current_user.admin?)
-
+    
     @user = User.find(params[:id])
-
-    @data.delete('admin') unless @current_user.admin?
+    if @current_user.admin?
+      @user.remove_admin_assignments if @user.admin? and @data['admin'] == 0
+    else
+      @data.delete('admin')
+    end
 
     # Set attributes.
     @user.update_attributes!(@data)

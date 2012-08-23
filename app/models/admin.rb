@@ -21,4 +21,11 @@ class Admin < User # STI
   alias_method_chain :project_assignments, :admin
   
   def allowed_in_project?(pid,req_groups = nil); true; end
+
+  def remove_admin_assignments
+    admin_assignments = ProjectAssignment.where(:user_id => self.id, 
+                                                :group => 'ADMIN')
+    admin_assignments.map(&:destroy)
+  end
+  
 end
