@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem 'rails', '~> 3.2.6'
-gem 'mysql'
+gem 'mysql2'
 gem 'prawn', '~> 0.5.0.1'
 gem 'prawn-core', '~> 0.5.0.1', :require => 'prawn/core'
 gem 'prawn-layout', '~> 0.2.0.1', :require => 'prawn/layout'

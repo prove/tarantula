@@ -17,7 +17,7 @@
                          "/var/lib/mysql/mysql.sock"].\
                         detect{|p| File.exists?(p)} } %>
 development:
-  adapter: mysql
+  adapter: mysql2
   database: testia
   username: root
   password:
@@ -30,7 +30,7 @@ development:
 # re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
 test:
-  adapter: mysql
+  adapter: mysql2
   database: testia_test
   username: root
   password:
@@ -39,7 +39,7 @@ test:
   socket: <%= get_socket.call %>
 
 production:
-  adapter: mysql
+  adapter: mysql2
   database: testia
   username: root
   password:
