@@ -52,7 +52,7 @@
 
   <div id="forgot" style="margin: 10px 0 0 10px; font-size: 12px; display:none;">
     Please enter your user name or email address:<br/>
-    <form action="/password_resets" method="post" onsubmit="new Ajax.Request('/password_resets', {parameters: {name_or_email: $F('name_or_email')}}); return false;">
+    <form action="<%= password_resets_path %>" method="post" onsubmit="new Ajax.Request('<%= password_resets_path %>', {parameters: {name_or_email: $F('name_or_email')}}); return false;">
     <%= text_field_tag :name_or_email, '', :class => 'x-form-text x-form-field' %>
     <%= submit_tag 'Send' %>
     </form>
