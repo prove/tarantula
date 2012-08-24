@@ -172,7 +172,7 @@ Report.prototype.exportSpreadsheet = function() {
         document.body, {tag:'iframe', id:'downloadIframe',
                         style:'display:none'}, true);
 
-    dEl.set({src:createUrl(this.spreadsheet_export_url)});
+    dEl.set({src:this.spreadsheet_export_url});
 };
 
 Report.prototype.exportPDF = function() {
@@ -187,7 +187,7 @@ Report.prototype.exportPDF = function() {
             document.body, {tag:'iframe', id:'downloadIframe',
                 style:'display:none'}, true);
 
-        dEl.set({src:createUrl(this.pdf_export_url)});
+        dEl.set({src:this.pdf_export_url});
 
     };
 
