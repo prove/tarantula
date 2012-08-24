@@ -134,35 +134,41 @@ class ReportController < ApplicationController
         @report.meta.pdf_export_url = url_for({
                                                 :controller => 'report',
                                                 :format => 'pdf',
-                                                :only_path => true
                                               }.merge(params))
         @report.meta.spreadsheet_export_url = url_for({
                                                         :controller => 'report',
                                                         :format => 'xls',
-                                                        :only_path => true
                                                       }.merge(params))
-        @report.tables.csv_export_url = url_for({
-                                                  :controller => 'report',
-                                                  :format => 'csv',
-                                                  :only_path => true
-                                                }.merge(params))
-        # We provide Url definitions as Hashes so that Report:Base can
-        # add proper cache key parameters to urls and use url_for
-        # helper later see Report::Base.data_post_url=
-        @report.data_post_url = {
-          :controller => 'report_data',
-          :action => :index,
-          :only_path => true,
-          :project_id => @project.id,
-          :user_id => @current_user.id
-        }
-        @report.charts.image_post_url = {
-          :controller => 'attachments',
-          :action => :index,
-          :only_path => true,
-          :project_id => @project.id,
-          :type => 'ChartImage'
-        }
+        # We provide urls as lambdas so that they could be generated
+        # in the controller scope, but they have also access to
+        # Report::Base model and Report::OFC::Base model insides and
+        # cache keys through argument given to lambda.
+        @report.tables.csv_export_url = lambda do |table_number|
+          url_for({
+                    :controller => 'report',
+                    :format => 'csv',
+                    :table => table_number
+                  }.merge(params))
+        end
+
+        @report.data_post_url = lambda do |report|
+          url_for({
+                    :controller => 'report_data',
+                    :action => :index,
+                    :project_id => @project.id,
+                    :user_id => @current_user.id,
+                    :key => report.cache_key
+                  })
+        end
+        @report.charts.image_post_url = lambda do |chart|
+          url_for({
+                    :controller => 'attachments',
+                    :action => :index,
+                    :project_id => @project.id,
+                    :type => 'ChartImage',
+                    :key => chart.chart_image_key
+                  })
+        end
 
         render :json => @report
       end
