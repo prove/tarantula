@@ -23,7 +23,11 @@ class Bugzilla < BugTracker # STI
   ### DATABASE ###
   class DB
     def initialize(host, user, passwd, name, port)
-      @connection = Mysql.new(host, user, passwd, name, port)
+      @connection = Mysql2::Client.new(:host => host, 
+                                       :username => user, 
+                                       :password => passwd, 
+                                       :database => name, 
+                                       :port => port)
     end
 
     def get_components
@@ -37,13 +41,13 @@ class Bugzilla < BugTracker # STI
     def get_products_for_classification(clf_name)
       res = @connection.query(
               "select id from classifications where name='#{clf_name}';")
-      row = res.fetch_row
+      row = res.first
       raise "No classification found with name \"#{clf_name}\"" unless row
-      cl_id = row.first
+      cl_id = row['id']
       prod_eids = []
 
       @connection.query("select id from products "+
-               "where classification_id='#{cl_id}'").each_hash do |prod|
+               "where classification_id='#{cl_id}'").each do |prod|
         prod_eids << prod['id']
       end
       prod_eids
@@ -61,34 +65,28 @@ class Bugzilla < BugTracker # STI
     def get_bug_ids_for_products(prids)
       sql = "select bug_id from bugs where product_id in (#{prids.join(',')})"
       ids = []
-      @connection.query(sql).each_hash{|h| ids << h['bug_id']}
+      @connection.query(sql).each{|h| ids << h['bug_id']}
       ids
     end
 
     def bugzilla_severities
-      sevs = []
-      res = @connection.query("select * from bug_severity;")
-      while sev = res.fetch_hash; sevs << sev; end
-      sevs
+      @connection.query("select * from bug_severity;")
     end
 
     def bugzilla_profiles
-      profiles = []
-      res = @connection.query("select * from profiles;")
-      while prof = res.fetch_hash; profiles << prof; end
-      profiles
+      @connection.query("select * from profiles;")
     end
 
     def get_longdesc(ext_id)
       res = @connection.query(
               "select thetext from longdescs where bug_id=#{ext_id};")
-      res.fetch_hash['thetext']
+      res.first['thetext']
     end
 
     def bugzilla_time(parse=false)
       res = @connection.query("select now() as time;")
-      t = res.fetch_hash['time']
-      t = Time.parse(t) if parse
+      t = res.first['time'] # this is already Time type
+      t = t.to_s unless parse
       t
     end
 
@@ -98,7 +96,7 @@ class Bugzilla < BugTracker # STI
   class MockDB
     class MockResult
       def initialize(result=[]); @result = result end
-      def each_hash(&blk); @result.each {|r| blk.call(r) } end
+      def each(&blk); @result.each {|r| blk.call(r) } end
     end
     def get_components; MockResult.new end
     def get_products; MockResult.new end
@@ -182,7 +180,7 @@ class Bugzilla < BugTracker # STI
         profile_hash = db.bugzilla_profiles
         service = Import::Service.instance
 
-        db.get_bugs(prids,self.last_fetched,force_update).each_hash do |bug|
+        db.get_bugs(prids,self.last_fetched,force_update).each do |bug|
           prof = profile_hash.detect{|p| p['userid'] == bug['reporter']}
           creator = (prof ? User.find_by_email(prof['login_name']) : nil)
 
@@ -316,7 +314,7 @@ class Bugzilla < BugTracker # STI
     prod_eids = []
     begin
       self.transaction do
-        db.get_products.each_hash do |prod|
+        db.get_products.each do |prod|
           prod_eids << prod['id']
           atts = {:name => prod['name'], :external_id => prod['id'],
                   :bug_tracker_id => self.id}
@@ -338,7 +336,7 @@ class Bugzilla < BugTracker # STI
     comp_eids = []
     begin
       self.transaction do
-        db.get_components.each_hash do |comp|
+        db.get_components.each do |comp|
           comp_eids << comp['id']
           prod = associated_ext_entity(:products, comp['product_id'])
 
