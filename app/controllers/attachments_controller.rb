@@ -5,10 +5,10 @@ class AttachmentsController < AttachmentsControllerBase
   before_filter :only => [:index, :show] do |c|
     c.require_permission(:any)
   end
-  
+
   private
-  
-  def get_file_data_file_names_and_attributes(klass)    
+
+  def get_file_data_file_names_and_attributes(klass)
     if klass == ChartImage
       file_data = request.body # StringIO
       file_names = []
@@ -20,11 +20,11 @@ class AttachmentsController < AttachmentsControllerBase
     end
     [file_data, file_names, atts]
   end
-  
+
   def get_upload_filenames
     request.env['rack.request.form_hash']['file_data'].map{|h| h[:filename]}
   end
-  
+
   def get_host
     if params[:case_id]
       @host = Case.find(params[:case_id])

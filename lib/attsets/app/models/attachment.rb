@@ -57,7 +57,7 @@ class Attachment < ActiveRecord::Base
     elsif file_data.is_a?(File)
       self.orig_filename = get_basename(file_data.path)
       @file_data = file_data
-    elsif file_data.is_a?(StringIO)
+    elsif file_data.respond_to?(:read) # StringIO, PhusionPassenger::Utils::RewindableInput etc
       self.orig_filename = 'chart.png'
       @file_data = file_data
     else
