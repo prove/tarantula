@@ -76,7 +76,7 @@ if [ $(id -u) -gt 0 ]; then
     exit 1
 fi
 
-TARANTULA_REPO="git://github.com/prove/tarantula.git"
+TARANTULA_REPO="https://github.com/prove/tarantula.git"
 
 which lsb_release > /dev/null 2> /dev/null
 if [ $? -gt 0 ]; then

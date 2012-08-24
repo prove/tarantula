@@ -11,8 +11,13 @@ Base class for all reports.
 
 =end
 class Base
+  # Include UrlFor and url_helpers so that we can use url_for helper
+  # method when altering data_post_url and image_post_urls
+  include Rails.application.routes.url_helpers
+  include ActionDispatch::Routing::UrlFor
+
   include Report::Ext
-  
+
   # Valid components (also needs to be loaded for caching/marshal)
 
   VALID_COMPONENTS = [ Report::Component::Text,
@@ -51,10 +56,24 @@ class Base
 
   def charts
     c = @data.select{|comp| comp.is_a?(Report::OFC::Base)}
-    # sets the image post url for each of the chart components
-    # appends the chart's image key to the url
-    def c.image_post_url=(url)
-      self.each {|c| c.image_post_url = url+c.chart_image_key}
+    class << c
+      # Include UrlFor and url_helpers so that we can use url_for helper
+      # method when altering data_post_url and image_post_urls
+      include Rails.application.routes.url_helpers
+      include ActionDispatch::Routing::UrlFor
+      # sets the image post url for each of the chart components
+      # appends the chart's image key to the url
+      def image_post_url=(url)
+        self.each do |c|
+          if url.class.ancestors.include?(Hash) # use ancestors so we
+                                                # match both Hash and
+                                                # HashWithIndifferentAccess
+            c.image_post_url = url_for(url.merge(:key => c.chart_image_key))
+          else
+            c.image_post_url = url+c.chart_image_key
+          end
+        end
+      end
     end
     c
   end
@@ -109,7 +128,7 @@ class Base
       do_query
       return
     end
-    
+
     if Rails.cache.is_a?(ActiveSupport::Cache::MemCacheStore)
       @data = Rails.cache.fetch(self.cache_key, :expires_in => self.expires_in) do
         self.do_query
@@ -146,7 +165,15 @@ class Base
     end
   end
 
-  def data_post_url=(url); self.meta.data_post_url = (url+self.cache_key) end
+  def data_post_url=(url)
+    if url.class.ancestors.include?(Hash) # use ancestors so we match
+                                          # both Hash and
+                                          # HashWithIndifferentAccess
+      self.meta.data_post_url = url_for(url.merge(:key => self.cache_key))
+    else
+      self.meta.data_post_url = (url+self.cache_key)
+    end
+  end
 
   def cache_key
     @cache_key ||= begin
@@ -154,9 +181,9 @@ class Base
       (@options || {}).keys.map(&:to_s).
         sort.each{|key| opt_str += "#{key}#{@options[key.to_sym]}"}
       Digest::MD5.hexdigest("#{self.class.to_s.underscore}#{opt_str}")
-    end               
+    end
   end
-  
+
   protected
 
   def add_component(comp)
