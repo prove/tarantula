@@ -134,17 +134,17 @@ class ReportController < ApplicationController
         @report.meta.pdf_export_url = url_for({
                                                 :controller => 'report',
                                                 :format => 'pdf',
-                                                :path_only => true
+                                                :only_path => true
                                               }.merge(params))
         @report.meta.spreadsheet_export_url = url_for({
                                                         :controller => 'report',
                                                         :format => 'xls',
-                                                        :path_only => true
+                                                        :only_path => true
                                                       }.merge(params))
         @report.tables.csv_export_url = url_for({
                                                   :controller => 'report',
                                                   :format => 'csv',
-                                                  :path_only => true
+                                                  :only_path => true
                                                 }.merge(params))
         # We provide Url definitions as Hashes so that Report:Base can
         # add proper cache key parameters to urls and use url_for
