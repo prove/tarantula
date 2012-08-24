@@ -15,7 +15,7 @@ class ReportController < ApplicationController
     @report = Report::Dashboard.new(@current_user.id, @project.id,
                                     @current_user.test_area(@project).try(:id),
                                     @pa.try(:test_object_id))
-    
+
     if Rails.cache.exist?(@report.cache_key) or Rails.env == 'development'
       render :json => @report
     else
@@ -71,7 +71,7 @@ class ReportController < ApplicationController
     opts << ta.try(:id)
     opts << params[:sort_by]
     opts << params[:sort_dir]
-    
+
     @report = Report::CaseExecutionList.new(*opts)
     respond_to_formats
   end
@@ -131,12 +131,39 @@ class ReportController < ApplicationController
     respond_to do |format|
       format.json do
         char = params.keys.size > 2 ? '&' : '?'
-        @report.meta.pdf_export_url = "/report/#{params[:action]}.pdf?#{request.query_string}"
-        @report.meta.spreadsheet_export_url = "/report/#{params[:action]}.xls?#{request.query_string}"
-        @report.data_post_url = "/projects/#{@project.id}/users/#{@current_user.id}/report_data?key="
-        @report.tables.csv_export_url = "/report/#{params[:action]}.csv?#{request.query_string}&table="
-        @report.charts.image_post_url = \
-          "/projects/#{@project.id}/attachments?type=ChartImage&key="
+        @report.meta.pdf_export_url = url_for({
+                                                :controller => 'report',
+                                                :format => 'pdf',
+                                                :path_only => true
+                                              }.merge(params))
+        @report.meta.spreadsheet_export_url = url_for({
+                                                        :controller => 'report',
+                                                        :format => 'xls',
+                                                        :path_only => true
+                                                      }.merge(params))
+        @report.tables.csv_export_url = url_for({
+                                                  :controller => 'report',
+                                                  :format => 'csv',
+                                                  :path_only => true
+                                                }.merge(params))
+        # We provide Url definitions as Hashes so that Report:Base can
+        # add proper cache key parameters to urls and use url_for
+        # helper later see Report::Base.data_post_url=
+        @report.data_post_url = {
+          :controller => 'report_data',
+          :action => :index,
+          :only_path => true,
+          :project_id => @project.id,
+          :user_id => @current_user.id
+        }
+        @report.charts.image_post_url = {
+          :controller => 'attachments',
+          :action => :index,
+          :only_path => true,
+          :project_id => @project.id,
+          :type => 'ChartImage'
+        }
+
         render :json => @report
       end
 
