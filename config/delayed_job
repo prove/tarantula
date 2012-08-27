@@ -7,17 +7,17 @@ source /usr/local/rvm/scripts/rvm
 case "$1" in
   start)
        echo -n "Starting delayed job.."
-       cd /opt/tarantula/rails && RAILS_ENV=production bundle exec rake jobs:work &
+       cd /opt/tarantula/rails && RAILS_ENV=production bundle exec rake tarantula:jobs:work &
        ;;
   stop)
        echo -n "Stopping delayed job.."
-       pkill -f jobs:work
+       pkill -f tarantula:jobs:work
        ;;
 
   restart|force-reload)
        echo -n "Restarting delayed job.."
-       pkill -f jobs:work
-       cd /opt/tarantula/rails && RAILS_ENV=production bundle exec rake jobs:work &
+       pkill -f tarantula:jobs:work
+       cd /opt/tarantula/rails && RAILS_ENV=production bundle exec rake tarantula:jobs:work &
        ;;
   *)
 	N=/etc/init.d/delayed_job
