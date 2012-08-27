@@ -21,6 +21,7 @@ namespace :tarantula do
     
     system("git checkout #{last_tag}")
     Rake::Task['db:migrate'].execute
+    system('bundle install')
     FileUtils.touch(File.join(Rails.root, 'tmp','restart.txt'))
     system('/etc/init.d/delayed_job restart')
   end
