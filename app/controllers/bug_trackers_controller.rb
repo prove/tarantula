@@ -25,7 +25,7 @@ class BugTrackersController < ApplicationController
       tracker = Bugzilla.create!(@data)
     elsif @data["type"] == "Jira"
       source = ImportSource.create!({
-                                      :adapter => 'mysql',
+                                      :adapter => 'mysql2',
                                       :host => @data['db_host'],
                                       :port => @data['db_port'],
                                       :database => @data['db_name'],
