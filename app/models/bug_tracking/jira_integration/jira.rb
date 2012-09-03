@@ -15,6 +15,7 @@ Fields
 
 =end
 class Jira < BugTracker
+  after_initialize :establish_connections
   belongs_to :import_source
 
   UDMargin = 5.minutes # update margin
@@ -23,7 +24,7 @@ class Jira < BugTracker
   #validates_presence_of :db_host, :db_name, :db_user
   validates_presence_of :import_source
 
-  def after_initialize
+  def establish_connections
     if self.import_source
       JiraIssue.establish_connection(self.import_source.attributes)
       JiraProject.establish_connection(self.import_source.attributes)
