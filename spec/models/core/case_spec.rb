@@ -270,6 +270,21 @@ describe Case do
       hist[2][:result].should == Failed.ui
       hist[3][:result].should == Skipped.ui
     end
+
+    it "shouldn't show results of deleted executions" do
+      p = Project.make!
+      c = Case.make!(:project => p)
+      e = Execution.make!(:project => p, :deleted => true)
+      ce1 = CaseExecution.make_with_result(:execution => e, :test_case => c,
+                                           :result => Skipped)
+      ce2 = CaseExecution.make_with_result(:execution => e, :test_case => c,
+                                           :result => Failed)
+      e2 = Execution.make!(:project => p)
+      ce1 = CaseExecution.make_with_result(:execution => e2, :test_case => c,
+                                           :result => Passed)
+      c.history.size.should == 1
+      c.history[0][:result].should == Passed.ui
+    end
   end
 
   describe ".create_with_steps!" do

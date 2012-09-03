@@ -395,14 +395,15 @@ class Case < ActiveRecord::Base
     copied
   end
 
-  # history of case_executions (excluding exclude_ce)
+  # history of case_executions
   def history
     Rails.cache.fetch("#{self.cache_key}/history") do
       return [] if self.case_executions.count == 0
 
       opts = {:limit => 4,
               :order => 'test_objects.date DESC, case_executions.id DESC',
-              :conditions => "case_executions.result != '#{NotRun}'",
+              :conditions => "case_executions.result != '#{NotRun}' AND "+
+                             "executions.deleted=0",
               :joins => {:execution => :test_object}}
 
       self.case_executions.find(:all, opts).map do |ce|
