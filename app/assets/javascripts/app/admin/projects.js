@@ -476,9 +476,9 @@ var Projects = function() {
             if (btid > 0) {
                 var params = {project_name:
                               appForm.findField('name').getValue()};
-                var url = (appForm.id) ?
-                    '/projects/'+appForm.id+'/bug_trackers/'+btid+'/products/':
-                    '/bug_trackers/'+btid+'/products/';
+                var url = createUrl((appForm.id) ?
+                                    '/projects/'+appForm.id+'/bug_trackers/'+btid+'/products/':
+                                    '/bug_trackers/'+btid+'/products/');
 
                 Ext.Ajax.request({
                     url: url,
@@ -725,17 +725,6 @@ var Projects = function() {
             var ds;
             // Bug tracker products
             appForm.findField('bug_tracker_id').fireEvent('select');
-            // if (r[0].data.bug_tracker_id) {
-            //     var btid = r[0].data.bug_tracker_id;
-            //     ds = productsGrid.getDataSource();
-            //     ds.removeAll();
-            //     var url = (appForm.id) ? '/projects/'+appForm.id+
-            //         '/bug_trackers/'+btid+'/products/' :
-            //         '/bug_trackers/'+btid+'/products/';
-            //     ds.proxy.conn.url = createUrl(url);
-
-            //     ds.load();
-            // }
 
             // Assigned users
             var Record = Ext.data.Record.create([
@@ -753,7 +742,7 @@ var Projects = function() {
             });
         };
 
-    // Get values from fields and return them as parameters to ajax call.
+        // Get values from fields and return them as parameters to ajax call.
         appForm.beforeSave = function () {
             var parameters = appForm.getValues();
             var users = [];
