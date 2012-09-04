@@ -170,6 +170,7 @@ Setup cron for scheduled tasks.
 ```shell
 cp /opt/tarantula/rails/config/crontab /etc/cron.d/tarantula
 chown root:root /etc/cron.d/tarantula
+chmod 0644 /etc/cron.d/tarantula
 ```
 
 Everything should be now set. Reboot system to make sure that all
