@@ -208,7 +208,7 @@ class Bugzilla < BugTracker # STI
 
           if old
             if force_update or \
-              (bug['lastdiffed'] and (Time.parse(bug['lastdiffed']) > self.last_fetched))
+              (bug['lastdiffed'] and (bug['lastdiffed'] > self.last_fetched))
               service.update_entity(old, data, logger, opts)
             end
           else
