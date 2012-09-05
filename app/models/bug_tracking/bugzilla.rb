@@ -84,9 +84,9 @@ class Bugzilla < BugTracker # STI
     end
 
     def bugzilla_time(parse=false)
-      res = @connection.query("select now() as time;")
-      t = res.first['time'] # this is already Time type
-      t = t.to_s unless parse
+      res = @connection.query("select now() as time;", :cast => false)
+      t = res.first['time']
+      t = Time.parse(t) if parse
       t
     end
 
