@@ -289,7 +289,7 @@ class Bugzilla < BugTracker # STI
     bug_eids = db.get_bug_ids_for_products(active_product_ids)
 
     sweepable = self.bugs.find(:all,
-      :conditions => ["lastdiffed >= :t", {:t => time}]).map(&:external_id) - bug_eids
+      :conditions => ["lastdiffed >= :t", {:t => time}]).map(&:external_id) - bug_eids.map(&:to_s)
 
     sweepable.each do |eid|
       logger.info "Sweeping bug with external_id #{eid}.."
