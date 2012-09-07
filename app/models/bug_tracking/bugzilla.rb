@@ -57,7 +57,7 @@ class Bugzilla < BugTracker # STI
       sql = "select * from bugs where product_id in (#{prids.join(',')})"
       unless force_update
         sql += " and ((lastdiffed is null) or "+
-               "(lastdiffed >= '#{(last_fetched-UDMargin).to_s(:db)}'))"
+               "(lastdiffed >= '#{(last_fetched-UDMargin).to_s}'))"
       end
       @connection.query(sql)
     end
@@ -207,17 +207,14 @@ class Bugzilla < BugTracker # STI
           old = service.find_ext_entity(Bug, data)
 
           if old
-            if force_update or \
-              (bug['lastdiffed'] and (bug['lastdiffed'] > self.last_fetched))
-              service.update_entity(old, data, logger, opts)
-            end
+            service.update_entity(old, data, logger, opts)
           else
             create_opts = {:create_method => :create!}.merge(opts)
             e = service.create_entity(Bug, data, "", logger, create_opts)
           end
         end
         sweep_moved_bugs
-        update_attributes!(:last_fetched => db.bugzilla_time(true))
+        update_attributes!(:last_fetched => db.bugzilla_time)
       end
       logger.info "Done."
     rescue Exception => e
@@ -285,11 +282,9 @@ class Bugzilla < BugTracker # STI
   # => Has to be done because only bugs which belong to tracker's products
   # are updated.
   def sweep_moved_bugs
-    time = self.last_fetched
     bug_eids = db.get_bug_ids_for_products(active_product_ids)
 
-    sweepable = self.bugs.find(:all,
-      :conditions => ["lastdiffed >= :t", {:t => time}]).map(&:external_id) - bug_eids.map(&:to_s)
+    sweepable = self.bugs.all.map(&:external_id) - bug_eids.map(&:to_s)
 
     sweepable.each do |eid|
       logger.info "Sweeping bug with external_id #{eid}.."
