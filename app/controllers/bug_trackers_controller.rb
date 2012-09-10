@@ -22,10 +22,12 @@ class BugTrackersController < ApplicationController
 
   def create
     if @data["type"] == "Bugzilla"
+      # FIXME: Bugzilla implementation is hard coded for mysql
+      @data.delete_if {|k,v| k.match(/adapter/)}
       tracker = Bugzilla.create!(@data)
     elsif @data["type"] == "Jira"
       source = ImportSource.create!({
-                                      :adapter => 'mysql2',
+                                      :adapter => @data['db_adapter'],
                                       :host => @data['db_host'],
                                       :port => @data['db_port'],
                                       :database => @data['db_name'],
@@ -49,6 +51,7 @@ class BugTrackersController < ApplicationController
 
     if bt[:type] == "Jira"
       mapping = {
+        'db_adapter' => 'adapter',
         'db_host' => 'host',
         'db_port' => 'port',
         'db_name' => 'database',
@@ -62,6 +65,8 @@ class BugTrackersController < ApplicationController
       bt.import_source.update_attributes!(src_data)
       @data.delete_if {|k,v| k.match(/^db_/)}
     else
+      # FIXME: Bugzilla implementation is hard coded for mysql
+      @data.delete_if {|k,v| k.match(/adapter/)}
       # Set sync_project_with_classification setting to false if value
       # is not given
       @data['sync_project_with_classification'] ||= false

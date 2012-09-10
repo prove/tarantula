@@ -58,7 +58,7 @@ Ext.testia.BugtrackerDlg = function(config) {
     this.dForm.add(new Ext.form.TextField({fieldLabel: 'Name', name: 'name'}));
     this.dForm.add(new Ext.form.TextField({fieldLabel: 'Url',
                                            name: 'base_url'}));
-    this.dForm.fieldset({legend:'MySQL configuration'},
+    this.dForm.fieldset({legend:'Database configuration'},
                         // Radiobutton fields for selecting
                         // type.
                         //
@@ -81,6 +81,11 @@ Ext.testia.BugtrackerDlg = function(config) {
                             name: 'sync_project_with_classification',
                             width: 10,
                             inputValue: 1
+                        }),
+                        new Ext.form.TextField({
+                            fieldLabel: 'DB adapter',
+                            name: 'db_adapter',
+                            value: 'mysql2'
                         }),
                         new Ext.form.TextField({
                             fieldLabel: 'DB host',

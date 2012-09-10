@@ -11,7 +11,7 @@ class ImportSource < ActiveRecord::Base
   private
 
   def strip_whitespace
-    ['host', 'port', 'database', 'username'].each do |i|
+    ['adapter', 'host', 'port', 'database', 'username'].each do |i|
       @attributes[i].strip! unless @attributes[i].nil?
     end
   end
