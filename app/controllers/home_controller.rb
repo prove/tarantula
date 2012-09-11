@@ -14,6 +14,9 @@ class HomeController < ApplicationController
         if !u.latest_project
           flash.now[:notice] = "You have no project assignments."
           return false
+        elsif u.deleted?
+          flash.now[:notice] = "You have been deleted."
+          return false
         else
           session[:user_id] = u.id
           redirect_to :action => 'index'
