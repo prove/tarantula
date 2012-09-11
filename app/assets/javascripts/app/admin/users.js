@@ -64,6 +64,20 @@ var Users = function() {
                 fieldLabel: 'Admin',
                 name: 'admin',
                 width: 12
+            }),
+            new Ext.form.TextField({
+                fieldLabel: 'New password',
+                width: 175,
+                name: 'password',
+                inputType: 'password',
+                value: ''
+            }),
+            new Ext.form.TextField({
+                fieldLabel: 'Confirm password',
+                width: 175,
+                name: 'password_confirmation',
+                inputType: 'password',
+                value: ''
             })
         );
 
@@ -76,11 +90,13 @@ var Users = function() {
 
         // Register field, so it can be enabled/disabled with (default)
         // actions/buttons.
-        appForm.registerField( 'login');
-        appForm.registerField( 'realname');
-        appForm.registerField( 'email');
-        appForm.registerField( 'phone');
-        appForm.registerField( 'admin');
+        appForm.registerField('login');
+        appForm.registerField('realname');
+        appForm.registerField('email');
+        appForm.registerField('phone');
+        appForm.registerField('admin');
+        appForm.registerField('password');
+        appForm.registerField('password_confirmation');
 
         appForm.initEnd();
 
@@ -174,4 +190,3 @@ var Users = function() {
         }
     };
 }();
-
