@@ -13,7 +13,7 @@ class CSVExport
 
   def to_csv(delimiter=';', line_feed="\r\n", opts={})
     if @test_area
-      objects = @test_area.send(@klass.to_s.pluralize.to_sym).send(:active)
+      objects = @test_area.send(@klass.to_s.downcase.pluralize.to_sym).send(:active)
     else
       objects = @klass.active.where(:project_id => @project.id)
     end
