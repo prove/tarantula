@@ -241,14 +241,27 @@ class Execution < ActiveRecord::Base
     end
   end
 
-  def to_csv(delimiter=';', line_feed="\r\n")
-    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      csv << ['Id', 'Case', 'Objective', 'Test data',
-              'Preconditions and assumptions',
-              'Step Id', 'Action', 'Expected Result']+
-        ResultType.all.map(&:rep) + ['Defect', 'Comment']
+  def self.csv_header(delimiter=';', line_feed="\r\n", opts={})
+    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      csv << ['Execution Id', 'Name', 'Date', 'Test Object',
+              'Estimated Duration', 'Completed', 'Test Areas', 'Tags']
     end
-    ret += self.case_executions.map{ |ce| ce.to_csv(delimiter, line_feed) }.join
+  end
+
+  def to_csv(delimiter=';', line_feed="\r\n", opts={})
+    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      csv << [id, name, date.to_s, test_object.name, avg_duration,
+             completed, test_areas.map(&:name).join(', '), tags_to_s]
+    end
+    if opts[:recurse] and opts[:recurse] > 0
+      new_opts = opts.dup
+      new_opts[:recurse] -= 1
+      new_opts[:indent] ||= 0
+      new_opts[:indent] += 1
+      ret += CaseExecution.csv_header(delimiter, line_feed, new_opts)
+      ret += self.case_executions.map{|c| c.to_csv(delimiter, line_feed, new_opts)}.join
+    end
+    ret
   end
 
   def update_from_csv(file, user, delimiter=';', line_feed="\r\n")

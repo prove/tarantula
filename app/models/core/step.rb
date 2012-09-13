@@ -55,4 +55,23 @@ class Step < ActiveRecord::Base
   def to_s
     "#{self.position} Action: #{self.action} Result: #{self.result}"
   end
+
+  def self.csv_header(delimiter=';', line_feed="\r\n", opts={})
+    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      row = []
+      row = [''] * opts[:indent] if opts[:indent]
+      row += ['Step Id', 'Action', 'Result']
+      csv << row
+    end
+  end
+
+  def to_csv(delimiter=';', line_feed="\r\n", opts={})
+     CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      row = []
+      row = [''] * opts[:indent] if opts[:indent]
+      row += [id, action, result]
+      csv << row
+     end
+  end
+
 end

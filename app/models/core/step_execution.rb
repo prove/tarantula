@@ -60,12 +60,25 @@ class StepExecution < ActiveRecord::Base
     h.symbolize_keys!
     self.bug_id = h[:id]
   end
-
-  def to_csv(delimiter=';', line_feed="\r\n")
+  
+  def self.csv_header(delimiter=";", line_feed="\r\n", opts={})
     CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      csv << ['']*5 + [self.id.to_s, self.step.action, self.step.result] +
+      row = []
+      row = [''] * opts[:indent] if opts[:indent]
+      row += ['Step Execution Id', 'Action', 'Expected Result']+
+              ResultType.all.map(&:rep) + ['Defect', 'Comment']
+      csv << row
+    end
+  end
+
+  def to_csv(delimiter=';', line_feed="\r\n", opts={})
+    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      row = []
+      row = [''] * opts[:indent] if opts[:indent]
+      row += [self.id.to_s, self.step.action, self.step.result] +
         ResultType.all.map{|rt| self.result == rt ? 'X' : ''} +
         [(self.bug ? self.bug.to_s : ''), self.comment]
+      csv << row
     end
   end
 

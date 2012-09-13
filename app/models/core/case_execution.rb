@@ -177,14 +177,6 @@ class CaseExecution < ActiveRecord::Base
     avg_duration
   end
 
-  def to_csv(delimiter=';', line_feed="\r\n")
-    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      csv << [id, title, objective, test_data, preconditions_and_assumptions]
-
-    end
-    ret += self.step_executions.map{|se| se.to_csv(delimiter, line_feed)}.join
-  end
-
   def failed_steps_info
     failed = self.step_executions.find(:all, :conditions => {:result => Failed.to_s})
     return nil if failed.empty?
@@ -228,5 +220,33 @@ class CaseExecution < ActiveRecord::Base
     ResultType.send(self['result']) unless self['result'].nil?
   end
   def result=(r); self['result'] = r.db; end
+
+  def self.csv_header(delimiter=';', line_feed="\r\n", opts={})
+    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      row = []
+      row = [''] * opts[:indent] if opts[:indent]
+      row += ['Case Execution Id', 'Case', 'Objective', 'Test data',
+              'Preconditions and assumptions']
+      csv << row
+    end
+  end
+  
+  def to_csv(delimiter=';', line_feed="\r\n", opts={})
+    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      row = []
+      row = [''] * opts[:indent] if opts[:indent]
+      row += [id, title, objective, test_data, preconditions_and_assumptions]
+      csv << row
+    end
+    if opts[:recurse] and opts[:recurse] > 0
+      new_opts = opts.dup
+      new_opts[:recurse] -= 1
+      new_opts[:indent] ||= 0
+      new_opts[:indent] += 1
+      ret += StepExecution.csv_header(delimiter, line_feed, new_opts)
+      ret += self.step_executions.map{|se| se.to_csv(delimiter, line_feed, new_opts)}.join
+    end
+    ret
+  end
 
 end

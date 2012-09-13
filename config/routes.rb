@@ -147,6 +147,6 @@ Tarantula::Application.routes do
     end
   end
 
-  resource :backups, :only => [:new, :create]
-
+  resources :backups, :only => [:new, :create]
+  resources :exports, :only => [:new, :create]
 end

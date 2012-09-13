@@ -106,4 +106,28 @@ class TestSet < ActiveRecord::Base
     end
   end
 
+  def self.csv_header(delimiter=';', line_feed="\r\n", opts={})
+    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      csv << ['Test Set Id', 'Name', 'Date', 'Priority', 'Average duration',
+              'Tags', 'Test areas']
+    end
+  end
+
+  def to_csv(delimiter=';', line_feed="\r\n", opts={})
+    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      csv << [id, name, date.to_s, priority, avg_duration,
+              tags_to_s, test_areas.map(&:name).join(', ')]
+    end
+    
+    if opts[:recurse] and opts[:recurse] > 0
+      new_opts = opts.dup
+      new_opts[:recurse] -= 1
+      new_opts[:indent] ||= 0
+      new_opts[:indent] += 1
+      ret += Case.csv_header(delimiter, line_feed, new_opts)
+      ret += self.cases.map{|c| c.to_csv(delimiter, line_feed, new_opts)}.join
+    end
+    ret
+  end
+
 end

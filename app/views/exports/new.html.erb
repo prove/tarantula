@@ -1,0 +1,18 @@
+
+<%= form_tag exports_path do %>
+  <%= radio_button_tag 'export_type', 'case', true %> Cases
+  <br/>
+  <%= radio_button_tag 'export_type', 'requirement' %> Requirements
+  <br/>
+  <%= radio_button_tag 'export_type', 'test_set' %> Test sets
+  <br/>
+  <%= radio_button_tag 'export_type', 'execution' %> Executions
+  <br/>
+  <br/>
+  Recursion level
+  <%= select_tag 'recursion', 
+      "<option>0</option><option>1</option><option>2</option>".html_safe %>
+  <br/>
+  <br/>
+  <%= submit_tag "Export" %>
+<% end %>

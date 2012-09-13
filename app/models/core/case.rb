@@ -523,4 +523,36 @@ class Case < ActiveRecord::Base
     end
   end
 
+  def self.csv_header(delimiter=';', line_feed="\r\n", opts={})
+    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      row = []
+      row = [''] * opts[:indent] if opts[:indent]
+      row += ['Case Id', 'Title', 'Date', 'Priority', 
+              'Planned duration (minutes)',
+              'Test areas', 'Average duration', 'Tags', 'Objective',
+              'Test data', 'Preconditions & assumptions']
+      csv << row
+    end
+  end
+
+  def to_csv(delimiter=';', line_feed="\r\n", opts={})
+     ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      row = []
+      row = [''] * opts[:indent] if opts[:indent]
+      row += [id, title, date.to_s, priority, time_estimate,
+              test_areas.map(&:name).join(', '), avg_duration, 
+              tags_to_s, objective, test_data, preconditions_and_assumptions]
+      csv << row
+     end
+    if opts[:recurse] and opts[:recurse] > 0
+      new_opts = opts.dup
+      new_opts[:recurse] -= 1
+      new_opts[:indent] ||= 0
+      new_opts[:indent] += 1
+      ret += Step.csv_header(delimiter, line_feed, new_opts)
+      ret += self.steps.map{|step| step.to_csv(delimiter, line_feed, new_opts)}.join
+    end
+    ret
+  end
+
 end
