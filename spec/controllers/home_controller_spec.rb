@@ -13,7 +13,7 @@ describe HomeController do
   end
   
   it "should handle #login [POST]" do
-    u = flexmock('user', :id => 1)
+    u = flexmock('user', :id => 1, :deleted? => false)
     u.should_receive(:latest_project).once.and_return(Project.make!)
     flexmock(User).should_receive(:authenticate).once.with('login', 'password').\
       and_return(u)
