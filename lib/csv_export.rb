@@ -1,9 +1,9 @@
 =begin rdoc
 
-Export cases or requirements of a project to CSV.
+Export cases, requirements, test sets, or executions of a project to CSV.
 
 =end
-class CSVExport
+class CsvExport
   def initialize(project, test_area, klass, recurse)
     @project =  project
     @test_area = test_area

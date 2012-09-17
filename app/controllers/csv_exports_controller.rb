@@ -1,4 +1,4 @@
-class ExportsController < ApplicationController
+class CsvExportsController < ApplicationController
   layout false
   
   before_filter do |c|
@@ -10,7 +10,7 @@ class ExportsController < ApplicationController
   
   def create
     test_area = @current_user.test_area(@project)
-    export = CSVExport.new(@project, test_area, 
+    export = CsvExport.new(@project, test_area, 
                            params[:export_type].camelcase.constantize,
                            params[:recursion].to_i)
     send_data export.to_csv, 
