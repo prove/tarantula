@@ -1,0 +1,11 @@
+
+<%= form_tag csv_imports_path, :multipart => true do %>
+  <br/>
+  <label for="file">File to Import</label>
+  <%= file_field_tag "file" %>
+  <br/>
+  <%= check_box_tag 'simulate' %> Simulate (just display log, don't update objects)
+  <br/>
+  <br/>
+  <%= submit_tag 'Import' %>
+<% end %>

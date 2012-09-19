@@ -6,6 +6,7 @@ A set of cases planned to be executed as a set.
 class TestSet < ActiveRecord::Base
   include TaggingExtensions
   include PriorityExtensions
+  extend CsvExchange::Model
 
   scope :active, where(:deleted => 0, :archived => 0)
   scope :deleted, where(:deleted => 1)
@@ -105,29 +106,16 @@ class TestSet < ActiveRecord::Base
       self.tag_with((tag_list || ''))
     end
   end
-
-  def self.csv_header(delimiter=';', line_feed="\r\n", opts={})
-    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      csv << ['Test Set Id', 'Name', 'Date', 'Priority', 'Average duration',
-              'Tags', 'Test areas']
-    end
-  end
-
-  def to_csv(delimiter=';', line_feed="\r\n", opts={})
-    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      csv << [id, name, date.to_s, priority, avg_duration,
-              tags_to_s, test_areas.map(&:name).join(', ')]
-    end
-    
-    if opts[:recurse] and opts[:recurse] > 0
-      new_opts = opts.dup
-      new_opts[:recurse] -= 1
-      new_opts[:indent] ||= 0
-      new_opts[:indent] += 1
-      ret += Case.csv_header(delimiter, line_feed, new_opts)
-      ret += self.cases.map{|c| c.to_csv(delimiter, line_feed, new_opts)}.join
-    end
-    ret
+  
+  define_csv do
+    attribute   :id,           'Test Set Id', :identifier => true
+    attribute   :name,         'Name'
+    attribute   :date,         'Date'
+    attribute   :priority,     'Priority'
+    field       :avg_duration, 'Average Duration'
+    association :tags,         'Tags', :map => :name
+    association :test_areas,   'Test Areas', :map => :name
+    children    :cases
   end
 
 end

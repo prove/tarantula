@@ -1334,6 +1334,19 @@ Ext.extend(Ext.testia.GUI, Ext.util.Observable, {
             var titleTb = new Ext.Toolbar("toolbar");
             titleTb.addField(new Ext.Toolbar.TextItem("Export"));
             break;
+        case 'import':
+            // Just remove toolbar, if any.
+            // This might needs more robust handling...
+            this.clearToolbar();
+            MainContent = null;
+            this.formFunc = null;
+            this.maincontent.load( createUrl("/csv_imports/new"));
+
+            // Set toolbar
+            Ext.get('toolbar')
+            var titleTb = new Ext.Toolbar("toolbar");
+            titleTb.addField(new Ext.Toolbar.TextItem("Import"));
+            break;
         }
 
 
@@ -1671,6 +1684,9 @@ var importDoors = function (){
                     </span>
 		    <span onclick="javascript:newLayout.subMenuSelected('tools','export')">
                         Export
+                    </span>
+		    <span onclick="javascript:newLayout.subMenuSelected('tools','import')">
+                        Import
                     </span>
                 </div>
                 <div id="submenu_admin" class="submenu-items" style="margin-left: 49.2em;">

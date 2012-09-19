@@ -4,6 +4,7 @@ Execution of a single step (of a case).
 
 =end
 class StepExecution < ActiveRecord::Base
+  extend CsvExchange::Model
   alias_attribute :name, :id
   belongs_to :step, :class_name => 'Step', :foreign_key => 'step_id'
   belongs_to :case_execution
@@ -60,26 +61,36 @@ class StepExecution < ActiveRecord::Base
     h.symbolize_keys!
     self.bug_id = h[:id]
   end
+
+  define_csv do
+    attribute :id,              'Step Execution Id', :identifier => true
+    field     :action,          'Action'
+    field     :expected_result, 'Expected Result'
+    attribute :passed,          'Passed'
+    attribute :failed,          'Failed'
+    attribute :skipped,         'Skipped'
+    attribute :not_implemented, 'Not Implemented'
+    attribute :not_run,         'Not Run'
+  end
   
-  def self.csv_header(delimiter=";", line_feed="\r\n", opts={})
-    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      row = []
-      row = [''] * opts[:indent] if opts[:indent]
-      row += ['Step Execution Id', 'Action', 'Expected Result']+
-              ResultType.all.map(&:rep) + ['Defect', 'Comment']
-      csv << row
-    end
+  def passed; self.result == Passed ? 'X' : '' end
+  def failed; self.result == Failed ? 'X' : '' end
+  def skipped; self.result == Skipped ? 'X' : '' end
+  def not_implemented; self.result == NotImplemented ? 'X' : '' end
+  def not_run; self.result == NotRun ? 'X' : '' end
+
+  def passed=(r); self.result = Passed unless r.blank? end
+  def failed=(r); self.result = Failed unless r.blank? end
+  def skipped=(r); self.result = Skipped unless r.blank? end
+  def not_implemented=(r); self.result = NotImplemented unless r.blank? end
+  def not_run=(r); self.result = NotRun unless r.blank? end
+
+  def action
+    self.step.action
   end
 
-  def to_csv(delimiter=';', line_feed="\r\n", opts={})
-    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      row = []
-      row = [''] * opts[:indent] if opts[:indent]
-      row += [self.id.to_s, self.step.action, self.step.result] +
-        ResultType.all.map{|rt| self.result == rt ? 'X' : ''} +
-        [(self.bug ? self.bug.to_s : ''), self.comment]
-      csv << row
-    end
+  def expected_result
+    self.step.result
   end
 
   def result; ResultType.send(self['result']); end

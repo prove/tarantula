@@ -7,6 +7,7 @@ Execution. Reflects execution of a single test set.
 =end
 class Execution < ActiveRecord::Base
   include TaggingExtensions
+  extend CsvExchange::Model
   scope :active, where(:deleted => 0, :archived => 0)
   scope :deleted, where(:deleted => 1)
   scope :completed, where(:completed => true)
@@ -241,29 +242,6 @@ class Execution < ActiveRecord::Base
     end
   end
 
-  def self.csv_header(delimiter=';', line_feed="\r\n", opts={})
-    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      csv << ['Execution Id', 'Name', 'Date', 'Test Object',
-              'Estimated Duration', 'Completed', 'Test Areas', 'Tags']
-    end
-  end
-
-  def to_csv(delimiter=';', line_feed="\r\n", opts={})
-    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      csv << [id, name, date.to_s, test_object.name, avg_duration,
-             completed, test_areas.map(&:name).join(', '), tags_to_s]
-    end
-    if opts[:recurse] and opts[:recurse] > 0
-      new_opts = opts.dup
-      new_opts[:recurse] -= 1
-      new_opts[:indent] ||= 0
-      new_opts[:indent] += 1
-      ret += CaseExecution.csv_header(delimiter, line_feed, new_opts)
-      ret += self.case_executions.map{|c| c.to_csv(delimiter, line_feed, new_opts)}.join
-    end
-    ret
-  end
-
   def update_from_csv(file, user, delimiter=';', line_feed="\r\n")
     valid_step_ids = self.case_executions.map(&:step_execution_ids).flatten
 
@@ -299,6 +277,18 @@ class Execution < ActiveRecord::Base
     self.case_executions.each_with_index do |ce,i|
       ce.update_attribute(:position, i+1)
     end
+  end
+
+  define_csv do
+    attribute   :id,           'Execution Id', :identifier => true
+    attribute   :name,         'Name'
+    attribute   :date,         'Date'
+    association :test_object,  'Test Object', :map => :name
+    field       :avg_duration, 'Estimated Duration'
+    attribute   :completed,    'Completed'
+    association :test_areas,   'Test Areas', :map => :name
+    association :tags,         'Tags', :map => :name
+    children    :case_executions
   end
 
   private

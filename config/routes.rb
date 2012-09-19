@@ -149,4 +149,5 @@ Tarantula::Application.routes do
 
   resources :backups, :only => [:new, :create]
   resources :csv_exports, :only => [:new, :create]
+  resources :csv_imports, :only => [:new, :create]
 end

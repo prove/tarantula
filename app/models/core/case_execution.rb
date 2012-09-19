@@ -4,7 +4,7 @@ A case execution. Reflects execution of a case.
 
 =end
 class CaseExecution < ActiveRecord::Base
-
+  extend CsvExchange::Model
   belongs_to :creator, :class_name => 'User', :foreign_key => 'created_by'
   belongs_to :test_case, :class_name => 'Case', :foreign_key => 'case_id'
 
@@ -221,32 +221,14 @@ class CaseExecution < ActiveRecord::Base
   end
   def result=(r); self['result'] = r.db; end
 
-  def self.csv_header(delimiter=';', line_feed="\r\n", opts={})
-    CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      row = []
-      row = [''] * opts[:indent] if opts[:indent]
-      row += ['Case Execution Id', 'Case', 'Objective', 'Test data',
-              'Preconditions and assumptions']
-      csv << row
-    end
-  end
-  
-  def to_csv(delimiter=';', line_feed="\r\n", opts={})
-    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
-      row = []
-      row = [''] * opts[:indent] if opts[:indent]
-      row += [id, title, objective, test_data, preconditions_and_assumptions]
-      csv << row
-    end
-    if opts[:recurse] and opts[:recurse] > 0
-      new_opts = opts.dup
-      new_opts[:recurse] -= 1
-      new_opts[:indent] ||= 0
-      new_opts[:indent] += 1
-      ret += StepExecution.csv_header(delimiter, line_feed, new_opts)
-      ret += self.step_executions.map{|se| se.to_csv(delimiter, line_feed, new_opts)}.join
-    end
-    ret
+  define_csv do
+    attribute :id,                        'Case Execution Id', 
+              :identifier => true
+    field :title,                         'Case'
+    field :objective,                     'Objective'
+    field :test_data,                     'Test Data'
+    field :preconditions_and_assumptions, 'Preconditions & Assumptions'
+    children :step_executions
   end
 
 end

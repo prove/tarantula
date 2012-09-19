@@ -82,7 +82,8 @@ class ExecutionsController < ApplicationController
   # ===HTTP GET /executions/:id
   def show
     if params[:format] == 'csv'
-      csv = @execution.to_csv(';', "\r\n", :recurse => 2)
+      csv = Execution.csv_header
+      csv += @execution.to_csv(';', "\r\n", :recurse => 2)
       send_data(csv, :filename => "#{@execution.name.gsub(' ','_')}.csv",
                      :disposition => 'attachment')
     else

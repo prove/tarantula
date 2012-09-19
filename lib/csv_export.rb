@@ -11,14 +11,14 @@ class CsvExport
     @recurse = recurse
   end
 
-  def to_csv(delimiter=';', line_feed="\r\n", opts={})
+  def to_csv(col_sep=';', row_sep="\r\n", opts={})
     if @test_area
       objects = @test_area.send(@klass.to_s.downcase.pluralize.to_sym).send(:active)
     else
       objects = @klass.active.where(:project_id => @project.id)
     end
-    csv = @klass.csv_header(delimiter, line_feed)
-    csv += objects.map{|o| o.to_csv(delimiter, line_feed, 
+    csv = @klass.csv_header(col_sep, row_sep)
+    csv += objects.map{|o| o.to_csv(col_sep, row_sep, 
                                     {:recurse => @recurse})}.join
     csv
   end
