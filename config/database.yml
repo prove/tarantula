@@ -18,9 +18,9 @@
                         detect{|p| File.exists?(p)} } %>
 development:
   adapter: mysql2
-  database: testia
+  database: tarantula
   username: root
-  password:
+  password: 
   host: localhost
   encoding: utf8
   socket: <%= get_socket.call %>
