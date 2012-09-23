@@ -169,4 +169,21 @@ class ApplicationController < ActionController::Base
     @current_user = User.find(request.env['REMOTE_USER'] || session[:user_id])
     @project = @current_user.latest_project
   end
+protected
+	def can_do_stuff?(login,password)		
+		if u = User.authenticate(login,password)
+			if !u.latest_project
+				flash.now[:notice] = "You have no project assignments."
+				return false
+			elsif u.deleted?
+				flash.now[:notice] = "You have been deleted."
+				return false
+			else
+				session[:user_id] = u.id
+				return true
+			end
+		end
+		flash.now[:notice] = "Login failed."
+		return false
+	end
 end
