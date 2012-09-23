@@ -150,4 +150,5 @@ Tarantula::Application.routes do
   resources :backups, :only => [:new, :create]
   resources :csv_exports, :only => [:new, :create]
   resources :csv_imports, :only => [:new, :create]
+	match '/api/test', :controller => 'api', :action => 'test', :via => :get
 end

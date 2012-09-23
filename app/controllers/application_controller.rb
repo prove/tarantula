@@ -6,7 +6,7 @@
 
 class ApplicationController < ActionController::Base
   # protect_from_forgery
-  before_filter :set_current_user_and_project, :except => [:login]
+	before_filter :set_current_user_and_project, :except => [:login]
   before_filter :apply_currents
   before_filter :clean_data
 
@@ -169,5 +169,4 @@ class ApplicationController < ActionController::Base
     @current_user = User.find(request.env['REMOTE_USER'] || session[:user_id])
     @project = @current_user.latest_project
   end
-
 end

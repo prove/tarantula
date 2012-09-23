@@ -29,7 +29,6 @@ end
 
 group :development do
 # gem 'ruby-debug19'
-	gem 'rest-client', :git=>'https://github.com/archiloque/rest-client.git'
 end
 
 group :test do
