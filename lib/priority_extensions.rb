@@ -15,7 +15,7 @@ module PriorityExtensions
       if p_val
         self[:priority] = p_val[:value]
       else
-        raise "Invalid priority '#{p}' for test set (id #{self.id})"
+        raise "Invalid priority '#{p}' for #{self.class} (id #{self.id})"
       end
     else
       self[:priority] = p
