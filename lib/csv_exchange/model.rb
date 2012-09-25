@@ -85,6 +85,7 @@ module CsvExchange
       if !record.changes.empty?
         logger.update_msg("Updating attributes for #{self} #{id_attr} #{data[id_index]}: #{record.changes.inspect}")
         record.save!
+        csv_setup[:after_update].call(record) if csv_setup[:after_update]
         saved = true
       end
 

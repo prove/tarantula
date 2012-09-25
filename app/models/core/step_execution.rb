@@ -71,6 +71,9 @@ class StepExecution < ActiveRecord::Base
     attribute :skipped,         'Skipped'
     attribute :not_implemented, 'Not Implemented'
     attribute :not_run,         'Not Run'
+    after_update do |step_execution|
+      step_execution.case_execution.update_result(nil, false)
+    end
   end
   
   def passed; self.result == Passed ? 'X' : '' end

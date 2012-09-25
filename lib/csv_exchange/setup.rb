@@ -5,6 +5,7 @@ module CsvExchange
       @csv_setup[:cells] = []
       @csv_setup[:children] = []
       @csv_setup[:identifier] = nil
+      @csv_setup[:after_update] = nil
     end
     
     def attribute(name, title, opts={})
@@ -34,5 +35,9 @@ module CsvExchange
       @csv_setup[:children] << name
     end
     
+    def after_update(&block)
+      @csv_setup[:after_update] = block
+    end
+
   end
 end
