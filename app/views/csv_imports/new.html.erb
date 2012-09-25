@@ -1,5 +1,5 @@
 
-<%= form_tag csv_imports_path, :multipart => true do %>
+<%= form_tag csv_imports_path, :multipart => true, :id => 'form' do %>
   <br/>
   <label for="file">File to Import</label>
   <%= file_field_tag "file" %>
@@ -7,5 +7,13 @@
   <%= check_box_tag 'simulate' %> Simulate (just display log, don't update objects)
   <br/>
   <br/>
-  <%= submit_tag 'Import' %>
+
+   <div class="submenu-items" style="padding:0; margin:0;">
+     <span style="padding:0; margin:0" 
+           onclick='javascript:importCsv.submitForm()'>Import
+     </span>  
+   </div>
+
+   <div id="log">
+   </div>
 <% end %>

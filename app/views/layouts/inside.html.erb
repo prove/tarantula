@@ -1548,6 +1548,18 @@ var importDoors = function (){
   };
 }();
 
+var importCsv = function (){
+
+    var mgr;
+
+    return{
+        submitForm : function(){
+            mgr = new Ext.UpdateManager("log");
+            mgr.formUpdate( "form", "/csv_imports/");
+    }
+  };
+}();
+
       //]]>
       </script>
     </head>
