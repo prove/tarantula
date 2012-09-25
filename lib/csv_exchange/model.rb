@@ -159,9 +159,11 @@ module CsvExchange
           new_opts[:indent] ||= 0
           new_opts[:indent] += 1
           self.class.csv_setup[:children].each do |ch|
-            ch_class = ch.to_s.singularize.camelize.constantize
+            ch_records = send(ch)
+            next if ch_records.empty?
+            ch_class = ch.to_s.classify.constantize
             ret += ch_class.csv_header(col_sep, row_sep, new_opts)
-            ret += send(ch).map{|c| c.to_csv(col_sep, row_sep, new_opts)}.join
+            ret += ch_records.map{|c| c.to_csv(col_sep, row_sep, new_opts)}.join
           end
         end
         ret
