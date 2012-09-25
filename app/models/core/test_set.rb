@@ -111,7 +111,7 @@ class TestSet < ActiveRecord::Base
     attribute   :id,           'Test Set Id', :identifier => true
     attribute   :name,         'Name'
     attribute   :date,         'Date'
-    attribute   :priority,     'Priority'
+    attribute   :priority,     'Priority', :map => :to_i
     field       :avg_duration, 'Average Duration'
     association :tags,         'Tags', :map => :name
     association :test_areas,   'Test Areas', :map => :name

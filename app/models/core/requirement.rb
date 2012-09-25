@@ -145,7 +145,7 @@ class Requirement < ActiveRecord::Base
     attribute   :external_id, 'Requirement Id', :identifier => true
     attribute   :name,        'Name'
     attribute   :date,        'Date'
-    attribute   :priority,    'Priority'
+    attribute   :priority,    'Priority', :map => :to_i
     field       :updated_at,  'Modified at'
     association :tags,        'Tags', :map => :name
     association :test_areas,  'Test Areas', :map => :name
