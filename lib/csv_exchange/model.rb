@@ -124,7 +124,7 @@ module CsvExchange
         logger.update_msg("Updating #{csv_setup[:children].first} for #{self} #{csv_setup[:identifier][:name]} #{record.send(csv_setup[:identifier][:name])}")
         record.save! unless saved
         children.each_with_index do |ch,i|
-          ch.position = i if ch.respond_to?(:position)
+          ch.position = i+1 if ch.respond_to?(:position)
           record.send(csv_setup[:children].first) << ch
         end
       end
