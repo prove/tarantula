@@ -72,8 +72,12 @@ module CsvExchange
             new_assocs << new_assoc
           end
           if [record.send(cell[:name])].flatten != new_assocs
-            logger.update_msg("Updating #{cell[:name]} for #{self} #{id_attr} #{data[id_index]}.. #{[record.send(cell[:name])].flatten.map{|rec| rec.send(cell[:opts][:map])}.map(&:to_s).join(', ')} => #{data[i]}")
-            record.send("#{cell[:name]}=", new_assocs)
+            logger.update_msg("Updating #{cell[:title]} for #{self} #{id_attr} #{data[id_index]}.. #{[record.send(cell[:name])].flatten.map{|rec| rec.send(cell[:opts][:map])}.map(&:to_s).join(', ')} => #{data[i]}")
+            if cell[:name].to_s.singularize == cell[:name].to_s
+              record.send("#{cell[:name]}=", *new_assocs)
+            else
+              record.send("#{cell[:name]}=", new_assocs)
+            end
           end
 
         when :field

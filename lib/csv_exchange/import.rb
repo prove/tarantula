@@ -32,7 +32,7 @@ module CsvExchange
       rescue SimulationDone => e
         @logger.info "Simulation done."
       rescue Exception => e
-        @logger.error_msg e.message+"\n"+e.backtrace.join("\n")
+        @logger.error_msg e.message+"<br/>\n"+e.backtrace.join("<br/>\n")
       end
     end
 
