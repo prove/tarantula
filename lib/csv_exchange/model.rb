@@ -34,7 +34,7 @@ module CsvExchange
       csv += records.map{|record| record.to_csv(col_sep, row_sep, opts)}.join
     end
     
-    def update_from_csv(csv, logger, col_sep=';', row_sep="\r\n")
+    def update_from_csv(csv, project_id, logger, col_sep=';', row_sep="\r\n")
       
       lines = csv.split(row_sep)
       
@@ -67,7 +67,8 @@ module CsvExchange
           new_assocs = []
           new_assoc_strs.each do |str|
             new_assoc = assoc_model.find(:first, 
-                                  :conditions => {cell[:opts][:map] => str})
+                                  :conditions => {cell[:opts][:map] => str,
+                                                  :project_id => project_id})
             raise "No #{assoc_model} #{str} found." unless new_assoc
             new_assocs << new_assoc
           end
@@ -126,15 +127,19 @@ module CsvExchange
       
       if old_children.sort != children.sort
         logger.update_msg("Updating #{csv_setup[:children].first} for #{self} #{csv_setup[:identifier][:name]} #{record.send(csv_setup[:identifier][:name])}")
-        record.save! unless saved
-        children.each_with_index do |ch,i|
-          ch.position = i+1 if ch.respond_to?(:position)
-          record.send(csv_setup[:children].first) << ch
+        if child_class.attribute_names.include?('version')
+          record.save! unless saved
+          children.each_with_index do |ch,i|
+            ch.position = i+1 if ch.respond_to?(:position)
+            record.send(csv_setup[:children].first) << ch
+          end
+        else
+          record.send("#{csv_setup[:children].first}=", children)
         end
       end
 
       chunks.each do |chunk|
-        child_class.update_from_csv(chunk, logger, col_sep, row_sep)
+        child_class.update_from_csv(chunk, project_id, logger, col_sep, row_sep)
       end
     end
 
