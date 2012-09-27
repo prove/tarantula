@@ -142,7 +142,8 @@ class Requirement < ActiveRecord::Base
   end
 
   define_csv do
-    attribute   :external_id, 'Requirement Id', :identifier => true
+    attribute   :id,          'Requirement Id', :identifier => true
+    attribute   :external_id, 'External Id'
     attribute   :name,        'Name'
     attribute   :date,        'Date'
     attribute   :priority,    'Priority', :map => :to_i
