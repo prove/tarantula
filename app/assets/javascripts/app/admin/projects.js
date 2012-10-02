@@ -432,6 +432,26 @@ var Projects = function() {
 
         );
 
+        appForm.fieldset({id:'automationtool', legend:'Automation tool'},
+            new Ext.form.ComboBox({
+                fieldLabel: 'Automation tool',
+                name: 'automation_tool_id',
+                width: 175,
+                store: new Ext.data.JsonStore({
+                    url: createUrl('/automation_tools'),
+                    root: 'data',
+                    fields: ['name', 'id']}),
+                displayField:'name',
+                valueField: 'id',
+                editable: false,
+                allowBlank: true,
+                lazyRender: true,
+                triggerAction: 'all',
+                mode: 'local',
+                selectOnFocus:true
+            })
+        );
+
         appForm.fieldset({id:'bugtracker', legend:'Bugtracker'},
             new Ext.form.ComboBox({
                 fieldLabel: 'Bugtracker',
@@ -451,6 +471,7 @@ var Projects = function() {
                 selectOnFocus:true
             })
         );
+
 
         defaultTagsStore = new Ext.data.SimpleStore({fields: [{name: 'tag'}]});
         productsStore = new Ext.data.JsonStore({
@@ -619,9 +640,18 @@ var Projects = function() {
         appForm.registerField('library');
         appForm.registerField('test_areas');
         appForm.registerField('bug_tracker_id');
+        appForm.registerField('automation_tool_id');
 
         appForm.registerField(productsGrid);
 
+        var atCombo = appForm.findField('automation_tool_id');
+        atCombo.store.on('load', function(){
+            var rec = Ext.data.Record.create([
+                {name:'id'},{name:'name'}
+            ]);
+            this.add(new rec({id:0, name:'(None)'}));
+        }, atCombo.store);
+				
         var bugsCombo = appForm.findField('bug_tracker_id');
         bugsCombo.store.on('load', function(){
             var rec = Ext.data.Record.create([
@@ -629,6 +659,7 @@ var Projects = function() {
             ]);
             this.add(new rec({id:0, name:'(None)'}));
         }, bugsCombo.store);
+			
 
         bugsCombo.on('select', function() {
             var btid = this.getValue();
@@ -867,6 +898,7 @@ var Projects = function() {
 
         appForm.initEnd();
         appForm.findField('bug_tracker_id').store.load();
+        appForm.findField('automation_tool_id').store.load();
     }
 
     function extendAppForm() {
@@ -884,6 +916,9 @@ var Projects = function() {
             var ds;
             // Bug tracker products
             appForm.findField('bug_tracker_id').fireEvent('select');
+
+            // Automation tools
+            appForm.findField('automation_tool_id').store.load();
 
             // Assigned users
             var Record = Ext.data.Record.create([

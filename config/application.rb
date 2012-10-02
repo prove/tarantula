@@ -74,6 +74,7 @@ module Tarantula
                                  #{Rails.root}/app/models/task
                                  #{Rails.root}/app/models/preference
                                  #{Rails.root}/app/models/observers
+                                 #{Rails.root}/app/models/automation
                                  #{Rails.root}/lib/smart_tag
                                  #{Rails.root}/lib/acts_as_versioned/lib
                                  #{Rails.root}/lib/customerconfig/app/models
