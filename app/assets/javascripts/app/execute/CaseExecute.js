@@ -70,6 +70,7 @@ var CaseExecute = function() {
     var btnSkip;
     var btnNotImplemented;
     var btnClear;
+		var btnAutomate;
 
     /**
     * All information needed for single case execution.
@@ -210,6 +211,8 @@ var CaseExecute = function() {
             }
         });
     }
+
+
 
     /**
     * Display total number of passed/failed/skipped.
@@ -732,6 +735,11 @@ var CaseExecute = function() {
                                 handler: TestGrid.nextCase,
                                 scope: CaseExecute });
 
+            stepsTb.addButton( {text: 'Automate',
+                                cls:'tarantula-btn-auto',
+                                handler: TestGrid.automate,
+                                scope: CaseExecute });
+
 
 
             stepsTb.addField(
@@ -989,12 +997,53 @@ var CaseExecute = function() {
                 f.call(this, executionId_, caseId_);
             }
         },
+        /**
+        * Disable test execution until callback from 3rd party tests automation tool is receieved
+        */
 
+        disableManualTesting: function(){
+						casesTb.disable();
+						stepsTb.disable();
+        },
         // Reload current case.
         reloadCase: function() {
             CaseExecute.loadCase( executionId, caseId);
         },
 
+
+				/**
+				* starts 3rd party automation tool for the curent test with specified caseId, executionId
+				*/
+				ajaxStartAutomationTool: function(){
+						startAutomationTool = Ext.Ajax.request({
+								url: createUrl('/automation/execute'),
+								method: 'get',
+								params: Ext.urlEncode( {testcase: Ext.encode(caseId), execution: Ext.encode(executionId)}),
+								scope: CaseExecute,
+								//success: Ext.alert("test execution started")
+						});
+				},
+
+				/**
+				* Periodically tracks if automation tool has finished execution and updated test execution results
+				* Stops self when it's done
+				*/
+				ajaxTrackChanges: function(){
+						trackChanges = Ext.Ajax.request({
+								url: createUrl('/automation/track'),
+								method: 'get',
+								params: Ext.urlEncode( {testcase: Ext.encode(caseId), execution: Ext.encode(executionId)}),
+								scope: CaseExecute,
+								success: function(response, options) {
+										//updated = Ext.decode(response.responseText).data[0];
+										updated = true;
+										if (updated){
+											this.reloadCase();
+										}
+								}
+						});
+						setTimeout(ajaxTrackChanges, 5000);
+				},
         /**
         * Returns true, if given case execution is already displayed.
         */

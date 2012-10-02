@@ -1295,6 +1295,10 @@ Ext.extend(Ext.testia.GUI, Ext.util.Observable, {
             Projects.editBugtrackers();
             break;
 
+        case 'adminautomationtools':
+            Projects.editAutomationTools();
+            break;
+
         case 'importdoors':
             // Just remove toolbar, if any.
             // This might needs more robust handling...
@@ -1698,6 +1702,9 @@ var importDoors = function (){
                     </span>
                     <span onclick="javascript:newLayout.subMenuSelected('admin','admindefects')">
                         Defect Trackers
+                    </span>
+                    <span onclick="javascript:newLayout.subMenuSelected('admin','adminautomationtools')">
+                        Automation Tools
                     </span>
                     <span onclick="javascript:newLayout.subMenuSelected('admin','adminbackup')">
                         Backup
