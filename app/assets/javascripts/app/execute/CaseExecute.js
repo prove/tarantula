@@ -1020,7 +1020,11 @@ var CaseExecute = function() {
 								method: 'get',
 								params: Ext.urlEncode( {testcase: Ext.encode(caseId), execution: Ext.encode(executionId)}),
 								scope: CaseExecute,
-								//success: Ext.alert("test execution started")
+								success: function(response, options) {
+										// Server responds with
+										// cmd started on the server
+										alert ('Automation tool started with command: \''+ Ext.decode(response.responseText).data.cmd+'\'')
+								}
 						});
 				},
 

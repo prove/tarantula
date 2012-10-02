@@ -1,6 +1,9 @@
 class ApiController < ApplicationController
 	skip_filter :set_current_user_and_project
 	before_filter :login_once
+  before_filter do |f|
+    f.require_permission(['ADMIN'])
+  end
 	respond_to :xml
 
 	# example: Case.create_with_steps!({:created_by=>3,:updated_by=>3,:title => "Импорт", :date=>"2012-09-22T00:00:00",:priority=>"high", :time_estimate=>"", :objective=>"Цель",:test_data=>"Данные",:preconditions_and_assumptions=>"some prec",:test_area_ids=>[],:change_comment=>"Comment",:project_id=>1,:version=>1},[:version=>1,:position=>1,:action=>"step1",:result=>"res1"])

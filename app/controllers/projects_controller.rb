@@ -87,7 +87,6 @@ class ProjectsController < ApplicationController
   end
 
   def update
-		puts params.inspect
     @project = Project.find(params[:id])
 
     assigned_users = @data.delete('assigned_users')

@@ -5,7 +5,10 @@ class AutomationTool < ActiveRecord::Base
   validates_presence_of :name, :command_pattern
 
   def to_tree
-    {:id => self.id,
-     :name => self.name }
+    {
+			:id => self.id,
+			:name => self.name,
+			:command_pattern => self.command_pattern
+	  }
   end
 end
