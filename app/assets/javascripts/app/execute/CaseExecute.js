@@ -18,7 +18,24 @@ Ext.extend(Ext.testia.ExecuteTB, Ext.Toolbar, {
                          i.enable();
                      }
                  });
-    }
+    },
+
+    enable_navigate_only: function() {
+        this.items.each(function(i) {
+                     if (i.enable && (i.cls == 'tarantula-btn-next' || i.cls == 'tarantula-btn-prev')) {
+                         i.enable();
+                     }
+                 });
+    },
+
+    enable_without_automation: function() {
+        this.items.each(function(i) {
+                     if (i.enable && i.cls != 'tarantula-btn-auto') {
+                         i.enable();
+                     }
+                 });
+    },
+
 });
 
 /**
@@ -92,6 +109,7 @@ var CaseExecute = function() {
     */
     var executionId;
     var caseId;
+		var caseTags;
 
     // Execution version.
     // If execution version is changed in midst of testing session,
@@ -895,12 +913,19 @@ var CaseExecute = function() {
 
             CaseExecute.showExecution();
 
-
             updateCaseContent();
             updateStepsContent();
 
             casesTb.enable();
-            stepsTb.enable();
+						if(caseExecution.blocked){
+							stepsTb.enable_navigate_only();
+						}
+						else if(!caseExecution.automated){
+							stepsTb.enable_without_automation();
+						}
+						else{
+							stepsTb.enable();
+						}
         },
 
         /**
@@ -988,6 +1013,7 @@ var CaseExecute = function() {
                     // Make main view to reload after loading.          OBS!
                     ajaxLoadCaseExecution( executionId, caseId);
                 }
+
             };
             if(isDirty && !Ext.Ajax.isLoading(saveTransaction)) {
                 // Main view is refreshed on successful save.       OBS!
@@ -997,19 +1023,11 @@ var CaseExecute = function() {
                 f.call(this, executionId_, caseId_);
             }
         },
-        /**
-        * Disable test execution until callback from 3rd party tests automation tool is receieved
-        */
 
-        disableManualTesting: function(){
-						casesTb.disable();
-						stepsTb.disable();
-        },
         // Reload current case.
         reloadCase: function() {
             CaseExecute.loadCase( executionId, caseId);
         },
-
 
 				/**
 				* starts 3rd party automation tool for the curent test with specified caseId, executionId
@@ -1018,36 +1036,17 @@ var CaseExecute = function() {
 						startAutomationTool = Ext.Ajax.request({
 								url: createUrl('/automation/execute'),
 								method: 'get',
-								params: Ext.urlEncode( {testcase: Ext.encode(caseId), execution: Ext.encode(executionId)}),
+								params: Ext.urlEncode( {testcase_execution: Ext.encode(caseId), execution: Ext.encode(executionId)}),
 								scope: CaseExecute,
 								success: function(response, options) {
 										// Server responds with
 										// cmd started on the server
-										alert ('Automation tool started with command: \''+ Ext.decode(response.responseText).data.cmd+'\'')
+										alert ('Automation tool started with command: \''+ Ext.decode(response.responseText).data.cmd+'\'');
+										this.reloadCase();
 								}
 						});
 				},
 
-				/**
-				* Periodically tracks if automation tool has finished execution and updated test execution results
-				* Stops self when it's done
-				*/
-				ajaxTrackChanges: function(){
-						trackChanges = Ext.Ajax.request({
-								url: createUrl('/automation/track'),
-								method: 'get',
-								params: Ext.urlEncode( {testcase: Ext.encode(caseId), execution: Ext.encode(executionId)}),
-								scope: CaseExecute,
-								success: function(response, options) {
-										//updated = Ext.decode(response.responseText).data[0];
-										updated = true;
-										if (updated){
-											this.reloadCase();
-										}
-								}
-						});
-						setTimeout(ajaxTrackChanges, 5000);
-				},
         /**
         * Returns true, if given case execution is already displayed.
         */

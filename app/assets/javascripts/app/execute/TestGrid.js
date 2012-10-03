@@ -496,13 +496,10 @@ var TestGrid = function() {
         */
         automate: function() {
 			 /*
-			 * disable all execution related buttons
 			 * start 3rd party automation tool
-			 * update results upon receiveing callback from third party tool
 			 */
-                //CaseExecute.disableManualTesting();
 								CaseExecute.ajaxStartAutomationTool();
-								//CaseExecute.ajaxTrackChanges();
+
         },
         /**
         * Is last case in grid currently active?

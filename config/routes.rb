@@ -147,6 +147,8 @@ Tarantula::Application.routes do
     end
   end
 
+	resources :automation_tools
+
   resources :backups, :only => [:new, :create]
   resources :csv_exports, :only => [:new, :create]
   resources :csv_imports, :only => [:new, :create]
@@ -154,5 +156,5 @@ Tarantula::Application.routes do
 	match '/api/create_testcase', :controller => 'api', :action => 'create_testcase', :via => :post
 	match '/api/update_testcase_execution', :controller => 'api', :action => 'update_testcase_execution', :via => :post
 	match '/automation/execute', :controller => 'automation', :action => 'execute', :via => :get
-	resources :automation_tools
+	match "/case_executions/automated/:id", :controller => 'case_executions', :action => 'automated', :via => :get
 end

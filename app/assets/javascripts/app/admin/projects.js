@@ -274,7 +274,14 @@ Ext.testia.AutomationToolDlg = function(config) {
                             fieldLabel: 'Execution command pattern',
                             name: 'command_pattern',
                             value: '/usr/bin/execute --testcase ${caseName} --execution ${executionName}'
-                        }));
+                        }),
+                        new Ext.form.TextField({
+														width: 175,
+                            fieldLabel: 'Test tag',
+                            name: 'automation_tag',
+                            value: 'auto'
+                        })
+												);
     this.dForm.render(Ext.DomHelper.append(cp.el, {tag:'div'}, true));
 
     this.setTitle(config.title);

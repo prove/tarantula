@@ -144,6 +144,13 @@ class CaseExecution < ActiveRecord::Base
     self.step_executions.map{|se| se.bug ? se.bug.to_s : nil}.compact.join(', ')
   end
 
+	def automated
+		tc = self.test_case
+		case_tags = tc.tags_to_s.split(",")
+		automation_tool_tag = tc.project.automation_tool.automation_tag
+		case_tags.include?(automation_tool_tag)
+	end
+
   def to_data(*opts)
     tc = self.test_case
     history = tc.history # history before revert (cache_key)
@@ -163,7 +170,10 @@ class CaseExecution < ActiveRecord::Base
             :objective     => tc.objective,
             :test_data     => tc.test_data,
             :preconditions_and_assumptions => tc.preconditions_and_assumptions,
-            :tags          => tc.tags_to_s}
+            :tags          => tc.tags_to_s,
+						:blocked => blocked,
+						:automated => automated
+					}
 
     data.merge!(:steps => step_executions.map(&:to_data)) if opts.include?(:include_steps)
     data

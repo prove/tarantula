@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121002122109) do
+ActiveRecord::Schema.define(:version => 20121003140517) do
 
   create_table "attachment_sets", :force => true do |t|
     t.datetime "created_at"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20121002122109) do
     t.string   "command_pattern"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.string   "automation_tag"
   end
 
   create_table "bug_components", :force => true do |t|
@@ -189,6 +190,7 @@ ActiveRecord::Schema.define(:version => 20121002122109) do
     t.integer  "duration",     :default => 0
     t.integer  "position",     :default => 0
     t.string   "title"
+    t.boolean  "blocked",      :default => false
   end
 
   add_index "case_executions", ["case_id"], :name => "index_case_executions_on_case_id"
