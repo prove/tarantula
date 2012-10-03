@@ -73,7 +73,7 @@ where body is
 			<execution>My execution</execution>
 			<testcase>My testcase</testcase>
 			<duration>1</duration>
-			<step position="1" result="PASSED"></step>
+			<step position="1" result="PASSED" comment="some text"></step>
 			<step position="2" result="NOT_IMPLEMENTED"></step>
 		</request>
   

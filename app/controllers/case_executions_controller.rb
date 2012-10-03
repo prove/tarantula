@@ -57,14 +57,6 @@ class CaseExecutionsController < ApplicationController
     render :json => {:data => [@case_execution.to_data(:include_steps)]}
   end
 
-	def automated
-		case_execution = CaseExecution.find(params[:id])
-		c = Case.find(case_execution.case_id)
-		case_tags = c.tags_to_s.split(",")
-		automation_tool_tag = c.project.automation_tool.automation_tag
-		automated = case_tags.include?(automation_tool_tag)
-		render :json => {:data => automated}
-	end
 
   def destroy
     @case_execution = CaseExecution.find(params[:id])

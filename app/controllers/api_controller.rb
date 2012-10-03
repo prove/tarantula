@@ -49,10 +49,12 @@ class ApiController < ApplicationController
 			step_result = {}
 			step_result["id"] = testcase_execution.step_executions.where(:position => se[:position]).first.id
 			step_result["result"] = se[:result]
-			step_result["comment"], step_result[:bug] = nil
+			step_result["comment"] = se[:comment]
+			step_result[:bug] = nil
 			step_results << step_result
 		}
 		testcase_execution.update_with_steps!({"duration" => attrs[:duration]},step_results,@current_user)
+		testcase_execution.update_attribute(:blocked, false)
 		render :text => "testcase execution id = #{testcase_execution.id} updated"
 	end
 
