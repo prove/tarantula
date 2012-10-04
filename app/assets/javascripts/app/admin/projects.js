@@ -213,7 +213,7 @@ Ext.testia.AutomationToolDlg = function(config) {
     config = config || {};
 
     config.width = config.width || 575;
-    config.height = config.height || 300;
+    config.height = config.height || 350;
     config.scope = config.scope || this;
     config.center = config.center || {autoScroll: true};
     config.autoCreate = true;
