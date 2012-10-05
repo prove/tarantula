@@ -937,6 +937,7 @@ var CaseExecute = function() {
 						if(caseExecution.blocked){
 							stepsTb.set_automation_in_progress();
 							stepsTb.enable_navigate_only();
+							setTimeout(this.reloadIfExecuted,5000);
 						}
 						else if(!caseExecution.automated){
 							stepsTb.set_automation_not_in_progress();
@@ -1065,6 +1066,26 @@ var CaseExecute = function() {
 										this.reloadCase();
 								}
 						});
+				},
+
+				/**
+				* Reloads case if 3rd party tool finished its work
+				*/
+				reloadIfExecuted: function(){
+					Ext.Ajax.request({
+							url: createUrl('/executions/'+executionId+'/case_executions/' +
+														 caseId),
+							method: 'get',
+							scope: CaseExecute,
+							success: function(response, options) {
+									blocked = Ext.decode(response.responseText).data[0].blocked;
+									if(blocked){
+											setTimeout(this.reloadIfExecuted,5000);
+									}else{
+											this.reloadCase();
+									}
+							}
+					});
 				},
 
         /**
