@@ -42,7 +42,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :bug_products
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false
+ # validates_uniqueness_of :name, :case_sensitive => false
 
   before_destroy do |proj|
     ProjectAssignment.destroy_all(:project_id => proj.id, :group => 'ADMIN')

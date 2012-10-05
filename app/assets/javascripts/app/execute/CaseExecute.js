@@ -37,21 +37,11 @@ Ext.extend(Ext.testia.ExecuteTB, Ext.Toolbar, {
     },
 
     set_automation_in_progress: function() {
-        this.items.each(function(i) {
-                     if (i.cls == 'tarantula-btn-auto') {
-												t=document.getElementById("ext-gen758");
-												t.setAttribute("class", "x-btn-wrap tarantula-btn-auto-ip x-btn ");
-                     }
-                 });
+			 Ext.each(Ext.query('.tarantula-btn-auto'), function(t,index){t.setAttribute("class", "x-btn-wrap tarantula-btn-auto-ip x-btn ");})
     },
 
     set_automation_not_in_progress: function() {
-        this.items.each(function(i) {
-                     if (i.cls == 'tarantula-btn-auto') {
-												t=document.getElementById("ext-gen758");
-												t.setAttribute("class", "x-btn-wrap tarantula-btn-auto x-btn ");
-                     }
-                 });
+			 Ext.each(Ext.query('.tarantula-btn-auto-ip'), function(t,index){t.setAttribute("class", "x-btn-wrap tarantula-btn-auto x-btn ");})
     }
 });
 
@@ -934,6 +924,7 @@ var CaseExecute = function() {
             updateStepsContent();
 
             casesTb.enable();
+            //stepsTb.enable();
 						if(caseExecution.blocked){
 							stepsTb.set_automation_in_progress();
 							stepsTb.enable_navigate_only();
