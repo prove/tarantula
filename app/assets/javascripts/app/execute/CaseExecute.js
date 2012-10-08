@@ -1053,7 +1053,7 @@ var CaseExecute = function() {
 								success: function(response, options) {
 										// Server responds with
 										// cmd started on the server
-										alert ('Automation tool started with command: \''+ Ext.decode(response.responseText).data.cmd+'\'');
+										alert (Ext.decode(response.responseText).data.message);
 										this.reloadCase();
 								}
 						});

@@ -155,6 +155,7 @@ Tarantula::Application.routes do
 	match '/api/test', :controller => 'api', :action => 'test', :via => :get
 	match '/api/create_testcase', :controller => 'api', :action => 'create_testcase', :via => :post
 	match '/api/update_testcase_execution', :controller => 'api', :action => 'update_testcase_execution', :via => :post
+	match '/api/unblock_testcase_execution', :controller => 'api', :action => 'unblock_testcase_execution', :via => :post
 	match '/automation/execute', :controller => 'automation', :action => 'execute', :via => :get
 	match "/case_executions/automated/:id", :controller => 'case_executions', :action => 'automated', :via => :get
 end
