@@ -57,15 +57,7 @@ module CsvExchange
     private
   
     def find_header
-      Case
-      Step
-      Requirement
-      TestSet
-      Execution
-      CaseExecution
-      StepExecution
-      
-      classes = CsvExchange::Info.classes
+      classes = [Case, Requirement, TestSet, Execution]
       headers = {}
       classes.each do |klass|
         headers[klass.csv_header(@col_sep, @row_sep)] = klass

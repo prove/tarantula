@@ -4,7 +4,6 @@ module CsvExchange
     
     def define_csv(&block)
       @csv_setup = Hash.new
-      CsvExchange::Info.add_class(self)
       CsvExchange::Setup.new(@csv_setup).instance_eval(&block)
       include InstanceMethods
     end
