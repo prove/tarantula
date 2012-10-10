@@ -2,10 +2,11 @@ module CsvExchange
   class Import
     class SimulationDone < StandardError; end
   
-    def initialize(file, project_id, simulate=false, logger=nil, 
+    def initialize(file, project_id, user_id, simulate=false, logger=nil, 
                    col_sep=';', row_sep="\r\n")
       @lines = file.read.split(row_sep)
       @project_id = project_id
+      @user_id = user_id
       @simulate = simulate
       @col_sep = col_sep
       @row_sep = row_sep
@@ -22,7 +23,8 @@ module CsvExchange
         @klass.transaction do
           chunks = self.class.chunkify(@lines, @col_sep, @row_sep)
           chunks.each do |c|
-            @klass.update_from_csv(c, @project_id, @logger, @col_sep, @row_sep)
+            @klass.update_from_csv(c, @project_id, @user_id, @logger, 
+                                   @col_sep, @row_sep)
           end
           if @simulate
             raise SimulationDone.new
@@ -55,6 +57,14 @@ module CsvExchange
     private
   
     def find_header
+      Case
+      Step
+      Requirement
+      TestSet
+      Execution
+      CaseExecution
+      StepExecution
+      
       classes = CsvExchange::Info.classes
       headers = {}
       classes.each do |klass|

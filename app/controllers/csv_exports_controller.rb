@@ -17,7 +17,8 @@ class CsvExportsController < ApplicationController
       records = klass.active.where(:project_id => @project.id)
     end
     
-    csv = klass.to_csv(';', "\r\n", :recurse => params[:recursion].to_i) { records }
+    csv = klass.to_csv(';', "\r\n", :recurse => params[:recursion].to_i,
+          :export_without_ids => !params[:export_without_ids].blank?) { records }
     
     send_data csv, :filename => "#{params[:export_type]}_export.csv",
                    :disposition => 'attachment'

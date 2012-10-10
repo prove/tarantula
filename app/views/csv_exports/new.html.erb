@@ -13,6 +13,9 @@
   <%= select_tag 'recursion', 
       "<option>0</option><option>1</option><option>2</option>".html_safe %>
   <br/>
+  <%= check_box_tag 'export_without_ids' %>
+  Export without IDs
+  <br/>
   <br/>
   <%= submit_tag "Export" %>
 <% end %>
