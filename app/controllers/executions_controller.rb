@@ -94,7 +94,8 @@ class ExecutionsController < ApplicationController
   # ===HTTP PUT /executions/:id
   def update
     if params[:file]
-      import = CsvExchange::Import.new(params[:file], @project.id, false,
+      import = CsvExchange::Import.new(params[:file], @project.id, 
+                                       @current_user.id, false,
                                        CsvExchange::Logger.new(
                                        File.join(Rails.root, 'log', 
                                                  'csv_import.log')))
