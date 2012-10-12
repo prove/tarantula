@@ -77,9 +77,7 @@ Ext.extend(Ext.tarantula.TextArea, Ext.form.TextArea, {
     renderReadonlyContent: function() {
         var content = this.getValue();
         content = content.replace(/https?:\/\/[^ \r\n]*/g, '<a href="$&" target="_blank">$&</a>');
-        content = content.replace(/^(.*)\n/, "<p>$1</p>\n");
-        content = content.replace(/\n(.*)\n/, "<p>$1</p>\n");
-        content = content.replace(/\n(.*)$/, "<p>$1</p>");
+        content = content.replace(/\n/g, "<br>");
 
         if (!this.readonlyEl) {
             this.readonlyEl = this.container.createChild({
