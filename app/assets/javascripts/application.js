@@ -15,7 +15,7 @@
 //= require effects
 //= require swfobject
 //= require ext/adapter/prototype/ext-prototype-adapter
-//= require ext/ext-all
+//= require ext/ext-all-debug
 //= require ext-infopanel/Ext.ux.InfoPanel
 //= require ext-infopanel/Ext.ux.Accordion
 //= require ext-taggedlist/Ext.testia.ListItem
@@ -26,6 +26,7 @@
 //= require app/shared/Resources
 //= require app/shared/AppForm
 //= require app/shared/AppStores
+//= require app/shared/Ext.tarantula.TextArea
 //= require app/shared/Ext.testia.AttachmentForm
 //= require app/shared/Ext.testia.RequestWatcher
 //= require app/shared/TestiaCombo
