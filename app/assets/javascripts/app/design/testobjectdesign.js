@@ -81,10 +81,9 @@ Ext.extend(Ext.testia.TestObjectsDesign, Ext.testia.MainContentDesign, {
                 fieldLabel: 'Mechanics',
                 name: 'mechanics'
             }),
-            new Ext.form.TextArea({
+            new Ext.tarantula.TextArea({
                 fieldLabel: 'Description',
-                name: 'description',
-                grow: true
+                name: 'description'
             }),
             new Ext.testia.TagField({
                 store: new Ext.data.JsonStore({
