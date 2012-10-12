@@ -1,3 +1,7 @@
+/*
+ * Additional functionality to base js types and objects
+ */
+
 if (!Array.prototype.forEach)
 {
   Array.prototype.forEach = function(fun /*, thisp*/)
@@ -79,3 +83,11 @@ if (!Array.prototype.map)
 }
 
 
+/**
+ * Convert urls found in the string to html links (a -tags)
+ */
+String.prototype.renderAsHTML = function() {
+    var str = this.replace(/https?:\/\/[^ \r\n]*/g, '<a href="$&" target="_blank">$&</a>');
+    str = str.replace(/\n/g, "<br>");
+    return str;
+}
