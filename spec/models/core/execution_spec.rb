@@ -138,68 +138,6 @@ describe Execution do
     end
   end
 
-  describe "#to_csv" do
-    it "should call #to_csv for each case_execution" do
-      e = flexmock(Execution.new)
-      case_exec = flexmock('case exec')
-      case_exec.should_receive(:to_csv).once.and_return('')
-      e.should_receive(:case_executions).once.and_return([case_exec])
-      e.to_csv
-    end
-
-    it "should handle text fields with new line characters" do
-      c = Case.make!(:test_data => "Jotain\n\nToinen kappale")
-      e = Execution.make!
-      ce = CaseExecution.make!(:execution => e, :test_case => c)
-
-      csv = e.to_csv
-      data = CSV.parse(csv, :col_sep => ';', :row_sep => "\r\n")
-      data[1][3].should == c.test_data
-    end
-  end
-
-  describe "#update_from_csv" do
-    it "should update result and comment from csv" do
-      e = Execution.make!
-      ce = CaseExecution.make!(:execution => e)
-      se = StepExecution.make!(:case_execution => ce)
-
-      csv = "Id;Case;Objective;Test data;Preconditions and assumptions;Step Id;Action;Expected Result;Passed;Failed;Skipped;Not Implemented;Not Run;Defect;Comment\r\n"+
-            "\"some\";\"shite\";;;;;;;;;;;;;;\r\n"+
-            ";;;;;#{se.id};action;result;X;;;;;bug;some comment\r\n"
-      e.update_from_csv(StringIO.new(csv), User.make!)
-      se.reload
-      se.result.should == Passed
-      se.comment.should == 'some comment'
-    end
-
-    it "should update result and comment from csv (2)" do
-      e = Execution.make!
-      ce = CaseExecution.make!(:execution => e)
-      se = StepExecution.make!(:case_execution => ce)
-
-      csv = "Id;Case;Objective;Test data;Preconditions and assumptions;Step Id;Action;Expected Result;Passed;Failed;Skipped;Not Implemented;Not Run;Defect;Comment\r\n"+
-            "\"some\";\"shite\";;;;;;;;;;;;;;\r\n"+
-            ";;;;;#{se.id};action;result;;;X;;;;\r\n"
-      e.update_from_csv(StringIO.new(csv), User.make!)
-      se.reload
-      se.result.should == Skipped
-    end
-
-    it "should raise if step_id does not belong to execution" do
-      e = Execution.make!
-      ce = CaseExecution.make!(:execution => e)
-      se = StepExecution.make!(:case_execution => ce)
-
-      csv = "Id;Case;Objective;Test data;Preconditions and assumptions;Step Id;Action;Expected Result;Passed;Failed;Skipped;Not Implemented;Not Run;Defect;Comment\r\n"+
-            "\"some\";\"shite\";;;;;;;;;;;\r\n"+
-            ";;;;;#{se.id+10};action;result;;;X;;;;\r\n"
-      lambda{e.update_from_csv(StringIO.new(csv), User.make!)}.should \
-        raise_error(StandardError, "Invalid CSV: Step id not valid (#{se.id+10})")
-    end
-
-  end
-
   describe "#reposition_case_executions" do
     it "should change positions" do
       e = Execution.make_with_runs(:cases => 3)
