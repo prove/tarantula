@@ -1539,7 +1539,9 @@ var importDoors = function (){
     return{
         submitForm : function(){
             mgr = new Ext.UpdateManager("log");
-            mgr.formUpdate( "form", "/import/doors/");
+
+            u=createUrl("/import/doors/"),
+            mgr.formUpdate( "form", u);
     }
   };
 }();
@@ -1551,7 +1553,8 @@ var importCsv = function (){
     return{
         submitForm : function(){
             mgr = new Ext.UpdateManager("log");
-            mgr.formUpdate( "form", "/csv_imports/");
+            u=createUrl("/csv_imports/"),
+            mgr.formUpdate( "form", u);
     }
   };
 }();
