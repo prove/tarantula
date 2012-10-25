@@ -1,6 +1,8 @@
 source "http://rubygems.org"
 
 gem 'rails', '~> 3.2.6'
+gem 'activerecord-oracle_enhanced-adapter', '~> 1.4.0'
+gem 'ruby-oci8', '>= 2.0.4' 
 gem 'mysql2'
 gem 'prawn', '~> 0.5.0.1'
 gem 'prawn-core', '~> 0.5.0.1', :require => 'prawn/core'
