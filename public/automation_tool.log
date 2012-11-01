@@ -1,0 +1,10 @@
++ cd /home/ekhatko/Work/kazan2013testing
++ project=insurance
++ execution=Регрессия 1.0
++ testcase=Деактивирование справочников
++ steps=1
++ project=insurance execution=Регрессия 1.0 test=Деактивирование справочников steps=1 bundle exec rspec -e Деактивирование справочников -r ./lib/CustomTarantulaFormatter.rb -f CustomTarantulaFormatter
+/home/ekhatko/.rvm/gems/ruby-1.9.3-p0/bundler/gems/debugger-4fb6305f77e8/lib/ruby_debug.so: warning: already initialized constant VERSION
+"administration_catalogs_spec.rb:55: #<Watir::Exception::UnknownObjectException: unable to locate element, using {:index=>1, :tag_name=>\"table\"}>\nadministration_catalogs_spec.rb:87: #<Watir::Exception::UnknownObjectException: unable to locate element, using {:index=>1, :tag_name=>\"table\"}>\n"
++ true
++ bundle exec rake unblock_test[insurance,Регрессия 1.0,Деактивирование справочников]

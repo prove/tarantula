@@ -18,6 +18,30 @@ Ext.extend(Ext.testia.ExecuteTB, Ext.Toolbar, {
                          i.enable();
                      }
                  });
+    },
+
+    enable_navigate_only: function() {
+        this.items.each(function(i) {
+                     if (i.enable && (i.cls == 'tarantula-btn-next' || i.cls == 'tarantula-btn-prev' || i.cls == 'tarantula-btn-auto-ip')) {
+                         i.enable();
+                     }
+                 });
+    },
+
+    enable_without_automation: function() {
+        this.items.each(function(i) {
+                     if (i.enable && i.cls != 'tarantula-btn-auto' && i.cls != 'tarantula-btn-auto-ip') {
+                         i.enable();
+                     }
+                 });
+    },
+
+    set_automation_in_progress: function() {
+			 Ext.each(Ext.query('.tarantula-btn-auto'), function(t,index){t.setAttribute("class", "x-btn-wrap tarantula-btn-auto-ip x-btn ");})
+    },
+
+    set_automation_not_in_progress: function() {
+			 Ext.each(Ext.query('.tarantula-btn-auto-ip'), function(t,index){t.setAttribute("class", "x-btn-wrap tarantula-btn-auto x-btn ");})
     }
 });
 
@@ -70,6 +94,7 @@ var CaseExecute = function() {
     var btnSkip;
     var btnNotImplemented;
     var btnClear;
+		var btnAutomate;
 
     /**
     * All information needed for single case execution.
@@ -91,6 +116,7 @@ var CaseExecute = function() {
     */
     var executionId;
     var caseId;
+		var caseTags;
 
     // Execution version.
     // If execution version is changed in midst of testing session,
@@ -210,6 +236,8 @@ var CaseExecute = function() {
             }
         });
     }
+
+
 
     /**
     * Display total number of passed/failed/skipped.
@@ -732,6 +760,11 @@ var CaseExecute = function() {
                                 handler: TestGrid.nextCase,
                                 scope: CaseExecute });
 
+            stepsTb.addButton( {text: 'Automate',
+                                cls:'tarantula-btn-auto',
+                                handler: TestGrid.automate,
+                                scope: CaseExecute });
+
 
 
             stepsTb.addField(
@@ -887,12 +920,24 @@ var CaseExecute = function() {
 
             CaseExecute.showExecution();
 
-
             updateCaseContent();
             updateStepsContent();
 
             casesTb.enable();
-            stepsTb.enable();
+            //stepsTb.enable();
+						if(caseExecution.blocked){
+							stepsTb.set_automation_in_progress();
+							stepsTb.enable_navigate_only();
+							setTimeout(this.reloadIfExecuted,5000);
+						}
+						else if(!caseExecution.automated){
+							stepsTb.set_automation_not_in_progress();
+							stepsTb.enable_without_automation();
+						}
+						else{
+							stepsTb.set_automation_not_in_progress();
+							stepsTb.enable();
+						}
         },
 
         /**
@@ -980,6 +1025,7 @@ var CaseExecute = function() {
                     // Make main view to reload after loading.          OBS!
                     ajaxLoadCaseExecution( executionId, caseId);
                 }
+
             };
             if(isDirty && !Ext.Ajax.isLoading(saveTransaction)) {
                 // Main view is refreshed on successful save.       OBS!
@@ -994,6 +1040,44 @@ var CaseExecute = function() {
         reloadCase: function() {
             CaseExecute.loadCase( executionId, caseId);
         },
+
+				/**
+				* starts 3rd party automation tool for the curent test with specified caseId, executionId
+				*/
+				ajaxStartAutomationTool: function(){
+						startAutomationTool = Ext.Ajax.request({
+								url: createUrl('/automation/execute'),
+								method: 'get',
+								params: Ext.urlEncode( {testcase_execution: Ext.encode(caseId), execution: Ext.encode(executionId)}),
+								scope: CaseExecute,
+								success: function(response, options) {
+										// Server responds with
+										// cmd started on the server
+										alert (Ext.decode(response.responseText).data.message);
+										this.reloadCase();
+								}
+						});
+				},
+
+				/**
+				* Reloads case if 3rd party tool finished its work
+				*/
+				reloadIfExecuted: function(){
+					Ext.Ajax.request({
+							url: createUrl('/executions/'+executionId+'/case_executions/' +
+														 caseId),
+							method: 'get',
+							scope: CaseExecute,
+							success: function(response, options) {
+									blocked = Ext.decode(response.responseText).data[0].blocked;
+									if(blocked){
+											setTimeout(this.reloadIfExecuted,5000);
+									}else{
+											this.reloadCase();
+									}
+							}
+					});
+				},
 
         /**
         * Returns true, if given case execution is already displayed.

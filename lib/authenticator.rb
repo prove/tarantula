@@ -5,7 +5,7 @@ A rack middleware for handling authentication.
 =end
 class Authenticator
 
-  UnAuthenticated = /^(\/home\/login|\/home\/logout|\/password_resets.*|\/assets.*)$/
+  UnAuthenticated = /^(\/home\/login|\/home\/logout|\/password_resets.*|\/assets.*|\/api.*)$/
   ######
   class SessionAuth < Rack::Auth::AbstractHandler
 

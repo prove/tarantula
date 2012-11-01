@@ -6,180 +6,78 @@ GNU GPLv3.
 
 [www.testiatarantula.com](http://www.testiatarantula.com)
 
-# Install
+## This is a fork that is intended to add folloving features to the original tarantula:
+- REST API 
+- more versalite jira integration
 
-## Requirements
+### Jira integration
 
-* Recommended platform is
-  [CentOS-6.X for i386 Architecture](http://isoredirect.centos.org/centos/6/isos/i386/). Tarantula
-  has installation script which automates most of the installation
-  steps for CentOs 6. X86_64 bit Server is not recommended, as it
-  seems to have problems with memcached/passenger subsystems, at least
-  with low memory systems.
-* Root Access to Linux
-* Access to SMTP Server which doesn’t require authentication. Used for
-  sending new user passwords. If not available, you can install
-  e.g. PostFix on same server and set authenticated mail relay via
-  another server.
+Suppose you have Jira bug tracker set up and a test case execution with following results.  
+1. Step1 - PASSED  
+2. Step2 - PASSED  
+3. Step3 - FAILED  
+  
+After choosing "Add defect to bug tracker" inside the "Associate defect" dialog tarantula redirects you to appropriate "create new issue" form with following fields filled in:  
+**title** test case title  
+**description**  
+Preconditions => test case preconditions  
+Step1 action  
+Step2 action  
+Result  
+Expected result  
 
-## Installation
+### Tarantula API
 
-### Install RVM
+The REST API is used in the sense of doing POST HTTP requests with XML-ed params inside
 
-Latest Tarantula uses Rails 3.2.* and Ruby 1.9.3. Easiest way to use
-those in CentOS is using [Ruby Version Manager](http://rvm.io). If you
-don't already have RVM installed, use following instructions,
-otherwise skip to [Install Tarantula](#install-tarantula)
+#### Authentication
 
-Install RVM dependencies:
-
-```
-yum install make gcc readline-devel zlib-devel openssl-devel
-```
-
-Install RVM system wide:
-
-```
-curl -L https://get.rvm.io | sudo bash -s stable --rails
-```
-
-<a name="install-tarantula"></a>
-### Install Tarantula
-
-Login as root.
-
-Activate required extra repositories:
-
-```shell
-yum install http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm
-```
-
-SELinux has to be in permissive mode to allow Apache web server to run
-Ruby-on-Rails applications on Passenger module. Edit config file with
-e.g. nano text editor:
-
-```shell
-nano /etc/selinux/config
-```
-
-Change SELINUX setting in file to permissive:
-
-```shell
-SELINUX=permissive
-```
-
-Set default Ruby with RVM:
-
-```shell
-rvm use 1.9.3
-```
-
-Download and execute installation script:
-
-```shell
-wget https://raw.github.com/prove/tarantula/master/vendor/installer/install.sh
-bash install.sh
-```
-
-Some installation tasks (bundler, rubygems may take long
-time. Please be patient.)
-
-Press **Enter** to accept default value for user account to be used to run
-processes:
-
-```
-Which user will be running Tarantula processes? [apache]
-```
-
-After a while, installation is complete:
+[Basic http authentication](http://en.wikipedia.org/wiki/Basic_access_authentication) is used. Just provide a username and a password of existing tarantula user, who has enough privileges to perform actions below  
+The credentials are transmitted without encription. If you need more safety please request for SSL support  
 
 
-    Done installing packages and Tarantula files
+#### Create testcase
+*Preconditions*  
+- There is project "My project" in the system  
+  
+Following call will create new test case with specified parameters  
 
-    Verify/edit database settings in file:  /opt/tarantula/rails/config/database.yml
-    If db settings are OK run
-    RAILS_ENV=production rake tarantula:install in Rails root (/opt/tarantula/rails) to initialize DB.
+		http://username:password@tarantula_url/api/create_testcase.xml  
+   
+where body is  
 
-    Usable passenger configuration generated to /etc/httpd/conf.d/tarantula.conf
+		<request>
+			<testcase project="My project" title="testcase title" priority="high" tags="functional" objective="testcase objective" data="testcase data" preconditions="testcase preconditions">
+				<step action="Step 1" result="Result 1"></step>
+				<step action="Step 2" result="Result 2"></step>
+			</testcase>
+		</request>
 
-    Compile Apache native mod_passenger as root by running:
-    passenger-install-apache2-module and restart Apache: service httpd restart
+This method can be invoked e.g. for inmorting testcases fro a third party tool like testlink
 
-You can ignore instructions above. All necessary steps are listed
-below.
+#### Update testcase execution
+*Preconditions*  
+- There is project "My project" in the system  
+- There is execution "My execution" in the system  
+- There is testcase "My testcase" in the system inside "My execution"  
+- Test step has at least 2 steps
+  
+Following call will update testcase execution setting run time to "1", step1 result to "Passed", step2 result to "Not implemented"
 
-Go to rails directory and run application install script to create databases etc.:
+		http://username:password@tarantula_url/api/update_testcase_execution.xml  
+   
+where body is  
 
-```shell
-cd /opt/tarantula/rails
-RAILS_ENV=production rake tarantula:install
-```
+		<request>
+			<project>My project</project>
+			<execution>My execution</execution>
+			<testcase>My testcase</testcase>
+			<duration>1</duration>
+			<step position="1" result="PASSED" comment="some text"></step>
+			<step position="2" result="NOT_IMPLEMENTED"></step>
+		</request>
+  
+The other possible options for result are: "FAILED", "SKIPPED", "NOT\_RUN", 
+  
+This method can be invoked e.g. for integrating with a test automation tool
 
-You are prompted for some settings (host running tarantula, email
-settings etc):
-
-**Protocol, host, and port**: This is the web address of installed
-  Tarantula. Used in email notifications, e.g. this address is
-  included as link to emails sent to new
-  users. E.g. tarantula.yourdomain.com
-
-**Admin Email**: System will sent emails using this address as email’s
-  “FROM” field.
-
-**SMTP Address**: SMTP server address. E.g smtp.yourdomain.com or
-  localhost (if you opt to run local mail service, e.g. postfix).
-
-**SMTP Port**: Usually 25.
-
-**SMTP Domain**: E.g. yourdomain.com.
-
-After tarantula:install task is completed, allow access to http port by modifying firewall settings:
-
-```shell
-system-config-firewall-tui
-```
-
-Cursor keys can be used to move between choices.  Select with
-space-bar.  Press **Customize** and make sure that WWW (HTTP) is
-enabled.  Press **Close**, **OK** and **Yes** to save new settings.
-
-Set web and sql servers to start on boot:
-
-```shell
-chkconfig httpd --add
-chkconfig --level 35 httpd on
-chkconfig mysqld --add
-chkconfig --level 35 mysqld on
-chkconfig memcached --add
-chkconfig --level 35 memcached on
-chkconfig delayed_job --add
-chkconfig --level 35 delayed_job on
-```
-
-Install passenger module (runs Tarantula Ruby-on-Rails application on
-top of Apache). You don’t need to do anything after this command, as
-all apache configuration has been taken care already by previous rake
-task.
-
-```shell
-passenger-install-apache2-module
-```
-
-Setup cron for scheduled tasks.
-
-```shell
-cp /opt/tarantula/rails/config/crontab /etc/cron.d/tarantula
-chown root:root /etc/cron.d/tarantula
-chmod 0644 /etc/cron.d/tarantula
-```
-
-Everything should be now set. Reboot system to make sure that all
-services run correctly after it.
-
-```shell
-reboot
-```
-
-After reboot open web browser to tarantula hostname or ip to start
-using Tarantula. Login with name: admin, password: admin. Please
-change password on first login.

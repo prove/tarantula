@@ -42,6 +42,7 @@ class TestObject < ActiveRecord::Base
   def self.create_with_tags(atts, tag_list=nil)
     to = nil
     transaction do
+			atts['date'] = DateTime.parse(atts['date'].to_param).to_date
       to = self.create!(atts)
       to.tag_with(tag_list) unless tag_list.blank?
     end

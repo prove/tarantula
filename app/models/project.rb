@@ -38,10 +38,11 @@ class Project < ActiveRecord::Base
   has_many :preferences, :class_name => 'Preference::Base', :dependent => :destroy
 
   belongs_to :bug_tracker
+  belongs_to :automation_tool
   has_and_belongs_to_many :bug_products
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false
+ # validates_uniqueness_of :name, :case_sensitive => false
 
   before_destroy do |proj|
     ProjectAssignment.destroy_all(:project_id => proj.id, :group => 'ADMIN')
@@ -113,7 +114,8 @@ class Project < ActiveRecord::Base
       :id => self.id,
       :library => self.library,
       :test_areas => self.test_areas.map(&:name).join(','),
-      :bug_tracker_id => self.bug_tracker_id
+      :bug_tracker_id => self.bug_tracker_id,
+      :automation_tool_id => self.automation_tool_id
     }
   end
 

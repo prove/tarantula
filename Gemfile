@@ -1,6 +1,8 @@
 source "http://rubygems.org"
 
 gem 'rails', '~> 3.2.6'
+gem 'activerecord-oracle_enhanced-adapter', '~> 1.4.0'
+gem 'ruby-oci8', '>= 2.0.4' 
 gem 'mysql2'
 gem 'prawn', '~> 0.5.0.1'
 gem 'prawn-core', '~> 0.5.0.1', :require => 'prawn/core'
@@ -27,9 +29,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-#group :development do
-#  gem 'ruby-debug19'
-#end
+group :development do
+# gem 'ruby-debug19'
+end
 
 group :test do
   gem "flexmock"
