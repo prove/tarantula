@@ -92,6 +92,10 @@ Ext.testia.BugtrackerDlg = function(config) {
                             name: 'db_host'
                         }),
                         new Ext.form.TextField({
+                            fieldLabel: 'DB port',
+                            name: 'db_port'
+                        }),
+                        new Ext.form.TextField({
                             fieldLabel: 'DB name',
                             name: 'db_name'
                         }),
