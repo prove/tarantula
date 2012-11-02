@@ -16,6 +16,8 @@
                          "/var/run/mysqld/mysqld.sock",
                          "/var/lib/mysql/mysql.sock"].\
                         detect{|p| File.exists?(p)} } %>
+
+
 development:
   adapter: mysql2
   database: tarantula
