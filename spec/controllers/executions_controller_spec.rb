@@ -67,9 +67,11 @@ describe ExecutionsController do
       log_in
       e = flexmock('execution', :id => 1)
       flexmock(Execution).should_receive(:find).once.and_return(e)
-      e.should_receive(:update_from_csv).once.with('file_contents', @user)
-
+      csv_import = flexmock('csv import')
+      flexmock(CsvExchange::Import).should_receive(:new).once.and_return(csv_import)
+      csv_import.should_receive(:process).once
       put 'update', {:id => 1, :file => 'file_contents'}
+      response.should be_success
     end
   end
 

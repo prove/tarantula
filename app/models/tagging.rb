@@ -15,13 +15,14 @@ class Tagging < ActiveRecord::Base
   
   def check_taggable_types_match
     if self.taggable_type != tag.taggable_type
-      self.errors.add_to_base("Wrong type of tag for taggable!")
+      self.errors.add(:taggable_type, "mismatch")
     end
   end
   
   def check_taggable_in_right_project
     if self.tag.project_id != self.taggable.project_id
-      self.errors.add_to_base("Tag and taggable not in the same project!")
+      self.errors.add(:project_id, 
+                      "Tag and taggable not in the same project!")
     end
   end
 end

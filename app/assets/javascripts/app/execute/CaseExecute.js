@@ -295,10 +295,10 @@ var CaseExecute = function() {
         html +=  caseExecution.title;
         html += '</td>';
         html += '</tr>';
-		
-		if (caseExecution.tags.length > 0) {
-			html += '<tr><td colspan="2">TAGS: '+caseExecution.tags+'</td></tr>'
-		}
+
+                if (caseExecution.tags.length > 0) {
+                        html += '<tr><td colspan="2">TAGS: '+caseExecution.tags+'</td></tr>'
+                }
 
         if( caseExecution.objective) {
             html += '<tr>';
@@ -307,7 +307,7 @@ var CaseExecute = function() {
             html += '</td>';
             html += '<td class="data">';
             if( caseExecution.objective) {
-                html += caseExecution.objective.replace(/\n/g, "<br>");
+                html += caseExecution.objective.renderAsHTML();
             }
             html += '</td>';
             html += '</tr>';
@@ -321,7 +321,7 @@ var CaseExecute = function() {
             html += '</td>';
             html += '<td class="data">';
             if( caseExecution.test_data) {
-                html += caseExecution.test_data.replace(/\n/g, "<br>");
+                html += caseExecution.test_data.renderAsHTML();
             }
             html += '</td>';
             html += '</tr>';
@@ -334,8 +334,8 @@ var CaseExecute = function() {
             html += '</td>';
             html += '<td class="data">';
             if( caseExecution.preconditions_and_assumptions) {
-                html += caseExecution.preconditions_and_assumptions.replace(
-                        /\n/g, "<br>");
+                html += caseExecution.preconditions_and_assumptions
+                    .renderAsHTML();
             }
             html += '</td>';
             html += '</tr>';

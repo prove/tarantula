@@ -94,7 +94,12 @@ class ExecutionsController < ApplicationController
   # ===HTTP PUT /executions/:id
   def update
     if params[:file]
-      @execution.update_from_csv(params[:file], @current_user)
+      import = CsvExchange::Import.new(params[:file], @project.id, 
+                                       @current_user.id, false,
+                                       CsvExchange::Logger.new(
+                                       File.join(Rails.root, 'log', 
+                                                 'csv_import.log')))
+      import.process
       render :layout => false,
         :inline => "<pre class='csv_update_response'>...</pre>",
         :status => 200

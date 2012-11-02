@@ -5,8 +5,10 @@ class CsvImportsController < ApplicationController
   end
 
   def create
-    import = CsvImport.new(params[:file], @project, @current_user,
-                           params[:simulate])
+    # TODO: see that stuff isn't imported to wrong project
+    import = CsvExchange::Import.new(params[:file], @project.id,
+                                     @current_user.id, params[:simulate])
+    import.process
     @log = import.log
     render :template => '/import/log'
   end

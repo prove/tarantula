@@ -1416,10 +1416,6 @@ Ext.extend(Ext.testia.GUI, Ext.util.Observable, {
 
 Ext.EventManager.onDocumentReady(function() {GUI = new Ext.testia.GUI();},
                                  this, true);
-window.onbeforeunload = function() {
-    return "";
-};
-
 
 // Interface between new graphical layout and existing codebase.
 var newLayout = function() {
@@ -1547,7 +1543,22 @@ var importDoors = function (){
     return{
         submitForm : function(){
             mgr = new Ext.UpdateManager("log");
-            mgr.formUpdate( "form", "/import/doors/");
+
+            u=createUrl("/import/doors/"),
+            mgr.formUpdate( "form", u);
+    }
+  };
+}();
+
+var importCsv = function (){
+
+    var mgr;
+
+    return{
+        submitForm : function(){
+            mgr = new Ext.UpdateManager("log");
+            u=createUrl("/csv_imports/"),
+            mgr.formUpdate( "form", u);
     }
   };
 }();
@@ -1686,10 +1697,10 @@ var importDoors = function (){
                     <span onclick="javascript:newLayout.subMenuSelected('tools','importdoors')">
                         Doors Import
                     </span>
-		    <span onclick="javascript:newLayout.subMenuSelected('tools','export')">
+                    <span onclick="javascript:newLayout.subMenuSelected('tools','export')">
                         Export
                     </span>
-		    <span onclick="javascript:newLayout.subMenuSelected('tools','import')">
+                    <span onclick="javascript:newLayout.subMenuSelected('tools','import')">
                         Import
                     </span>
                 </div>

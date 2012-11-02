@@ -10,12 +10,12 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require mozilla.org/mozilla
+//= require base_extensions
 //= require prototype
 //= require effects
 //= require swfobject
 //= require ext/adapter/prototype/ext-prototype-adapter
-//= require ext/ext-all
+//= require ext/ext-all-debug
 //= require ext-infopanel/Ext.ux.InfoPanel
 //= require ext-infopanel/Ext.ux.Accordion
 //= require ext-taggedlist/Ext.testia.ListItem
@@ -26,6 +26,7 @@
 //= require app/shared/Resources
 //= require app/shared/AppForm
 //= require app/shared/AppStores
+//= require app/shared/Ext.tarantula.TextArea
 //= require app/shared/Ext.testia.AttachmentForm
 //= require app/shared/Ext.testia.RequestWatcher
 //= require app/shared/TestiaCombo

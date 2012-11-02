@@ -110,10 +110,9 @@ Ext.extend(Ext.testia.RequirementDesign, Ext.testia.MainContentDesign, {
                 width: 600
              }),
 
-             new Ext.form.TextArea({
+             new Ext.tarantula.TextArea({
                  fieldLabel: 'Description',
-                 name: 'description',
-                 grow: true
+                 name: 'description'
              })
          ];
 

@@ -10,11 +10,17 @@ class CsvExportsController < ApplicationController
   
   def create
     test_area = @current_user.test_area(@project)
-    export = CsvExport.new(@project, test_area, 
-                           params[:export_type].camelcase.constantize,
-                           params[:recursion].to_i)
-    send_data export.to_csv, 
-              :filename => "#{params[:export_type]}_export.csv",
-              :disposition => 'attachment'
+    klass = params[:export_type].camelcase.constantize
+    if @test_area
+      records = @test_area.send(klass.to_s.downcase.pluralize.to_sym).send(:active)
+    else
+      records = klass.active.where(:project_id => @project.id)
+    end
+    
+    csv = klass.to_csv(';', "\r\n", :recurse => params[:recursion].to_i,
+          :export_without_ids => !params[:export_without_ids].blank?) { records }
+    
+    send_data csv, :filename => "#{params[:export_type]}_export.csv",
+                   :disposition => 'attachment'
   end
 end

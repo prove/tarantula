@@ -139,37 +139,19 @@ Ext.extend(Ext.testia.CaseDesign, Ext.testia.MainContentDesign, {
             }),
 
 
-            new Ext.form.TextArea({
+            new Ext.tarantula.TextArea({
                 fieldLabel: 'Objective',
-                name: 'objective',
-                grow: true,
-                isValid: function() {
-                    // Remove empty spaces
-                    this.setValue( this.getValue().strip());
-                    return true;
-                }
+                name: 'objective'
             }),
 
-            new Ext.form.TextArea({
+            new Ext.tarantula.TextArea({
                 fieldLabel: 'Test data',
-                name: 'test_data',
-                grow: true,
-                isValid: function() {
-                    // Remove empty spaces
-                    this.setValue( this.getValue().strip());
-                    return true;
-                }
+                name: 'test_data'
             }),
 
-            new Ext.form.TextArea({
+            new Ext.tarantula.TextArea({
                 fieldLabel: 'Preconditions & assumptions',
-                name: 'preconditions_and_assumptions',
-                grow: true,
-                isValid: function() {
-                    // Remove empty spaces
-                    this.setValue( this.getValue().strip());
-                    return true;
-                }
+                name: 'preconditions_and_assumptions'
             }),
 
             new Ext.form.TextField({

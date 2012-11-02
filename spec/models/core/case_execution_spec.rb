@@ -36,17 +36,6 @@ describe CaseExecution do
     se.reload.result.should == Passed
   end
 
-  describe "#to_csv" do
-    it "should call #to_csv for each step_execution" do
-      ce = flexmock(CaseExecution.new,
-        :test_case => flexmock(Case.new))
-      step_exec = flexmock('step exec')
-      step_exec.should_receive(:to_csv).once.and_return('')
-      ce.should_receive(:step_executions).once.and_return([step_exec])
-      ce.to_csv
-    end
-  end
-
   describe "#failed_steps_info" do
     it "should return nil if no failed steps" do
       p = Project.make_with_cases(:cases => 1)

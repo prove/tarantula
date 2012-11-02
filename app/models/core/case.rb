@@ -529,7 +529,7 @@ class Case < ActiveRecord::Base
     attribute   :id,            'Case Id', :identifier => true
     attribute   :title,         'Title'
     attribute   :date,          'Date'
-    attribute   :priority,      'Priority'
+    attribute   :priority,      'Priority', :map => :to_i
     attribute   :time_estimate, 'Planned duration (minutes)'
     association :test_areas,    'Test Areas', :map => :name
     field       :avg_duration,  'Average Duration'

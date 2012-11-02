@@ -243,37 +243,6 @@ class Execution < ActiveRecord::Base
     end
   end
 
-  def update_from_csv(file, user, delimiter=';', line_feed="\r\n")
-    valid_step_ids = self.case_executions.map(&:step_execution_ids).flatten
-
-    transaction do
-      CSV.parse(file.read, :col_sep => delimiter, :row_sep => line_feed, :headers => true, :return_headers => false) do |cells|
-        Rails.logger.debug cells.inspect
-        next if cells['Step Id'].blank?
-        unless valid_step_ids.include?(cells['Step Id'].to_i)
-          raise "Invalid CSV: Step id not valid (#{cells['Step Id']})"
-        end
-
-        se = StepExecution.find(cells[5])
-
-        ResultType.all.each do |r|
-          if !cells[r.rep].blank?
-            se.result = r
-            break
-          end
-        end
-
-        se.comment = cells['Comment'] unless cells['Comment'].blank?
-        se.save!
-      end
-
-      self.case_executions.each do |ce|
-        ce.update_attributes!({:executor => user, :executed_at => Time.now})
-        ce.update_result(user)
-      end
-    end
-  end
-
   def reposition_case_executions
     self.case_executions.each_with_index do |ce,i|
       ce.update_attribute(:position, i+1)
