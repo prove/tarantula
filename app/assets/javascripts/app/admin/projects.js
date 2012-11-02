@@ -85,7 +85,6 @@ Ext.testia.BugtrackerDlg = function(config) {
                         new Ext.form.TextField({
                             fieldLabel: 'DB adapter',
                             name: 'db_adapter',
-                            value: 'mysql2'
                         }),
                         new Ext.form.TextField({
                             fieldLabel: 'DB host',
