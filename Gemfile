@@ -22,6 +22,7 @@ gem 'rb-readline'
 gem 'rubyzip', :require => 'zip/zip'
 gem 'passenger'
 gem 'capistrano'
+gem 'git-up'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
