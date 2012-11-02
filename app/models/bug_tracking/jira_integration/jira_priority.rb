@@ -1,6 +1,6 @@
 class JiraPriority < ActiveRecord::Base
   self.table_name = 'priority'
-  self.primary_key = 'ID'
+  self.primary_key = 'id'
 
   has_many :issues, :class_name => 'JiraIssue', :foreign_key => 'priority'
 
@@ -13,10 +13,10 @@ class JiraPriority < ActiveRecord::Base
   end
 
   def external_id
-    self['ID']
+    self['id']
   end
 
   def sortkey
-    self['SEQUENCE']
+    self['sequence']
   end
 end

@@ -1,10 +1,10 @@
   class JiraIssue < ActiveRecord::Base
   UDMargin = 5.minutes # update margin
   self.table_name = 'jiraissue'
-  self.primary_key = 'ID'
+  self.primary_key = 'id'
 
-  belongs_to :project, :class_name => 'JiraProject', :foreign_key => 'PROJECT'
-  belongs_to :priority, :class_name => 'JiraPriority', :foreign_key => 'PRIORITY'
+  belongs_to :project, :class_name => 'JiraProject', :foreign_key => 'project'
+  belongs_to :priority, :class_name => 'JiraPriority', :foreign_key => 'priority'
   belongs_to :status, :class_name => 'JiraStatus', :foreign_key => 'issuestatus'
 
   scope :recent_from_projects, lambda {|prids, last_fetched, force_update|
@@ -15,7 +15,7 @@
     else
       types = BT_CONFIG[:jira][:defect_types]
     end
-    conds += " AND (select pname from issuetype where ID = jiraissue.issuetype) " +
+    conds += " AND (select pname from issuetype where id = jiraissue.issuetype) " +
         "IN (#{types.map{|t|"'%s'"%t}.join(',')})"
     unless force_update
       conds += " AND ((UPDATED IS null) OR "+
@@ -25,29 +25,29 @@
   }
 
   scope :from_projects, lambda {|prids|
-    where('PROJECT' => prids)
+    where('project' => prids)
   }
 
   def to_data
     {
-      :lastdiffed => self['UPDATED'],
-      :external_id => self['ID'],
-      :name => self['SUMMARY'],
+      :lastdiffed => self['updated'],
+      :external_id => self['id'],
+      :name => self['summary'],
       :status => self.status.value,
-      :desc => self['DESCRIPTION']
+      :desc => self['description']
     }
   end
 
   def updated
-    self['UPDATED']
+    self['updated']
   end
 
   def summary
-    self['SUMMARY']
+    self['summary']
   end
 
   def desc
-    self['DESCRIPTION']
+    self['description']
   end
 
   def url_part

@@ -172,7 +172,8 @@ class Jira < BugTracker
 
     url = self.base_url.chomp('/')
     url += "/secure/CreateIssueDetails!init.jspa?#{bp.external_id.to_s.to_query(:pid) if bp}" +
-      "&issuetype=1&summary=#{name.gsub(/\s/,"+")}&#{comment.to_query(:description)}"
+      "&issuetype=1&summary=#{name.gsub(/\s/,"+")}&description=#{comment}"
+		url
   end
 
   def bug_label(bug)
