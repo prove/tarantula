@@ -72,7 +72,7 @@ Requirement.blueprint do
 end
 
 Case.blueprint do
-  title      { Faker::Lorem.words(rand(5)+1).join(' ') }
+  title      { Case.count.to_s+Faker::Lorem.words(rand(5)+1).join(' ') }
   date       { Date.today                              }
   project    { Project.make!                           }
   created_by { User.make!                              }

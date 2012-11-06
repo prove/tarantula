@@ -3,7 +3,7 @@ namespace :testia do
   # Uses Machinist to populate DB
   task :generate_data => :environment do
     require 'machinist'
-    require 'spec/blueprint'
+    require './spec/blueprint'
 
     @user = User.first
     @project = Project.first

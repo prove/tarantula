@@ -12,9 +12,8 @@ class BugsController < ApplicationController
   # POST /projects/:project_id/bugs
   # redirects to bug post url of the projects tracker
   def create
-    redirect_to @bt.bug_post_url(@project, 
-      {:product => params[:product], 
-       :step_execution_id => params[:step_execution_id]})
+		uri = URI.encode((@bt.bug_post_url(@project,{:product => params[:product],:step_execution_id => params[:step_execution_id]}).strip))
+    redirect_to uri
   end
   
   # GET /projects/:project_id/bugs/:id

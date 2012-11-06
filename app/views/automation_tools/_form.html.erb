@@ -1,0 +1,25 @@
+<%= form_for(@automation_tool) do |f| %>
+  <% if @automation_tool.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@automation_tool.errors.count, "error") %> prohibited this automation_tool from being saved:</h2>
+
+      <ul>
+      <% @automation_tool.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :command_pattern %><br />
+    <%= f.text_field :command_pattern %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

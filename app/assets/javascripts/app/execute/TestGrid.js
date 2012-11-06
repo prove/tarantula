@@ -492,6 +492,16 @@ var TestGrid = function() {
         },
 
         /**
+        * For automation button in CaseExecute
+        */
+        automate: function() {
+			 /*
+			 * start 3rd party automation tool
+			 */
+								CaseExecute.ajaxStartAutomationTool();
+
+        },
+        /**
         * Is last case in grid currently active?
         **/
         isLastCaseSelected: function() {

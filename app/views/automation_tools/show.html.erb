@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @automation_tool.name %>
+</p>
+
+<p>
+  <b>Command pattern:</b>
+  <%= @automation_tool.command_pattern %>
+</p>
+
+
+<%= link_to 'Edit', edit_automation_tool_path(@automation_tool) %> |
+<%= link_to 'Back', automation_tools_path %>

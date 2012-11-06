@@ -4,7 +4,7 @@ A case execution. Reflects execution of a case.
 
 =end
 class CaseExecution < ActiveRecord::Base
-  extend CsvExchange::Model
+
   belongs_to :creator, :class_name => 'User', :foreign_key => 'created_by'
   belongs_to :test_case, :class_name => 'Case', :foreign_key => 'case_id'
 
@@ -144,6 +144,13 @@ class CaseExecution < ActiveRecord::Base
     self.step_executions.map{|se| se.bug ? se.bug.to_s : nil}.compact.join(', ')
   end
 
+	def automated
+		tc = self.test_case
+		case_tags = tc.tags_to_s.split(",")
+		automation_tool_tag = tc.project.automation_tool.automation_tag
+		case_tags.include?(automation_tool_tag)
+	end
+
   def to_data(*opts)
     tc = self.test_case
     history = tc.history # history before revert (cache_key)
@@ -163,11 +170,26 @@ class CaseExecution < ActiveRecord::Base
             :objective     => tc.objective,
             :test_data     => tc.test_data,
             :preconditions_and_assumptions => tc.preconditions_and_assumptions,
-            :tags          => tc.tags_to_s}
+            :tags          => tc.tags_to_s,
+						:blocked => blocked,
+						:automated => automated
+					}
 
     data.merge!(:steps => step_executions.map(&:to_data)) if opts.include?(:include_steps)
     data
   end
+
+	def represent_as_bug(current_step_position)
+    tc = self.test_case
+		bug_details="\nPreconditions\n  #{tc.preconditions_and_assumptions}\n"
+		bug_details+="Steps\n"
+		tc.steps.each{|step|
+			bug_details+="  #{step.position}. #{step.action}\n"
+			break if step.position == current_step_position
+		}
+		bug_details+="Results\n  \n"
+		bug_details+="Expected\n  \n"
+	end
 
   def executed_by
     executor.try(:name)
@@ -175,6 +197,14 @@ class CaseExecution < ActiveRecord::Base
 
   def time_estimate
     avg_duration
+  end
+
+  def to_csv(delimiter=';', line_feed="\r\n")
+    ret = CSV.generate(:col_sep => delimiter, :row_sep => line_feed) do |csv|
+      csv << [id, title, objective, test_data, preconditions_and_assumptions]
+
+    end
+    ret += self.step_executions.map{|se| se.to_csv(delimiter, line_feed)}.join
   end
 
   def failed_steps_info
@@ -220,15 +250,5 @@ class CaseExecution < ActiveRecord::Base
     ResultType.send(self['result']) unless self['result'].nil?
   end
   def result=(r); self['result'] = r.db; end
-
-  define_csv do
-    attribute :id,                        'Case Execution Id', 
-              :identifier => true
-    field :title,                         'Case'
-    field :objective,                     'Objective'
-    field :test_data,                     'Test Data'
-    field :preconditions_and_assumptions, 'Preconditions & Assumptions'
-    children :step_executions
-  end
 
 end

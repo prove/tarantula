@@ -94,10 +94,12 @@ class UsersController < ApplicationController
   #  POST /users
   def create
     @user = User.new(@data)
+		puts @user.inspect
 
     @user.new_random_password if @user.password.blank?
-
+		puts 'before save'
     @user.save!
+		puts 'after save'
     render :json => @user.id, :status => :created
   end
 

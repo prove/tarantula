@@ -57,6 +57,7 @@ class CaseExecutionsController < ApplicationController
     render :json => {:data => [@case_execution.to_data(:include_steps)]}
   end
 
+
   def destroy
     @case_execution = CaseExecution.find(params[:id])
     @case_execution.destroy_if_not_last

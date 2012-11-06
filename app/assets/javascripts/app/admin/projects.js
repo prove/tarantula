@@ -85,11 +85,14 @@ Ext.testia.BugtrackerDlg = function(config) {
                         new Ext.form.TextField({
                             fieldLabel: 'DB adapter',
                             name: 'db_adapter',
-                            value: 'mysql2'
                         }),
                         new Ext.form.TextField({
                             fieldLabel: 'DB host',
                             name: 'db_host'
+                        }),
+                        new Ext.form.TextField({
+                            fieldLabel: 'DB port',
+                            name: 'db_port'
                         }),
                         new Ext.form.TextField({
                             fieldLabel: 'DB name',
@@ -204,6 +207,167 @@ Ext.extend(Ext.testia.BugtrackerDlg, Ext.LayoutDialog, {
     }
 });
 
+/*
+ * ====================================== TEST AUTOMATION DIALOG =======================================
+  
+ */
+
+Ext.testia.AutomationToolDlg = function(config) {
+    config = config || {};
+
+    config.width = config.width || 575;
+    config.height = config.height || 350;
+    config.scope = config.scope || this;
+    config.center = config.center || {autoScroll: true};
+    config.autoCreate = true;
+
+    //var el = Ext.DomHelper.append(document.body, {tag:'div'});
+    Ext.testia.BugtrackerDlg.superclass.constructor.call(this, Ext.id(),
+                                                         config);
+
+    this.handler = config.fn.createDelegate(config.scope);
+
+    // Call provided dialog handler with scope provided in the config.
+    this.addButton('Ok', function() {
+       this.closeDialog('ok');
+    }, this);
+    this.addButton('Delete', function() {
+        this.closeDialog('delete');
+    }, this);
+    this.addButton('Cancel', function() {
+        this.closeDialog('cancel');
+    }, this);
+
+    var layout = this.getLayout();
+    layout.beginUpdate();
+    var cp = new Ext.ContentPanel(Ext.id(), {autoCreate: true,
+        background: true});
+    layout.add('center', cp);
+    layout.endUpdate();
+    this.dForm = new Ext.form.Form({
+        //labelAlign: 'top',
+        itemCls: 'dialogForm'
+    });
+
+    this.dForm.add(new Ext.form.ComboBox({
+                fieldLabel: 'Automation tool',
+                name: 'automation_tool_id',
+                width: 175,
+                store: new Ext.data.JsonStore({
+                    url: createUrl('/automation_tools'),
+                    root: 'data',
+                    fields: ['name', 'id']}),
+                displayField:'name',
+                valueField: 'id',
+                editable: false,
+                allowBlank: false,
+                lazyRender: true,
+                triggerAction: 'all',
+                mode: 'local',
+                selectOnFocus:true
+    }));
+
+    this.dForm.add(new Ext.form.TextField({fieldLabel: 'Name', name: 'name'}));
+    this.dForm.fieldset({legend:'Automation configuration'},
+                        // Radiobutton fields for selecting
+                        // type.
+                        //
+                        new Ext.form.TextField({
+														width: 375,
+                            fieldLabel: 'Execution command pattern',
+                            name: 'command_pattern',
+                            value: '/usr/bin/execute --testcase ${caseName} --execution ${executionName}'
+                        }),
+                        new Ext.form.TextField({
+														width: 175,
+                            fieldLabel: 'Test tag',
+                            name: 'automation_tag',
+                            value: 'auto'
+                        })
+												);
+    this.dForm.render(Ext.DomHelper.append(cp.el, {tag:'div'}, true));
+
+    this.setTitle(config.title);
+
+    this.center();
+
+    var automationtoolCombo = this.dForm.findField('automation_tool_id');
+    automationtoolCombo.store.on('load', function() {
+        var rec = Ext.data.Record.create([{name: 'id'}, {name: 'name'}]);
+        this.add(new rec({name:'(new automation tool)', id:0}));
+    }, automationtoolCombo.store);
+    automationtoolCombo.store.load();
+    automationtoolCombo.on('select', function() {
+        var id = automationtoolCombo.getValue();
+        if (id > 0) {
+            Ext.Ajax.request({
+                url: createUrl('/automation_tools/'+id),
+                method: 'get',
+                scope: this,
+                success: function(r, o) {
+                    var d = Ext.decode(r.responseText);
+                    var f;
+                    for (var i in d.data) {
+                        if (d.data[i] && typeof d.data[i] != 'function') {
+                            if ((f = this.dForm.findField(i))) {
+                                f.setValue(d.data[i]);
+                            }
+                        }
+                    }
+                }
+            });
+        } 
+        
+    }, this);
+
+    this.on('hide', function() {
+        this.destroy(true);
+    }, this);
+
+    this.show();
+};
+Ext.extend(Ext.testia.AutomationToolDlg, Ext.LayoutDialog, {
+    handler: undefined,
+    dForm: undefined,
+
+    closeDialog: function(button) {
+        var id = this.dForm.findField('automation_tool_id').getValue();
+        if (button == 'ok') {
+            var url = createUrl('/automation_tools/');
+            if (id > 0) {
+                url += id;
+            }
+            var params = this.dForm.getValues();
+            delete(params.automation_tool_id);
+            Ext.Ajax.request({
+                url: url,
+                method: (id > 0) ? 'put' : 'post',
+                params: Ext.urlEncode({data: Ext.encode(params)}),
+                scope: this,
+                success: function() {
+                    this.handler(button);
+                    this.destroy(true);
+                }
+            });
+        } else if ( (button == 'delete') && (id > 0) ) {
+            Ext.Ajax.request({
+                url: createUrl('/automation_tools/'+id),
+                method: 'delete',
+                scope: this,
+                success: function() {
+                    this.dForm.findField('automation_tool_id').store.load();
+                    this.handler(button);
+                    this.dForm.reset();
+                }
+            });
+
+       } else {
+            this.handler(button);
+            this.destroy(true);
+        }
+    }
+});
+
 
 /*
   TODO: Adding/removing of users needs improvement.
@@ -278,6 +442,26 @@ var Projects = function() {
 
         );
 
+        appForm.fieldset({id:'automationtool', legend:'Automation tool'},
+            new Ext.form.ComboBox({
+                fieldLabel: 'Automation tool',
+                name: 'automation_tool_id',
+                width: 175,
+                store: new Ext.data.JsonStore({
+                    url: createUrl('/automation_tools'),
+                    root: 'data',
+                    fields: ['name', 'id']}),
+                displayField:'name',
+                valueField: 'id',
+                editable: false,
+                allowBlank: true,
+                lazyRender: true,
+                triggerAction: 'all',
+                mode: 'local',
+                selectOnFocus:true
+            })
+        );
+
         appForm.fieldset({id:'bugtracker', legend:'Bugtracker'},
             new Ext.form.ComboBox({
                 fieldLabel: 'Bugtracker',
@@ -297,6 +481,7 @@ var Projects = function() {
                 selectOnFocus:true
             })
         );
+
 
         defaultTagsStore = new Ext.data.SimpleStore({fields: [{name: 'tag'}]});
         productsStore = new Ext.data.JsonStore({
@@ -465,9 +650,18 @@ var Projects = function() {
         appForm.registerField('library');
         appForm.registerField('test_areas');
         appForm.registerField('bug_tracker_id');
+        appForm.registerField('automation_tool_id');
 
         appForm.registerField(productsGrid);
 
+        var atCombo = appForm.findField('automation_tool_id');
+        atCombo.store.on('load', function(){
+            var rec = Ext.data.Record.create([
+                {name:'id'},{name:'name'}
+            ]);
+            this.add(new rec({id:0, name:'(None)'}));
+        }, atCombo.store);
+				
         var bugsCombo = appForm.findField('bug_tracker_id');
         bugsCombo.store.on('load', function(){
             var rec = Ext.data.Record.create([
@@ -475,6 +669,7 @@ var Projects = function() {
             ]);
             this.add(new rec({id:0, name:'(None)'}));
         }, bugsCombo.store);
+			
 
         bugsCombo.on('select', function() {
             var btid = this.getValue();
@@ -713,6 +908,7 @@ var Projects = function() {
 
         appForm.initEnd();
         appForm.findField('bug_tracker_id').store.load();
+        appForm.findField('automation_tool_id').store.load();
     }
 
     function extendAppForm() {
@@ -730,6 +926,9 @@ var Projects = function() {
             var ds;
             // Bug tracker products
             appForm.findField('bug_tracker_id').fireEvent('select');
+
+            // Automation tools
+            appForm.findField('automation_tool_id').store.load();
 
             // Assigned users
             var Record = Ext.data.Record.create([
@@ -853,6 +1052,21 @@ var Projects = function() {
                 fn: function(b) {
                     if ( ((b == 'ok') || (b == 'delete')) && appForm) {
                         var f = appForm.findField('bug_tracker_id');
+                        if (f && f.store) {
+                            f.store.load();
+                        }
+                    }
+                }
+            });
+        },
+
+        editAutomationTools: function() {
+            var d = new Ext.testia.AutomationToolDlg({
+                title: 'Add automation tool',
+                scope: this,
+                fn: function(b) {
+                    if ( ((b == 'ok') || (b == 'delete')) && appForm) {
+                        var f = appForm.findField('automation_tool_id');
                         if (f && f.store) {
                             f.store.load();
                         }

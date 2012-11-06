@@ -166,11 +166,14 @@ class Jira < BugTracker
     se = StepExecution.find(opts[:step_execution_id])
     bp = BugProduct.find_by_name(opts[:product])
     name = se.case_execution.test_case.name
-    comment = "[Tarantula] Case \"#{name}\", Step #{se.position}"
+    #comment = "[Tarantula] Case \"#{name}\", Step #{se.position}"
+    comment = "[Tarantula] \n #{se.case_execution.represent_as_bug(se.position)}"
+
 
     url = self.base_url.chomp('/')
     url += "/secure/CreateIssueDetails!init.jspa?#{bp.external_id.to_s.to_query(:pid) if bp}" +
-      "&issuetype=1&#{comment.to_query(:description)}"
+      "&issuetype=1&summary=#{name.gsub(/\s/,"+")}&description=#{comment}"
+		url
   end
 
   def bug_label(bug)
