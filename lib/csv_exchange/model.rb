@@ -185,7 +185,7 @@ module CsvExchange
             # TODO: allow creation of new association models, e.g. tags
           when :association
             assoc_model = cell[:name].to_s.classify.constantize
-            new_assoc_strs = data[i].split(',').map(&:strip)
+            new_assoc_strs = (data[i] || '').split(',').map(&:strip)
             new_assocs = []
             new_assoc_strs.each do |str|
               conds = {cell[:opts][:map] => str, :project_id => project_id}
