@@ -34,13 +34,14 @@ otherwise skip to [Install Tarantula](#install-tarantula)
 Install RVM dependencies:
 
 ```
-yum install make gcc readline-devel zlib-devel openssl-devel
+yum install make gcc readline-devel zlib-devel openssl-devel libyaml
 ```
 
 Install RVM system wide:
 
 ```
 curl -L https://get.rvm.io | sudo bash -s stable --rails
+source /usr/local/rvm/scripts/rvm
 ```
 
 <a name="install-tarantula"></a>
