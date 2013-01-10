@@ -68,15 +68,15 @@ Requirement.blueprint do
   external_id { "#{Requirement.count}"     }
   date        { Date.today                 }
   project     { Project.make!              }
-  created_by  { User.make!.id              }
+  creator     { User.make!                 }
 end
 
 Case.blueprint do
   title      { Faker::Lorem.words(rand(5)+1).join(' ') }
   date       { Date.today                              }
   project    { Project.make!                           }
-  created_by { User.make!                              }
-  updated_by { User.make!                              }
+  creator    { User.make!                              }
+  updater    { User.make!                              }
 end
 
 class Case < ActiveRecord::Base

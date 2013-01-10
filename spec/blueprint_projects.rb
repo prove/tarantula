@@ -11,8 +11,8 @@ class Project < ActiveRecord::Base
     ProjectAssignment.create!(:user => testman, :project => simple, :group => 'TEST_ENGINEER')
 
     ts = TestSet.make_with_cases({:project => simple, :name => 'set', :cases => 10},
-                                 {:date => 1.month.ago.to_date, :created_by => testman,
-                                  :updated_by => testman})
+                                 {:date => 1.month.ago.to_date, :creator => testman,
+                                  :updater => testman})
 
     to1 = TestObject.make!(:name => 'TO1', :project => simple,
                           :date => 1.week.ago.to_date)
@@ -67,27 +67,27 @@ class Project < ActiveRecord::Base
 
     ts = TestSet.make_with_cases({:project => normal, :name => 'set1', :cases => 10,
                                   :test_areas => [ta]},
-                                 {:date => 1.month.ago.to_date, :created_by => testman,
-                                  :updated_by => testman, :test_areas => [ta]})
+                                 {:date => 1.month.ago.to_date, :creator => testman,
+                                  :updater => testman, :test_areas => [ta]})
 
     ts.cases.each do |c|
       r = Requirement.make!(:project => normal,
                            :cases => [c],
                            :test_areas => [ta],
                            :date => 1.month.ago.to_date,
-                           :created_by => testman)
+                           :creator => testman)
       r.cases << c
     end
 
     ts2 = TestSet.make_with_cases({:project => normal, :name => 'set2', :cases => 10,
                                    :test_areas => [ta2]},
-                                  {:date => 1.month.ago.to_date, :created_by => testman,
-                                   :updated_by => testman, :test_areas => [ta2]})
+                                  {:date => 1.month.ago.to_date, :creator => testman,
+                                   :updater => testman, :test_areas => [ta2]})
     ts2.cases.each do |c|
       r = Requirement.make!(:project => normal,
                            :test_areas => [ta2],
                            :date => 1.month.ago.to_date,
-                           :created_by => testman)
+                           :creator => testman)
       r.cases << c
     end
 
@@ -159,28 +159,28 @@ class Project < ActiveRecord::Base
     # new cases in 60/20/20/0/0 date-groups (to1,to2,to3,to4,to5)
     case_grp1 = (1..60).map{|i| c = Case.make_with_steps(:project => advanced,
                                                          :date => 4.months.ago.to_date,
-                                                         :created_by => users[0],
+                                                         :creator => users[0],
                                                          :test_areas => (i % 2 == 0 ? [ta] : [ta2]),
-                                                         :updated_by => users[0])
+                                                         :updater => users[0])
                                 c.tag_with('group1'); c}
     case_grp2 = (1..20).map{|i| c = Case.make_with_steps(:project => advanced,
                                                          :date => 3.months.ago.to_date,
-                                                         :created_by => users[1],
+                                                         :creator => users[1],
                                                          :test_areas => (i % 2 == 0 ? [ta] : [ta2]),
-                                                         :updated_by => users[1])
+                                                         :updater => users[1])
                                 c.tag_with('group2'); c}
     case_grp3 = (1..20).map{|i| c = Case.make_with_steps(:project => advanced,
                                                          :date => 2.months.ago.to_date,
-                                                         :created_by => users[2],
+                                                         :creator => users[2],
                                                          :test_areas => (i % 2 == 0 ? [ta] : [ta2]),
-                                                         :updated_by => users[2])
+                                                         :updater => users[2])
                                 c.tag_with('group3'); c}
 
     # new requirements in 30/10/10/0/0 date-groups
     req_grp1 = (1..30).map do |i|
       r = Requirement.make!(:project => advanced,
                            :date => 4.months.ago.to_date,
-                           :created_by => users[0],
+                           :creator => users[0],
                            :test_areas => [ta,ta2])
       r.tag_with('group1')
       r.cases << case_grp1[i*2,2]
@@ -190,7 +190,7 @@ class Project < ActiveRecord::Base
     req_grp2 = (1..10).map do |i|
       r = Requirement.make!(:project => advanced,
                            :date => 3.months.ago.to_date,
-                           :created_by => users[0],
+                           :creator => users[0],
                            :test_areas => [ta,ta2])
       r.tag_with('group2')
       r.cases << case_grp2[i*2,2]
@@ -200,7 +200,7 @@ class Project < ActiveRecord::Base
     req_grp3 = (1..10).map do |i|
       r = Requirement.make!(:project => advanced,
                            :date => 2.months.ago.to_date,
-                           :created_by => users[0],
+                           :creator => users[0],
                            :test_areas => [ta,ta2])
       r.tag_with('group3')
       r.cases << case_grp3[i*2,2]

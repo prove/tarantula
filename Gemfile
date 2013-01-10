@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem 'rails', '~> 3.2.6'
+gem 'rails', '~> 3.2.11'
 gem 'mysql2'
 gem 'prawn', '~> 0.5.0.1'
 gem 'prawn-core', '~> 0.5.0.1', :require => 'prawn/core'
@@ -8,9 +8,9 @@ gem 'prawn-layout', '~> 0.2.0.1', :require => 'prawn/layout'
 gem 'prawn-format', '~> 0.2.0.1', :require => 'prawn/format'
 gem 'spreadsheet', '~> 0.6.5'
 gem 'libxml-ruby', :require => 'libxml_ruby'
-gem 'faker'
+gem 'faker', '= 1.0.1'
 gem 'json'
-gem 'rake'
+gem 'rake', '~> 0.8'
 gem 'jquery-rails'
 gem 'therubyracer'
 gem 'delayed_job_active_record'
@@ -32,8 +32,8 @@ end
 #end
 
 group :test do
-  gem "flexmock"
-  gem 'machinist', '>= 2.0.0.beta2'
+  gem "flexmock", "= 0.9.0"
+  gem 'machinist', '= 2.0'
   gem 'test-unit', '~> 1.2.3'
 end
 
@@ -42,5 +42,5 @@ group :production do
 end
 
 group :test, :development do
-  gem "rspec-rails", "~> 2.0"
+  gem "rspec-rails", "= 2.11.0"
 end
