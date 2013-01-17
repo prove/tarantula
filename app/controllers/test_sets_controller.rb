@@ -32,7 +32,7 @@ class TestSetsController < ApplicationController
     tag_list = @data.delete(:tag_list)
     case_data = @data.delete(:cases)
     @data[:project_id] = @project.id
-    @data[:created_by] = @data[:updated_by] = @current_user
+    @data[:created_by] = @data[:updated_by] = @current_user.id
     
     @set = TestSet.create_with_cases!(@data, case_data, tag_list)
     
@@ -50,7 +50,7 @@ class TestSetsController < ApplicationController
     tag_list = @data.delete(:tag_list)
     case_data = @data.delete(:cases)
     @data[:project_id] = @project.id if @data[:project_id].nil?
-    @data[:updated_by] = @current_user
+    @data[:updated_by] = @current_user.id
     
     @test_set.update_with_cases!(@data, case_data, tag_list)
     
