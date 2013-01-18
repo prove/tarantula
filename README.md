@@ -52,7 +52,7 @@ Login as root.
 Activate required extra repositories:
 
 ```shell
-yum install http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm
+yum install http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 ```
 
 SELinux has to be in permissive mode to allow Apache web server to run
