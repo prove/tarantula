@@ -34,7 +34,7 @@ otherwise skip to [Install Tarantula](#install-tarantula)
 Install RVM dependencies:
 
 ```
-yum install make gcc readline-devel zlib-devel openssl-devel libyaml
+yum install make gcc readline-devel zlib-devel openssl-devel libyaml redhat-lsb
 ```
 
 Install RVM system wide:
