@@ -106,7 +106,7 @@ class ExecutionsController < ApplicationController
       return
     end
     @data['version'] = params['version'] # TODO: ???????
-    @data['updated_by'] = @current_user
+    @data['updated_by'] = @current_user.id
 
     cases = @data.delete('cases')
     tag_list = @data.delete('tag_list')
