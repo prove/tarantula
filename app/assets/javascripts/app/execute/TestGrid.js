@@ -66,6 +66,11 @@ var TestGrid = function() {
    * current execution.
   */
     var gridConfigured;
+    
+     /**
+    * Flag indicating if cases should be filtered to just the current user.
+   */
+    var filterMode;
 
     return {
 
@@ -76,6 +81,7 @@ var TestGrid = function() {
 
             panel = panel_;
             gui = gui_;
+            filterMode = 0;
 
             // Executions store.
             executionsStore = new Ext.data.JsonStore({
@@ -147,7 +153,8 @@ var TestGrid = function() {
                 // Get execution to load from combobox.
                 url: function() {
                     return createUrl('/executions/' + combo.getValue() +
-                                     '/case_executions');},
+                                     '/case_executions?filter_by_user=' +
+                                     filterMode);},
                 fields: [
                     {name: 'id'},                         // Case execution id
                     {name: 'position'},
@@ -381,6 +388,14 @@ var TestGrid = function() {
                 }
             }));
             grid.toolbar.addButton(new Ext.Toolbar.Button({
+                //text: 'Filter',
+                icon: IMG_USER_GREEN,
+                iconCls: 'x-btn-text-icon',
+                tooltip: 'Show Cases Assigned To Me',
+                tooltipType: 'title',
+                handler: this.toggleFilterMode
+            }));
+            grid.toolbar.addButton(new Ext.Toolbar.Button({
                 icon: IMG_REFRESH,
                 iconCls: 'x-btn-text-icon',
                 handler: this.refreshGridAndStore
@@ -407,9 +422,7 @@ var TestGrid = function() {
         */
         resize: function( newWidth) {
             grid.autoSize();
-            //combo.setSize( newWidth - 30, combo.getSize().height);
-            // Quickfix
-            combo.setSize( newWidth - 70, combo.getSize().height);
+            combo.setSize( newWidth - 86, combo.getSize().height);
         },
 
         /**
@@ -525,6 +538,16 @@ var TestGrid = function() {
                 grid.selectAfterLoad = record.get('id');
             }
             casesStore.reload();
+        },
+        
+        /**
+        * Toggles the flag to either show all test cases or cases assigned
+        * to the current user, and refreshes the grid view.
+        *
+        */
+        toggleFilterMode: function() {
+        	 filterMode = (filterMode == 0 ? 1 : 0);
+        	 TestGrid.refreshGridAndStore();
         },
 
 
