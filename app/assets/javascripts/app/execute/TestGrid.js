@@ -83,6 +83,22 @@ var TestGrid = function() {
             gui = gui_;
             filterMode = 0;
 
+            Ext.apply(Ext.data.SortTypes, {
+                asResult: function(v){
+                    switch(v ? v.ui || v : null) {
+                    case 'PASSED':
+                        return 1;
+                    case 'FAILED':
+                        return 0;
+                    case 'SKIPPED':
+                        return 2;
+                    case 'NOT_IMPLEMENTED':
+                        return 3;
+                    }
+                    return 4;
+                }
+            });
+
             // Executions store.
             executionsStore = new Ext.data.JsonStore({
                 url: createUrl(
@@ -161,7 +177,7 @@ var TestGrid = function() {
                     {name: 'case_id'},
                     {name: 'title'},
                     {name: 'assigned_to'},
-                    {name: 'result'},
+                    {name: 'result', sortType: 'asResult'},
                     {name: 'history'},
                     {name: 'duration'},
                     {name: 'priority'}
@@ -205,7 +221,7 @@ var TestGrid = function() {
                 cm: new Ext.grid.ColumnModel([
                     {
                         header: "#",
-                        width: 30,
+                        width: 35,
                         dataIndex: 'position',
                         editable: false
                     },
@@ -213,10 +229,10 @@ var TestGrid = function() {
                         header: "Case",
                         dataIndex: 'title',
                         editable: false,
-                        width: 150
+                        width: 145
                     },
                     {
-                        header: "Assigned to",
+                        header: "Assigned",
                         editable: false,
                         dataIndex: 'assigned_to',
                         width: 80,
@@ -227,7 +243,7 @@ var TestGrid = function() {
                         header: "R",
                         dataIndex: 'result',
                         editable: false,
-                        width: 30,
+                        width: 35,
                         renderer: function(v) {
                             d = '';
                             switch(v ? v.ui || v : null) {
@@ -285,10 +301,10 @@ var TestGrid = function() {
                         }
                     },
                     {
-                        header: "Duration",
+                        header: "Dur.",
                         editable: true,
                         dataIndex: 'duration',
-                        width: 55,
+                        width: 50,
                         align: "right",
                         editor: new Ext.grid.GridEditor(
                             new Ext.form.TextField({})),
@@ -327,6 +343,8 @@ var TestGrid = function() {
                 height: 550, //function() {return 100;}
                 maxHeight: 550 //function() {return 100;}
             });
+            
+            grid.getColumnModel().defaultSortable = true;
 
             grid.on('afteredit', function(e) {
                 Ext.Ajax.request({
