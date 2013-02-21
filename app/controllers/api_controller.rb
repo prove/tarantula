@@ -17,28 +17,30 @@ class ApiController < ApplicationController
 		}
 		project = Project.find_by_name(attrs["project"])
 		raise ApiError.new("Project not found", attrs["project"]) if project.nil?
-		c = Case.create_with_steps!({ # test attrs
-															:created_by => @current_user.id,
-															:updated_by => @current_user.id,
-															:title => attrs[:title], 
-															:date => Date.today.to_s(:db),
-															:priority => attrs[:priority], 
-															:objective => attrs[:objective],
-															:test_data => attrs[:data],
-															:preconditions_and_assumptions => attrs[:preconditions],
-															:project_id => project.id,
-															:version=>1},
-															# steps
-															steps,
-															#tag_list
-															attrs[:tags]
-													 )
+		c = Case.create_with_steps!(
+			{ # test attrs
+				:created_by => @current_user.id,
+				:updated_by => @current_user.id,
+				:title => attrs[:title], 
+				:date => Date.today.to_s(:db),
+				:priority => attrs[:priority], 
+				:objective => attrs[:objective],
+				:test_data => attrs[:data],
+				:preconditions_and_assumptions => attrs[:preconditions],
+				:project_id => project.id,
+				:version=>1
+			},
+			# steps
+			steps,
+			#tag_list
+			attrs[:tags]
+			)
 		render :text => "testcase id = #{c.id} created"
 	end
 
 	def update_testcase_execution
 		attrs = params["request"]
-    raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if attrs.nil?
+    	raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if attrs.nil?
 		project = Project.find_by_name(attrs["project"])
 		raise ApiError.new("Project not found", attrs["project"]) if project.nil?
 		# following assumptions are made:
@@ -60,14 +62,14 @@ class ApiController < ApplicationController
 	end
 	def block_testcase_execution
 		attrs = params["request"]
-    raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if attrs.nil?
+    	raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if attrs.nil?
 		testcase_execution = block_unblock(true,attrs)
 		render :text => "testcase execution id = #{testcase_execution.id} blocked"
 	end
 
 	def unblock_testcase_execution
 		attrs = params["request"]
-    raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if attrs.nil?
+    	raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if attrs.nil?
 		testcase_execution = block_unblock(false, attrs)
 		render :text => "testcase execution id = #{testcase_execution.id} unblocked"
 	end
@@ -75,7 +77,7 @@ class ApiController < ApplicationController
 	private
 	def login_once
 		authenticate_or_request_with_http_basic do |username, password|
-      if can_do_stuff?(username,password)
+      		if can_do_stuff?(username,password)
 				set_current_user_and_project
 			end
 		end
