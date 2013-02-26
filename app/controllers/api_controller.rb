@@ -1,21 +1,21 @@
 class ApiController < ApplicationController
-	skip_filter :set_current_user_and_project
+skip_filter :set_current_user_and_project
 	before_filter :login_once
-  before_filter do |f|
-    f.require_permission(['ADMIN'])
-  end
+  	before_filter do |f|
+    	f.require_permission(['ADMIN'])
+  	end
 	respond_to :xml
 
 	# example: Case.create_with_steps!({:created_by=>3,:updated_by=>3,:title => "Импорт", :date=>"2012-09-22T00:00:00",:priority=>"high", :time_estimate=>"", :objective=>"Цель",:test_data=>"Данные",:preconditions_and_assumptions=>"some prec",:test_area_ids=>[],:change_comment=>"Comment",:project_id=>1,:version=>1},[:version=>1,:position=>1,:action=>"step1",:result=>"res1"])
 	def create_testcase
-    raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if params["request"].nil? or params["request"]["testcase"].nil?
+    	raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if params["request"].nil? or params["request"]["testcase"].nil?
 		attrs = params["request"]["testcase"]
 		steps = attrs["step"]
 		steps.each{|s| 
 			s["version"] = 1
 			s["position"] = steps.index(s)+1
 		}
-		project = Project.find_by_name(attrs["project"])
+		project = Project.find_by_name(attrs["project"])		
 		raise ApiError.new("Project not found", attrs["project"]) if project.nil?
 		c = Case.create_with_steps!(
 			{ # test attrs
@@ -35,7 +35,7 @@ class ApiController < ApplicationController
 			#tag_list
 			attrs[:tags]
 			)
-		render :text => "testcase id = #{c.id} created"
+		render :xml => { :result => "testcase id = #{c.id} created" }.to_xml
 	end
 
 	def update_testcase_execution
@@ -58,20 +58,20 @@ class ApiController < ApplicationController
 			step_results << step_result
 		}
 		testcase_execution.update_with_steps!({"duration" => attrs["duration"]},step_results,@current_user)
-		render :text => "testcase execution id = #{testcase_execution.id} updated"
+		render :xml => { :result => "testcase execution id = #{testcase_execution.id} updated" }.to_xml
 	end
 	def block_testcase_execution
 		attrs = params["request"]
     	raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if attrs.nil?
 		testcase_execution = block_unblock(true,attrs)
-		render :text => "testcase execution id = #{testcase_execution.id} blocked"
+		render :xml => { :result => "testcase execution id = #{testcase_execution.id} blocked" } 
 	end
 
 	def unblock_testcase_execution
 		attrs = params["request"]
     	raise ApiError.new("Could not parse request as XML. Make sure to specify \'Content-type: text/xml\' when sending request", params.inspect) if attrs.nil?
 		testcase_execution = block_unblock(false, attrs)
-		render :text => "testcase execution id = #{testcase_execution.id} unblocked"
+		render :xml => { :result => "testcase execution id = #{testcase_execution.id} unblocked" }
 	end
 
 	private
@@ -82,6 +82,8 @@ class ApiController < ApplicationController
 			end
 		end
 	end
+
+
 	def block_unblock(flag,attrs)
 		project = Project.find_by_name(attrs["project"])
 		raise ApiError.new("Project not found", attrs["project"]) if project.nil?
