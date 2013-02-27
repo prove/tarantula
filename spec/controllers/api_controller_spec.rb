@@ -9,21 +9,27 @@ end
 def create_testcase_body(project=@project.name, title=@testcase.title, priority='high', tags='tag1,tag2', objective='test objective', test_data='test data', preconditions='test preconditions', steps=[{:action => 'a1', :result => 'r1'}, {:action => 'a2', :result => 'a2'}])
 #<request>
 #   <testcase project="Poect 0" title="add" priority="high" tags="func" objective="32" data="322" preconditions="123">
-#   	<step action="1" result="1"></step>
-#   	<step action="2" result="2"></step>
+#   	<step action="1" result="1"/>
+#   	<step action="2" result="2"/>
 #   </testcase>
 #</request>
-	builder = Builder::XmlMarkup.new
-	xml = builder.request { |r| 
-		r.testcase({ :project => project, :title => title, :priority => priority, :tags => tags, :objective => objective, :data => test_data, :preconditions => preconditions }){ |tc|
-			steps.each{|step|
-				tc.step(step)
-			}
-		}			
- 	}
+{"request" =>
+	{"testcase"=>
+    {
+      "project" => project, 
+      "title"=> title, 
+      "priority"=> priority, 
+      "tags"=> tags, 
+      "objective"=> objective, 
+      "data"=> test_data, 
+      "preconditions"=> preconditions, 
+      "step"=> steps
+    }
+  }
+}
 end
 
-def update_testcase_execution_body(project=@project.name, execution=@execution.name, testcase=@testcase.title, step_position=1, result='PASS', comments='step comments', duration='1')
+def update_testcase_execution_body(project=@project.name, execution=@execution.name, testcase=@testcase.title, duration='1', steps=[{:position => 1, :result => 'PASSED'}])
 # <request>
 #     <project>My project</project>
 #     <execution>My execution</execution>
@@ -31,16 +37,15 @@ def update_testcase_execution_body(project=@project.name, execution=@execution.n
 #     <duration>1</duration>
 #     <step position="2" result="NOT_IMPLEMENTED"></step>
 # </request>
-	builder = Builder::XmlMarkup.new
-	xml = builder.request { |r| 
-		r.project(project)
-		r.execution(execution)
-		r.testcase(testcase)
-		r.duration(duration)
-		2.times do # this is a hack - update the same step twice to get correct XML structure
-			r.step({:position => step_position, :result => result, :comment => comments})
-		end
- }
+{"request" =>
+  {
+    "project" => project, 
+    "execution" => execution, 
+    "testcase" => testcase, 
+    "duration" => duration,
+    "step" => steps
+  }
+}
 end
 
 def block_or_unblock_testcase_body(project=@project.name, execution=@execution.name, testcase=@testcase.title)
@@ -48,44 +53,40 @@ def block_or_unblock_testcase_body(project=@project.name, execution=@execution.n
 #     <project>My project</project>
 #     <execution>My execution</execution>
 #     <testcase>My testcase</testcase>
-# </request>
-	builder = Builder::XmlMarkup.new
-	xml = builder.request { |r| 
-		r.project(project)
-		r.execution(execution)
-		r.testcase(testcase)
- 	}
+# </request>	
+  {"request" =>
+    {
+      "project" => project, 
+      "execution" => execution, 
+      "testcase" => testcase,     
+    }
+  }
 end
 
 shared_examples_for "api_method" do |method_name|
-=begin
-context "unauthorized user" do
-    it "returns Access denied" do
-    	request.env['HTTP_AUTHORIZATION'] = encode_credentials('unauthorized user', 'password')
-    	request.env['RAW_POST_DATA'] =  { :request => {} }.to_xml
-      	resp = post method_name
-    	resp.body.strip.should eq "HTTP Basic: Access denied."
+
+  context "unauthorized user" do
+      it "returns Access denied" do
+      	request.env['HTTP_AUTHORIZATION'] = encode_credentials('unauthorized user', 'password')
+      	post method_name
+      	response.body.strip.should eq "HTTP Basic: Access denied."
+      end
     end
-  end
-
-
 
   context "invalid XML provided" do  	
     it "returns \"Invalid XML provided\" 500 error" do    	
-    	request.env['RAW_POST_DATA'] =  { :request => {} }.to_xml
-	  	post method_name
-	  	response.body.should =~ /COULD NOT PARSE REQUEST AS XML/
+     	request.env['RAW_POST_DATA'] =  { :request => {} }.to_xml
+    	post method_name
+    	response.body.should =~ /COULD NOT PARSE REQUEST AS XML/
     end
   end
-=end
+
 
 
   context "provided project not found" do
     it "returns \"Project not found\" 500 error" do    	
-    	puts eval method_name.to_s + "_body(@project.name + \'whible\')"
-    	request.env['RAW_POST_DATA'] = eval method_name.to_s + "_body(@project.name + \'whible\')"
-    	resp = post method_name
-    	resp.body.should =~ /PROJECT NOT FOUND/
+    	post method_name, eval(method_name.to_s + "_body('whible')")
+      response.body.should =~ /PROJECT NOT FOUND/
     end
   end
 
@@ -94,28 +95,30 @@ context "unauthorized user" do
 
 end
 
-describe ApiController do
-  	before :all do  	
-	    @user = User.create!(
-	    	:login => Faker::Internet.user_name, 
-	    	:realname => Faker::Name.name, 
-	    	:email => Faker::Internet.email, 
-	    	:phone => '', 
-	    	:admin => true, 
-	    	:password => 'password', 
-	    	:password_confirmation => 'password'
-	   	)    
-	    @project = Project.first
-	    @user.project_assignments.create!(:project => @project, :group => 'TEST_DESIGNER')    
-	    @to = TestObject.find_by_name('test_object_name') || TestObject.create!(:name => 'test_object_name', :project_id => @project.id, :date => "2013-02-26T00:00:00")
-	    @execution = Execution.find_by_name('execution_name') || Execution.create!(:name => 'exec_name', :test_object_id => @to.id, :project_id => @project.id, :date => "2013-02-26T00:00:00")
-	    @testcase = Case.find_by_title('testcase_title') || Case.create!(:title => 'testcase_title', :created_by => 1, :project_id => 287, :date => "2013-02-26T00:00:00")
-	end
+describe ApiController do  
+	before :all do  	
+    tc_title = Faker::Name.name
+    ex_title = Faker::Name.name
+    @user = User.create!(
+    	:login => Faker::Internet.user_name, 
+    	:realname => Faker::Name.name, 
+    	:email => Faker::Internet.email, 
+    	:phone => '', 
+    	:admin => true, 
+    	:password => 'password', 
+    	:password_confirmation => 'password'
+   	)    
+    @project = Project.first
+    @user.project_assignments.create!(:project => @project, :group => 'TEST_DESIGNER')    
+    @to = TestObject.find_by_name('test_object_name') || TestObject.create!(:name => 'test_object_name', :project_id => @project.id, :date => "2013-02-26T00:00:00")    
+    @testcase = Case.create_with_dummy_step(:title => tc_title+' dummy', :created_by => @user.id, :updated_by => @user.id, :project_id => @project.id, :date => "2013-02-26T00:00:00")
+    @testcase_2steps = Case.create_with_steps!({:title => tc_title+' 2 steps', :created_by => @user.id, :updated_by => @user.id, :project_id => @project.id, :date => "2013-02-26T00:00:00"}, [{:action => 'a1', :result => 'r1', :position => 1},{:action => 'a2', :result => 'r2', :position => 2}])
+    @execution = Execution.create_with_assignments!({:name => ex_title, :test_object_id => @to.id, :project_id => @project.id, :date => "2013-02-26T00:00:00"}, [@testcase, @testcase_2steps], @user.id)       
+  end
 
-	before(:each) do
-	  request.env['HTTP_AUTHORIZATION'] = encode_credentials(@user.login, @user.password)
-	  request.env['content_type'] = 'application/xml' 
-	end   
+  before(:each) do
+    request.env['HTTP_AUTHORIZATION'] = encode_credentials(@user.login, @user.password)	  
+  end   
 
   describe "#create_testcase" do
 =begin
@@ -128,26 +131,139 @@ describe ApiController do
 =end
     it_should_behave_like "api_method", :create_testcase
 
-=begin
+
     context "incorrect parameters" do
-      it "returns nit-title error as XML" do
+      it "raps to blank test title" do
+        post 'create_testcase', create_testcase_body(@project.name, '')
+        response.body.should eq "Validation failed: Title can't be blank"
       end
 
-      it "returns priority error as XML" do
+      it "raps to invalid priority" do
+        post 'create_testcase', create_testcase_body(@project.name, @testcase.title, 'not existing priority')
+        response.body.should =~ /Invalid priority 'not existing priority'/
       end
 
-      it "returns nit-title error as XML" do
+      it "raps to empty steps set" do
+        post 'create_testcase', create_testcase_body(@project.name, @testcase.title, 'high',nil,nil,nil,nil,nil)
+        response.body.should =~ /PROVIDED STEPS SET IS EMPTY/
       end
     end
 
     context "correct parameters" do
       it "creates test with 0 steps" do
+        title = Faker::Lorem.words(1)
+        post 'create_testcase', create_testcase_body(@project.name, title, 'high',nil,nil,nil,nil,[])
+        flexmock(Case).should_receive(:create_with_steps!).and_return(flexmock('case'))
+        response.body.should =~ /testcase #{title} created/
       end
 
       it "creates test with 5 steps" do
+        title = Faker::Lorem.words(1)
+        def step(i); { "action" => "a#{i}", "result" => "r#{i}" }; end
+        steps = []
+        5.times{ |i| steps << step(i) }
+        post 'create_testcase', create_testcase_body(@project.name, title, 'high',nil,nil,nil,nil,steps)
+        flexmock(Case).should_receive(:create_with_steps!).and_return(flexmock('case'))
+        response.body.should =~ /testcase #{title} created/
       end
     end
+  end
+
+  describe "#update_testcase_execution" do
+=begin
+<request>
+  <project>calculator</project>
+  <execution>CALC</execution>
+  <testcase>2+2=4</testcase>
+  <duration>1</duration>
+  <step position="2" result="NOT_IMPLEMENTED" comment="some text"></step>
+  <step position="3" result="PASSED"></step>
+</request>
 =end
+    it_should_behave_like "api_method", :update_testcase_execution
+
+    context "incorrect parameters" do
+      # execution=@execution.name, testcase=@testcase.title, duration='1', steps=[{:position => '1', :result => 'PASSED'}, {:position => '2', :result => 'FAILED'}]
+      it "raps to invalid execution title" do
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, 'unknown_execution')
+        response.body.should =~ /CASEEXECUTION NOT FOUND/
+      end
+
+      it "raps to invalid case title" do
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, 'unknown_testcase')
+        response.body.should =~ /CASEEXECUTION NOT FOUND/
+      end
+
+
+      it "raps to invalid duration" do
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase.title, '-1')
+        puts response.body
+      end
+
+      it "raps to invalid steps array" do
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase.title, '1', [])
+        response.body.should =~ /Invalid result array/
+      end
+
+      it "raps to invalid result" do
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase.title, '1', [{:position => '1', :result => 'WHIBLE'}])
+        response.body.should =~ /Invalid result type WHIBLE!/
+      end
+
+    end
+
+    context "correct parameters" do
+      it "updates test with 1 step" do
+        post 'update_testcase_execution', update_testcase_execution_body
+        flexmock(CaseExecution).should_receive(:update_with_steps!)
+        response.body.should =~ /execution #{@execution.name} updated/
+      end
+
+      it "updates test with 2 steps" do
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase_2steps.title, '1', [{:position => '1', :result => 'PASSED'}, {:position => '2', :result => 'FAILED'}])
+        flexmock(CaseExecution).should_receive(:update_with_steps!)
+        response.body.should =~ /execution #{@execution.name} updated/
+      end
+    end
+  end
+
+  describe "#(un)block_testcase_execution" do
+=begin
+<request>
+  <project>My project</project>
+  <execution>My execution</execution>
+  <testcase>My testcase</testcase>
+</request>
+=end
+    it_should_behave_like "api_method", :block_testcase_execution
+    it_should_behave_like "api_method", :unblock_testcase_execution
+    # execution=@execution.name, testcase=@testcase.title
+    context "incorrect parameters" do
+
+      it "raps to invalid execution name or testcase title" do
+        post 'block_testcase_execution', block_or_unblock_testcase_body(@project.name, 'unknown_execution')
+        response.body.should =~ /CASE EXECUTION NOT FOUND/
+        post 'block_testcase_execution', block_or_unblock_testcase_body(@project.name, @execution.name, 'unknown testcase')
+        response.body.should =~ /CASE EXECUTION NOT FOUND/
+        post 'unblock_testcase_execution', block_or_unblock_testcase_body(@project.name, 'unknown_execution')
+        response.body.should =~ /CASE EXECUTION NOT FOUND/
+        post 'unblock_testcase_execution', block_or_unblock_testcase_body(@project.name, @execution.name, 'unknown testcase')
+        response.body.should =~ /CASE EXECUTION NOT FOUND/
+      end
+    end
+
+    context "correct parameters" do
+      it "updates case execution :blocked parameter to flag" do
+        flag = 1
+        post 'block_testcase_execution', block_or_unblock_testcase_body
+        flexmock(CaseExecution).should_receive(:update_attribute).with(:blocked, flag).and_return(flexmock('case_execution'))
+        response.body.should =~ /execution #{@execution.name} blocked/
+        flag = 0
+        post 'unblock_testcase_execution', block_or_unblock_testcase_body
+        flexmock(CaseExecution).should_receive(:update_attribute).with(:blocked, flag).and_return(flexmock('case_execution'))
+        response.body.should =~ /execution #{@execution.name} unblocked/
+      end
+    end
   end
 end
 
