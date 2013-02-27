@@ -6,7 +6,16 @@ def encode_credentials(u,p)
 	ActionController::HttpAuthentication::Basic.encode_credentials(u,p)
 end
 
-def create_testcase_body(project=@project.name, title=@testcase.title, priority='high', tags='tag1,tag2', objective='test objective', test_data='test data', preconditions='test preconditions', steps=[{:action => 'a1', :result => 'r1'}, {:action => 'a2', :result => 'a2'}])
+def create_testcase_body(
+  project=@project.name, 
+  title=@testcase.title, 
+  priority='high', 
+  tags='tag1,tag2', 
+  objective='test objective', 
+  test_data='test data', 
+  preconditions='test preconditions', 
+  steps=[{:action => 'a1', :result => 'r1'}, {:action => 'a2', :result => 'a2'}]
+)
 #<request>
 #   <testcase project="Poect 0" title="add" priority="high" tags="func" objective="32" data="322" preconditions="123">
 #   	<step action="1" result="1"/>
@@ -29,7 +38,13 @@ def create_testcase_body(project=@project.name, title=@testcase.title, priority=
 }
 end
 
-def update_testcase_execution_body(project=@project.name, execution=@execution.name, testcase=@testcase.title, duration='1', steps=[{:position => 1, :result => 'PASSED'}])
+def update_testcase_execution_body(
+  project=@project.name, 
+  execution=@execution.name, 
+  testcase=@testcase.title, 
+  duration='1', 
+  steps=[{:position => 1, :result => 'PASSED'}]
+)
 # <request>
 #     <project>My project</project>
 #     <execution>My execution</execution>
@@ -48,7 +63,11 @@ def update_testcase_execution_body(project=@project.name, execution=@execution.n
 }
 end
 
-def block_or_unblock_testcase_body(project=@project.name, execution=@execution.name, testcase=@testcase.title)
+def block_or_unblock_testcase_body(
+  project=@project.name, 
+  execution=@execution.name, 
+  testcase=@testcase.title
+)
 # <request>
 #     <project>My project</project>
 #     <execution>My execution</execution>
@@ -62,6 +81,10 @@ def block_or_unblock_testcase_body(project=@project.name, execution=@execution.n
     }
   }
 end
+
+alias :unblock_testcase_execution_body :block_or_unblock_testcase_body
+alias :unblock_testcase_execution_body :block_or_unblock_testcase_body
+alias :block_testcase_execution_body :block_or_unblock_testcase_body
 
 shared_examples_for "api_method" do |method_name|
 
@@ -81,18 +104,12 @@ shared_examples_for "api_method" do |method_name|
     end
   end
 
-
-
   context "provided project not found" do
     it "returns \"Project not found\" 500 error" do    	
     	post method_name, eval(method_name.to_s + "_body('whible')")
       response.body.should =~ /PROJECT NOT FOUND/
     end
   end
-
-
-
-
 end
 
 describe ApiController do  
@@ -111,9 +128,12 @@ describe ApiController do
     @project = Project.first
     @user.project_assignments.create!(:project => @project, :group => 'TEST_DESIGNER')    
     @to = TestObject.find_by_name('test_object_name') || TestObject.create!(:name => 'test_object_name', :project_id => @project.id, :date => "2013-02-26T00:00:00")    
-    @testcase = Case.create_with_dummy_step(:title => tc_title+' dummy', :created_by => @user.id, :updated_by => @user.id, :project_id => @project.id, :date => "2013-02-26T00:00:00")
-    @testcase_2steps = Case.create_with_steps!({:title => tc_title+' 2 steps', :created_by => @user.id, :updated_by => @user.id, :project_id => @project.id, :date => "2013-02-26T00:00:00"}, [{:action => 'a1', :result => 'r1', :position => 1},{:action => 'a2', :result => 'r2', :position => 2}])
-    @execution = Execution.create_with_assignments!({:name => ex_title, :test_object_id => @to.id, :project_id => @project.id, :date => "2013-02-26T00:00:00"}, [@testcase, @testcase_2steps], @user.id)       
+    @testcase = Case.create_with_dummy_step(:title => tc_title+' dummy', :created_by => @user.id, :updated_by => @user.id, 
+      :project_id => @project.id, :date => "2013-02-26T00:00:00")
+    @testcase_2steps = Case.create_with_steps!({:title => tc_title+' 2 steps', :created_by => @user.id, :updated_by => @user.id, 
+      :project_id => @project.id, :date => "2013-02-26T00:00:00"}, [{:action => 'a1', :result => 'r1', :position => 1},{:action => 'a2', :result => 'r2', :position => 2}])
+    @execution = Execution.create_with_assignments!({:name => ex_title, :test_object_id => @to.id, 
+      :project_id => @project.id, :date => "2013-02-26T00:00:00"}, [@testcase, @testcase_2steps], @user.id)       
   end
 
   before(:each) do
@@ -151,14 +171,14 @@ describe ApiController do
 
     context "correct parameters" do
       it "creates test with 0 steps" do
-        title = Faker::Lorem.words(1)
+        title = Faker::Name.name
         post 'create_testcase', create_testcase_body(@project.name, title, 'high',nil,nil,nil,nil,[])
         flexmock(Case).should_receive(:create_with_steps!).and_return(flexmock('case'))
         response.body.should =~ /testcase #{title} created/
       end
 
       it "creates test with 5 steps" do
-        title = Faker::Lorem.words(1)
+        title = Faker::Name.name
         def step(i); { "action" => "a#{i}", "result" => "r#{i}" }; end
         steps = []
         5.times{ |i| steps << step(i) }
@@ -194,19 +214,14 @@ describe ApiController do
         response.body.should =~ /CASEEXECUTION NOT FOUND/
       end
 
-
-      it "raps to invalid duration" do
-        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase.title, '-1')
-        puts response.body
-      end
-
       it "raps to invalid steps array" do
-        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase.title, '1', [])
-        response.body.should =~ /Invalid result array/
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase.title, '1', [1,23,4])
+        response.body.should =~ /CASE STEP WITH POSITION \d+ NOT FOUND/
       end
 
       it "raps to invalid result" do
-        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase.title, '1', [{:position => '1', :result => 'WHIBLE'}])
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase.title, '1', 
+          [{:position => '1', :result => 'WHIBLE'}])
         response.body.should =~ /Invalid result type WHIBLE!/
       end
 
@@ -220,7 +235,8 @@ describe ApiController do
       end
 
       it "updates test with 2 steps" do
-        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase_2steps.title, '1', [{:position => '1', :result => 'PASSED'}, {:position => '2', :result => 'FAILED'}])
+        post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase_2steps.title, '1', 
+          [{:position => '1', :result => 'PASSED'}, {:position => '2', :result => 'FAILED'}])
         flexmock(CaseExecution).should_receive(:update_with_steps!)
         response.body.should =~ /execution #{@execution.name} updated/
       end
@@ -237,9 +253,8 @@ describe ApiController do
 =end
     it_should_behave_like "api_method", :block_testcase_execution
     it_should_behave_like "api_method", :unblock_testcase_execution
-    # execution=@execution.name, testcase=@testcase.title
-    context "incorrect parameters" do
 
+    context "incorrect parameters" do
       it "raps to invalid execution name or testcase title" do
         post 'block_testcase_execution', block_or_unblock_testcase_body(@project.name, 'unknown_execution')
         response.body.should =~ /CASE EXECUTION NOT FOUND/

@@ -52,7 +52,7 @@ skip_filter :set_current_user_and_project
 		step_results = []
 		attrs["step"].each{|se|
 			te = testcase_execution.step_executions.where(:position => se["position"].to_i)
-			raise ApiError.new("Case step with position #{se["position"]} not found inside testcase #{attrs["testcase"]}", "Steps => #{testcase_execution.step_executions.collect(&:inspect)}") if te.empty?
+			raise ApiError.new("Case step with position #{se["position"].to_i} not found inside testcase #{attrs["testcase"]}", "Steps => #{testcase_execution.step_executions.collect(&:inspect)}") if te.empty?
 			step_result = {}
 			step_result["id"] = testcase_execution.step_executions.where(:position => se["position"].to_i).first.id
 			step_result["result"] = se["result"]

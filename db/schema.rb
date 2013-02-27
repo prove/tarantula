@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120905062740) do
+ActiveRecord::Schema.define(:version => 20130227181034) do
 
   create_table "attachment_sets", :force => true do |t|
     t.datetime "created_at"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20120905062740) do
     t.integer  "duration",     :default => 0
     t.integer  "position",     :default => 0
     t.string   "title"
+    t.boolean  "blocked",      :default => false
   end
 
   add_index "case_executions", ["case_id"], :name => "index_case_executions_on_case_id"
