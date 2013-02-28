@@ -171,9 +171,8 @@ describe ApiController do
 
     context "correct parameters" do
       it "creates test with 0 steps" do
-        title = Faker::Name.name
-        post 'create_testcase', create_testcase_body(@project.name, title, 'high',nil,nil,nil,nil,[])
-        flexmock(Case).should_receive(:create_with_steps!).and_return(flexmock('case'))
+        title = Faker::Name.name        
+        post 'create_testcase', create_testcase_body(@project.name, title, 'high',nil,nil,nil,nil,[])        
         response.body.should =~ /testcase #{title} created/
       end
 
@@ -183,7 +182,7 @@ describe ApiController do
         steps = []
         5.times{ |i| steps << step(i) }
         post 'create_testcase', create_testcase_body(@project.name, title, 'high',nil,nil,nil,nil,steps)
-        flexmock(Case).should_receive(:create_with_steps!).and_return(flexmock('case'))
+        
         response.body.should =~ /testcase #{title} created/
       end
     end
@@ -230,14 +229,12 @@ describe ApiController do
     context "correct parameters" do
       it "updates test with 1 step" do
         post 'update_testcase_execution', update_testcase_execution_body
-        flexmock(CaseExecution).should_receive(:update_with_steps!)
         response.body.should =~ /execution #{@execution.name} updated/
       end
 
       it "updates test with 2 steps" do
         post 'update_testcase_execution', update_testcase_execution_body(@project.name, @execution.name, @testcase_2steps.title, '1', 
           [{:position => '1', :result => 'PASSED'}, {:position => '2', :result => 'FAILED'}])
-        flexmock(CaseExecution).should_receive(:update_with_steps!)
         response.body.should =~ /execution #{@execution.name} updated/
       end
     end
@@ -271,11 +268,9 @@ describe ApiController do
       it "updates case execution :blocked parameter to flag" do
         flag = 1
         post 'block_testcase_execution', block_or_unblock_testcase_body
-        flexmock(CaseExecution).should_receive(:update_attribute).with(:blocked, flag).and_return(flexmock('case_execution'))
         response.body.should =~ /execution #{@execution.name} blocked/
         flag = 0
         post 'unblock_testcase_execution', block_or_unblock_testcase_body
-        flexmock(CaseExecution).should_receive(:update_attribute).with(:blocked, flag).and_return(flexmock('case_execution'))
         response.body.should =~ /execution #{@execution.name} unblocked/
       end
     end
