@@ -94,7 +94,6 @@ class UsersController < ApplicationController
   #  POST /users
   def create
     @user = User.new(@data)
-
     @user.new_random_password if @user.password.blank?
 
     @user.save!
