@@ -16,7 +16,6 @@ gem 'therubyracer'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'memcache-client'
-gem 'rb-readline'
 gem 'rubyzip', :require => 'zip/zip'
 
 # Gems used only for assets and not required
