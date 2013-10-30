@@ -78,6 +78,7 @@ rvm use 1.9.3
 Download and execute installation script:
 
 ```shell
+yum -y install wget
 wget https://raw.github.com/prove/tarantula/master/vendor/installer/install.sh
 bash install.sh
 ```
