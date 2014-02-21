@@ -13,7 +13,7 @@ GNU GPLv3.
 * Recommended platform is
   [CentOS-6.X for i386 Architecture](http://isoredirect.centos.org/centos/6/isos/i386/). Tarantula
   has installation script which automates most of the installation
-  steps for CentOs 6. X86_64 bit Server is not recommended, as it
+  steps. CentOs 6.x for x86_64 Architecture is not recommended, as it
   seems to have problems with memcached/passenger subsystems, at least
   with low memory systems.
 * Root Access to Linux
