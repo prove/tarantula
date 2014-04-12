@@ -12,7 +12,7 @@ module CC
     if !old_val.nil?
       puts "#{message} [#{old_val}]"
     elsif !default.nil?
-      puts "#{message} {#{default}}"
+      puts "#{message} [#{default}]"
     else
       puts message
     end
