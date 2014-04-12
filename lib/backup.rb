@@ -15,10 +15,10 @@ class Backup
     if db_conf['password'].blank?
       passwd = ''
     else
-      passwd = "-p #{db_conf['password']}"
+      passwd = "#{db_conf['password']}"
     end
 
-    system "mysqldump #{db_conf['database']} -u #{db_conf['username']} #{passwd} > #{db_backup}"
+    system "mysqldump #{db_conf['database']} -u #{db_conf['username']} -h #{db_conf['host']} -p'#{passwd}' > #{db_backup}"
 
     FileUtils.rm_f BACKUP_ZIP
 
