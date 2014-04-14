@@ -4,7 +4,8 @@ Backup does a zip backup of database and attachments.
 
 =end
 class Backup
-  BACKUP_ZIP = File.join(Rails.root, 'tmp', 'backup.zip')
+  time = Time.now.strftime "%Y%m%d"
+  BACKUP_ZIP = File.join(Rails.root, 'tmp', 'backup'+time+'.zip')
 
   def process
     tmp_dir = File.join(Rails.root, 'tmp')

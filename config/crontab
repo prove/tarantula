@@ -1,6 +1,6 @@
 MAILTO=""
 # m     h       dom mon dow     user    command
-0       22      *   *   7       apache  cd /opt/tarantula/rails && source /usr/local/rvm/scripts/rvm && rails runner -e production "Cron.weekly"
-0       0       *   *   *       apache  cd /opt/tarantula/rails && source /usr/local/rvm/scripts/rvm && rails runner -e production "Cron.daily"
-*/15    *       *   *   *       apache  cd /opt/tarantula/rails && source /usr/local/rvm/scripts/rvm && rails runner -e production "Cron.every_15_min"
+0       22      *   *   7       apache  cd /opt/tarantula/rails && rails runner -e production "Cron.weekly"
+0       0       *   *   *       apache  cd /opt/tarantula/rails && rails runner -e production "Cron.daily"
+*/15    *       *   *   *       apache  cd /opt/tarantula/rails && rails runner -e production "Cron.every_15_min"
 
