@@ -4,15 +4,20 @@ Backup does a zip backup of database and attachments.
 
 =end
 class ZipAttachments
-  ATTACHMENT_ZIP = File.join(Rails.root, 'attachments'+time+'.zip')
+  time = Time.now.strftime "%Y%m%d"
+  BACKUP_ZIP = File.join(Rails.root, 'tmp', 'backup'+time+'.zip')
 
   def process
     attachment_files = Dir.glob(File.join(Rails.root, 'attachment_files', '*'))
-    
-    Zip::ZipFile.open(ATTACHMENT_ZIP, Zip::ZipFile::CREATE) do |zipfile|
+    FileUtils.rm_f BACKUP_ZIP
+
+    Zip::ZipFile.open(BACKUP_ZIP, Zip::ZipFile::CREATE) do |zipfile|
       attachment_files.each do |filename|
         zipfile.add(File.basename(filename), filename)
       end
     end
   end
+
+  private
+
 end
