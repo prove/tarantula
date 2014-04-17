@@ -37,7 +37,7 @@ end
       end
     else 
       task :install => [] do
-        puts "TARANTULA ALREADY INSTALLED!!!!!"
+        puts "Testia database already installed, nothing to do."
       end
     end
 end
