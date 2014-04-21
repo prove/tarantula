@@ -18,7 +18,7 @@ def check_if_database_exists
     cmd = "mysql -u #{user} -h #{host} "
     puts cmd + "... [password filtered]"
     cmd += " -p'#{password}'" unless password.nil?
-    cmd += " testia"
+    cmd += " #{database}"
     cmd += " -e 'show tables like \"users\"'"
     output = system cmd
     output = output.to_s
