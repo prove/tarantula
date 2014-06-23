@@ -8,15 +8,17 @@ gem 'prawn-layout', '~> 0.2.0.1', :require => 'prawn/layout'
 gem 'prawn-format', '~> 0.2.0.1', :require => 'prawn/format'
 gem 'spreadsheet', '~> 0.6.5'
 gem 'libxml-ruby', :require => 'libxml_ruby'
-gem 'faker', '= 1.0.1'
+gem 'faker'
 gem 'json'
-gem 'rake', '~> 0.8'
+gem 'rake'
 gem 'jquery-rails'
 gem 'therubyracer'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'memcache-client'
-gem 'rubyzip', :require => 'zip/zip'
+gem 'rb-readline'
+gem 'rubyzip', '~> 1.0.0'
+gem 'zip-zip' # Rubyzip old API compatibility addon
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -41,5 +43,5 @@ group :production do
 end
 
 group :test, :development do
-  gem "rspec-rails", "= 2.11.0"
+  gem "rspec-rails", "~> 2.0"
 end
