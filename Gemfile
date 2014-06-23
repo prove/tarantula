@@ -17,7 +17,8 @@ gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'memcache-client'
 gem 'rb-readline'
-gem 'rubyzip', :require => 'zip/zip'
+gem 'rubyzip', '~> 1.0.0'
+gem 'zip-zip' # Rubyzip old API compatibility addon
 
 # Gems used only for assets and not required
 # in production environments by default.
