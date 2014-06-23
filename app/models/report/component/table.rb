@@ -53,12 +53,14 @@ module Report
         return if self.empty?
 
         tdata = @data.map do |row|
-          @columns.map{|ck,cn| row[ck]}
+          @columns.map do |ck,cn|
+            ERB::Util.html_escape row[ck]
+          end
         end
         pdf.pad_bottom(10) do
           pdf.pad_top(5) do
             pdf.table tdata,
-                {:headers => @columns.map{|c| c[1]},
+                {:headers => @columns.map{|c| ERB::Util.html_escape c[1] },
                  :row_colors => ['ffffff', 'eeeeee'],
                  :align => :left,
                  :horizontal_padding => 10}.merge(@opts)

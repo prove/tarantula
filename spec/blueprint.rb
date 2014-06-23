@@ -135,6 +135,7 @@ end
 StepExecution.blueprint do
   result { NotRun    }
   step   { Step.make!}
+  comment { "Nasty comment < 3, because < or > breaks stuff." }
 end
 
 class CaseExecution < ActiveRecord::Base
