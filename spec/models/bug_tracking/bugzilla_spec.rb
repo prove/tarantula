@@ -138,8 +138,9 @@ describe Bugzilla do
                                                 'product_id' => '15',
                                                 'component_id' => '8',
                                                 'bug_id' => 'new_bug'}])
-      mock_db = flexmock(Bugzilla::MockDB.new)
-      bt = flexmock(Bugzilla.make!, :active_product_ids => ['1', '2'],
+      mock_db = flexmock(Bugzilla::MockDB.new,
+                         :get_bug_ids_for_products => ['new_bug'])
+      bt = flexmock(Bugzilla.make!, :active_product_ids => ['1', '15'],
                     :db => mock_db)
 
       prod = BugProduct.make!(:bug_tracker => bt, :external_id => '15')
