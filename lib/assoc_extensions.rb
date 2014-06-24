@@ -30,9 +30,20 @@ module AssocExtensions
       (self.send("#{assoc}_join_fields") || []).each do |jf|
         code += "
           define_method(:#{jf}) do
-            (self['#{jf}'] =~ /^[0-9]*$/) ? self['#{jf}'].to_i : self['#{jf}']
+            if has_attribute?(:#{jf})
+              ret = read_attribute(:#{jf})
+            else
+              ret = @#{jf}
+            end
+            (ret =~ /^[0-9]*$/) ? ret.to_i : ret
           end
-          define_method(:#{jf}=) { |a| self['#{jf}'] = a }
+          define_method(:#{jf}=) do |v|
+            if has_attribute?(:#{jf})
+              write_attribute(:#{jf}, v)
+            else
+              @#{jf} = v
+            end
+          end
           "
       end
       class_eval(code)
@@ -46,9 +57,9 @@ module AssocExtensions
       ijf.each { |f| ijf_str += ", jt.#{f}" }
 
       join_table = [ass, base.tableize].sort.join('_')
-      
+
       has_and_belongs_to_many assoc, :finder_sql => proc {
-        finder_sql = 
+        finder_sql =
         "SELECT a.*"+ijf_str+" FROM "+ass+" a, "+
         "#{join_table} "+"jt WHERE a.id = jt."+sin+"_id AND "+
         "jt."+base.underscore+"_id = #{self.id} AND jt."+base.underscore+
@@ -107,7 +118,7 @@ module AssocExtensions
       return current unless obs.size > 0
 
       val_strings = get_val_strings(obs, ob_keys)
-      
+
       ActiveRecord::Base.connection.execute(
          "INSERT INTO #{join_table} (#{proxy_association.owner.class.to_s.underscore}"+
          "_id,#{proxy_association.owner.class.to_s.underscore}_version,"+
@@ -149,7 +160,7 @@ module AssocExtensions
         o.save! if o.new_record? # fail early if not valid
         vals = [proxy_association.owner.id.to_s, proxy_association.owner.version.to_s]
         raise "Association owner not saved" if proxy_association.owner.id.nil?
-        
+
         ob_keys.each do |k,v|
           a_val = o.send(k)
           raise "nil #{k} for #{o.class.to_s} (id #{o.id})" unless a_val

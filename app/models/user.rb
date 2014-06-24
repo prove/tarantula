@@ -8,10 +8,10 @@ A user.
 class User < ActiveRecord::Base
   scope :active, where(:deleted => 0)
   scope :deleted, where(:deleted => 1)
-  
+
   self.locking_column = :version
-  
-  Groups = { 
+
+  Groups = {
     :test_engineer     => 'TEST_ENGINEER',
     :test_designer     => 'TEST_DESIGNER',
     :manager           => 'MANAGER',
@@ -20,42 +20,42 @@ class User < ActiveRecord::Base
   }
 
   alias_attribute :name, :login
-  
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password
-  
+
   validates_presence_of     :login, :email
-      
-  validates_presence_of     :password,                   :if => :password_required?  
+
+  validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
-  validates_confirmation_of :password,                   :if => :password_required?  
-    
+  validates_confirmation_of :password,                   :if => :password_required?
+
   validates_length_of       :login,    :within => 3..40
-  validates :email, :presence => true, :uniqueness => true, 
+  validates :email, :presence => true, :uniqueness => true,
             :email_format => true
-  
-  
+
+
   validates_uniqueness_of   :login, :case_sensitive => false
   before_save :encrypt_password
-  
-  has_many :executions, :through => :case_executions, :source => :execution, 
+
+  has_many :executions, :through => :case_executions, :source => :execution,
            :uniq => true
 
   has_many :case_executions, :foreign_key => 'assigned_to'
-  
-  has_many :cases_executed, :class_name => 'CaseExecution', 
+
+  has_many :cases_executed, :class_name => 'CaseExecution',
            :foreign_key => 'executed_by'
-  
+
   has_many :project_assignments, :dependent => :destroy
   has_many :projects, :through => :project_assignments
-  
+
   has_many :tasks, :class_name => 'Task::Base', :foreign_key => 'assigned_to'
   has_many :preferences, :class_name => 'Preference::Base'
-  
-  
+
+
   def latest_project
-    pa = project_assignments.find(:first, :conditions => 
+    pa = project_assignments.find(:first, :conditions =>
            {:project_id => self.latest_project_id})
     unless pa
       return nil if project_assignments.empty?
@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
     end
     pa.project
   end
-  
+
   def allowed_in_project?(pid,req_groups = nil)
     return true if req_groups.nil?
     pa = self.project_assignments.find_by_project_id(pid)
@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
   # converted to json with to_json method
   def to_tree
     return {:dbid => self[:id], :text => self[:login], :leaf => true,
-            :deleted => self[:deleted], 
+            :deleted => self[:deleted],
             :cls => 'x-listpanel-item x-listpanel-user',
             :realname => self[:realname]}
   end
@@ -84,10 +84,10 @@ class User < ActiveRecord::Base
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
     u = User.find_by_login(login) # need to get the salt
-    
+
     if u.try(:authenticated?, password)
       # for forwards compatibility
-      u.instance_eval{store_md5_password(password)} 
+      u.instance_eval{store_md5_password(password)}
       return u
     end
     return nil
@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
   end
 
   def remember_token?
-    remember_token_expires_at && Time.now.utc < remember_token_expires_at 
+    remember_token_expires_at && Time.now.utc < remember_token_expires_at
   end
 
   # These create and unset the fields required for remembering users between browser closes
@@ -142,20 +142,20 @@ class User < ActiveRecord::Base
              :time_zone => self.time_zone,
              :deleted => self.deleted }
   end
-  
+
   def test_area(project_or_project_id)
     project_id = project_or_project_id
     project_id = project_id.id if project_id.is_a?(Project)
-    
+
     test_area = nil
     a = self.project_assignments.find_by_project_id(project_id)
     if a and a.test_area
-      test_area = a.test_area 
-      test_area['forced'] = a.test_area_forced
+      test_area = a.test_area
+      test_area.forced = a.test_area_forced
     end
     test_area
   end
-  
+
   def set_test_area(project_id, test_area_id, forced=false)
     project = Project.find(project_id)
     pa = self.project_assignments.find_by_project_id(project.id)
@@ -166,16 +166,16 @@ class User < ActiveRecord::Base
     else
       test_area = project.test_areas.find(test_area_id)
     end
-    
-    pa.update_attributes!({:test_area => test_area, 
+
+    pa.update_attributes!({:test_area => test_area,
                            :test_area_forced => forced})
   end
-  
+
   # returns a dummy task for each execution user has
   # not run step_executions in (assigned to him)
   def execution_tasks
     execs = Execution.find(
-      :all, 
+      :all,
       :group => 'executions.id',
       :joins => [:case_executions, :project],
       :conditions => "case_executions.assigned_to=#{self.id} "+
@@ -183,34 +183,34 @@ class User < ActiveRecord::Base
                      "AND case_executions.result='#{NotRun}' AND "+
                      "projects.deleted=0")
     execs.map do |e|
-      count = e.case_executions.count(:conditions => 
+      count = e.case_executions.count(:conditions =>
         {:assigned_to => self.id, :result => NotRun.db})
       Task::Execution.new(e, self, count)
     end
   end
-  
+
   def admin=(val)
     new_type = (val == true ? 'Admin' : 'User')
     self['type'] = new_type
   end
-  
+
   def admin?; false; end
-  
+
   protected
-  
+
   def encrypt_password
     return if password.blank?
     self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
     self.crypted_password = encrypt(password)
     self.md5_password = Digest::MD5::hexdigest("#{self.login}:Testia:#{password}")
   end
-    
+
   def password_required?
-    crypted_password.blank? || !password.blank? 
+    crypted_password.blank? || !password.blank?
   end
-  
+
   def store_md5_password(passwd)
-    update_attribute(:md5_password, 
+    update_attribute(:md5_password,
       Digest::MD5::hexdigest("#{self.login}:Testia:#{passwd}"))
   end
 end
