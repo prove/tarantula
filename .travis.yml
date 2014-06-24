@@ -6,4 +6,6 @@ before_install:
 rvm:
   - "1.9.3"
   - "2.1.1"
+before_script:
+  - bundle exec rake db:schema:load
 script: bundle exec rake spec
