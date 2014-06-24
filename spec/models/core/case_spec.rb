@@ -219,7 +219,7 @@ describe Case do
       c.tag_with('blade, runner')
       copied = c.copy_to(c.project, u)
       copied.has_tags?([Tag.find_by_name('blade'),
-                        Tag.find_by_name('runner')]).should be_true
+                        Tag.find_by_name('runner')]).should == true
     end
 
     it "should copy to test area if test area id given" do
@@ -354,7 +354,7 @@ describe Case do
 
     a_case.update_with_steps!(atts, steps, tags)
   end
-  
+
   it "#update_with_steps should update date properly" do
     c = Case.make(:date => 1.month.ago)
     c.update_with_steps!({:date => "2011-11-09T00:00:00"}, [])

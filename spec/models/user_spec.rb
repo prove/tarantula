@@ -4,21 +4,21 @@ describe User do
   def get_instance(atts={})
     User.make!(atts)
   end
-  
+
   it "#allowed_in_project? should tell if user is allowed in project "+
      "with given rights" do
     p = Project.make!
     u = User.make!
-    u.allowed_in_project?(p, ['GUEST']).should be_false
-    
+    u.allowed_in_project?(p, ['GUEST']).should == false
+
     ProjectAssignment.create(:project_id => p.id, :user_id => u.id,
                              :group => 'TEST_DESIGNER')
-    
-    u.allowed_in_project?(p, ['GUEST', 'TEST_ENGINEER']).should be_false
+
+    u.allowed_in_project?(p, ['GUEST', 'TEST_ENGINEER']).should == false
     u.allowed_in_project?(p, ['GUEST', 'TEST_ENGINEER', 'TEST_DESIGNER']).\
-      should be_true    
+      should == true
   end
-  
+
   it "#to_data should return necessary data" do
     u = User.make!
     keys = u.to_data.keys
@@ -46,7 +46,7 @@ describe User do
     keys.should include(:cls)
     keys.should include(:realname)
   end
-  
+
   describe "#set_test_area" do
     it "it should set test area" do
       u = User.make!
@@ -60,14 +60,14 @@ describe User do
       u_ta.id.should == ta.id
       u_ta.forced.should == true
     end
-    
+
     it "should not reset test object" do
       u = User.make!
       p = Project.make!
       to = TestObject.make!(:project => p)
       to2 = TestObject.make!(:project => p)
       ta = TestArea.make!(:project => p, :name => 'area1')
-      pa = ProjectAssignment.create!(:user => u, :project => p, :test_object => to, 
+      pa = ProjectAssignment.create!(:user => u, :project => p, :test_object => to,
                                      :test_area => ta, :group => 'MANAGER')
       ta2 = TestArea.make!(:project => p, :name => 'area2')
       u.set_test_area(p.id, ta2.id)
@@ -76,13 +76,13 @@ describe User do
       pa.test_object.should == to
     end
   end
-  
+
   it "#execution_tasks should create task for each user's not run execution" do
     u = User.make!
     e = flexmock('execution', 'case_executions.count' => 1)
     flexmock(Execution).should_receive(:find).once.and_return([e, e])
     flexmock(Task::Execution).should_receive(:new).twice.with(e, u, 1)
     u.execution_tasks
-  end 
-  
+  end
+
 end
