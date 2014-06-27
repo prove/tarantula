@@ -8,6 +8,14 @@
   <br/>
   <%= radio_button_tag 'export_type', 'execution' %> Executions
   <br/>
+
+  <%= button_to("Download TarantulaFormatter.xlsm", "https://docs.google.com/uc?export=download&id=0B8Xf6p7jgOPJQTJmUVFrd19OQm8", html_options = {}) %>
+
+  <%= button_to("Download PrepForChangeLayout.bas", "https://docs.google.com/uc?export=download&id=0B8Xf6p7jgOPJZ3RzTFY4Z29pYW8", html_options = {}) %>
+
+<%= button_to("Download ChangeLayout.bas", "https://docs.google.com/uc?export=download&id=0B8Xf6p7jgOPJNmZhNE9OUXUwSzA", html_options = {}) %>
+
+  <br/>
   <br/>
   Recursion depth
   <%= select_tag 'recursion', 
