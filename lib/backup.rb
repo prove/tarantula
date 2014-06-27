@@ -4,7 +4,8 @@ Backup does a zip backup of database and attachments.
 
 =end
 class Backup
-  BACKUP_ZIP = File.join(Rails.root, 'tmp', 'backup.zip')
+  time = Time.now.strftime "%Y%m%d"
+  BACKUP_ZIP = File.join(Rails.root, 'tmp', 'backup'+time+'.zip')
 
   def process
     tmp_dir = File.join(Rails.root, 'tmp')
@@ -15,10 +16,10 @@ class Backup
     if db_conf['password'].blank?
       passwd = ''
     else
-      passwd = "-p #{db_conf['password']}"
+      passwd = "#{db_conf['password']}"
     end
 
-    system "mysqldump #{db_conf['database']} -u #{db_conf['username']} #{passwd} > #{db_backup}"
+    system "mysqldump #{db_conf['database']} -u #{db_conf['username']} -h #{db_conf['host']} -p'#{passwd}' > #{db_backup}"
 
     FileUtils.rm_f BACKUP_ZIP
 
