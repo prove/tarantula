@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 gem 'rails', '~> 3.2.11'
 gem 'mysql2'
@@ -33,9 +33,12 @@ end
 #end
 
 group :test do
-  gem "flexmock", "= 0.9.0"
+  gem 'flexmock', '= 0.9.0'
   gem 'machinist', '= 2.0'
   gem 'test-unit', '~> 1.2.3'
+  # Use SimpleCov and Coveralls for test coverage reports
+  gem 'simplecov'
+  gem 'coveralls'
 end
 
 group :production do
@@ -43,5 +46,5 @@ group :production do
 end
 
 group :test, :development do
-  gem "rspec-rails", "~> 2.0"
+  gem 'rspec-rails', '~> 2.0'
 end
