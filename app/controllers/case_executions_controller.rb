@@ -12,10 +12,15 @@ class CaseExecutionsController < ApplicationController
   # GET /executions/:executions_id/case_executions
   def index
     test_area_permissions(Execution, params[:execution_id])
+    conditions = []
+    if params[:filter_by_user] && params[:filter_by_user].to_i == 1
+      conditions = [ "assigned_to = ?", @current_user.id]
+    end
 
     render :json => @execution.case_executions.find(:all,
                                        :joins => 'LEFT JOIN case_versions ON case_versions.version = case_executions.case_version AND case_versions.case_id = case_executions.case_id',
-                                       :include => [:test_case, :executor]).
+                                       :include => [:test_case, :executor],
+                                       :conditions => conditions).
       as_json(:only => [:id, :case_id, :case_version, :execution_id,
                         :result, :duration, :position, :assigned_to, :executed_at],
               :methods => [:history, :title, :time_estimate, :executed_by])
