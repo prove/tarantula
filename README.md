@@ -72,7 +72,8 @@ SELINUX=permissive
 Set default Ruby with RVM:
 
 ```shell
-rvm use 1.9.3
+rvm install 1.9.3
+rvm --default use 1.9.3
 ```
 
 Download and execute installation script:
