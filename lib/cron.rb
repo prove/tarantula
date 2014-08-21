@@ -26,9 +26,12 @@ module Cron
     Report::Data.destroy_all("created_at < '#{1.hour.ago.to_s(:db)}'")
     
     # dump db
-    Rake.application.rake_require "db_backup", 
-                                  [File.join(Rails.root, 'lib', 'tasks')]
-    Rake::Task['db:backup'].execute(nil)
+#    Rake.application.rake_require "db_backup", 
+#                                  [File.join(Rails.root, 'lib', 'tasks')]
+#    Rake::Task['db:backup'].execute(nil)
+
+    attachments = ZipAttachments.new
+    attachments.process
   end
   
   def self.weekly
