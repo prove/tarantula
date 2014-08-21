@@ -82,22 +82,26 @@ Ext.extend(Ext.testia.AttachmentForm, Ext.form.Form, {
     },
 
     addTableRow: function() {
+        var imgSrcTag = "";
+        inp = this.attachments.last();
+        if(inp.name.match(/\.(jpg|jpeg|png|gif)$/)){
+            imgSrcTag = 'id="'+inp.url +'" onClick="openPic(this);"';
+        }
         var t = new Ext.Template([
             '<tr id="row-{id}"><td class="x-unselectable {cls}">',
-            '<img class="x-testia-icon" src="'+Ext.BLANK_IMAGE_URL+'"></td>',
+            '<img class="x-testia-icon" src="'+Ext.BLANK_IMAGE_URL+'">'+
+            '<a href="javascript:;"' + imgSrcTag + '>'+inp.name+'</a></td>',
+            '<td><a href="'+inp.url+'"><img src="'+'<%=asset_path "download.png"%>'+
+            '" width="25" height="20"></a></td>',
             '<td class="x-testia-deleteicon">',
             '<a id="delete-{id}" href="#"><img src="' +
             '<%= asset_path "famfamfam/bin_closed.png" %>',
             '"></a></td></tr>'
         ]);
-        inp = this.attachments.last();
         inp.id = Ext.id();
         var row = t.append(this.listEl, inp, true);
         var name = row.child('td.x-unselectable');
-        if (inp.url) {
-            Ext.DomHelper.append(name, {tag:'a', href:inp.url,
-                                        target:'_blank', html: inp.name});
-        } else {
+        if (!inp.url) {
             Ext.DomHelper.append(name, {tag:'span', html:inp.name});
         }
         var button = row.child('td.x-testia-deleteicon a');

@@ -37,6 +37,15 @@ function save_image(id) {
     img_win.document.close();
 }
 
+function openPic(img) {
+    var url = img.id;
+    var img_win = window.open('', 'Image Preview');
+    img_win.document.write("<html><head><title>Image Preview<\/title><\/head><body>"+
+              "<img src='" + url +
+              "' /><\/body><\/html>");
+    img_win.document.close();
+}
+
 /**
  * Preset amount of list items to be loaded
  */
