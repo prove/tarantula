@@ -166,12 +166,34 @@ class Jira < BugTracker
     se = StepExecution.find(opts[:step_execution_id])
     bp = BugProduct.find_by_name(opts[:product])
     name = se.case_execution.test_case.name
-    comment = "[Tarantula] Case \"#{name}\", Step #{se.position}"
+    stepId = se.step_id
+    summary = "[Tarantula] Case \"#{name}\", Step #{se.position}"
+
+    comment = "h3. Problem:\n #{se.comment} \n\nh3. Steps to reproduce:\n"
+
+    tcase = se.case_execution.test_case
+    execution = se.case_execution.execution
+    v = TestObject.find(execution.test_object_id)
+    cnt = 1
+    for item in tcase.steps
+
+        if ( item.id < stepId )
+          comment = "#{comment}\n# #{item.action}" # -> #{item.result}"
+        else if ( item.id == stepId )
+          comment = "#{comment}\n# #{item.action} \n\nh3. Expected result:\n #{item.result} \n\n"
+          break
+        end end
+
+        cnt = cnt + 1
+    end
+
+    environment = "Execution: #{v.name}\nHardware: #{v.hardware}\nVersion: #{v.esw}"
 
     url = self.base_url.chomp('/')
     url += "/secure/CreateIssueDetails!init.jspa?#{bp.external_id.to_s.to_query(:pid) if bp}" +
-      "&issuetype=1&#{comment.to_query(:description)}"
+      "&issuetype=1&#{summary.to_query(:summary)}&#{comment.to_query(:description)}&#{environment.to_query(:environment)}"
   end
+
 
   def bug_label(bug)
     "[#{bug.url}] #{bug.summary}"
