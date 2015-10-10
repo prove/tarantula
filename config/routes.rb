@@ -1,6 +1,6 @@
 Tarantula::Application.routes do
   root :to => "home#index"
-  
+
   resource :archive, :only => [:destroy, :create],
     :path => '/projects/:project_id/:resources/archive',
     :controller => 'archives'
@@ -13,7 +13,7 @@ Tarantula::Application.routes do
       delete :deleted
       get :products
     end
-    
+
     collection do
       get :deleted
     end
@@ -42,13 +42,13 @@ Tarantula::Application.routes do
       resources :attachments
     end
     resources :test_areas
-    
+
     resources :bug_trackers do
       member do
         get :products
       end
     end
-    
+
     resources :bugs
   end
 
@@ -95,7 +95,7 @@ Tarantula::Application.routes do
     collection do
       get :deleted
     end
-    
+
     resources :projects do
       member do
         get :group
@@ -116,7 +116,7 @@ Tarantula::Application.routes do
 
   resources :customer_configs
   match 'restart', :to => 'customer_configs#restart'
-  
+
   resource :report, :controller => 'report' do
     member do
       get :dashboard
@@ -130,7 +130,7 @@ Tarantula::Application.routes do
       get :workload
     end
   end
-  
+
   resource :home, :controller => 'home' do
     member do
       get :login
@@ -138,7 +138,7 @@ Tarantula::Application.routes do
       get :logout
       get :index
     end
-  end               
+  end
 
   resource :import, :controller => 'import' do
     member do
@@ -150,4 +150,6 @@ Tarantula::Application.routes do
   resources :backups, :only => [:new, :create]
   resources :csv_exports, :only => [:new, :create]
   resources :csv_imports, :only => [:new, :create]
+
+  match '/api/test', :controller => 'api', :action => 'test', :via => :get
 end
