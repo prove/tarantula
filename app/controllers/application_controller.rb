@@ -3,7 +3,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 #require 'ruby-prof'
-
 class ApplicationController < ActionController::Base
   # protect_from_forgery
   before_filter :set_current_user_and_project, :except => [:login]
@@ -50,7 +49,7 @@ class ApplicationController < ActionController::Base
     raise "require_permission failure!" if pid.nil?
 
     if (@current_user.admin? or @current_user.allowed_in_project?(pid,allowed_groups))
-      return
+    return
     end
 
     # Jos ei päästä mihinkään, niin tästä HTTP 403
@@ -59,7 +58,7 @@ class ApplicationController < ActionController::Base
     else
       flash[:error] = "Current user is not authorized to access this feature."
       render :layout => "application", :template => "errors/403"
-      return false
+    return false
     end
   end
 
@@ -76,11 +75,11 @@ class ApplicationController < ActionController::Base
     if opts[:include_tags]
       all_tags = SmartTag.find_all_tags(@project, t_class, @tags, test_area, @smart_tags)
     else
-      all_tags = []
+    all_tags = []
     end
 
     local_limit = (params && params[:limit] ? params[:limit].to_i : nil) || \
-      Testia::LOAD_LIMIT
+    Testia::LOAD_LIMIT
 
     @i_limit = (local_limit*(@offset+1)) - all_tags.size
     @i_limit = local_limit if @i_limit > local_limit
@@ -90,13 +89,13 @@ class ApplicationController < ActionController::Base
     items = []
     if @i_limit > 0
       items = t_class.find_with_tags(@tags,
-                 { :project    => @project,
-                   :filter     => @filter,
-                   :offset     => @i_offset,
-                   :limit      => @i_limit,
-                   :test_area  => test_area,
-                   :conditions => opts[:conditions],
-                   :smart_tags => @smart_tags })
+      { :project    => @project,
+        :filter     => @filter,
+        :offset     => @i_offset,
+        :limit      => @i_limit,
+        :test_area  => test_area,
+        :conditions => opts[:conditions],
+        :smart_tags => @smart_tags })
 
       items_tree = items.map{|i| i.send(opts[:conv_method])}
     end
@@ -136,7 +135,7 @@ class ApplicationController < ActionController::Base
     entities.each do |e|
       if test_area and test_area.forced
         raise "Permission denied! (test area). Please refresh your browser." \
-          if !test_area.send(klass.to_s.underscore+'_ids').include?(e.id)
+        if !test_area.send(klass.to_s.underscore+'_ids').include?(e.id)
       end
     end
 
@@ -168,6 +167,24 @@ class ApplicationController < ActionController::Base
   def set_current_user_and_project
     @current_user = User.find(request.env['REMOTE_USER'] || session[:user_id])
     @project = @current_user.latest_project
+  end
+
+  protected
+  def can_do_stuff?(login,password)
+    if u = User.authenticate(login,password)
+      if !u.latest_project
+        flash.now[:notice] = "You have no project assignments."
+      return false
+      elsif u.deleted?
+        flash.now[:notice] = "You have been deleted."
+      return false
+      else
+        session[:user_id] = u.id
+      return true
+      end
+    end
+    flash.now[:notice] = "Login failed."
+    return false
   end
 
 end

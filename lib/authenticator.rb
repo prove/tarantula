@@ -5,10 +5,9 @@ A rack middleware for handling authentication.
 =end
 class Authenticator
 
-  UnAuthenticated = /^(\/home\/login|\/home\/logout|\/password_resets.*|\/assets.*)$/
+  UnAuthenticated = /^(\/home\/login|\/home\/logout|\/password_resets.*|\/assets.*|\/api.*)$/
   ######
   class SessionAuth < Rack::Auth::AbstractHandler
-
     def initialize(app, realm=nil, &authenticator)
       @app = app
     end
@@ -19,13 +18,13 @@ class Authenticator
     end
 
     private
+
     def unauthorized(env)
       [ 302, {'Content-type' => 'text/plain', 'Location' => env['SCRIPT_NAME'] + '/home/login',
-              'Content-length' => '0'}, []]
+          'Content-length' => '0'}, []]
     end
   end
   #####
-
 
   def initialize(app, realm=nil)
     @app = app
@@ -39,7 +38,7 @@ class Authenticator
 
   def call(env)
     if env["PATH_INFO"] =~ UnAuthenticated
-      @app.call(env)
+    @app.call(env)
     else
       select_auth(env).call(env)
     end
