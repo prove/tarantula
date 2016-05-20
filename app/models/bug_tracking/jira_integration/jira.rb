@@ -263,6 +263,7 @@ class Jira < BugTracker
 
     sweepable.each do |eid|
       logger.info "Sweeping bug with external_id #{eid}.."
+      
       self.bugs.find_by_external_id(eid).destroy
     end
   end
